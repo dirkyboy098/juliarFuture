@@ -9,61 +9,105 @@ import java.util.List;
 import java.lang.*;
 
 import static java.lang.System.out;
+import com.juliar.nodes.*;
 
 /**
  * Created by donreamey on 10/21/16.
  */
-public class JuliarVisitor extends juliargrammarBaseVisitor<String>
+public class JuliarVisitor extends juliargrammarBaseVisitor<Node>
 {
 
     @Override
-    public String visitStartLine(juliargrammarParser.StartLineContext ctx) {
-        out.println();
+    public Node visitCompileUnit(juliargrammarParser.CompileUnitContext ctx) {
+
+        CompliationUnitNode node = new CompliationUnitNode();
+
+        for(ParseTree t : ctx.children){
+            node.statementNodes.add(t.accept(this));
+        }
+
+        return node;
+    }
+
+    @Override
+    public Node visitStatement(juliargrammarParser.StatementContext ctx) {
+        StatementNode node = new StatementNode();
+
+        for (ParseTree t : ctx.children){
+            if (t instanceof juliargrammarParser.StartLineContext || t instanceof juliargrammarParser.EndLineContext){
+                continue;
+            }
+
+            Node n = t.accept(this);
+            node.statements.add(n);
+        }
+
+        return node;
+    }
+    @Override
+    public Node visitStartLine(juliargrammarParser.StartLineContext ctx) {
+        for(ParseTree t : ctx.children){
+            Object n = t.accept(this);
+            out.println(n);
+        }
         return super.visitStartLine(ctx);
     }
 
     @Override
-    public String visitEndLine(juliargrammarParser.EndLineContext ctx) {
+    public Node visitEndLine(juliargrammarParser.EndLineContext ctx) {
+        for(ParseTree t : ctx.children){
+            Object n = t.accept(this);
+            out.println(n);
+        }
         return super.visitEndLine(ctx);
     }
-
+/*
     @Override
-    public String visitAsterisk(juliargrammarParser.AsteriskContext ctx) {
+    public Node visitAsterisk(juliargrammarParser.AsteriskContext ctx) {
         return super.visitAsterisk(ctx);
     }
 
     @Override
-    public String visitCommand(juliargrammarParser.CommandContext ctx) {
+    public Node visitCommand(juliargrammarParser.CommandContext ctx) {
         return super.visitCommand(ctx);
     }
 
     @Override
-    public String visitAbsolute(juliargrammarParser.AbsoluteContext ctx) {
+    public Node visitAbsolute(juliargrammarParser.AbsoluteContext ctx) {
         List<ParseTree> trees = ctx.children;
 
-        /*
+
         for(ParseTree tree : trees){
             tree.accept(this);
         }
-        */
 
         return super.visitAbsolute(ctx);
     }
-
+*/
     @Override
-    public String visitAdd(juliargrammarParser.AddContext ctx) {
+    public Node visitAdd(juliargrammarParser.AddContext ctx) {
         String text = ctx.ID().getText();
         if (text.equals("add") && ctx.getChildCount() == 3){
-            String id1 = ctx.INT(0).accept(this);
-            String id2 = ctx.INT(1).accept(this);
+            BinaryNode node = new BinaryNode();
+
+
+            Object id1 = ctx.INT(0).accept(this);
+            Object id2 = ctx.INT(1).accept(this);
+
+            BinaryNode binaryNodeLvalue = new BinaryNode(BinaryOperation.data , id1);
+            BinaryNode binaryNodeRvalue = new BinaryNode(BinaryOperation.data , id2);
+
+            return node.MakeNode(BinaryOperation.add, binaryNodeLvalue, binaryNodeRvalue);
         }
+
         return super.visitAdd(ctx);
     }
-
+/*
     @Override
-    public String visitTerminal(TerminalNode node) {
+    public Node visitTerminal(TerminalNode node) {
         out.print(node.getText());
         out.print(" ");
         return super.visitTerminal(node);
     }
+*/
 }

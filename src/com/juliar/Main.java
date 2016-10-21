@@ -6,6 +6,7 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import com.juliar.vistor.JuliarVisitor;
+import com.juliar.nodes.*;
 
 import static java.lang.System.out;
 
@@ -25,7 +26,7 @@ public class Main {
             out.println(context.toStringTree(parser));
 
             JuliarVisitor visitor = new JuliarVisitor();
-            visitor.visit(context);
+            Node node = visitor.visit(context);
 
             ParseTreeWalker treeWalker = new ParseTreeWalker();
 
