@@ -5,7 +5,11 @@ grammar juliargrammar;
  */
 
 compileUnit
-	:	startLine command endLine
+	:	statement
+	;
+
+statement
+    : (startLine command endLine)*
 	;
 
 startLine
@@ -39,16 +43,15 @@ command
     ;
 
 absolute
-    : 'absolute'
+    : ID (INT)?
     ;
 
 acos
-    : 'acos'
+    : ID
     ;
 acosh
-    : 'acosh'
+    : ID
     ;
-
 
 
 /*

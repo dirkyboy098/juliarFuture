@@ -1,4 +1,4 @@
-// Generated from juliargrammar.g4 by ANTLR 4.5.3
+// Generated from D:\source\juliarFuture\src\com\juliar\juliargrammar.g4 by ANTLR 4.5.3
 package com.juliar.parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -17,20 +17,21 @@ public class juliargrammarParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, T__3=4, INT=5, FLOAT=6, STRING=7, ID=8, WS=9;
+		T__0=1, INT=2, FLOAT=3, STRING=4, ID=5, WS=6;
 	public static final int
-		RULE_compileUnit = 0, RULE_startLine = 1, RULE_endLine = 2, RULE_asterisk = 3, 
-		RULE_command = 4, RULE_absolute = 5, RULE_acos = 6, RULE_acosh = 7;
+		RULE_compileUnit = 0, RULE_statement = 1, RULE_startLine = 2, RULE_endLine = 3, 
+		RULE_asterisk = 4, RULE_command = 5, RULE_absolute = 6, RULE_acos = 7, 
+		RULE_acosh = 8;
 	public static final String[] ruleNames = {
-		"compileUnit", "startLine", "endLine", "asterisk", "command", "absolute", 
-		"acos", "acosh"
+		"compileUnit", "statement", "startLine", "endLine", "asterisk", "command", 
+		"absolute", "acos", "acosh"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'*'", "'absolute'", "'acos'", "'acosh'"
+		null, "'*'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, null, null, "INT", "FLOAT", "STRING", "ID", "WS"
+		null, null, "INT", "FLOAT", "STRING", "ID", "WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -82,14 +83,8 @@ public class juliargrammarParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 	public static class CompileUnitContext extends ParserRuleContext {
-		public StartLineContext startLine() {
-			return getRuleContext(StartLineContext.class,0);
-		}
-		public CommandContext command() {
-			return getRuleContext(CommandContext.class,0);
-		}
-		public EndLineContext endLine() {
-			return getRuleContext(EndLineContext.class,0);
+		public StatementContext statement() {
+			return getRuleContext(StatementContext.class,0);
 		}
 		public CompileUnitContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -108,12 +103,76 @@ public class juliargrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(16);
-			startLine();
-			setState(17);
-			command();
 			setState(18);
-			endLine();
+			statement();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class StatementContext extends ParserRuleContext {
+		public List<StartLineContext> startLine() {
+			return getRuleContexts(StartLineContext.class);
+		}
+		public StartLineContext startLine(int i) {
+			return getRuleContext(StartLineContext.class,i);
+		}
+		public List<CommandContext> command() {
+			return getRuleContexts(CommandContext.class);
+		}
+		public CommandContext command(int i) {
+			return getRuleContext(CommandContext.class,i);
+		}
+		public List<EndLineContext> endLine() {
+			return getRuleContexts(EndLineContext.class);
+		}
+		public EndLineContext endLine(int i) {
+			return getRuleContext(EndLineContext.class,i);
+		}
+		public StatementContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_statement; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof juliargrammarVisitor ) return ((juliargrammarVisitor<? extends T>)visitor).visitStatement(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final StatementContext statement() throws RecognitionException {
+		StatementContext _localctx = new StatementContext(_ctx, getState());
+		enterRule(_localctx, 2, RULE_statement);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(26);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==T__0) {
+				{
+				{
+				setState(20);
+				startLine();
+				setState(21);
+				command();
+				setState(22);
+				endLine();
+				}
+				}
+				setState(28);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -144,11 +203,11 @@ public class juliargrammarParser extends Parser {
 
 	public final StartLineContext startLine() throws RecognitionException {
 		StartLineContext _localctx = new StartLineContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_startLine);
+		enterRule(_localctx, 4, RULE_startLine);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(20);
+			setState(29);
 			asterisk();
 			}
 		}
@@ -180,11 +239,11 @@ public class juliargrammarParser extends Parser {
 
 	public final EndLineContext endLine() throws RecognitionException {
 		EndLineContext _localctx = new EndLineContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_endLine);
+		enterRule(_localctx, 6, RULE_endLine);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(22);
+			setState(31);
 			asterisk();
 			}
 		}
@@ -213,11 +272,11 @@ public class juliargrammarParser extends Parser {
 
 	public final AsteriskContext asterisk() throws RecognitionException {
 		AsteriskContext _localctx = new AsteriskContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_asterisk);
+		enterRule(_localctx, 8, RULE_asterisk);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(24);
+			setState(33);
 			match(T__0);
 			}
 		}
@@ -255,33 +314,32 @@ public class juliargrammarParser extends Parser {
 
 	public final CommandContext command() throws RecognitionException {
 		CommandContext _localctx = new CommandContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_command);
+		enterRule(_localctx, 10, RULE_command);
 		try {
-			setState(29);
-			switch (_input.LA(1)) {
-			case T__1:
+			setState(38);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
+			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(26);
+				setState(35);
 				absolute();
 				}
 				break;
-			case T__2:
+			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(27);
+				setState(36);
 				acos();
 				}
 				break;
-			case T__3:
+			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(28);
+				setState(37);
 				acosh();
 				}
 				break;
-			default:
-				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -296,6 +354,8 @@ public class juliargrammarParser extends Parser {
 	}
 
 	public static class AbsoluteContext extends ParserRuleContext {
+		public TerminalNode ID() { return getToken(juliargrammarParser.ID, 0); }
+		public TerminalNode INT() { return getToken(juliargrammarParser.INT, 0); }
 		public AbsoluteContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -309,12 +369,22 @@ public class juliargrammarParser extends Parser {
 
 	public final AbsoluteContext absolute() throws RecognitionException {
 		AbsoluteContext _localctx = new AbsoluteContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_absolute);
+		enterRule(_localctx, 12, RULE_absolute);
+		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(31);
-			match(T__1);
+			setState(40);
+			match(ID);
+			setState(42);
+			_la = _input.LA(1);
+			if (_la==INT) {
+				{
+				setState(41);
+				match(INT);
+				}
+			}
+
 			}
 		}
 		catch (RecognitionException re) {
@@ -329,6 +399,7 @@ public class juliargrammarParser extends Parser {
 	}
 
 	public static class AcosContext extends ParserRuleContext {
+		public TerminalNode ID() { return getToken(juliargrammarParser.ID, 0); }
 		public AcosContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -342,12 +413,12 @@ public class juliargrammarParser extends Parser {
 
 	public final AcosContext acos() throws RecognitionException {
 		AcosContext _localctx = new AcosContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_acos);
+		enterRule(_localctx, 14, RULE_acos);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(33);
-			match(T__2);
+			setState(44);
+			match(ID);
 			}
 		}
 		catch (RecognitionException re) {
@@ -362,6 +433,7 @@ public class juliargrammarParser extends Parser {
 	}
 
 	public static class AcoshContext extends ParserRuleContext {
+		public TerminalNode ID() { return getToken(juliargrammarParser.ID, 0); }
 		public AcoshContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -375,12 +447,12 @@ public class juliargrammarParser extends Parser {
 
 	public final AcoshContext acosh() throws RecognitionException {
 		AcoshContext _localctx = new AcoshContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_acosh);
+		enterRule(_localctx, 16, RULE_acosh);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(35);
-			match(T__3);
+			setState(46);
+			match(ID);
 			}
 		}
 		catch (RecognitionException re) {
@@ -395,16 +467,18 @@ public class juliargrammarParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\13(\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\3\2\3\2\3\2\3\2\3\3"+
-		"\3\3\3\4\3\4\3\5\3\5\3\6\3\6\3\6\5\6 \n\6\3\7\3\7\3\b\3\b\3\t\3\t\3\t"+
-		"\2\2\n\2\4\6\b\n\f\16\20\2\2!\2\22\3\2\2\2\4\26\3\2\2\2\6\30\3\2\2\2\b"+
-		"\32\3\2\2\2\n\37\3\2\2\2\f!\3\2\2\2\16#\3\2\2\2\20%\3\2\2\2\22\23\5\4"+
-		"\3\2\23\24\5\n\6\2\24\25\5\6\4\2\25\3\3\2\2\2\26\27\5\b\5\2\27\5\3\2\2"+
-		"\2\30\31\5\b\5\2\31\7\3\2\2\2\32\33\7\3\2\2\33\t\3\2\2\2\34 \5\f\7\2\35"+
-		" \5\16\b\2\36 \5\20\t\2\37\34\3\2\2\2\37\35\3\2\2\2\37\36\3\2\2\2 \13"+
-		"\3\2\2\2!\"\7\4\2\2\"\r\3\2\2\2#$\7\5\2\2$\17\3\2\2\2%&\7\6\2\2&\21\3"+
-		"\2\2\2\3\37";
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\b\63\4\2\t\2\4\3"+
+		"\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\3\2\3\2\3"+
+		"\3\3\3\3\3\3\3\7\3\33\n\3\f\3\16\3\36\13\3\3\4\3\4\3\5\3\5\3\6\3\6\3\7"+
+		"\3\7\3\7\5\7)\n\7\3\b\3\b\5\b-\n\b\3\t\3\t\3\n\3\n\3\n\2\2\13\2\4\6\b"+
+		"\n\f\16\20\22\2\2-\2\24\3\2\2\2\4\34\3\2\2\2\6\37\3\2\2\2\b!\3\2\2\2\n"+
+		"#\3\2\2\2\f(\3\2\2\2\16*\3\2\2\2\20.\3\2\2\2\22\60\3\2\2\2\24\25\5\4\3"+
+		"\2\25\3\3\2\2\2\26\27\5\6\4\2\27\30\5\f\7\2\30\31\5\b\5\2\31\33\3\2\2"+
+		"\2\32\26\3\2\2\2\33\36\3\2\2\2\34\32\3\2\2\2\34\35\3\2\2\2\35\5\3\2\2"+
+		"\2\36\34\3\2\2\2\37 \5\n\6\2 \7\3\2\2\2!\"\5\n\6\2\"\t\3\2\2\2#$\7\3\2"+
+		"\2$\13\3\2\2\2%)\5\16\b\2&)\5\20\t\2\')\5\22\n\2(%\3\2\2\2(&\3\2\2\2("+
+		"\'\3\2\2\2)\r\3\2\2\2*,\7\7\2\2+-\7\4\2\2,+\3\2\2\2,-\3\2\2\2-\17\3\2"+
+		"\2\2./\7\7\2\2/\21\3\2\2\2\60\61\7\7\2\2\61\23\3\2\2\2\5\34(,";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

@@ -1,4 +1,4 @@
-// Generated from juliargrammar.g4 by ANTLR 4.5.3
+// Generated from D:\source\juliarFuture\src\com\juliar\juliargrammar.g4 by ANTLR 4.5.3
 package com.juliar.parser;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -16,6 +16,12 @@ public interface juliargrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitCompileUnit(juliargrammarParser.CompileUnitContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link juliargrammarParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatement(juliargrammarParser.StatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link juliargrammarParser#startLine}.
 	 * @param ctx the parse tree
