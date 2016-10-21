@@ -1,5 +1,5 @@
-// Generated from D:\source\juliarFuture\src\com\juliar\juliargrammar.g4 by ANTLR 4.5.3
-package com.juliar.parser;
+// Generated from src/com/juliar/juliargrammar.g4 by ANTLR 4.5.3
+package com.juliar;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
@@ -74,4 +74,11 @@ public class juliargrammarBaseVisitor<T> extends AbstractParseTreeVisitor<T> imp
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitAcosh(juliargrammarParser.AcoshContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitAdd(juliargrammarParser.AddContext ctx) { return visitChildren(ctx); }
 }
