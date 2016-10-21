@@ -1,0 +1,13 @@
+T__0=1
+T__1=2
+T__2=3
+T__3=4
+INT=5
+FLOAT=6
+STRING=7
+ID=8
+WS=9
+'*'=1
+'absolute'=2
+'acos'=3
+'acosh'=4
