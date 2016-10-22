@@ -1,4 +1,4 @@
-grammar juliargrammar;
+grammar juliar;
 
 /*
  * Parser Rules

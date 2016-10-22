@@ -1,0 +1,7 @@
+T__0=1
+INT=2
+FLOAT=3
+STRING=4
+ID=5
+WS=6
+'*'=1

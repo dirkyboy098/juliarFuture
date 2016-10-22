@@ -7,6 +7,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import java.io.FileInputStream;
 import java.util.List;
+import com.juliar.parser.*;
 
 import static java.lang.System.out;
 
@@ -27,11 +28,11 @@ public class JuliarCompiler {
             FileInputStream fileInputStream = new FileInputStream(source);
             ANTLRInputStream s = new ANTLRInputStream(fileInputStream);
 
-            juliargrammarLexer lexer = new juliargrammarLexer(s);
+            juliarLexer lexer = new juliarLexer(s);
             CommonTokenStream tokenStream = new CommonTokenStream(lexer);
-            juliargrammarParser parser = new juliargrammarParser(tokenStream);
+            juliarParser parser = new juliarParser(tokenStream);
 
-            juliargrammarParser.CompileUnitContext context = parser.compileUnit();
+            juliarParser.CompileUnitContext context = parser.compileUnit();
             out.println(context.toStringTree(parser));
 
             JuliarVisitor visitor = new JuliarVisitor();
@@ -66,8 +67,18 @@ public class JuliarCompiler {
             BinaryNode b = ((BinaryNode)root);
 
             if (b.Operation().equals(BinaryOperation.add)){
-                Integer left = Integer.parseInt( (String) b.Left().Data() );
-                Integer right = Integer.parseInt( (String) b.Right().Data());
+
+                Integer left = 0;
+                Integer right = 0;
+
+                if (b.Left().Operation().equals(BinaryOperation.data))
+                {
+                    left = Integer.parseInt( (String) b.Left().Data() );
+                }
+
+                if (b.Right().Operation().equals(BinaryOperation.data)) {
+                    right = Integer.parseInt((String) b.Right().Data());
+                }
 
                 out.println(left + right);
             }

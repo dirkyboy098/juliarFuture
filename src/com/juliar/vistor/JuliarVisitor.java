@@ -1,24 +1,22 @@
 package com.juliar.vistor;
 
-import com.juliar.juliargrammarBaseVisitor;
-import com.juliar.juliargrammarParser;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import java.util.List;
 import java.lang.*;
 
 import static java.lang.System.out;
 import com.juliar.nodes.*;
+import com.juliar.parser.*;
 
 /**
  * Created by donreamey on 10/21/16.
  */
-public class JuliarVisitor extends juliargrammarBaseVisitor<Node>
+public class JuliarVisitor extends juliarBaseVisitor<Node>
 {
 
     @Override
-    public Node visitCompileUnit(juliargrammarParser.CompileUnitContext ctx) {
+    public Node visitCompileUnit(juliarParser.CompileUnitContext ctx) {
 
         CompliationUnitNode node = new CompliationUnitNode();
 
@@ -30,11 +28,11 @@ public class JuliarVisitor extends juliargrammarBaseVisitor<Node>
     }
 
     @Override
-    public Node visitStatement(juliargrammarParser.StatementContext ctx) {
+    public Node visitStatement(juliarParser.StatementContext ctx) {
         StatementNode node = new StatementNode();
 
         for (ParseTree t : ctx.children){
-            if (t instanceof juliargrammarParser.StartLineContext || t instanceof juliargrammarParser.EndLineContext){
+            if (t instanceof juliarParser.StartLineContext || t instanceof juliarParser.EndLineContext){
                 continue;
             }
 
@@ -45,7 +43,7 @@ public class JuliarVisitor extends juliargrammarBaseVisitor<Node>
         return node;
     }
     @Override
-    public Node visitStartLine(juliargrammarParser.StartLineContext ctx) {
+    public Node visitStartLine(juliarParser.StartLineContext ctx) {
         for(ParseTree t : ctx.children){
             Object n = t.accept(this);
             out.println(n);
@@ -54,7 +52,7 @@ public class JuliarVisitor extends juliargrammarBaseVisitor<Node>
     }
 
     @Override
-    public Node visitEndLine(juliargrammarParser.EndLineContext ctx) {
+    public Node visitEndLine(juliarParser.EndLineContext ctx) {
         for(ParseTree t : ctx.children){
             Object n = t.accept(this);
             out.println(n);
@@ -85,7 +83,7 @@ public class JuliarVisitor extends juliargrammarBaseVisitor<Node>
     }
 */
     @Override
-    public Node visitAdd(juliargrammarParser.AddContext ctx) {
+    public Node visitAdd(juliarParser.AddContext ctx) {
         String text = ctx.ID().getText();
         if (text.equals("add") && ctx.getChildCount() == 3){
             BinaryNode node = new BinaryNode();
