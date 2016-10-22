@@ -29,6 +29,20 @@ public class BinaryNode implements Node {
         return binaryNode;
     }
 
+    public BinaryOperation Operation(){
+        return op;
+    }
 
+    public BinaryNode Left(){
+        return lv;
+    }
+
+    public BinaryNode Right(){
+        return rv;
+    }
+
+    public Object Data(){
+        return objectData;
+    }
 }
 

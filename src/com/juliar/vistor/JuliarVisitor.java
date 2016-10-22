@@ -90,24 +90,18 @@ public class JuliarVisitor extends juliargrammarBaseVisitor<Node>
         if (text.equals("add") && ctx.getChildCount() == 3){
             BinaryNode node = new BinaryNode();
 
-
-            Object id1 = ctx.INT(0).accept(this);
-            Object id2 = ctx.INT(1).accept(this);
-
-            BinaryNode binaryNodeLvalue = new BinaryNode(BinaryOperation.data , id1);
-            BinaryNode binaryNodeRvalue = new BinaryNode(BinaryOperation.data , id2);
-
-            return node.MakeNode(BinaryOperation.add, binaryNodeLvalue, binaryNodeRvalue);
+            return node.MakeNode(
+                    BinaryOperation.add,
+                    (BinaryNode) ctx.INT(0).accept(this),
+                    (BinaryNode) ctx.INT(1).accept(this));
         }
 
         return super.visitAdd(ctx);
     }
-/*
+
     @Override
     public Node visitTerminal(TerminalNode node) {
-        out.print(node.getText());
-        out.print(" ");
-        return super.visitTerminal(node);
+        return new BinaryNode(BinaryOperation.data , node.getText());
     }
-*/
+
 }
