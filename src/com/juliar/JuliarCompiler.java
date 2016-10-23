@@ -2,14 +2,15 @@ package com.juliar;
 
 import com.juliar.nodes.*;
 import com.juliar.vistor.JuliarVisitor;
+import org.antlr.v4.codegen.CodeGenerator;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import java.io.FileInputStream;
 import java.util.List;
 import com.juliar.parser.*;
-
 import static java.lang.System.out;
+
 
 public class JuliarCompiler {
 
@@ -41,6 +42,8 @@ public class JuliarCompiler {
 
 
             ParseTreeWalker treeWalker = new ParseTreeWalker();
+            com.juliar.codegenerator.CodeGenerator generator = new com.juliar.codegenerator.CodeGenerator();
+            generator.Generate(node);
 
 
         } catch (Exception ex) {
