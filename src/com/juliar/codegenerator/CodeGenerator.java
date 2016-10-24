@@ -30,33 +30,55 @@ public class CodeGenerator {
         cw.visit(V1_1, ACC_PUBLIC, "JuliarFuture", null, "java/lang/Object", null);
 
         // creates a MethodWriter for the (implicit) constructor
-        MethodVisitor mw = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null,
-                null);
+        MethodVisitor mw = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
         // pushes the 'this' variable
         mw.visitVarInsn(ALOAD, 0);
         // invokes the super class constructor
-        mw.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V",
-                false);
+        mw.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
         mw.visitInsn(RETURN);
         // this code uses a maximum of one stack element and one local variable
         mw.visitMaxs(1, 1);
         mw.visitEnd();
 
-        // creates a MethodWriter for the 'main' method
-        mw = cw.visitMethod(ACC_PUBLIC + ACC_STATIC, "main",
-                "([Ljava/lang/String;)V", null, null);
+
+// creates a MethodWriter for the 'main' method
+        mw = cw.visitMethod(ACC_PUBLIC + ACC_STATIC, "main", "([Ljava/lang/String;)V", null, null);
         // pushes the 'out' field (of type PrintStream) of the System class
-        mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out",
-                "Ljava/io/PrintStream;");
+        mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out","Ljava/io/PrintStream;");
+        // pushes the "Hello Juliar Future" String constant
+        mw.visitLdcInsn("Hello Juliar asdasdfasdfFuture!");
+        // invokes the 'println' method (defined in the PrintStream class)
+        mw.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println","(Ljava/lang/String;)V", false);
+        // mw.visitInsn(RETURN);
+        // this code uses a maximum of two stack elements and two local
+        // variables
+        //mw.visitVarInsn(ALOAD,0);
+        mw.visitMethodInsn(INVOKESTATIC, "JuliarFuture", "juliarMethod", "()V", false);
+        mw.visitInsn(RETURN);
+
+        mw.visitMaxs(2, 2);
+        mw.visitEnd();
+
+
+/*
+        // creates a MethodWriter for the 'main' method
+        mw = cw.visitMethod(ACC_PUBLIC + ACC_STATIC, "main", "([Ljava/lang/String;)V", null, null);
+        // pushes the 'out' field (of type PrintStream) of the System class
+        mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
         // pushes the "Hello Juliar Future" String constant
         mw.visitLdcInsn("Hello Juliar Future!");
         // invokes the 'println' method (defined in the PrintStream class)
-        mw.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println",
-                "(Ljava/lang/String;)V", false);
+        mw.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
+
+        mw.visitMethodInsn(INVOKEVIRTUAL, ".", "juliarMethod", "()V", false);
         mw.visitInsn(RETURN);
-        // this code uses a maximum of two stack elements and two local
-        // variables
         mw.visitMaxs(2, 2);
+        mw.visitEnd();
+        */
+
+        mw = cw.visitMethod(ACC_PUBLIC + ACC_STATIC, "juliarMethod", "()V", null, null);
+        mw.visitInsn(RETURN);
+        mw.visitMaxs(3, 3);
         mw.visitEnd();
 
         // gets the bytecode of the Example class, and loads it dynamically
