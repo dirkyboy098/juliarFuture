@@ -1,2 +1,2 @@
 set CLASSPATH=D:\source\juliarFuture\jars\antlr-4.5.3-complete.jar;%CLASSPATH%
-java org.antlr.v4.Tool D:\source\juliarFuture\src\com\juliar\juliargrammar.g4  -o D:\source\juliarFuture\src\com\juliar\parser -no-listener -package com.juliar.parser -visitor
+java org.antlr.v4.Tool D:\source\juliarFuture\src\com\juliar\parser\juliar.g4  -o D:\source\juliarFuture\src\com\juliar\parser -no-listener -package com.juliar.parser -visitor
