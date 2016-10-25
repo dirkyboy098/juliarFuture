@@ -6,15 +6,20 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.URL;
 import java.util.Enumeration;
+import java.util.List;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.GeneratorAdapter;
+import org.objectweb.asm.*;
+import org.objectweb.asm.commons.*;
 import org.objectweb.asm.commons.Method;
 
+import static com.sun.org.apache.bcel.internal.generic.InstructionConstants.ISTORE_1;
+import static com.sun.org.apache.bcel.internal.generic.InstructionConstants.ISTORE_2;
 import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Node;
+import static java.lang.System.out;
 import static org.objectweb.asm.Opcodes.*;
 import com.juliar.nodes.*;
 
@@ -46,7 +51,7 @@ public class CodeGenerator {
         // pushes the 'out' field (of type PrintStream) of the System class
         mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out","Ljava/io/PrintStream;");
         // pushes the "Hello Juliar Future" String constant
-        mw.visitLdcInsn("Hello Juliar asdasdfasdfFuture!");
+        mw.visitLdcInsn("Calling generated Juliar Methods!");
         // invokes the 'println' method (defined in the PrintStream class)
         mw.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println","(Ljava/lang/String;)V", false);
         // mw.visitInsn(RETURN);
@@ -59,27 +64,21 @@ public class CodeGenerator {
         mw.visitMaxs(2, 2);
         mw.visitEnd();
 
-
-/*
-        // creates a MethodWriter for the 'main' method
-        mw = cw.visitMethod(ACC_PUBLIC + ACC_STATIC, "main", "([Ljava/lang/String;)V", null, null);
-        // pushes the 'out' field (of type PrintStream) of the System class
-        mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-        // pushes the "Hello Juliar Future" String constant
-        mw.visitLdcInsn("Hello Juliar Future!");
-        // invokes the 'println' method (defined in the PrintStream class)
-        mw.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
-
-        mw.visitMethodInsn(INVOKEVIRTUAL, ".", "juliarMethod", "()V", false);
-        mw.visitInsn(RETURN);
-        mw.visitMaxs(2, 2);
-        mw.visitEnd();
-        */
-
         mw = cw.visitMethod(ACC_PUBLIC + ACC_STATIC, "juliarMethod", "()V", null, null);
+
+        Integer stackSize = 0;
+        GeneratorAdapter ga = new GeneratorAdapter(mw, ACC_PUBLIC + ACC_STATIC, "juliarMethod", "()V");
+        EvaluateExpressions(rootNode, mw, ga, stackSize);
+
         mw.visitInsn(RETURN);
-        mw.visitMaxs(3, 3);
+        mw.visitMaxs(6, 6);
         mw.visitEnd();
+
+        MethodVisitor foo = cw.visitMethod(ACC_PUBLIC + ACC_STATIC, "foo", "()V", null, null);
+        GeneratorAdapter ga1 = new GeneratorAdapter(foo, ACC_PUBLIC + ACC_STATIC, "foo", "()V");
+        foo.visitInsn(RETURN);
+        foo.visitEnd();
+
 
         // gets the bytecode of the Example class, and loads it dynamically
         byte[] code = cw.toByteArray();
@@ -120,5 +119,50 @@ public class CodeGenerator {
 
         code = cw.toByteArray();
        */
+    }
+
+    private MethodVisitor EvaluateExpressions(Node root, MethodVisitor mw, GeneratorAdapter ga, Integer stackSize ){
+        if (root instanceof CompliationUnitNode){
+            List<Node> t = ((CompliationUnitNode)root).statementNodes;
+            for(Node n : t){
+                EvaluateExpressions(n, mw, ga, stackSize);
+            }
+        }
+
+        if (root instanceof StatementNode){
+            List<Node> t = ((StatementNode)root).statements;
+            for (Node n : t){
+                EvaluateExpressions(n, mw, ga, stackSize);
+            }
+        }
+
+        if (root instanceof BinaryNode){
+            BinaryNode b = ((BinaryNode)root);
+
+            if (b.Operation().equals(BinaryOperation.add)){
+
+                Integer left = 0;
+                Integer right = 0;
+
+                if (b.Left().Operation().equals(BinaryOperation.data))
+                {
+                    left = Integer.parseInt( (String) b.Left().Data() );
+                }
+
+                if (b.Right().Operation().equals(BinaryOperation.data)) {
+                    right = Integer.parseInt((String) b.Right().Data());
+                }
+
+                mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out","Ljava/io/PrintStream;");
+
+                ga.push( left.intValue());
+                ga.push( right.intValue());
+                ga.visitInsn(IADD);
+
+                mw.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println","(I)V", false);
+                out.println(left + right);
+            }
+        }
+return mw;
     }
 }
