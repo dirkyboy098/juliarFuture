@@ -89,6 +89,15 @@ public class CodeGenerator {
             }
         }
 
+        GenerateBinaryAdd(root, mw, ga);
+
+        GenerateAggregateIntegerAdd(root, mw, ga);
+
+
+        return mw;
+    }
+
+    private void GenerateBinaryAdd(Node root, MethodVisitor mw, GeneratorAdapter ga) {
         if (root instanceof BinaryNode){
             BinaryNode b = ((BinaryNode)root);
 
@@ -116,11 +125,6 @@ public class CodeGenerator {
                 out.println(left + right);
             }
         }
-
-        GenerateAggregateIntegerAdd(root, mw, ga);
-
-
-        return mw;
     }
 
     private void GenerateAggregateIntegerAdd(Node root, MethodVisitor mw, GeneratorAdapter ga) {

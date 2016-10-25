@@ -2,28 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="20b53363-4cbb-4625-a278-2c147a57be57" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/juliar/nodes/AggregateNode.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/juliarFuture/com/juliar/nodes/BinaryOperation.class" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/juliar/nodes/BinaryOperation.java" afterPath="$PROJECT_DIR$/src/com/juliar/nodes/Operation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JuliarFuture.class" afterPath="$PROJECT_DIR$/JuliarFuture.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/juliarFuture/com/juliar/JuliarCompiler.class" afterPath="$PROJECT_DIR$/out/production/juliarFuture/com/juliar/JuliarCompiler.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/juliarFuture/com/juliar/codegenerator/CodeGenerator.class" afterPath="$PROJECT_DIR$/out/production/juliarFuture/com/juliar/codegenerator/CodeGenerator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/juliarFuture/com/juliar/nodes/BinaryNode.class" afterPath="$PROJECT_DIR$/out/production/juliarFuture/com/juliar/nodes/BinaryNode.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/juliarFuture/com/juliar/parser/juliarParser$SubtractContext.class" afterPath="$PROJECT_DIR$/out/production/juliarFuture/com/juliar/parser/juliarParser$SubtractContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/juliarFuture/com/juliar/parser/juliarParser.class" afterPath="$PROJECT_DIR$/out/production/juliarFuture/com/juliar/parser/juliarParser.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/juliarFuture/com/juliar/vistor/JuliarVisitor.class" afterPath="$PROJECT_DIR$/out/production/juliarFuture/com/juliar/vistor/JuliarVisitor.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/juliarFuture/com/juliar/parser/juliar.g4" afterPath="$PROJECT_DIR$/out/production/juliarFuture/com/juliar/parser/juliar.g4" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/juliar/JuliarCompiler.java" afterPath="$PROJECT_DIR$/src/com/juliar/JuliarCompiler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/juliar/codegenerator/CodeGenerator.java" afterPath="$PROJECT_DIR$/src/com/juliar/codegenerator/CodeGenerator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/juliar/nodes/BinaryNode.java" afterPath="$PROJECT_DIR$/src/com/juliar/nodes/BinaryNode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/juliar/parser/juliar.g4" afterPath="$PROJECT_DIR$/src/com/juliar/parser/juliar.g4" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/juliar/parser/juliarBaseVisitor.java" afterPath="$PROJECT_DIR$/src/com/juliar/parser/juliarBaseVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/juliar/parser/juliarLexer.java" afterPath="$PROJECT_DIR$/src/com/juliar/parser/juliarLexer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/juliar/parser/juliarParser.java" afterPath="$PROJECT_DIR$/src/com/juliar/parser/juliarParser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/juliar/parser/juliarVisitor.java" afterPath="$PROJECT_DIR$/src/com/juliar/parser/juliarVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/juliar/vistor/JuliarVisitor.java" afterPath="$PROJECT_DIR$/src/com/juliar/vistor/JuliarVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test.jrl" afterPath="$PROJECT_DIR$/test.jrl" />
     </list>
     <ignored path="juliarFuture.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -61,11 +40,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CodeGenerator.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CodeGenerator.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/juliar/codegenerator/CodeGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="349">
-              <caret line="119" column="8" selection-start-line="119" selection-start-column="8" selection-end-line="119" selection-end-column="8" />
+            <state relative-caret-position="228">
+              <caret line="91" column="8" selection-start-line="91" selection-start-column="8" selection-end-line="91" selection-end-column="8" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -73,14 +52,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JuliarVisitor.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/juliar/vistor/JuliarVisitor.java">
+      <file leaf-file-name="Operation.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/juliar/nodes/Operation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="475">
-              <caret line="61" column="19" selection-start-line="61" selection-start-column="19" selection-end-line="61" selection-end-column="19" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="95">
+              <caret line="5" column="7" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -148,16 +125,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Node.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/juliar/nodes/Node.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -197,8 +164,8 @@
         <option value="$PROJECT_DIR$/src/com/juliar/vistor/JuliarVisitor.java" />
         <option value="$PROJECT_DIR$/src/com/juliar/JuliarCompiler.java" />
         <option value="$PROJECT_DIR$/src/com/juliar/nodes/AggregateNode.java" />
-        <option value="$PROJECT_DIR$/src/com/juliar/codegenerator/CodeGenerator.java" />
         <option value="$PROJECT_DIR$/test.jrl" />
+        <option value="$PROJECT_DIR$/src/com/juliar/codegenerator/CodeGenerator.java" />
       </list>
     </option>
   </component>
@@ -815,12 +782,12 @@
       <workItem from="1477163395436" duration="7245000" />
       <workItem from="1477196661899" duration="905000" />
       <workItem from="1477332531591" duration="6929000" />
-      <workItem from="1477407811390" duration="6944000" />
+      <workItem from="1477407811390" duration="7181000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="55315000" />
+    <option name="totallyTimeSpent" value="55552000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2576" y="-507" width="1920" height="1394" extended-state="0" />
@@ -845,7 +812,7 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30561972" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20323326" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1042,14 +1009,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/juliar/nodes/Operation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="5" column="7" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/juliar/nodes/LineNode.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="152">
@@ -1119,16 +1078,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/juliar/codegenerator/CodeGenerator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="349">
-          <caret line="119" column="8" selection-start-line="119" selection-start-column="8" selection-end-line="119" selection-end-column="8" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test.jrl">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="76">
@@ -1137,10 +1086,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/juliar/nodes/Operation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="5" column="7" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/juliar/vistor/JuliarVisitor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="475">
-          <caret line="61" column="19" selection-start-line="61" selection-start-column="19" selection-end-line="61" selection-end-column="19" />
+        <state relative-caret-position="-475">
+          <caret line="53" column="5" selection-start-line="53" selection-start-column="5" selection-end-line="53" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/juliar/codegenerator/CodeGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="91" column="8" selection-start-line="91" selection-start-column="8" selection-end-line="91" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
