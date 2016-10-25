@@ -4,6 +4,8 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.lang.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.lang.System.out;
 import com.juliar.nodes.*;
@@ -85,14 +87,25 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
     @Override
     public Node visitAdd(juliarParser.AddContext ctx) {
         String text = ctx.ID().getText();
-        if (text.equals("add") && ctx.getChildCount() == 3){
-            BinaryNode node = new BinaryNode();
+        if (text.equals("add")){
+            if (ctx.INT().size() == 2) {
+                BinaryNode node = new BinaryNode();
 
-            if (ctx.INT().size() >= 2) {
                 return node.MakeNode(
-                        BinaryOperation.add,
+                        Operation.add,
                         (BinaryNode) ctx.INT(0).accept(this),
                         (BinaryNode) ctx.INT(1).accept(this));
+            }
+
+            if (ctx.INT().size() > 2){
+                List<BinaryNode> data = new ArrayList<>();
+                AggregateNode node = new AggregateNode();
+                for( int i = 0; i < ctx.INT().size(); i++){
+                    data.add( (BinaryNode) ctx.INT(i).accept(this));
+                }
+
+                return node.MakeNode( Operation.add, data);
+
             }
         }
 
@@ -101,7 +114,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
     @Override
     public Node visitTerminal(TerminalNode node) {
-        return new BinaryNode(BinaryOperation.data , node.getText());
+        return new BinaryNode(Operation.data , node.getText());
     }
 
 }

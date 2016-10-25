@@ -67,6 +67,7 @@ acosh
 
 add
     : ID (FLOAT)*
+    | ID (INT)*
     | ID INT INT
     ;
 

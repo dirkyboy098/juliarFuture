@@ -2,7 +2,6 @@ package com.juliar;
 
 import com.juliar.nodes.*;
 import com.juliar.vistor.JuliarVisitor;
-import org.antlr.v4.codegen.CodeGenerator;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
@@ -47,10 +46,8 @@ public class JuliarCompiler {
 
             JuliarVisitor visitor = new JuliarVisitor();
             Node node = visitor.visit(context);
-            EvaluateExpressions( node );
+            //EvaluateExpressions( node );
 
-
-            ParseTreeWalker treeWalker = new ParseTreeWalker();
             com.juliar.codegenerator.CodeGenerator generator = new com.juliar.codegenerator.CodeGenerator();
             generator.Generate(node);
 
@@ -78,17 +75,17 @@ public class JuliarCompiler {
         if (root instanceof BinaryNode){
             BinaryNode b = ((BinaryNode)root);
 
-            if (b.Operation().equals(BinaryOperation.add)){
+            if (b.Operation().equals(Operation.add)){
 
                 Integer left = 0;
                 Integer right = 0;
 
-                if (b.Left().Operation().equals(BinaryOperation.data))
+                if (b.Left().Operation().equals(Operation.data))
                 {
                     left = Integer.parseInt( (String) b.Left().Data() );
                 }
 
-                if (b.Right().Operation().equals(BinaryOperation.data)) {
+                if (b.Right().Operation().equals(Operation.data)) {
                     right = Integer.parseInt((String) b.Right().Data());
                 }
 

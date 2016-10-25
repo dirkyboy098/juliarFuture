@@ -92,17 +92,17 @@ public class CodeGenerator {
         if (root instanceof BinaryNode){
             BinaryNode b = ((BinaryNode)root);
 
-            if (b.Operation().equals(BinaryOperation.add)){
+            if (b.Operation().equals(Operation.add)){
 
                 Integer left = 0;
                 Integer right = 0;
 
-                if (b.Left().Operation().equals(BinaryOperation.data))
+                if (b.Left().Operation().equals(Operation.data))
                 {
                     left = Integer.parseInt( (String) b.Left().Data() );
                 }
 
-                if (b.Right().Operation().equals(BinaryOperation.data)) {
+                if (b.Right().Operation().equals(Operation.data)) {
                     right = Integer.parseInt((String) b.Right().Data());
                 }
 
@@ -117,6 +117,30 @@ public class CodeGenerator {
             }
         }
 
+        GenerateAggregateIntegerAdd(root, mw, ga);
+
+
         return mw;
+    }
+
+    private void GenerateAggregateIntegerAdd(Node root, MethodVisitor mw, GeneratorAdapter ga) {
+        if (root instanceof AggregateNode){
+
+            List<BinaryNode> binaryNodeList = ((AggregateNode)root).Data();
+
+            int addCount = binaryNodeList.size() - 1;
+
+            mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out","Ljava/io/PrintStream;");
+
+            for(BinaryNode binaryNode : binaryNodeList) {
+                ga.push( Integer.parseInt( (String) binaryNode.Data()));
+            }
+
+            for(int i = 0; i < addCount; i++) {
+                ga.visitInsn(IADD);
+            }
+
+            mw.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println","(I)V", false);
+        }
     }
 }
