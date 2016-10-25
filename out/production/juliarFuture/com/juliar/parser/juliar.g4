@@ -24,11 +24,22 @@ asterisk
     : '*'
     ;
 
+plus
+	: '+'
+	;
+
+minus
+	: '-'
+	;
+
 command
     : absolute
     | acos
     | acosh
     | add
+	| subtract
+	| plus
+	| minus
  /*
     | alternatecase
     | and
@@ -43,20 +54,25 @@ command
     ;
 
 absolute
-    : ID (INT)?
+    : ID (FLOAT)*
     ;
 
 acos
-    : ID
+    : ID (FLOAT)*
     ;
 
 acosh
-    : ID
+    : ID (FLOAT)*
     ;
 
 add
-    : ID INT INT
+    : ID (FLOAT)*
+    | ID INT INT
     ;
+
+subtract
+	: ID (FLOAT)*
+	;
 
 
 /*

@@ -93,7 +93,6 @@ public class JuliarCompiler {
                 }
 
                 Integer t = left + right;
-                out.println(t);
             }
         }
     }

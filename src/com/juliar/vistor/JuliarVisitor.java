@@ -88,10 +88,12 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         if (text.equals("add") && ctx.getChildCount() == 3){
             BinaryNode node = new BinaryNode();
 
-            return node.MakeNode(
-                    BinaryOperation.add,
-                    (BinaryNode) ctx.INT(0).accept(this),
-                    (BinaryNode) ctx.INT(1).accept(this));
+            if (ctx.INT().size() >= 2) {
+                return node.MakeNode(
+                        BinaryOperation.add,
+                        (BinaryNode) ctx.INT(0).accept(this),
+                        (BinaryNode) ctx.INT(1).accept(this));
+            }
         }
 
         return super.visitAdd(ctx);
