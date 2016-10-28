@@ -17,12 +17,12 @@ public class JuliarCompilerTest extends TestCase {
     }
 
     public void tearDown() throws Exception {
-
+        super.tearDown();
     }
 
     public void testCompile() throws Exception {
         try {
-            JuliarCompiler compiler = new JuliarCompiler();
+                JuliarCompiler compiler = new JuliarCompiler();
             compiler.compile("test.jrl", ".");
             JClassLoader classLoader = new JClassLoader();
 

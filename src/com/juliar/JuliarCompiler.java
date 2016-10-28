@@ -46,7 +46,6 @@ public class JuliarCompiler {
 
             JuliarVisitor visitor = new JuliarVisitor();
             Node node = visitor.visit(context);
-            //EvaluateExpressions( node );
 
             com.juliar.codegenerator.CodeGenerator generator = new com.juliar.codegenerator.CodeGenerator();
             generator.Generate(node);
@@ -57,40 +56,4 @@ public class JuliarCompiler {
         }
     }
 
-    private void EvaluateExpressions(Node root){
-        if (root instanceof CompliationUnitNode){
-            List<Node> t = ((CompliationUnitNode)root).statementNodes;
-            for(Node n : t){
-                EvaluateExpressions(n);
-            }
-        }
-
-        if (root instanceof StatementNode){
-            List<Node> t = ((StatementNode)root).statements;
-            for (Node n : t){
-                EvaluateExpressions(n);
-            }
-        }
-
-        if (root instanceof BinaryNode){
-            BinaryNode b = ((BinaryNode)root);
-
-            if (b.Operation().equals(Operation.add)){
-
-                Integer left = 0;
-                Integer right = 0;
-
-                if (b.Left().Operation().equals(Operation.data))
-                {
-                    left = Integer.parseInt( (String) b.Left().Data() );
-                }
-
-                if (b.Right().Operation().equals(Operation.data)) {
-                    right = Integer.parseInt((String) b.Right().Data());
-                }
-
-                Integer t = left + right;
-            }
-        }
-    }
 }

@@ -41,18 +41,6 @@ public interface juliarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAsterisk(juliarParser.AsteriskContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link juliarParser#plus}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPlus(juliarParser.PlusContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link juliarParser#minus}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMinus(juliarParser.MinusContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link juliarParser#command}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -83,9 +71,27 @@ public interface juliarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAdd(juliarParser.AddContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link juliarParser#summation}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSummation(juliarParser.SummationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link juliarParser#minus}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMinus(juliarParser.MinusContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link juliarParser#subtract}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitSubtract(juliarParser.SubtractContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link juliarParser#types}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTypes(juliarParser.TypesContext ctx);
 }
