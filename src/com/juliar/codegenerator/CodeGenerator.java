@@ -122,7 +122,6 @@ public class CodeGenerator {
                 ga.visitInsn(IADD);
 
                 mw.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println","(I)V", false);
-                out.println(left + right);
             }
         }
     }

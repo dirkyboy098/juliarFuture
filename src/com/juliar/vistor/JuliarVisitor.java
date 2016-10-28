@@ -86,22 +86,22 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 */
     @Override
     public Node visitAdd(juliarParser.AddContext ctx) {
-        String text = ctx.ID().getText();
-        if (text.equals("add")){
-            if (ctx.INT().size() == 2) {
+        String text = ctx.summation().getText();
+        if (text.equals("add") || text.equals("+")){
+            if (ctx.types().size() == 2) {
                 BinaryNode node = new BinaryNode();
 
                 return node.MakeNode(
                         Operation.add,
-                        (BinaryNode) ctx.INT(0).accept(this),
-                        (BinaryNode) ctx.INT(1).accept(this));
+                        (BinaryNode) ctx.types(0).accept(this),
+                        (BinaryNode) ctx.types(1).accept(this));
             }
 
-            if (ctx.INT().size() > 2){
+            if (ctx.types().size() > 2){
                 List<BinaryNode> data = new ArrayList<>();
                 AggregateNode node = new AggregateNode();
-                for( int i = 0; i < ctx.INT().size(); i++){
-                    data.add( (BinaryNode) ctx.INT(i).accept(this));
+                for( int i = 0; i < ctx.types().size(); i++){
+                    data.add( (BinaryNode) ctx.types(i).accept(this));
                 }
 
                 return node.MakeNode( Operation.add, data);
