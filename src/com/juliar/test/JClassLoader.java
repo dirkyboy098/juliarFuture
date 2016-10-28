@@ -10,12 +10,12 @@ import java.util.Enumeration;
 /**
  * Created by donreamey on 10/25/16.
  */
-public class JuliarClassLoader extends ClassLoader {
-    protected JuliarClassLoader(ClassLoader parent) {
+public class JClassLoader extends ClassLoader {
+    protected JClassLoader(ClassLoader parent) {
         super(parent);
     }
 
-    protected JuliarClassLoader() {
+    protected JClassLoader() {
         super();
     }
 

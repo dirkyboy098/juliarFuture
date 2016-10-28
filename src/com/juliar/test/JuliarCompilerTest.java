@@ -24,7 +24,7 @@ public class JuliarCompilerTest extends TestCase {
         try {
             JuliarCompiler compiler = new JuliarCompiler();
             compiler.compile("test.jrl", ".");
-            JuliarClassLoader classLoader = new JuliarClassLoader();
+            JClassLoader classLoader = new JClassLoader();
 
             Class <?> juliar = classLoader.findClass("JuliarFuture");
 
