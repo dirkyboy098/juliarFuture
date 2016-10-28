@@ -73,6 +73,8 @@ add
 
 subtract
 	: ID (FLOAT)*
+	| ID (INT)*
+	| ID INT INT
 	;
 
 

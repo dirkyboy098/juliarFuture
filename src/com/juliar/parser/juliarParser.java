@@ -1,4 +1,4 @@
-// Generated from src/com/juliar/parser/juliar.g4 by ANTLR 4.5.3
+// Generated from C:\Users\AndreiM\Desktop\juliarFuture\src\com\juliar\parser\juliar.g4 by ANTLR 4.5.3
 package com.juliar.parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -719,6 +719,10 @@ public class juliarParser extends Parser {
 		public TerminalNode FLOAT(int i) {
 			return getToken(juliarParser.FLOAT, i);
 		}
+		public List<TerminalNode> INT() { return getTokens(juliarParser.INT); }
+		public TerminalNode INT(int i) {
+			return getToken(juliarParser.INT, i);
+		}
 		public SubtractContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -735,24 +739,62 @@ public class juliarParser extends Parser {
 		enterRule(_localctx, 24, RULE_subtract);
 		int _la;
 		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(96);
-			match(ID);
-			setState(100);
+			setState(113);
 			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while (_la==FLOAT) {
+			switch ( getInterpreter().adaptivePredict(_input,10,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
 				{
-				{
-				setState(97);
-				match(FLOAT);
-				}
-				}
-				setState(102);
+				setState(96);
+				match(ID);
+				setState(100);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			}
+				while (_la==FLOAT) {
+					{
+					{
+					setState(97);
+					match(FLOAT);
+					}
+					}
+					setState(102);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
+				}
+				break;
+			case 2:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(103);
+				match(ID);
+				setState(107);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==INT) {
+					{
+					{
+					setState(104);
+					match(INT);
+					}
+					}
+					setState(109);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
+				}
+				break;
+			case 3:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(110);
+				match(ID);
+				setState(111);
+				match(INT);
+				setState(112);
+				match(INT);
+				}
+				break;
 			}
 		}
 		catch (RecognitionException re) {
@@ -767,31 +809,34 @@ public class juliarParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\nj\4\2\t\2\4\3\t"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\nv\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4"+
 		"\f\t\f\4\r\t\r\4\16\t\16\3\2\3\2\3\3\3\3\3\3\3\3\7\3#\n\3\f\3\16\3&\13"+
 		"\3\3\4\3\4\3\5\3\5\3\6\3\6\3\7\3\7\3\b\3\b\3\t\3\t\3\t\3\t\3\t\3\t\3\t"+
 		"\5\t9\n\t\3\n\3\n\7\n=\n\n\f\n\16\n@\13\n\3\13\3\13\7\13D\n\13\f\13\16"+
 		"\13G\13\13\3\f\3\f\7\fK\n\f\f\f\16\fN\13\f\3\r\3\r\7\rR\n\r\f\r\16\rU"+
 		"\13\r\3\r\3\r\7\rY\n\r\f\r\16\r\\\13\r\3\r\3\r\3\r\5\ra\n\r\3\16\3\16"+
-		"\7\16e\n\16\f\16\16\16h\13\16\3\16\2\2\17\2\4\6\b\n\f\16\20\22\24\26\30"+
-		"\32\2\2k\2\34\3\2\2\2\4$\3\2\2\2\6\'\3\2\2\2\b)\3\2\2\2\n+\3\2\2\2\f-"+
-		"\3\2\2\2\16/\3\2\2\2\208\3\2\2\2\22:\3\2\2\2\24A\3\2\2\2\26H\3\2\2\2\30"+
-		"`\3\2\2\2\32b\3\2\2\2\34\35\5\4\3\2\35\3\3\2\2\2\36\37\5\6\4\2\37 \5\20"+
-		"\t\2 !\5\b\5\2!#\3\2\2\2\"\36\3\2\2\2#&\3\2\2\2$\"\3\2\2\2$%\3\2\2\2%"+
-		"\5\3\2\2\2&$\3\2\2\2\'(\5\n\6\2(\7\3\2\2\2)*\5\n\6\2*\t\3\2\2\2+,\7\3"+
-		"\2\2,\13\3\2\2\2-.\7\4\2\2.\r\3\2\2\2/\60\7\5\2\2\60\17\3\2\2\2\619\5"+
-		"\22\n\2\629\5\24\13\2\639\5\26\f\2\649\5\30\r\2\659\5\32\16\2\669\5\f"+
-		"\7\2\679\5\16\b\28\61\3\2\2\28\62\3\2\2\28\63\3\2\2\28\64\3\2\2\28\65"+
-		"\3\2\2\28\66\3\2\2\28\67\3\2\2\29\21\3\2\2\2:>\7\t\2\2;=\7\7\2\2<;\3\2"+
-		"\2\2=@\3\2\2\2><\3\2\2\2>?\3\2\2\2?\23\3\2\2\2@>\3\2\2\2AE\7\t\2\2BD\7"+
-		"\7\2\2CB\3\2\2\2DG\3\2\2\2EC\3\2\2\2EF\3\2\2\2F\25\3\2\2\2GE\3\2\2\2H"+
-		"L\7\t\2\2IK\7\7\2\2JI\3\2\2\2KN\3\2\2\2LJ\3\2\2\2LM\3\2\2\2M\27\3\2\2"+
-		"\2NL\3\2\2\2OS\7\t\2\2PR\7\7\2\2QP\3\2\2\2RU\3\2\2\2SQ\3\2\2\2ST\3\2\2"+
-		"\2Ta\3\2\2\2US\3\2\2\2VZ\7\t\2\2WY\7\6\2\2XW\3\2\2\2Y\\\3\2\2\2ZX\3\2"+
-		"\2\2Z[\3\2\2\2[a\3\2\2\2\\Z\3\2\2\2]^\7\t\2\2^_\7\6\2\2_a\7\6\2\2`O\3"+
-		"\2\2\2`V\3\2\2\2`]\3\2\2\2a\31\3\2\2\2bf\7\t\2\2ce\7\7\2\2dc\3\2\2\2e"+
-		"h\3\2\2\2fd\3\2\2\2fg\3\2\2\2g\33\3\2\2\2hf\3\2\2\2\13$8>ELSZ`f";
+		"\7\16e\n\16\f\16\16\16h\13\16\3\16\3\16\7\16l\n\16\f\16\16\16o\13\16\3"+
+		"\16\3\16\3\16\5\16t\n\16\3\16\2\2\17\2\4\6\b\n\f\16\20\22\24\26\30\32"+
+		"\2\2z\2\34\3\2\2\2\4$\3\2\2\2\6\'\3\2\2\2\b)\3\2\2\2\n+\3\2\2\2\f-\3\2"+
+		"\2\2\16/\3\2\2\2\208\3\2\2\2\22:\3\2\2\2\24A\3\2\2\2\26H\3\2\2\2\30`\3"+
+		"\2\2\2\32s\3\2\2\2\34\35\5\4\3\2\35\3\3\2\2\2\36\37\5\6\4\2\37 \5\20\t"+
+		"\2 !\5\b\5\2!#\3\2\2\2\"\36\3\2\2\2#&\3\2\2\2$\"\3\2\2\2$%\3\2\2\2%\5"+
+		"\3\2\2\2&$\3\2\2\2\'(\5\n\6\2(\7\3\2\2\2)*\5\n\6\2*\t\3\2\2\2+,\7\3\2"+
+		"\2,\13\3\2\2\2-.\7\4\2\2.\r\3\2\2\2/\60\7\5\2\2\60\17\3\2\2\2\619\5\22"+
+		"\n\2\629\5\24\13\2\639\5\26\f\2\649\5\30\r\2\659\5\32\16\2\669\5\f\7\2"+
+		"\679\5\16\b\28\61\3\2\2\28\62\3\2\2\28\63\3\2\2\28\64\3\2\2\28\65\3\2"+
+		"\2\28\66\3\2\2\28\67\3\2\2\29\21\3\2\2\2:>\7\t\2\2;=\7\7\2\2<;\3\2\2\2"+
+		"=@\3\2\2\2><\3\2\2\2>?\3\2\2\2?\23\3\2\2\2@>\3\2\2\2AE\7\t\2\2BD\7\7\2"+
+		"\2CB\3\2\2\2DG\3\2\2\2EC\3\2\2\2EF\3\2\2\2F\25\3\2\2\2GE\3\2\2\2HL\7\t"+
+		"\2\2IK\7\7\2\2JI\3\2\2\2KN\3\2\2\2LJ\3\2\2\2LM\3\2\2\2M\27\3\2\2\2NL\3"+
+		"\2\2\2OS\7\t\2\2PR\7\7\2\2QP\3\2\2\2RU\3\2\2\2SQ\3\2\2\2ST\3\2\2\2Ta\3"+
+		"\2\2\2US\3\2\2\2VZ\7\t\2\2WY\7\6\2\2XW\3\2\2\2Y\\\3\2\2\2ZX\3\2\2\2Z["+
+		"\3\2\2\2[a\3\2\2\2\\Z\3\2\2\2]^\7\t\2\2^_\7\6\2\2_a\7\6\2\2`O\3\2\2\2"+
+		"`V\3\2\2\2`]\3\2\2\2a\31\3\2\2\2bf\7\t\2\2ce\7\7\2\2dc\3\2\2\2eh\3\2\2"+
+		"\2fd\3\2\2\2fg\3\2\2\2gt\3\2\2\2hf\3\2\2\2im\7\t\2\2jl\7\6\2\2kj\3\2\2"+
+		"\2lo\3\2\2\2mk\3\2\2\2mn\3\2\2\2nt\3\2\2\2om\3\2\2\2pq\7\t\2\2qr\7\6\2"+
+		"\2rt\7\6\2\2sb\3\2\2\2si\3\2\2\2sp\3\2\2\2t\33\3\2\2\2\r$8>ELSZ`fms";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

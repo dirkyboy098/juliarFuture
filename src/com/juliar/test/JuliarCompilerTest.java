@@ -17,14 +17,14 @@ public class JuliarCompilerTest extends TestCase {
     }
 
     public void tearDown() throws Exception {
-
+        super.tearDown();
     }
 
     public void testCompile() throws Exception {
         try {
             JuliarCompiler compiler = new JuliarCompiler();
             compiler.compile("test.jrl", ".");
-            JuliarClassLoader classLoader = new JuliarClassLoader();
+            JClassLoader classLoader = new JClassLoader();
 
             Class <?> juliar = classLoader.findClass("JuliarFuture");
 
