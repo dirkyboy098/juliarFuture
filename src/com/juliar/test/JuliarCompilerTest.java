@@ -17,7 +17,7 @@ public class JuliarCompilerTest extends TestCase {
     }
 
     public void tearDown() throws Exception {
-
+        super.tearDown();
     }
 
     public void testCompile() throws Exception {
