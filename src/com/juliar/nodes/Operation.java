@@ -5,3 +5,4 @@ public enum Operation {
     data,
     sum
 }
+

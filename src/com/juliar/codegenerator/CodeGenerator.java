@@ -4,8 +4,9 @@ import java.io.FileOutputStream;
 import java.util.List;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.*;
-import static java.lang.System.out;
+
 import static org.objectweb.asm.Opcodes.*;
 import com.juliar.nodes.*;
 
@@ -13,6 +14,7 @@ import com.juliar.nodes.*;
  * Created by donreamey on 10/22/16.
  */
 public class CodeGenerator {
+    private boolean debug = true;
     public CodeGenerator(){
     }
 
@@ -101,30 +103,85 @@ public class CodeGenerator {
         if (root instanceof BinaryNode){
             BinaryNode b = ((BinaryNode)root);
 
-            if (b.Operation().equals(Operation.add)){
+            if (b.operation().equals(Operation.add)) {
 
-                Integer left = 0;
-                Integer right = 0;
-
-                if (b.Left().Operation().equals(Operation.data))
-                {
-                    left = Integer.parseInt( (String) b.Left().Data() );
+                if (debug) {
+                    mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
                 }
 
-                if (b.Right().Operation().equals(Operation.data)) {
-                    right = Integer.parseInt((String) b.Right().Data());
-                }
+                pushIntegralType(ga, b.left());
+                pushIntegralType(ga, b.right());
+                IntegralType addType = pushIntigralAddInsn(ga, b.left(), b.right());
 
-                mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out","Ljava/io/PrintStream;");
-
-                ga.push( left.intValue());
-                ga.push( right.intValue());
-                ga.visitInsn(IADD);
-
-                mw.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println","(I)V", false);
+                debugPrintLine(mw, addType);
             }
         }
     }
+
+    private void debugPrintLine(MethodVisitor mw, IntegralType addType) {
+        if (debug) {
+            switch (addType) {
+                case jdouble:
+                    mw.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(D)V", false);
+                    break;
+                case jfloat:
+                    mw.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(F)V", false);
+                    break;
+                case jinteger:
+                    mw.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(I)V", false);
+                    break;
+                case jlong:
+                    mw.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(L)V", false);
+                    break;
+            }
+        }
+    }
+
+    private void pushIntegralType(GeneratorAdapter ga, Node node) {
+        if (node instanceof IntegralTypeNode) {
+            IntegralTypeNode integralTypeNode = ((IntegralTypeNode)node);
+            IntegralType integralType = integralTypeNode.getIntegralType();
+
+            switch (integralType) {
+                case jdouble:
+                    ga.push(Double.parseDouble((String) integralTypeNode.data()));
+                    break;
+                case jfloat:
+                    ga.push(Float.parseFloat((String) integralTypeNode.data()));
+                    break;
+                case jinteger:
+                    ga.push(Integer.parseInt((String) integralTypeNode.data()));
+                    break;
+                case jlong:
+                    ga.push(Long.parseLong((String) integralTypeNode.data()));
+                    break;
+            }
+        }
+    }
+
+    private IntegralType pushIntigralAddInsn(GeneratorAdapter ga , Node left, Node right){
+
+        IntegralTypeNode ln = (IntegralTypeNode)left;
+        IntegralTypeNode rn = (IntegralTypeNode)right;
+
+        if (ln.getIntegralType() == IntegralType.jdouble || rn.getIntegralType() == IntegralType.jdouble){
+            ga.visitInsn(DADD);
+            return IntegralType.jdouble;
+        } else if (ln.getIntegralType() == IntegralType.jfloat || rn.getIntegralType() == IntegralType.jfloat){
+            ga.visitInsn(FADD);
+            return IntegralType.jfloat;
+        } else if (ln.getIntegralType() == IntegralType.jinteger || rn.getIntegralType() == IntegralType.jinteger){
+            ga.visitInsn(IADD);
+            return IntegralType.jinteger;
+        } else if (ln.getIntegralType() == IntegralType.jlong || rn.getIntegralType() == IntegralType.jlong){
+            ga.visitInsn(LADD);
+            return IntegralType.jlong;
+        }
+
+        return null;
+    }
+
+
 
     private void GenerateAggregateIntegerAdd(Node root, MethodVisitor mw, GeneratorAdapter ga) {
         if (root instanceof AggregateNode){
@@ -133,17 +190,20 @@ public class CodeGenerator {
 
             int addCount = binaryNodeList.size() - 1;
 
-            mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out","Ljava/io/PrintStream;");
+            if (debug) {
+                //mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
+            }
 
             for(BinaryNode binaryNode : binaryNodeList) {
-                ga.push( Integer.parseInt( (String) binaryNode.Data()));
+                //ga.push( Integer.parseInt( (String) binaryNode.data()));
+                pushIntegralType( ga, binaryNode);
             }
 
             for(int i = 0; i < addCount; i++) {
                 ga.visitInsn(IADD);
             }
 
-            mw.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println","(I)V", false);
+            //mw.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println","(I)V", false);
         }
     }
 }

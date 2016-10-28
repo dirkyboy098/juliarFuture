@@ -1,5 +1,6 @@
 package com.juliar.vistor;
 
+import com.sun.scenario.effect.impl.sw.java.JSWBlend_EXCLUSIONPeer;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
@@ -86,23 +87,29 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 */
     @Override
     public Node visitAdd(juliarParser.AddContext ctx) {
+
         String text = ctx.summation().getText();
         if (text.equals("add") || text.equals("+")){
             if (ctx.types().size() == 2) {
                 BinaryNode node = new BinaryNode();
-
-                return node.MakeNode(
-                        Operation.add,
-                        (BinaryNode) ctx.types(0).accept(this),
-                        (BinaryNode) ctx.types(1).accept(this));
+                try {
+                    return node.MakeNode(
+                            Operation.add,
+                            ctx.types(0).accept(this),
+                            ctx.types(1).accept(this));
+                }catch( Exception ex){
+                    out.println(ex.getMessage());
+                }
             }
 
             if (ctx.types().size() > 2){
                 List<BinaryNode> data = new ArrayList<>();
                 AggregateNode node = new AggregateNode();
+                /*
                 for( int i = 0; i < ctx.types().size(); i++){
                     data.add( (BinaryNode) ctx.types(i).accept(this));
                 }
+                */
 
                 return node.MakeNode( Operation.add, data);
 
@@ -113,8 +120,14 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
     }
 
     @Override
+    public Node visitTypes(juliarParser.TypesContext ctx) {
+        return new IntegralTypeNode(ctx);
+    }
+
+
+    @Override
     public Node visitTerminal(TerminalNode node) {
-        return new BinaryNode(Operation.data , node.getText());
+        return new JTerminalNode(node);
     }
 
 }
