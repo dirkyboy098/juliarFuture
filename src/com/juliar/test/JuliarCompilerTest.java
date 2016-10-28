@@ -32,12 +32,12 @@ public class JuliarCompilerTest extends TestCase {
                 Method m = juliar.getMethod("juliarMethod");
                 Object obj = juliar.newInstance();
                 if (m != null && obj != null) {
-                    m.invoke(obj, null);
+                    m.invoke(obj);
                 }
             }
         }
         catch(Exception ex) {
-            out.println(ex.getMessage());
+            throw ex;
         }
     }
 }

@@ -36,10 +36,10 @@ public class JClassLoader extends ClassLoader {
 
     @Override
     protected Class<?> findClass(String name) throws ClassNotFoundException {
-        String fullName = name.replace('.', File.pathSeparatorChar);
+        String fullName = name.replace('.', File.separatorChar);
         fullName += ".class";
 
-        String path = "./" + fullName ;
+        String path = "." + File.separator + fullName ;
         try {
             FileInputStream fis = new FileInputStream(path);
             byte[] data = new byte[fis.available()];
