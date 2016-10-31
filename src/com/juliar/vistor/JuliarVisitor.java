@@ -81,6 +81,18 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
     }
 
     @Override
+    public Node visitBooleanExpression(juliarParser.BooleanExpressionContext ctx) {
+        return super.visitBooleanExpression(ctx);
+    }
+
+    @Override
+    public Node visitIfExpr(juliarParser.IfExprContext ctx) {
+        Object booleanExpression = ctx.booleanExpression();
+        Object commandExpression = ctx.command();
+        return super.visitIfExpr(ctx);
+    }
+
+    @Override
     public Node visitAdd(juliarParser.AddContext ctx) {
 
         String text = ctx.summation().getText();
@@ -124,6 +136,11 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         IntegralTypeNode itn = new IntegralTypeNode(ctx, terminal);
 
         return itn;
+    }
+
+    @Override
+    public Node visitEqualequal(juliarParser.EqualequalContext ctx) {
+        return super.visitEqualequal(ctx);
     }
 
     @Override

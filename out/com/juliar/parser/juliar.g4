@@ -27,14 +27,23 @@ asterisk
 expression
     : (command)*
     | (assignmentExpression)*
+    | (booleanExpression)*
+    | (ifExpr)*
     ;
 
 assignmentExpression
     : variable equalsign command
     ;
 
+booleanExpression
+    : variable (equalequal) variable
+    | variable (equalequal) command
+    | variable (equalequal) variable
+    ;
+
 command
     : add
+    | ifExpr
     ;
 /*
     : absolute
@@ -54,6 +63,9 @@ command
     | block
 */
 
+ifExpr
+    : 'if' '(' booleanExpression ')' '{' command '}'
+    ;
 
 variable
     : ID
@@ -100,6 +112,10 @@ types
 
 equalsign
     : '='
+    ;
+
+equalequal
+    : '=='
     ;
 
 /*

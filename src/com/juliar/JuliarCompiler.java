@@ -26,10 +26,11 @@ public class JuliarCompiler {
 
     public static void foo()
     {
-        int i = 3215654;
-        int t = 2344344;
-        int z = t + i;
-        out.print(z);
+        int x = 3;
+        if (x == 6) {
+            out.print(9);
+        }
+        int y = 0;
     }
 
 

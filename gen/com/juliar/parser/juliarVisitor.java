@@ -1,4 +1,4 @@
-// Generated from src/com/juliar/parser/juliar.g4 by ANTLR 4.5.3
+// Generated from /Users/donreamey/github/juliarFuture/src/com/juliar/parser/juliar.g4 by ANTLR 4.5.3
 package com.juliar.parser;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -65,12 +65,6 @@ public interface juliarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCommand(juliarParser.CommandContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link juliarParser#ifExpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitIfExpr(juliarParser.IfExprContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link juliarParser#variable}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -130,10 +124,4 @@ public interface juliarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitEqualsign(juliarParser.EqualsignContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link juliarParser#equalequal}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitEqualequal(juliarParser.EqualequalContext ctx);
 }
