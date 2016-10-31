@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.lang.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,17 +18,26 @@ import com.juliar.parser.*;
  */
 public class JuliarVisitor extends juliarBaseVisitor<Node>
 {
+    private List<Node> instructionList = new ArrayList<>();
+
+    public List<Node> instructions(){
+        return instructionList;
+    }
+
 
     @Override
     public Node visitCompileUnit(juliarParser.CompileUnitContext ctx) {
 
         CompliationUnitNode node = new CompliationUnitNode();
+        instructionList.add(node);
 
         for(ParseTree t : ctx.children){
-            node.statementNodes.add(t.accept(this));
+            t.accept(this);
+            //node.statementNodes.add(t.accept(this));
         }
 
-        return node;
+        //return node;
+        return null;
     }
 
     @Override
@@ -39,52 +49,37 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
                 continue;
             }
 
-            Node n = t.accept(this);
-            node.statements.add(n);
+            t.accept(this);
+            //Node n = t.accept(this);
+            //node.statements.add(n);
         }
 
-        return node;
+        return null;
     }
+
+
     @Override
     public Node visitStartLine(juliarParser.StartLineContext ctx) {
         for(ParseTree t : ctx.children){
-            Object n = t.accept(this);
-            out.println(n);
+            t.accept(this);
+            //Object n = t.accept(this);
+            //out.println(n);
         }
-        return super.visitStartLine(ctx);
+        //return super.visitStartLine(ctx);
+        return null;
     }
 
     @Override
     public Node visitEndLine(juliarParser.EndLineContext ctx) {
         for(ParseTree t : ctx.children){
-            Object n = t.accept(this);
-            out.println(n);
+            t.accept(this);
+            //Object n = t.accept(this);
+            //out.println(n);
         }
-        return super.visitEndLine(ctx);
-    }
-/*
-    @Override
-    public Node visitAsterisk(juliargrammarParser.AsteriskContext ctx) {
-        return super.visitAsterisk(ctx);
+        //return super.visitEndLine(ctx);
+        return null;
     }
 
-    @Override
-    public Node visitCommand(juliargrammarParser.CommandContext ctx) {
-        return super.visitCommand(ctx);
-    }
-
-    @Override
-    public Node visitAbsolute(juliargrammarParser.AbsoluteContext ctx) {
-        List<ParseTree> trees = ctx.children;
-
-
-        for(ParseTree tree : trees){
-            tree.accept(this);
-        }
-
-        return super.visitAbsolute(ctx);
-    }
-*/
     @Override
     public Node visitAdd(juliarParser.AddContext ctx) {
 
@@ -93,41 +88,46 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
             if (ctx.types().size() == 2) {
                 BinaryNode node = new BinaryNode();
                 try {
-                    return node.MakeNode(
+                    instructionList.add(node.MakeNode(
                             Operation.add,
                             ctx.types(0).accept(this),
-                            ctx.types(1).accept(this));
+                            ctx.types(1).accept(this)));
                 }catch( Exception ex){
                     out.println(ex.getMessage());
                 }
             }
 
             if (ctx.types().size() > 2){
-                List<BinaryNode> data = new ArrayList<>();
-                AggregateNode node = new AggregateNode();
-                /*
-                for( int i = 0; i < ctx.types().size(); i++){
-                    data.add( (BinaryNode) ctx.types(i).accept(this));
+                List<IntegralTypeNode> data = new ArrayList<>();
+
+                for ( int i = 0; i< ctx.types().size(); i++) {
+                    data.add((IntegralTypeNode) ctx.types(i).accept(this));
                 }
-                */
+                AggregateNode aggregateNode = new AggregateNode(Operation.add, data);
 
-                return node.MakeNode( Operation.add, data);
-
+                instructionList.add( aggregateNode );
             }
         }
 
-        return super.visitAdd(ctx);
+        //return super.visitAdd(ctx);
+        return null;
     }
 
     @Override
     public Node visitTypes(juliarParser.TypesContext ctx) {
-        return new IntegralTypeNode(ctx);
-    }
+        if (ctx.children.size() > 1) {
+            //throw new Exception("invalid number of types");
+        }
+        ParseTree tn = ctx.children.get(0);
 
+        JTerminalNode terminal = (JTerminalNode) tn.accept(this);
+        IntegralTypeNode itn = new IntegralTypeNode(ctx, terminal);
+
+        return itn;
+    }
 
     @Override
     public Node visitTerminal(TerminalNode node) {
         return new JTerminalNode(node);
     }
-
 }

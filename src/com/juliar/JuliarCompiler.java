@@ -1,5 +1,6 @@
 package com.juliar;
 
+import com.juliar.errors.ErrorListener;
 import com.juliar.nodes.*;
 import com.juliar.vistor.JuliarVisitor;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -41,14 +42,17 @@ public class JuliarCompiler {
             CommonTokenStream tokenStream = new CommonTokenStream(lexer);
             juliarParser parser = new juliarParser(tokenStream);
 
+            parser.removeErrorListeners();
+            parser.addErrorListener(new ErrorListener());
+
             juliarParser.CompileUnitContext context = parser.compileUnit();
             out.println(context.toStringTree(parser));
 
             JuliarVisitor visitor = new JuliarVisitor();
-            Node node = visitor.visit(context);
+            visitor.visit(context);
 
             com.juliar.codegenerator.CodeGenerator generator = new com.juliar.codegenerator.CodeGenerator();
-            generator.Generate(node);
+            generator.Generate(visitor.instructions());
 
 
         } catch (Exception ex) {

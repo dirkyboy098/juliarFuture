@@ -18,7 +18,7 @@ public class CodeGenerator {
     public CodeGenerator(){
     }
 
-    public void Generate(Node rootNode) throws java.io.FileNotFoundException, java.io.IOException {
+    public void Generate(List<Node> instructions) throws java.io.FileNotFoundException, java.io.IOException {
         ClassWriter cw = new ClassWriter(0);
         cw.visit(V1_1, ACC_PUBLIC, "JuliarFuture", null, "java/lang/Object", null);
 
@@ -56,7 +56,7 @@ public class CodeGenerator {
 
         Integer stackSize = 0;
         GeneratorAdapter ga = new GeneratorAdapter(mw, ACC_PUBLIC + ACC_STATIC, "juliarMethod", "()V");
-        EvaluateExpressions(rootNode, mw, ga, stackSize);
+        EvaluateExpressions(instructions, mw, ga, stackSize);
 
         mw.visitInsn(RETURN);
         mw.visitMaxs(6, 6);
@@ -76,24 +76,36 @@ public class CodeGenerator {
         fos.close();
     }
 
-    private MethodVisitor EvaluateExpressions(Node root, MethodVisitor mw, GeneratorAdapter ga, Integer stackSize ){
-        if (root instanceof CompliationUnitNode){
-            List<Node> t = ((CompliationUnitNode)root).statementNodes;
-            for(Node n : t){
-                EvaluateExpressions(n, mw, ga, stackSize);
+    private MethodVisitor EvaluateExpressions(List<Node> instructions, MethodVisitor mw, GeneratorAdapter ga, Integer stackSize ){
+        for(Node instruction : instructions) {
+            if (instruction instanceof CompliationUnitNode) {
+                /*
+                List<Node> t = ((CompliationUnitNode) instructions).statementNodes;
+
+                for (Node n : t) {
+                    EvaluateExpressions(n, mw, ga, stackSize);
+                }
+                */
+            }
+
+            if (instruction instanceof StatementNode) {
+                /*
+                List<Node> t = ((StatementNode) instructions).statements;
+
+                for (Node n : t) {
+                    EvaluateExpressions(n, mw, ga, stackSize);
+                }
+                */
+            }
+
+            if (instruction instanceof BinaryNode) {
+                GenerateBinaryAdd(instruction, mw, ga);
+            }
+
+            if (instruction instanceof AggregateNode) {
+                GenerateAggregateIntegerAdd(instruction, mw, ga);
             }
         }
-
-        if (root instanceof StatementNode){
-            List<Node> t = ((StatementNode)root).statements;
-            for (Node n : t){
-                EvaluateExpressions(n, mw, ga, stackSize);
-            }
-        }
-
-        GenerateBinaryAdd(root, mw, ga);
-
-        GenerateAggregateIntegerAdd(root, mw, ga);
 
 
         return mw;
@@ -186,17 +198,17 @@ public class CodeGenerator {
     private void GenerateAggregateIntegerAdd(Node root, MethodVisitor mw, GeneratorAdapter ga) {
         if (root instanceof AggregateNode){
 
-            List<BinaryNode> binaryNodeList = ((AggregateNode)root).Data();
+            List<IntegralTypeNode> integralTypeNodes = ((AggregateNode)root).Data();
 
-            int addCount = binaryNodeList.size() - 1;
+            int addCount = integralTypeNodes.size() - 1;
 
             if (debug) {
                 //mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
             }
 
-            for(BinaryNode binaryNode : binaryNodeList) {
+            for(IntegralTypeNode integralTypeNode : integralTypeNodes) {
                 //ga.push( Integer.parseInt( (String) binaryNode.data()));
-                pushIntegralType( ga, binaryNode);
+                pushIntegralType( ga, integralTypeNode);
             }
 
             for(int i = 0; i < addCount; i++) {

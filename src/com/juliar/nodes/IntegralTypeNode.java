@@ -7,13 +7,13 @@ import org.antlr.v4.runtime.tree.TerminalNode;
  * Created by donreamey on 10/28/16.
  */
 public class IntegralTypeNode implements Node {
-    private Object objectData;
+    private String objectData;
     private IntegralType integralType;
 
     public IntegralTypeNode(){
     }
 
-    public IntegralTypeNode(juliarParser.TypesContext value) {
+    public IntegralTypeNode(juliarParser.TypesContext value, JTerminalNode jTerminalNode) {
         if (value.FLOAT() != null) {
             objectData = value.FLOAT().getText();
             integralType =  IntegralType.jfloat;
@@ -29,7 +29,7 @@ public class IntegralTypeNode implements Node {
         }
     }
 
-    public Object data(){
+    public String data(){
         return objectData;
     }
 

@@ -1,0 +1,395 @@
+[1mdiff --git a/JuliarFuture.class b/JuliarFuture.class[m
+[1mindex a0c7c22..259584e 100644[m
+Binary files a/JuliarFuture.class and b/JuliarFuture.class differ
+[1mdiff --git a/src/com/juliar/JuliarCompiler.java b/src/com/juliar/JuliarCompiler.java[m
+[1mindex ef14b95..c8f9dc6 100644[m
+[1m--- a/src/com/juliar/JuliarCompiler.java[m
+[1m+++ b/src/com/juliar/JuliarCompiler.java[m
+[36m@@ -1,5 +1,6 @@[m
+ package com.juliar;[m
+ [m
+[32m+[m[32mimport com.juliar.errors.ErrorListener;[m
+ import com.juliar.nodes.*;[m
+ import com.juliar.vistor.JuliarVisitor;[m
+ import org.antlr.v4.runtime.ANTLRInputStream;[m
+[36m@@ -41,14 +42,17 @@[m [mpublic class JuliarCompiler {[m
+             CommonTokenStream tokenStream = new CommonTokenStream(lexer);[m
+             juliarParser parser = new juliarParser(tokenStream);[m
+ [m
+[32m+[m[32m            parser.removeErrorListeners();[m
+[32m+[m[32m            parser.addErrorListener(new ErrorListener());[m
+[32m+[m
+             juliarParser.CompileUnitContext context = parser.compileUnit();[m
+             out.println(context.toStringTree(parser));[m
+ [m
+             JuliarVisitor visitor = new JuliarVisitor();[m
+[31m-            Node node = visitor.visit(context);[m
+[32m+[m[32m            visitor.visit(context);[m
+ [m
+             com.juliar.codegenerator.CodeGenerator generator = new com.juliar.codegenerator.CodeGenerator();[m
+[31m-            generator.Generate(node);[m
+[32m+[m[32m            generator.Generate(visitor.instructions());[m
+ [m
+ [m
+         } catch (Exception ex) {[m
+[1mdiff --git a/src/com/juliar/codegenerator/CodeGenerator.java b/src/com/juliar/codegenerator/CodeGenerator.java[m
+[1mindex 96e76f0..5d8d6f8 100644[m
+[1m--- a/src/com/juliar/codegenerator/CodeGenerator.java[m
+[1m+++ b/src/com/juliar/codegenerator/CodeGenerator.java[m
+[36m@@ -18,7 +18,7 @@[m [mpublic class CodeGenerator {[m
+     public CodeGenerator(){[m
+     }[m
+ [m
+[31m-    public void Generate(Node rootNode) throws java.io.FileNotFoundException, java.io.IOException {[m
+[32m+[m[32m    public void Generate(List<Node> instructions) throws java.io.FileNotFoundException, java.io.IOException {[m
+         ClassWriter cw = new ClassWriter(0);[m
+         cw.visit(V1_1, ACC_PUBLIC, "JuliarFuture", null, "java/lang/Object", null);[m
+ [m
+[36m@@ -56,7 +56,7 @@[m [mpublic class CodeGenerator {[m
+ [m
+         Integer stackSize = 0;[m
+         GeneratorAdapter ga = new GeneratorAdapter(mw, ACC_PUBLIC + ACC_STATIC, "juliarMethod", "()V");[m
+[31m-        EvaluateExpressions(rootNode, mw, ga, stackSize);[m
+[32m+[m[32m        EvaluateExpressions(instructions, mw, ga, stackSize);[m
+ [m
+         mw.visitInsn(RETURN);[m
+         mw.visitMaxs(6, 6);[m
+[36m@@ -76,25 +76,37 @@[m [mpublic class CodeGenerator {[m
+         fos.close();[m
+     }[m
+ [m
+[31m-    private MethodVisitor EvaluateExpressions(Node root, MethodVisitor mw, GeneratorAdapter ga, Integer stackSize ){[m
+[31m-        if (root instanceof CompliationUnitNode){[m
+[31m-            List<Node> t = ((CompliationUnitNode)root).statementNodes;[m
+[31m-            for(Node n : t){[m
+[31m-                EvaluateExpressions(n, mw, ga, stackSize);[m
+[32m+[m[32m    private MethodVisitor EvaluateExpressions(List<Node> instructions, MethodVisitor mw, GeneratorAdapter ga, Integer stackSize ){[m
+[32m+[m[32m        for(Node instruction : instructions) {[m
+[32m+[m[32m            if (instruction instanceof CompliationUnitNode) {[m
+[32m+[m[32m                /*[m
+[32m+[m[32m                List<Node> t = ((CompliationUnitNode) instructions).statementNodes;[m
+[32m+[m
+[32m+[m[32m                for (Node n : t) {[m
+[32m+[m[32m                    EvaluateExpressions(n, mw, ga, stackSize);[m
+[32m+[m[32m                }[m
+[32m+[m[32m                */[m
+[32m+[m[32m            }[m
+[32m+[m
+[32m+[m[32m            if (instruction instanceof StatementNode) {[m
+[32m+[m[32m                /*[m
+[32m+[m[32m                List<Node> t = ((StatementNode) instructions).statements;[m
+[32m+[m
+[32m+[m[32m                for (Node n : t) {[m
+[32m+[m[32m                    EvaluateExpressions(n, mw, ga, stackSize);[m
+[32m+[m[32m                }[m
+[32m+[m[32m                */[m
+[32m+[m[32m            }[m
+[32m+[m
+[32m+[m[32m            if (instruction instanceof BinaryNode) {[m
+[32m+[m[32m                GenerateBinaryAdd(instruction, mw, ga);[m
+[32m+[m[32m            }[m
+[32m+[m
+[32m+[m[32m            if (instruction instanceof AggregateNode) {[m
+[32m+[m[32m                GenerateAggregateIntegerAdd(instruction, mw, ga);[m
+             }[m
+         }[m
+ [m
+[31m-        if (root instanceof StatementNode){[m
+[31m-            List<Node> t = ((StatementNode)root).statements;[m
+[31m-            for (Node n : t){[m
+[31m-                EvaluateExpressions(n, mw, ga, stackSize);[m
+[31m-            }[m
+[31m-        }[m
+[31m-[m
+[31m-        GenerateBinaryAdd(root, mw, ga);[m
+[31m-[m
+[31m-        GenerateAggregateIntegerAdd(root, mw, ga);[m
+[31m-[m
+ [m
+         return mw;[m
+     }[m
+[36m@@ -186,17 +198,17 @@[m [mpublic class CodeGenerator {[m
+     private void GenerateAggregateIntegerAdd(Node root, MethodVisitor mw, GeneratorAdapter ga) {[m
+         if (root instanceof AggregateNode){[m
+ [m
+[31m-            List<BinaryNode> binaryNodeList = ((AggregateNode)root).Data();[m
+[32m+[m[32m            List<IntegralTypeNode> integralTypeNodes = ((AggregateNode)root).Data();[m
+ [m
+[31m-            int addCount = binaryNodeList.size() - 1;[m
+[32m+[m[32m            int addCount = integralTypeNodes.size() - 1;[m
+ [m
+             if (debug) {[m
+                 //mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");[m
+             }[m
+ [m
+[31m-            for(BinaryNode binaryNode : binaryNodeList) {[m
+[32m+[m[32m            for(IntegralTypeNode integralTypeNode : integralTypeNodes) {[m
+                 //ga.push( Integer.parseInt( (String) binaryNode.data()));[m
+[31m-                pushIntegralType( ga, binaryNode);[m
+[32m+[m[32m                pushIntegralType( ga, integralTypeNode);[m
+             }[m
+ [m
+             for(int i = 0; i < addCount; i++) {[m
+[1mdiff --git a/src/com/juliar/errors/ErrorListener.java b/src/com/juliar/errors/ErrorListener.java[m
+[1mindex 1cb63d7..c907341 100644[m
+[1m--- a/src/com/juliar/errors/ErrorListener.java[m
+[1m+++ b/src/com/juliar/errors/ErrorListener.java[m
+[36m@@ -1,7 +1,14 @@[m
+ package com.juliar.errors;[m
+ [m
+[32m+[m[32mimport org.antlr.v4.runtime.*;[m
+[32m+[m
+ /**[m
+  * Created by Don on 10/28/2016.[m
+  */[m
+[31m-public class ErrorListener {[m
+[32m+[m[32mpublic class ErrorListener extends BaseErrorListener {[m
+[32m+[m[32m    @Override[m
+[32m+[m[32m    public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {[m
+[32m+[m[32m        Object context = ((Parser)recognizer).getRuleInvocationStack();[m
+[32m+[m[32m        super.syntaxError(recognizer, offendingSymbol, line, charPositionInLine, msg, e);[m
+[32m+[m[32m    }[m
+ }[m
+[1mdiff --git a/src/com/juliar/nodes/AggregateNode.java b/src/com/juliar/nodes/AggregateNode.java[m
+[1mindex 552522b..22bec92 100644[m
+[1m--- a/src/com/juliar/nodes/AggregateNode.java[m
+[1m+++ b/src/com/juliar/nodes/AggregateNode.java[m
+[36m@@ -10,7 +10,7 @@[m [mimport java.util.List;[m
+ public class AggregateNode implements Node {[m
+ [m
+     private Operation op;[m
+[31m-    private List<BinaryNode> objectData;[m
+[32m+[m[32m    private List<IntegralTypeNode> objectData;[m
+ [m
+     public AggregateNode(Operation operation){[m
+         op = operation;[m
+[36m@@ -19,12 +19,12 @@[m [mpublic class AggregateNode implements Node {[m
+     public AggregateNode(){[m
+     }[m
+ [m
+[31m-    public AggregateNode(Operation operation, List<BinaryNode> data){[m
+[32m+[m[32m    public AggregateNode(Operation operation, List<IntegralTypeNode> data){[m
+         op = operation;[m
+         objectData = data;[m
+     }[m
+ [m
+[31m-    public AggregateNode MakeNode(Operation operation, List<BinaryNode> data){[m
+[32m+[m[32m    public AggregateNode MakeNode(Operation operation, List<IntegralTypeNode> data){[m
+         return new AggregateNode(operation, objectData = data);[m
+     }[m
+ [m
+[36m@@ -32,7 +32,7 @@[m [mpublic class AggregateNode implements Node {[m
+         return op;[m
+     }[m
+ [m
+[31m-    public List<BinaryNode> Data(){[m
+[32m+[m[32m    public List<IntegralTypeNode> Data(){[m
+         return objectData;[m
+     }[m
+ }[m
+\ No newline at end of file[m
+[1mdiff --git a/src/com/juliar/nodes/IntegralTypeNode.java b/src/com/juliar/nodes/IntegralTypeNode.java[m
+[1mindex b7bbbb3..68e9fba 100644[m
+[1m--- a/src/com/juliar/nodes/IntegralTypeNode.java[m
+[1m+++ b/src/com/juliar/nodes/IntegralTypeNode.java[m
+[36m@@ -7,13 +7,13 @@[m [mimport org.antlr.v4.runtime.tree.TerminalNode;[m
+  * Created by donreamey on 10/28/16.[m
+  */[m
+ public class IntegralTypeNode implements Node {[m
+[31m-    private Object objectData;[m
+[32m+[m[32m    private String objectData;[m
+     private IntegralType integralType;[m
+ [m
+     public IntegralTypeNode(){[m
+     }[m
+ [m
+[31m-    public IntegralTypeNode(juliarParser.TypesContext value) {[m
+[32m+[m[32m    public IntegralTypeNode(juliarParser.TypesContext value, JTerminalNode jTerminalNode) {[m
+         if (value.FLOAT() != null) {[m
+             objectData = value.FLOAT().getText();[m
+             integralType =  IntegralType.jfloat;[m
+[36m@@ -29,7 +29,7 @@[m [mpublic class IntegralTypeNode implements Node {[m
+         }[m
+     }[m
+ [m
+[31m-    public Object data(){[m
+[32m+[m[32m    public String data(){[m
+         return objectData;[m
+     }[m
+ [m
+[1mdiff --git a/src/com/juliar/parser/juliar.g4 b/src/com/juliar/parser/juliar.g4[m
+[1mindex fcd704e..5bbf155 100644[m
+[1m--- a/src/com/juliar/parser/juliar.g4[m
+[1m+++ b/src/com/juliar/parser/juliar.g4[m
+[36m@@ -5,11 +5,11 @@[m [mgrammar juliar;[m
+  */[m
+ [m
+ compileUnit[m
+[31m-	:	statement[m
+[32m+[m	[32m:	(statement)*[m
+ 	;[m
+ [m
+ statement[m
+[31m-    : (startLine command endLine)*[m
+[32m+[m[32m    : (startLine (expression) endLine)[m
+ 	;[m
+ [m
+ startLine[m
+[36m@@ -24,15 +24,25 @@[m [masterisk[m
+     : '*'[m
+     ;[m
+ [m
+[32m+[m[32mexpression[m
+[32m+[m[32m    : (command)*[m
+[32m+[m[32m    | (assignmentExpression)*[m
+[32m+[m[32m    ;[m
+[32m+[m
+[32m+[m[32massignmentExpression[m
+[32m+[m[32m    : variable equalsign command[m
+[32m+[m[32m    ;[m
+ [m
+ command[m
+[32m+[m[32m    : add[m
+[32m+[m[32m    ;[m
+[32m+[m[32m/*[m
+     : absolute[m
+     | acos[m
+     | acosh[m
+     | add[m
+ 	| subtract[m
+ 	| minus[m
+[31m- /*[m
+     | alternatecase[m
+     | and[m
+     | asin[m
+[36m@@ -43,6 +53,10 @@[m [mcommand[m
+     | baseconvert[m
+     | block[m
+ */[m
+[32m+[m
+[32m+[m
+[32m+[m[32mvariable[m
+[32m+[m[32m    : ID[m
+     ;[m
+ [m
+ absolute[m
+[36m@@ -84,7 +98,9 @@[m [mtypes[m
+     | LONG[m
+     ;[m
+ [m
+[31m-[m
+[32m+[m[32mequalsign[m
+[32m+[m[32m    : '='[m
+[32m+[m[32m    ;[m
+ [m
+ /*[m
+  * Lexer Rules[m
+[1mdiff --git a/src/com/juliar/parser/juliar.tokens b/src/com/juliar/parser/juliar.tokens[m
+[1mindex 3c3ba37..e4e0efa 100644[m
+[1m--- a/src/com/juliar/parser/juliar.tokens[m
+[1m+++ b/src/com/juliar/parser/juliar.tokens[m
+[36m@@ -2,14 +2,16 @@[m [mT__0=1[m
+ T__1=2[m
+ T__2=3[m
+ T__3=4[m
+[31m-INT=5[m
+[31m-FLOAT=6[m
+[31m-DOUBLE=7[m
+[31m-LONG=8[m
+[31m-STRING=9[m
+[31m-ID=10[m
+[31m-WS=11[m
+[32m+[m[32mT__4=5[m
+[32m+[m[32mINT=6[m
+[32m+[m[32mFLOAT=7[m
+[32m+[m[32mDOUBLE=8[m
+[32m+[m[32mLONG=9[m
+[32m+[m[32mSTRING=10[m
+[32m+[m[32mID=11[m
+[32m+[m[32mWS=12[m
+ '*'=1[m
+ '+'=2[m
+ 'add'=3[m
+ '-'=4[m
+[32m+[m[32m'='=5[m
+[1mdiff --git a/src/com/juliar/parser/juliarBaseVisitor.java b/src/com/juliar/parser/juliarBaseVisitor.java[m
+[1mindex 35ed638..f9760a7 100644[m
+[1m--- a/src/com/juliar/parser/juliarBaseVisitor.java[m
+[1m+++ b/src/com/juliar/parser/juliarBaseVisitor.java[m
+[36m@@ -1,4 +1,4 @@[m
+[31m-// Generated from src/com/juliar/parser/juliar.g4 by ANTLR 4.5.3[m
+[32m+[m[32m// Generated from D:\source\juliarFuture\src\com\juliar\parser\juliar.g4 by ANTLR 4.5.3[m
+ package com.juliar.parser;[m
+ import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;[m
+ [m
+[36m@@ -52,6 +52,20 @@[m [mpublic class juliarBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements[m
+ 	 * <p>The default implementation returns the result of calling[m
+ 	 * {@link #visitChildren} on {@code ctx}.</p>[m
+ 	 */[m
+[32m+[m	[32m@Override public T visitExpression(juliarParser.ExpressionContext ctx) { return visitChildren(ctx); }[m
+[32m+[m	[32m/**[m
+[32m+[m	[32m * {@inheritDoc}[m
+[32m+[m	[32m *[m
+[32m+[m	[32m * <p>The default implementation returns the result of calling[m
+[32m+[m	[32m * {@link #visitChildren} on {@code ctx}.</p>[m
+[32m+[m	[32m */[m
+[32m+[m	[32m@Override public T visitAssignmentExpression(juliarParser.AssignmentExpressionContext ctx) { return visitChildren(ctx); }[m
+[32m+[m	[32m/**[m
+[32m+[m	[32m * {@inheritDoc}[m
+[32m+[m	[32m *[m
+[32m+[m	[32m * <p>The default implementation returns the result of calling[m
+[32m+[m	[32m * {@link #visitChildren} on {@code ctx}.</p>[m
+[32m+[m	[32m */[m
+ 	@Override public T visitCommand(juliarParser.CommandContext ctx) { return visitChildren(ctx); }[m
+ 	/**[m
+ 	 * {@inheritDoc}[m
+[36m@@ -59,6 +73,13 @@[m [mpublic class juliarBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements[m
+ 	 * <p>The default implementation returns the result of calling[m
+ 	 * {@link #visitChildren} on {@code ctx}.</p>[m
+ 	 */[m
+[32m+[m	[32m@Override public T visitVariable(juliarParser.VariableContext ctx) { return visitChildren(ctx); }[m
+[32m+[m	[32m/**[m
+[32m+[m	[32m * {@inheritDoc}[m
+[32m+[m	[32m *[m
+[32m+[m	[32m * <p>The default implementation returns the result of calling[m
+[32m+[m	[32m * {@link #visitChildren} on {@code ctx}.</p>[m
+[32m+[m	[32m */[m
+ 	@Override public T visitAbsolute(juliarParser.AbsoluteContext ctx) { return visitChildren(ctx); }[m
+ 	/**[m
+ 	 * {@inheritDoc}[m
+[36m@@ -109,4 +130,11 @@[m [mpublic class juliarBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements[m
+ 	 * {@link #visitChildren} on {@code ctx}.</p>[m
+ 	 */[m
+ 	@Override public T visitTypes(juliarParser.TypesContext ctx) { return visitChildren(ctx); }[m
+[32m+[m	[32m/**[m
+[32m+[m	[32m * {@inheritDoc}[m
+[32m+[m	[32m *[m
+[32m+[m	[32m * <p>The default implementation returns the result of calling[m
+[32m+[m	[32m * {@link #visitChildren} on {@code ctx}.</p>[m
+[32m+[m	[32m */[m
+[32m+[m	[32m@Override public T visitEqualsign(juliarParser.EqualsignContext ctx) { return visitChildren(ctx); }[m
+ }[m
+\ No newline at end of file[m
+[1mdiff --git a/src/com/juliar/parser/juliarLexer.java b/src/com/juliar/parser/juliarLexer.java[m
+[1mindex 12947f6..08a185b 100644[m
+[1m--- a/src/com/juliar/parser/juliarLexer.java[m
+[1m+++ b/src/com/juliar/parser/juliarLexer.java[m
+[36m@@ -1,4 +1,4 @@[m
+[31m-// Generated from src/com/juliar/parser/juliar.g4 by ANTLR 4.5.3[m
+[32m+[m[32m// Generated from D:\source\juliarFuture\src\com\juliar\parser\juliar.g4 by ANTLR 4.5.3[m
+ package com.juliar.parser;[m
+ import org.antlr.v4.runtime.Lexer;[m
+ import org.antlr.v4.runtime.CharStream;[m
+[36m@@ -17,23 +17,23 @@[m [mpublic class juliarLexer extends Lexer {[m
+ 	protected static final PredictionContextCache _sharedContextCache =[m
+ 		new PredictionContextCache();[m
+ 	public static final int[m
+[31m-		T__0=1, T__1=2, T__2=3, T__3=4, INT=5, FLOAT=6, DOUBLE=7, LONG=8, STRING=9, [m
+[31m-		ID=10, WS=11;[m
+[32m+[m		[32mT__0=1, T__1=2, T__2=3, T__3=4, T__4=5, INT=6, FLOAT=7, DOUBLE=8, LONG=9,[m[41m [m
+[32m+[m		[32mSTRING=10, ID=11, WS=12;[m
+ 	public static String[] modeNames = {[m
+ 		"DEFAULT_MODE"[m
+ 	};[m
+ [m
+ 	public static final String[] r

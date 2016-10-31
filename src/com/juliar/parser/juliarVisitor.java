@@ -1,4 +1,4 @@
-// Generated from src/com/juliar/parser/juliar.g4 by ANTLR 4.5.3
+// Generated from D:\source\juliarFuture\src\com\juliar\parser\juliar.g4 by ANTLR 4.5.3
 package com.juliar.parser;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -41,11 +41,29 @@ public interface juliarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAsterisk(juliarParser.AsteriskContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link juliarParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpression(juliarParser.ExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link juliarParser#assignmentExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssignmentExpression(juliarParser.AssignmentExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link juliarParser#command}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitCommand(juliarParser.CommandContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link juliarParser#variable}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVariable(juliarParser.VariableContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link juliarParser#absolute}.
 	 * @param ctx the parse tree
@@ -94,4 +112,10 @@ public interface juliarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitTypes(juliarParser.TypesContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link juliarParser#equalsign}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEqualsign(juliarParser.EqualsignContext ctx);
 }

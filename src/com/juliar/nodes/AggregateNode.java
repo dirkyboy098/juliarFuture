@@ -10,7 +10,7 @@ import java.util.List;
 public class AggregateNode implements Node {
 
     private Operation op;
-    private List<BinaryNode> objectData;
+    private List<IntegralTypeNode> objectData;
 
     public AggregateNode(Operation operation){
         op = operation;
@@ -19,12 +19,12 @@ public class AggregateNode implements Node {
     public AggregateNode(){
     }
 
-    public AggregateNode(Operation operation, List<BinaryNode> data){
+    public AggregateNode(Operation operation, List<IntegralTypeNode> data){
         op = operation;
         objectData = data;
     }
 
-    public AggregateNode MakeNode(Operation operation, List<BinaryNode> data){
+    public AggregateNode MakeNode(Operation operation, List<IntegralTypeNode> data){
         return new AggregateNode(operation, objectData = data);
     }
 
@@ -32,7 +32,7 @@ public class AggregateNode implements Node {
         return op;
     }
 
-    public List<BinaryNode> Data(){
+    public List<IntegralTypeNode> Data(){
         return objectData;
     }
 }
