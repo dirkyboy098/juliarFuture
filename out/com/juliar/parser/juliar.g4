@@ -43,6 +43,9 @@ booleanExpression
 
 command
     : add
+	| subtract
+	| multiply
+	| divide
     | ifExpr
     ;
 /*
@@ -87,22 +90,42 @@ add
     : summation types (types)*
     | summation types types
     ;
-
+	
 summation
     : '+'
     | 'add'
     ;
 
-minus
-	: '-'
-	;
-
 subtract
-	: ID (FLOAT)*
-	| ID (INT)*
-	| ID INT INT
+	: subtraction types (types)*
+	| subtraction types types
 	;
+	
+subtraction
+	: '-'
+	| 'subtract'
+	;
+	
+multiply
+    : multiplication types (types)*
+    | multiplication types types
+    ;
+	
+multiplication
+    : 'x'
+    | 'multiply'
+    ;
 
+	
+divide
+    : division types (types)*
+    | division types types
+    ;
+	
+division
+    : '/'
+    | 'divide'
+    ;
 types
     : INT
     | FLOAT

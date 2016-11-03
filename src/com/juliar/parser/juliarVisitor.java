@@ -1,4 +1,4 @@
-// Generated from src/com/juliar/parser/juliar.g4 by ANTLR 4.5.3
+// Generated from C:\Users\AndreiM\Desktop\juliarFuture\src\com\juliar\parser\juliar.g4 by ANTLR 4.5.3
 package com.juliar.parser;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -107,17 +107,41 @@ public interface juliarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSummation(juliarParser.SummationContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link juliarParser#minus}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMinus(juliarParser.MinusContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link juliarParser#subtract}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitSubtract(juliarParser.SubtractContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link juliarParser#subtraction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSubtraction(juliarParser.SubtractionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link juliarParser#multiply}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMultiply(juliarParser.MultiplyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link juliarParser#multiplication}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMultiplication(juliarParser.MultiplicationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link juliarParser#divide}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDivide(juliarParser.DivideContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link juliarParser#division}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDivision(juliarParser.DivisionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link juliarParser#types}.
 	 * @param ctx the parse tree
