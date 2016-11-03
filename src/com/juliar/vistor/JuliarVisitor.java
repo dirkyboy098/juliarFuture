@@ -87,8 +87,12 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
     @Override
     public Node visitIfExpr(juliarParser.IfExprContext ctx) {
-        Object booleanExpression = ctx.booleanExpression();
-        Object commandExpression = ctx.command();
+        Object booleanExpression = ctx.booleanExpression().accept(this);
+
+        for(juliarParser.StatementContext statementContext : ctx.statement()){
+            statementContext.accept(this);
+        }
+
         return super.visitIfExpr(ctx);
     }
 

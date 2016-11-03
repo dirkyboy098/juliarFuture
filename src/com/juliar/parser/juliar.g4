@@ -67,7 +67,7 @@ command
 */
 
 ifExpr
-    : 'if' '(' booleanExpression ')' '{' command '}'
+    : 'if' '(' booleanExpression ')' '{' (statement)* '}'
     ;
 
 variable
