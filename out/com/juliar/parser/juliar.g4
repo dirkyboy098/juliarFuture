@@ -25,7 +25,8 @@ asterisk
     ;
 
 expression
-    : command
+    : (command)*
+    | (command)?(command)*
     | assignmentExpression
     | booleanExpression
     | ifExpr
