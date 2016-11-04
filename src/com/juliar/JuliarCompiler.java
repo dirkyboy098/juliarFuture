@@ -7,8 +7,11 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.List;
 import com.juliar.parser.*;
+
+import static java.lang.System.err;
 import static java.lang.System.out;
 
 
@@ -34,7 +37,7 @@ public class JuliarCompiler {
     }
 
 
-    public void compile(String source, String ouputPath){
+    public List<String> compile(String source, String outputPath){
         try {
             FileInputStream fileInputStream = new FileInputStream(source);
             ANTLRInputStream s = new ANTLRInputStream(fileInputStream);
@@ -44,7 +47,8 @@ public class JuliarCompiler {
             juliarParser parser = new juliarParser(tokenStream);
 
             parser.removeErrorListeners();
-            parser.addErrorListener(new ErrorListener());
+            ErrorListener errors = new ErrorListener();
+            parser.addErrorListener(errors);
 
             juliarParser.CompileUnitContext context = parser.compileUnit();
             out.println(context.toStringTree(parser));
@@ -55,10 +59,14 @@ public class JuliarCompiler {
             com.juliar.codegenerator.CodeGenerator generator = new com.juliar.codegenerator.CodeGenerator();
             generator.Generate(visitor.instructions());
 
+            return errors.ErrorList();
+
 
         } catch (Exception ex) {
             out.println(ex.getMessage());
         }
+
+        return new ArrayList<>();
     }
 
 }

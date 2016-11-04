@@ -96,6 +96,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         return super.visitIfExpr(ctx);
     }
 
+    //TODO need to refactor and combine vistAdd and visitSubtract
     @Override
     public Node visitAdd(juliarParser.AddContext ctx) {
 
@@ -128,6 +129,39 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         //return super.visitAdd(ctx);
         return null;
     }
+
+    @Override
+    public Node visitSubtract(juliarParser.SubtractContext ctx) {
+        String text = ctx.subtraction().getText();
+        if (text.equals("subtract") || text.equals("-")){
+            if (ctx.types().size() == 2) {
+                BinaryNode node = new BinaryNode();
+                try {
+                    instructionList.add(node.MakeNode(
+                            Operation.sub,
+                            ctx.types(0).accept(this),
+                            ctx.types(1).accept(this)));
+                }catch( Exception ex){
+                    out.println(ex.getMessage());
+                }
+            }
+
+            if (ctx.types().size() > 2){
+                List<IntegralTypeNode> data = new ArrayList<>();
+
+                for ( int i = 0; i< ctx.types().size(); i++) {
+                    data.add((IntegralTypeNode) ctx.types(i).accept(this));
+                }
+                AggregateNode aggregateNode = new AggregateNode(Operation.sub, data);
+
+                instructionList.add( aggregateNode );
+            }
+        }
+
+        //return super.visitAdd(ctx);
+        return null;
+    }
+
 
     @Override
     public Node visitTypes(juliarParser.TypesContext ctx) {

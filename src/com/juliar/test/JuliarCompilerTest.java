@@ -2,9 +2,12 @@ package com.juliar.test;
 
 import com.juliar.JuliarCompiler;
 import junit.framework.TestCase;
+import org.junit.Assert;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
+import static java.lang.System.err;
 import static java.lang.System.out;
 
 /**
@@ -23,7 +26,12 @@ public class JuliarCompilerTest extends TestCase {
     public void testCompile() throws Exception {
         try {
             JuliarCompiler compiler = new JuliarCompiler();
-            compiler.compile("test.jrl", ".");
+            List<String> errorList = compiler.compile("test.jrl", ".");
+
+            for(String s : errorList){
+                out.println(s);
+            }
+            Assert.assertTrue( errorList.size() == 0 );
             JClassLoader classLoader = new JClassLoader();
 
             Class <?> juliar = classLoader.findClass("JuliarFuture");
