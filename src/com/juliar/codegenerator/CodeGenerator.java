@@ -107,6 +107,14 @@ public class CodeGenerator {
                     GenerateBinarySubtraction(instruction, mw, ga);
                 }
 
+                if ( ((BinaryNode)instruction).operation() == Operation.multiply){
+                    GenerateBinaryMultiplication(instruction, mw, ga);
+                }
+
+                if ( ((BinaryNode)instruction).operation() == Operation.divide){
+                    GenerateBinaryDivision(instruction, mw, ga);
+                }
+
             }
 
             if (instruction instanceof AggregateNode) {
@@ -151,6 +159,44 @@ public class CodeGenerator {
                 pushIntegralType(ga, b.left());
                 pushIntegralType(ga, b.right());
                 IntegralType addType = pushIntigralSubtractInsn(ga, b.left(), b.right());
+
+                debugPrintLine(mw, addType);
+            }
+        }
+    }
+
+    private void GenerateBinaryMultiplication(Node root, MethodVisitor mw, GeneratorAdapter ga) {
+        if (root instanceof BinaryNode){
+            BinaryNode b = ((BinaryNode)root);
+
+            if (b.operation().equals(Operation.multiply)) {
+
+                if (debug) {
+                    mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
+                }
+
+                pushIntegralType(ga, b.left());
+                pushIntegralType(ga, b.right());
+                IntegralType addType = pushIntigralMultiplyInsn(ga, b.left(), b.right());
+
+                debugPrintLine(mw, addType);
+            }
+        }
+    }
+
+    private void GenerateBinaryDivision(Node root, MethodVisitor mw, GeneratorAdapter ga) {
+        if (root instanceof BinaryNode){
+            BinaryNode b = ((BinaryNode)root);
+
+            if (b.operation().equals(Operation.divide)) {
+
+                if (debug) {
+                    mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
+                }
+
+                pushIntegralType(ga, b.left());
+                pushIntegralType(ga, b.right());
+                IntegralType addType = pushIntigralDivideInsn(ga, b.left(), b.right());
 
                 debugPrintLine(mw, addType);
             }
@@ -237,6 +283,50 @@ public class CodeGenerator {
             return IntegralType.jinteger;
         } else if (ln.getIntegralType() == IntegralType.jlong || rn.getIntegralType() == IntegralType.jlong){
             ga.visitInsn(LSUB);
+            return IntegralType.jlong;
+        }
+
+        return null;
+    }
+
+    private IntegralType pushIntigralMultiplyInsn(GeneratorAdapter ga , Node left, Node right){
+
+        IntegralTypeNode ln = (IntegralTypeNode)left;
+        IntegralTypeNode rn = (IntegralTypeNode)right;
+
+        if (ln.getIntegralType() == IntegralType.jdouble || rn.getIntegralType() == IntegralType.jdouble){
+            ga.visitInsn(DMUL);
+            return IntegralType.jdouble;
+        } else if (ln.getIntegralType() == IntegralType.jfloat || rn.getIntegralType() == IntegralType.jfloat){
+            ga.visitInsn(FMUL);
+            return IntegralType.jfloat;
+        } else if (ln.getIntegralType() == IntegralType.jinteger || rn.getIntegralType() == IntegralType.jinteger){
+            ga.visitInsn(IMUL);
+            return IntegralType.jinteger;
+        } else if (ln.getIntegralType() == IntegralType.jlong || rn.getIntegralType() == IntegralType.jlong){
+            ga.visitInsn(LMUL);
+            return IntegralType.jlong;
+        }
+
+        return null;
+    }
+
+    private IntegralType pushIntigralDivideInsn(GeneratorAdapter ga , Node left, Node right){
+
+        IntegralTypeNode ln = (IntegralTypeNode)left;
+        IntegralTypeNode rn = (IntegralTypeNode)right;
+
+        if (ln.getIntegralType() == IntegralType.jdouble || rn.getIntegralType() == IntegralType.jdouble){
+            ga.visitInsn(DDIV);
+            return IntegralType.jdouble;
+        } else if (ln.getIntegralType() == IntegralType.jfloat || rn.getIntegralType() == IntegralType.jfloat){
+            ga.visitInsn(FDIV);
+            return IntegralType.jfloat;
+        } else if (ln.getIntegralType() == IntegralType.jinteger || rn.getIntegralType() == IntegralType.jinteger){
+            ga.visitInsn(IDIV);
+            return IntegralType.jinteger;
+        } else if (ln.getIntegralType() == IntegralType.jlong || rn.getIntegralType() == IntegralType.jlong){
+            ga.visitInsn(LDIV);
             return IntegralType.jlong;
         }
 
