@@ -162,6 +162,72 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         return null;
     }
 
+    @Override
+    public Node visitDivide(juliarParser.DivideContext ctx) {
+
+        String text = ctx.division().getText();
+        if (text.equals("divide") || text.equals("/")){
+            if (ctx.types().size() == 2) {
+                BinaryNode node = new BinaryNode();
+                try {
+                    instructionList.add(node.MakeNode(
+                            Operation.divide,
+                            ctx.types(0).accept(this),
+                            ctx.types(1).accept(this)));
+                }catch( Exception ex){
+                    out.println(ex.getMessage());
+                }
+            }
+
+            if (ctx.types().size() > 2){
+                List<IntegralTypeNode> data = new ArrayList<>();
+
+                for ( int i = 0; i< ctx.types().size(); i++) {
+                    data.add((IntegralTypeNode) ctx.types(i).accept(this));
+                }
+                AggregateNode aggregateNode = new AggregateNode(Operation.divide, data);
+
+                instructionList.add( aggregateNode );
+            }
+        }
+
+        //return super.visitAdd(ctx);
+        return null;
+    }
+
+    @Override
+    public Node visitMultiply(juliarParser.MultiplyContext ctx) {
+
+        String text = ctx.multiplication().getText();
+        if (text.equals("multiply") || text.equals("x")){
+            if (ctx.types().size() == 2) {
+                BinaryNode node = new BinaryNode();
+                try {
+                    instructionList.add(node.MakeNode(
+                            Operation.multiply,
+                            ctx.types(0).accept(this),
+                            ctx.types(1).accept(this)));
+                }catch( Exception ex){
+                    out.println(ex.getMessage());
+                }
+            }
+
+            if (ctx.types().size() > 2){
+                List<IntegralTypeNode> data = new ArrayList<>();
+
+                for ( int i = 0; i< ctx.types().size(); i++) {
+                    data.add((IntegralTypeNode) ctx.types(i).accept(this));
+                }
+                AggregateNode aggregateNode = new AggregateNode(Operation.multiply, data);
+
+                instructionList.add( aggregateNode );
+            }
+        }
+
+        //return super.visitAdd(ctx);
+        return null;
+    }
+
 
     @Override
     public Node visitTypes(juliarParser.TypesContext ctx) {
