@@ -26,7 +26,7 @@ public class JuliarCompilerTest extends TestCase {
     public void testCompile() throws Exception {
         try {
             JuliarCompiler compiler = new JuliarCompiler();
-            List<String> errorList = compiler.compile("test.jrl", ".");
+            List<String> errorList = compiler.compile("test.jrl", ".", false    );
 
             for(String s : errorList){
                 out.println(s);

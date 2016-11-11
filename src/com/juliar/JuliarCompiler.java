@@ -6,7 +6,10 @@ import com.juliar.vistor.JuliarVisitor;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import com.juliar.parser.*;
@@ -21,14 +24,13 @@ public class JuliarCompiler {
         try {
 
             JuliarCompiler compiler = new JuliarCompiler();
-            compiler.compile(args[0], args[1]);
+            compiler.compile(args[0], args[1], true);
         } catch (Exception ex) {
             out.println(ex.getMessage());
         }
     }
 
-    public static void foo()
-    {
+    public static void foo() {
         int x = 3;
         if (x == 6) {
             out.print(9);
@@ -37,10 +39,22 @@ public class JuliarCompiler {
     }
 
 
-    public List<String> compile(String source, String outputPath){
+    public List<String> compile(String source, String outputPath, boolean isRepl) {
         try {
             FileInputStream fileInputStream = new FileInputStream(source);
-            ANTLRInputStream s = new ANTLRInputStream(fileInputStream);
+            return compile(fileInputStream, outputPath, isRepl);
+        } catch (Exception e) {
+
+        }
+
+        return new ArrayList<String>();
+    }
+
+    public List<String> compile(InputStream b, String source, boolean isRepl) {
+
+        try {
+            //FileInputStream fileInputStream = new FileInputStream(source);
+            ANTLRInputStream s = new ANTLRInputStream(b);
 
             juliarLexer lexer = new juliarLexer(s);
             CommonTokenStream tokenStream = new CommonTokenStream(lexer);
@@ -50,15 +64,22 @@ public class JuliarCompiler {
             ErrorListener errors = new ErrorListener();
             parser.addErrorListener(errors);
 
-            juliarParser.CompileUnitContext context = parser.compileUnit();
-            out.println(context.toStringTree(parser));
+            if (isRepl) {
+                juliarParser.StatementContext context = parser.statement();
+                out.println(context.toStringTree(parser));
 
-            JuliarVisitor visitor = new JuliarVisitor();
-            visitor.visit(context);
+                JuliarVisitor v = new JuliarVisitor();
+                v.visit(context);
+            } else {
+                juliarParser.CompileUnitContext context = parser.compileUnit();
+                out.println(context.toStringTree(parser));
 
-            com.juliar.codegenerator.CodeGenerator generator = new com.juliar.codegenerator.CodeGenerator();
-            generator.Generate(visitor.instructions());
+                JuliarVisitor visitor = new JuliarVisitor();
+                visitor.visit(context);
 
+                com.juliar.codegenerator.CodeGenerator generator = new com.juliar.codegenerator.CodeGenerator();
+                generator.Generate(visitor.instructions());
+            }
             return errors.ErrorList();
 
 
