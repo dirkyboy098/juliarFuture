@@ -30,14 +30,6 @@ public class JuliarCompiler {
         }
     }
 
-    public static void foo() {
-        int x = 3;
-        if (x == 6) {
-            out.print(9);
-        }
-        int y = 0;
-    }
-
 
     public List<String> compile(String source, String outputPath, boolean isRepl) {
         try {
