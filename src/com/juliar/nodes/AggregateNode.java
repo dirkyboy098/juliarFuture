@@ -28,11 +28,11 @@ public class AggregateNode implements Node {
         return new AggregateNode(operation, objectData = data);
     }
 
-    public Operation Operation(){
+    public Operation operation(){
         return op;
     }
 
-    public List<IntegralTypeNode> Data(){
+    public List<IntegralTypeNode> data(){
         return objectData;
     }
 }

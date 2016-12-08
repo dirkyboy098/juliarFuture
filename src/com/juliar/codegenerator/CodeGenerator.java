@@ -104,8 +104,6 @@ public class CodeGenerator {
                 */
             }
 
-
-
             if (instruction instanceof BinaryNode){
                 Map<IntegralType,Integer> op = CodeGeneratorMap.GenerateMap(((BinaryNode)instruction).operation().toString());
 
@@ -114,40 +112,74 @@ public class CodeGenerator {
                     mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
                 }
 
-
                 IntegralType addType;
                 IntegralTypeNode ln = (IntegralTypeNode)b.left();
                 IntegralTypeNode rn = (IntegralTypeNode)b.right();
 
                 if (ln.getIntegralType() == IntegralType.jdouble || rn.getIntegralType() == IntegralType.jdouble){
-                    pushIntegralType(ga, b.left(),IntegralType.jdouble);
-                    pushIntegralType(ga, b.right(),IntegralType.jdouble);
-                    ga.visitInsn(op.get(IntegralType.jdouble));
                     addType = IntegralType.jdouble;
                 } else if (ln.getIntegralType() == IntegralType.jfloat || rn.getIntegralType() == IntegralType.jfloat){
-                    pushIntegralType(ga, b.left(),IntegralType.jfloat);
-                    pushIntegralType(ga, b.right(),IntegralType.jfloat);
-                    ga.visitInsn(op.get(IntegralType.jfloat));
                     addType =  IntegralType.jfloat;
-                } else if (ln.getIntegralType() == IntegralType.jinteger || rn.getIntegralType() == IntegralType.jinteger){
-                    pushIntegralType(ga, b.left(),IntegralType.jinteger);
-                    pushIntegralType(ga, b.right(),IntegralType.jinteger);
-                    ga.visitInsn(op.get(IntegralType.jinteger));
-                    addType = IntegralType.jinteger;
                 } else if (ln.getIntegralType() == IntegralType.jlong || rn.getIntegralType() == IntegralType.jlong){
-                    pushIntegralType(ga, b.left(),IntegralType.jlong);
-                    pushIntegralType(ga, b.right(),IntegralType.jlong);
-                    ga.visitInsn(op.get(IntegralType.jlong));
                     addType = IntegralType.jlong;
+                } else if (ln.getIntegralType() == IntegralType.jinteger || rn.getIntegralType() == IntegralType.jinteger){
+                    addType = IntegralType.jinteger;
                 } else{
                    addType = null;
                 }
+
+                pushIntegralType(ga, b.left(),addType);
+                pushIntegralType(ga, b.right(),addType);
+                ga.visitInsn(op.get(addType));
 
                 debugPrintLine(mw,addType);
             }
 
             if (instruction instanceof AggregateNode) {
-                GenerateAggregateIntegerAdd(instruction, mw, ga);
+                Map<IntegralType,Integer> op = CodeGeneratorMap.GenerateMap(((AggregateNode)instruction).operation().toString());
+
+                List<IntegralTypeNode> integralTypeNodes = ((AggregateNode)instruction).data();
+                int addCount = integralTypeNodes.size() - 1;
+
+                if (debug) {
+                    mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
+                }
+
+                //Scan Type to typecast correctly
+                IntegralType addType = IntegralType.jinteger;
+                int[] anArray = new int[5];
+                for(IntegralTypeNode integralTypeNode: integralTypeNodes){
+                    switch(integralTypeNode.getIntegralType()){
+                        case jdouble:
+                            anArray[0]++;
+                            break;
+                        case jfloat:
+                            anArray[1]++;
+                            break;
+                        case jlong:
+                            anArray[2]++;
+                            break;
+                    }
+                }
+                //
+                if(anArray[0] != 0){
+                    addType = IntegralType.jdouble;
+                }
+                else if(anArray[1] != 0){
+                    addType = IntegralType.jfloat;
+                }
+                else if(anArray[2] != 0){
+                    addType = IntegralType.jlong;
+                }
+                for(IntegralTypeNode integralTypeNode : integralTypeNodes) {
+                    pushIntegralType( ga, integralTypeNode,addType);
+                }
+
+                for(int i = 0; i < addCount; i++) {
+                    ga.visitInsn(op.get(addType));
+                }
+
+                debugPrintLine(mw,addType);
             }
         }
 
@@ -177,7 +209,6 @@ public class CodeGenerator {
     private void pushIntegralType(GeneratorAdapter ga, Node node, IntegralType integralType) {
         if (node instanceof IntegralTypeNode) {
             IntegralTypeNode integralTypeNode = ((IntegralTypeNode)node);
-
             switch (integralType) {
                 case jdouble:
                     ga.push(Double.parseDouble((String) integralTypeNode.data()));
@@ -192,30 +223,6 @@ public class CodeGenerator {
                     ga.push(Long.parseLong((String) integralTypeNode.data()));
                     break;
             }
-        }
-    }
-
-    private void GenerateAggregateIntegerAdd(Node root, MethodVisitor mw, GeneratorAdapter ga) {
-        if (root instanceof AggregateNode){
-
-            List<IntegralTypeNode> integralTypeNodes = ((AggregateNode)root).Data();
-
-            int addCount = integralTypeNodes.size() - 1;
-
-            if (debug) {
-                //mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-            }
-
-            for(IntegralTypeNode integralTypeNode : integralTypeNodes) {
-                //ga.push( Integer.parseInt( (String) binaryNode.data()));
-                pushIntegralType( ga, integralTypeNode,IntegralType.jinteger);
-            }
-
-            for(int i = 0; i < addCount; i++) {
-                ga.visitInsn(IADD);
-            }
-
-            //mw.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println","(I)V", false);
         }
     }
 }

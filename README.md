@@ -1,5 +1,5 @@
 # juliar.Future
-![1641db26-4dd6-11e5-8b7d-8aaf54ca2ea1](https://cloud.githubusercontent.com/assets/11934545/19501344/ad778fec-9572-11e6-8ff3-5d6f051ce7fc.png)
+![newjuliar](https://cloud.githubusercontent.com/assets/11934545/20992709/e75dab0c-bcb3-11e6-9b6d-fd8ed4bc662b.png)
 
 [![version](https://img.shields.io/badge/version-0.0.1-green.svg)](https://www.juliar.org/downloads.ju)
 
