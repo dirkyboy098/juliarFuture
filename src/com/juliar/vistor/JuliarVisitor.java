@@ -45,7 +45,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         StatementNode node = new StatementNode();
 
         for (ParseTree t : ctx.children){
-            if (t instanceof juliarParser.StartLineContext || t instanceof juliarParser.EndLineContext){
+            if (t instanceof juliarParser.EndLineContext){
                 continue;
             }
 
@@ -57,7 +57,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         return null;
     }
 
-
+/*
     @Override
     public Node visitStartLine(juliarParser.StartLineContext ctx) {
         for(ParseTree t : ctx.children){
@@ -68,7 +68,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         //return super.visitStartLine(ctx);
         return null;
     }
-
+*/
     @Override
     public Node visitEndLine(juliarParser.EndLineContext ctx) {
         for(ParseTree t : ctx.children){

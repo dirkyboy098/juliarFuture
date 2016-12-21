@@ -1,4 +1,4 @@
-// Generated from C:\Users\AndreiM\Desktop\juliarFuture\src\com\juliar\parser\juliar.g4 by ANTLR 4.5.3
+// Generated from D:/source/juliarFuture/src/com/juliar/parser\juliar.g4 by ANTLR 4.6
 package com.juliar.parser;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
@@ -11,7 +11,7 @@ import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class juliarLexer extends Lexer {
-	static { RuntimeMetaData.checkVersion("4.5.3", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.6", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -31,7 +31,7 @@ public class juliarLexer extends Lexer {
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'*'", "'if'", "'('", "')'", "'{'", "'}'", "'+'", "'add'", "'-'", 
+		null, "';'", "'if'", "'('", "')'", "'{'", "'}'", "'+'", "'add'", "'-'", 
 		"'subtract'", "'x'", "'multiply'", "'/'", "'divide'", "'='", "'=='"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
@@ -118,7 +118,7 @@ public class juliarLexer extends Lexer {
 		"\2\2\13:\3\2\2\2\r<\3\2\2\2\17>\3\2\2\2\21@\3\2\2\2\23D\3\2\2\2\25F\3"+
 		"\2\2\2\27O\3\2\2\2\31Q\3\2\2\2\33Z\3\2\2\2\35\\\3\2\2\2\37c\3\2\2\2!e"+
 		"\3\2\2\2#i\3\2\2\2%n\3\2\2\2\'z\3\2\2\2)\u0086\3\2\2\2+\u0091\3\2\2\2"+
-		"-\u009a\3\2\2\2/\u00a2\3\2\2\2\61\62\7,\2\2\62\4\3\2\2\2\63\64\7k\2\2"+
+		"-\u009a\3\2\2\2/\u00a2\3\2\2\2\61\62\7=\2\2\62\4\3\2\2\2\63\64\7k\2\2"+
 		"\64\65\7h\2\2\65\6\3\2\2\2\66\67\7*\2\2\67\b\3\2\2\289\7+\2\29\n\3\2\2"+
 		"\2:;\7}\2\2;\f\3\2\2\2<=\7\177\2\2=\16\3\2\2\2>?\7-\2\2?\20\3\2\2\2@A"+
 		"\7c\2\2AB\7f\2\2BC\7f\2\2C\22\3\2\2\2DE\7/\2\2E\24\3\2\2\2FG\7u\2\2GH"+

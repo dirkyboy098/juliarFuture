@@ -1,4 +1,4 @@
-// Generated from C:\Users\AndreiM\Desktop\juliarFuture\src\com\juliar\parser\juliar.g4 by ANTLR 4.5.3
+// Generated from D:/source/juliarFuture/src/com/juliar/parser\juliar.g4 by ANTLR 4.6
 package com.juliar.parser;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -23,23 +23,17 @@ public interface juliarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStatement(juliarParser.StatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link juliarParser#startLine}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitStartLine(juliarParser.StartLineContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link juliarParser#endLine}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitEndLine(juliarParser.EndLineContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link juliarParser#asterisk}.
+	 * Visit a parse tree produced by {@link juliarParser#semiColon}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAsterisk(juliarParser.AsteriskContext ctx);
+	T visitSemiColon(juliarParser.SemiColonContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link juliarParser#expression}.
 	 * @param ctx the parse tree

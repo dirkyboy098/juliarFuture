@@ -9,19 +9,15 @@ compileUnit
 	;
 
 statement
-    : (startLine (expression) endLine)
+    : (expression) endLine
 	;
 
-startLine
-    : asterisk
-    ;
-
 endLine
-    : asterisk
+    : semiColon
     ;
 
-asterisk
-    : '*'
+semiColon
+    : ';'
     ;
 
 expression
