@@ -1,4 +1,4 @@
-// Generated from D:/source/juliarFuture/src/com/juliar/parser\juliar.g4 by ANTLR 4.6
+// Generated from C:\Users\AndreiM\Desktop\juliarFuture\src\com\juliar\parser\juliar.g4 by ANTLR 4.5.3
 package com.juliar.parser;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -64,6 +64,12 @@ public interface juliarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitIfExpr(juliarParser.IfExprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link juliarParser#nifExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNifExpr(juliarParser.NifExprContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link juliarParser#variable}.
 	 * @param ctx the parse tree

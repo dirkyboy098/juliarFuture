@@ -26,10 +26,12 @@ expression
     | assignmentExpression
     | booleanExpression
     | ifExpr
+	| nifExpr
     ;
 
 assignmentExpression
     : variable equalsign command
+	| variable equalsign variable
     ;
 
 booleanExpression
@@ -44,6 +46,8 @@ command
 	| multiply
 	| divide
     | ifExpr
+	| nifExpr
+	
     ;
 /*
     : absolute
@@ -66,6 +70,10 @@ command
 ifExpr
     : 'if' '(' booleanExpression ')' '{' (statement)* '}'
     ;
+	
+nifExpr
+	: 'nif' '(' booleanExpression ')' '{' (statement)* '}'
+	;
 
 variable
     : ID
