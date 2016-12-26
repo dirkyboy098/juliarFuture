@@ -228,7 +228,6 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         return null;
     }
 
-
     @Override
     public Node visitTypes(juliarParser.TypesContext ctx) {
         if (ctx.children.size() > 1) {
@@ -245,6 +244,19 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
     @Override
     public Node visitEqualequal(juliarParser.EqualequalContext ctx) {
         return super.visitEqualequal(ctx);
+    }
+
+    @Override
+    public Node visitPrimitives(juliarParser.PrimitivesContext ctx) {
+        if (ctx != null){
+            List<ParseTree> parseTreeList = ctx.children;
+            instructionList.add(
+                    new PrimitiveNode(
+                            parseTreeList.toArray()[0].toString(),
+                            parseTreeList.toArray()[2].toString()));
+        }
+
+        return null;
     }
 
     @Override

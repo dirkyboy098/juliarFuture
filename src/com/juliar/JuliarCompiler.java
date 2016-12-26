@@ -22,9 +22,8 @@ public class JuliarCompiler {
 
     public static void main(String[] args) {
         try {
-
             JuliarCompiler compiler = new JuliarCompiler();
-            compiler.compile(args[0], args[1], true);
+            compiler.compile(args[0], args[1], false);
         } catch (Exception ex) {
             out.println(ex.getMessage());
         }

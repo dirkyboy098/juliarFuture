@@ -1,16 +1,5 @@
-<<<<<<< Updated upstream
-* t = add 2939482 2.5*
-*add 3 2 2.5*
-* subtract 77 55.5 0.5 *
-* - 77 105 *
-* / 55.0 22 *
-* subtract 55 22 *
-* multiply 2 3 *
-* x 32 27 *
-* / 55 22 *
-* divide 90 5 *
-=======
-subtract 77 55 ;
+fileOpen("D:\\source\\juliarFuture\\test.jrl");
+subtract 77 55.034 ;
 - 77 105;
 / 55 22;
 subtract 55 22;
@@ -18,5 +7,5 @@ multiply 2 3;
 x 32 27;
 / 55 22;
 divide 90 5;
->>>>>>> Stashed changes
+
 

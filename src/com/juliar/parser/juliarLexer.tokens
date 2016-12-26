@@ -15,13 +15,14 @@ T__13=14
 T__14=15
 T__15=16
 T__16=17
-INT=18
-FLOAT=19
-DOUBLE=20
-LONG=21
-STRING=22
-ID=23
-WS=24
+T__17=18
+INT=19
+FLOAT=20
+DOUBLE=21
+LONG=22
+STRING=23
+ID=24
+WS=25
 ';'=1
 'if'=2
 '('=3
@@ -39,3 +40,4 @@ WS=24
 'divide'=15
 '='=16
 '=='=17
+'fileOpen'=18

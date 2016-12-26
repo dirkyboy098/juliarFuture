@@ -47,7 +47,7 @@ command
 	| divide
     | ifExpr
 	| nifExpr
-	
+	| primitives
     ;
 /*
     : absolute
@@ -149,6 +149,9 @@ equalequal
     : '=='
     ;
 
+primitives
+    : 'fileOpen' '(' STRING ')'
+    ;
 /*
  * Lexer Rules
  */
@@ -157,7 +160,7 @@ INT: [0-9]+ ;
 FLOAT : ('0'..'9')+ '.' ('0'..'9')*;
 DOUBLE : ('0'..'9')+ '.' ('0'..'9')*;
 LONG : ('0'..'9')+ '.' ('0'..'9')*;
-STRING : '"' ('0'..'9'|'a'..'z'|'A'..'Z'|'_'|' ')* '"';
+STRING : '"' ('0'..'9' | 'a'..'z' | 'A'..'Z' | '_' | ' ' | '\\' | ':' | '.' )* '"';
 ID : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_'| '-' )*;
 WS : [ \t\r\n]+ -> skip ;
 
