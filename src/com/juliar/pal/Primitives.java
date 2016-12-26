@@ -1,13 +1,13 @@
-package com.juliar.primitives;
+package com.juliar.pal;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 
 /**
- * Created by Don on 12/25/2016.
+ * platform abstraction layer.
  */
 public class Primitives {
-    public static void fileOpen(String path) {
+    public static void sys_file_open(String path) {
         try {
             int read = 1024;
             int N = 1024 * read;
@@ -31,4 +31,8 @@ public class Primitives {
             System.out.println(fne.getMessage());
         }
     }
+
+    public static void sys_file_write(String path){}
+
+    //public static void sys_
 }

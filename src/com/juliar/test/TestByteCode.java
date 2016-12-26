@@ -1,6 +1,6 @@
 package com.juliar.test;
 
-import com.juliar.primitives.Primitives;
+import com.juliar.pal.Primitives;
 
 /**
  * Created by Don on 12/24/2016.
@@ -11,6 +11,6 @@ public class TestByteCode {
     }
     static public void test(){
         String s = "path";
-        Primitives.fileOpen(s);
+        Primitives.sys_file_open(s);
  }
 }

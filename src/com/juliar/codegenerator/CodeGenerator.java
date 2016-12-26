@@ -87,52 +87,22 @@ public class CodeGenerator {
     private MethodVisitor EvaluateExpressions(List<Node> instructions, MethodVisitor mw, GeneratorAdapter ga, Integer stackSize ){
         for(Node instruction : instructions) {
             if ( instruction instanceof PrimitiveNode){
+                String function = ((PrimitiveNode) instruction).getPrimitiveName().toString();
+
+                if (function.equals("fileOpen")){
+                    function = "sys_file_open";
+                }
+
                 mw.visitLdcInsn( ((PrimitiveNode) instruction).getGetPrimitiveArgument().toString());
                 mw.visitIntInsn(ASTORE, 0);
                 mw.visitIntInsn(ALOAD, 0);
                 mw.visitMethodInsn(
                         INVOKESTATIC,
-                        "com/juliar/test/Primitives",
-                        ((PrimitiveNode) instruction).getPrimitiveName().toString(),
+                        "com/juliar/pal/Primitives",
+                        function,
                         "(Ljava/lang/String;)V",
                         false);
 
-                //Setup buffer size
-                // 1024 *1024
-                /*
-                ga.push(1024);
-                ga.visitIntInsn(ISTORE , 2);
-                ga.push(1024);
-                ga.visitIntInsn(ILOAD, 2);
-                ga.visitInsn(IMUL);
-                ga.visitIntInsn(ISTORE, 3);
-                mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-                ga.visitIntInsn(ILOAD,3);
-                mw.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(I)V", false);
-                ga.visitIntInsn(ILOAD, 3);
-                ga.visitIntInsn(NEWARRAY, 5);
-                ga.visitIntInsn(ASTORE, 4);
-                ga.visitIntInsn(GOTO, 20);
-                ga.visitIntInsn(ASTORE, 2);
-                ga.visitInsn(RETURN);
-                */
-
-                //ga.visitInsn(ISTORE);
-                //ga.visitInsn(ILOAD);
-                //ga.push(5);
-                //ga.visitInsn(NEWARRAY);
-
-                //ga.push(ICONST_M1);
-                //ga.push(ISTORE);
-                /*ga.push(LDC);
-                ga.push(1048576);
-                ga.push(ISTORE);
-                ga.push(ILOAD);
-                ga.push(NEWARRAY);
-                ga.push(5);
-                ga.push(ASTORE);
-                */
-                //mw.visitLocalVariable("read" , "I", null, new Label(), new Label(), 2);
             }
 
             if (instruction instanceof CompliationUnitNode) {
