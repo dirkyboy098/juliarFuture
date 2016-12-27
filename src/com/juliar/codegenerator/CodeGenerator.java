@@ -91,7 +91,6 @@ public class CodeGenerator {
 
                 if (function.equals("fileOpen")){
                     function = "sys_file_open";
-                }
 
                 mw.visitLdcInsn( ((PrimitiveNode) instruction).getGetPrimitiveArgument().toString());
                 mw.visitIntInsn(ASTORE, 0);
@@ -100,9 +99,22 @@ public class CodeGenerator {
                         INVOKESTATIC,
                         "com/juliar/pal/Primitives",
                         function,
-                        "(Ljava/lang/String;)V",
+                        "(Ljava/lang/String;)Ljava/lang/String;",
                         false);
+                }
 
+                if (function.equals("printLine")){
+                    function = "sys_print_line";
+                    mw.visitLdcInsn( ((PrimitiveNode) instruction).getGetPrimitiveArgument().toString());
+                    mw.visitIntInsn(ASTORE, 0);
+                    mw.visitIntInsn(ALOAD, 0);
+                    mw.visitMethodInsn(
+                            INVOKESTATIC,
+                            "com/juliar/pal/Primitives",
+                            function,
+                            "(Ljava/lang/String;)V",
+                            false);
+                }
             }
 
             if (instruction instanceof CompliationUnitNode) {

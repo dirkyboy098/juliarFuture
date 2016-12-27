@@ -7,11 +7,11 @@ import java.io.FileReader;
  * platform abstraction layer.
  */
 public class Primitives {
-    public static void sys_file_open(String path) {
+    public static String sys_file_open(String path) {
         try {
             int read = 1024;
             int N = 1024 * read;
-            System.out.println("Reading file "+ path);
+            System.out.println("Reading file " + path);
             char[] buffer = new char[N];
             String text = "";
 
@@ -27,12 +27,30 @@ public class Primitives {
                 }
             }
 
+            return text;
+
         } catch (Exception fne) {
             System.out.println(fne.getMessage());
         }
+
+        return "";
     }
 
-    public static void sys_file_write(String path){}
+    public static void sys_file_write(String path) {
+    }
 
-    //public static void sys_
+    public static void sys_print_line(String string) {
+        System.out.println(string);
+    }
+
+    public static void sys_print(String string) {
+        System.out.print(string);
+    }
+
+    public static void sys_available_memory() {
+        Runtime rt = Runtime.getRuntime();
+        long total = rt.totalMemory();
+        long free = rt.freeMemory();
+        System.out.print(total - free);
+    }
 }

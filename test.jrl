@@ -1,4 +1,8 @@
-fileOpen("D:\\source\\juliarFuture\\test.jrl");
+fileOpen("D:\source\juliarFuture\test.jrl");
+
+printLine("this is a test line");
+
+
 subtract 77 55.034 ;
 - 77 105;
 / 55 22;

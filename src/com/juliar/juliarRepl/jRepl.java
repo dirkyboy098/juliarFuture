@@ -11,9 +11,11 @@ import java.util.List;
  */
 public class jRepl extends replTerminal {
     public static void main(String[] args) {
-        if (args[0]!=null &&
-                (args[0].equalsIgnoreCase("true") || args[0].equalsIgnoreCase("false"))) {
+        if (args[0]!=null && (args[0].equalsIgnoreCase("true") || args[0].equalsIgnoreCase("false"))) {
             replTerminal r = new jRepl(Boolean.parseBoolean(args[0]));
+        }
+        else {
+            new jRepl(true);
         }
     }
     public jRepl() {

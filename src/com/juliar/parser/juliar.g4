@@ -151,6 +151,7 @@ equalequal
 
 primitives
     : 'fileOpen' '(' STRING ')'
+    | 'printLine' '(' STRING ')'
     ;
 /*
  * Lexer Rules

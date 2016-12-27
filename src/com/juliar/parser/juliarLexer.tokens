@@ -16,13 +16,14 @@ T__14=15
 T__15=16
 T__16=17
 T__17=18
-INT=19
-FLOAT=20
-DOUBLE=21
-LONG=22
-STRING=23
-ID=24
-WS=25
+T__18=19
+INT=20
+FLOAT=21
+DOUBLE=22
+LONG=23
+STRING=24
+ID=25
+WS=26
 ';'=1
 'if'=2
 '('=3
@@ -41,3 +42,4 @@ WS=25
 '='=16
 '=='=17
 'fileOpen'=18
+'printLine'=19
