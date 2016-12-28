@@ -1,9 +1,15 @@
-fileOpen("D:\source\juliarFuture\test.jrl");
+fileOpen("C:\Users\AndreiM\Desktop\juliarFuture\test.jrl");
+//fileOpen("D:\source\juliarFuture\test.jrl");
 
-printLine("this is a test line");
+/*
+This is a comment test
+Let's see if it works
+add 3 22;
+*/
+printLine("this is a test  line");
 
 
-subtract 77 55.034 ;
+subtract /*2 */ 77 55.034 ;
 - 77 105;
 / 55 22;
 subtract 55 22;

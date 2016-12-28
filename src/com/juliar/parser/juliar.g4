@@ -165,3 +165,6 @@ STRING : '"' ('0'..'9' | 'a'..'z' | 'A'..'Z' | '_' | ' ' | '\\' | ':' | '.' )* '
 ID : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_'| '-' )*;
 WS : [ \t\r\n]+ -> skip ;
 
+
+COMMENT : '/*' (COMMENT|.)*? '*/' -> channel(HIDDEN) ;
+LINE_COMMENT  : '//' .*? '\n' -> channel(HIDDEN) ;

@@ -2,7 +2,7 @@ package com.juliar.pal;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-
+import com.juliar.errors.PrintError;
 /**
  * platform abstraction layer.
  */
@@ -30,7 +30,7 @@ public class Primitives {
             return text;
 
         } catch (Exception fne) {
-            System.out.println(fne.getMessage());
+            new PrintError(fne.getMessage());
         }
 
         return "";
