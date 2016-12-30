@@ -2,46 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="20b53363-4cbb-4625-a278-2c147a57be57" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/juliar/errors/PrintError.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JuliarFuture.class" afterPath="$PROJECT_DIR$/JuliarFuture.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/com/juliar/pal/Primitives.class" afterPath="$PROJECT_DIR$/out/com/juliar/pal/Primitives.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/com/juliar/parser/juliarBaseVisitor.class" afterPath="$PROJECT_DIR$/out/com/juliar/parser/juliarBaseVisitor.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/com/juliar/parser/juliarLexer.class" afterPath="$PROJECT_DIR$/out/com/juliar/parser/juliarLexer.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$AbsoluteContext.class" afterPath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$AbsoluteContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$AcosContext.class" afterPath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$AcosContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$AcoshContext.class" afterPath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$AcoshContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$AddContext.class" afterPath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$AddContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$AssignmentExpressionContext.class" afterPath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$AssignmentExpressionContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$BooleanExpressionContext.class" afterPath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$BooleanExpressionContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$CommandContext.class" afterPath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$CommandContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$EqualequalContext.class" afterPath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$EqualequalContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$EqualsignContext.class" afterPath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$EqualsignContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$ExpressionContext.class" afterPath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$ExpressionContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$IfExprContext.class" afterPath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$IfExprContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$MultiplicationContext.class" afterPath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$MultiplicationContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$MultiplyContext.class" afterPath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$MultiplyContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$NifExprContext.class" afterPath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$NifExprContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$PrimitivesContext.class" afterPath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$PrimitivesContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$SubtractContext.class" afterPath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$SubtractContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$SubtractionContext.class" afterPath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$SubtractionContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$SummationContext.class" afterPath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$SummationContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$TypesContext.class" afterPath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$TypesContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$VariableContext.class" afterPath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser$VariableContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser.class" afterPath="$PROJECT_DIR$/out/com/juliar/parser/juliarParser.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/com/juliar/parser/juliarVisitor.class" afterPath="$PROJECT_DIR$/out/com/juliar/parser/juliarVisitor.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/juliarFuture.iml" afterPath="$PROJECT_DIR$/juliarFuture.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/com/juliar/parser/juliar.g4" afterPath="$PROJECT_DIR$/out/com/juliar/parser/juliar.g4" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/com/juliar/parser/juliar.tokens" afterPath="$PROJECT_DIR$/out/com/juliar/parser/juliar.tokens" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/juliar/pal/Primitives.java" afterPath="$PROJECT_DIR$/src/com/juliar/pal/Primitives.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/juliar/JuliarCompiler.java" afterPath="$PROJECT_DIR$/src/com/juliar/JuliarCompiler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/juliar/parser/juliar.g4" afterPath="$PROJECT_DIR$/src/com/juliar/parser/juliar.g4" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/juliar/parser/juliar.tokens" afterPath="$PROJECT_DIR$/src/com/juliar/parser/juliar.tokens" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/juliar/parser/juliarBaseVisitor.java" afterPath="$PROJECT_DIR$/src/com/juliar/parser/juliarBaseVisitor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/juliar/parser/juliarLexer.java" afterPath="$PROJECT_DIR$/src/com/juliar/parser/juliarLexer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/juliar/parser/juliarLexer.tokens" afterPath="$PROJECT_DIR$/src/com/juliar/parser/juliarLexer.tokens" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/juliar/parser/juliarParser.java" afterPath="$PROJECT_DIR$/src/com/juliar/parser/juliarParser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/juliar/parser/juliarVisitor.java" afterPath="$PROJECT_DIR$/src/com/juliar/parser/juliarVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test.jrl" afterPath="$PROJECT_DIR$/test.jrl" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/juliar/vistor/JuliarVisitor.java" afterPath="$PROJECT_DIR$/src/com/juliar/vistor/JuliarVisitor.java" />
     </list>
     <ignored path="juliarFuture.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -66,109 +34,109 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="PrintError.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/juliar/errors/PrintError.java">
+      <file leaf-file-name="JuliarVisitor.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/juliar/vistor/JuliarVisitor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="7" lean-forward="false" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
-              <folding>
-                <element signature="e#259#260#0" expanded="true" />
-                <element signature="e#302#303#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ErrorListener.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/juliar/errors/ErrorListener.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-              <folding>
-                <element signature="e#853#854#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="jRepl.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/juliar/juliarRepl/jRepl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="19" column="5" lean-forward="false" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="juliar.tokens" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/juliar/parser/juliar.tokens">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-315">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="juliarLexer.tokens" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/juliar/parser/juliarLexer.tokens">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-402">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="juliarParser.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/juliar/parser/juliarParser.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="26316">
-              <caret line="1548" column="0" lean-forward="false" selection-start-line="1548" selection-start-column="0" selection-end-line="1548" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="juliarLexer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/juliar/parser/juliarLexer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="111">
-              <caret line="37" column="35" lean-forward="false" selection-start-line="37" selection-start-column="35" selection-end-line="37" selection-end-column="35" />
+            <state relative-caret-position="3077">
+              <caret line="183" column="12" lean-forward="false" selection-start-line="183" selection-start-column="12" selection-end-line="183" selection-end-column="12" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#421#490#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="juliarBaseVisitor.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/juliar/parser/juliarBaseVisitor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1822">
-              <caret line="68" column="70" lean-forward="false" selection-start-line="68" selection-start-column="70" selection-end-line="68" selection-end-column="70" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="juliarVisitor.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/juliar/parser/juliarVisitor.java">
+      <file leaf-file-name="Operation.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/juliar/nodes/Operation.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="170">
-              <caret line="10" column="3" lean-forward="false" selection-start-line="10" selection-start-column="3" selection-end-line="10" selection-end-column="3" />
+              <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="juliar.g4" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/juliar/parser/juliar.g4">
+      <file leaf-file-name="BinaryNode.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/juliar/nodes/BinaryNode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="165" column="0" lean-forward="false" selection-start-line="165" selection-start-column="0" selection-end-line="165" selection-end-column="0" />
+            <state relative-caret-position="236">
+              <caret line="29" column="26" lean-forward="false" selection-start-line="29" selection-start-column="26" selection-end-line="29" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IntegralTypeNode.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/juliar/nodes/IntegralTypeNode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="420">
+              <caret line="31" column="18" lean-forward="false" selection-start-line="31" selection-start-column="18" selection-end-line="31" selection-end-column="18" />
+              <folding>
+                <element signature="e#1009#1010#0" expanded="true" />
+                <element signature="e#1042#1043#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JTerminalNode.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/juliar/nodes/JTerminalNode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LineNode.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/juliar/nodes/LineNode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="8" column="29" lean-forward="false" selection-start-line="8" selection-start-column="29" selection-end-line="8" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PrimitiveNode.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/juliar/nodes/PrimitiveNode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="11" column="24" lean-forward="false" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StatementNode.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/juliar/nodes/StatementNode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CodeGenerator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/juliar/codegenerator/CodeGenerator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="168" column="2" lean-forward="false" selection-start-line="168" selection-start-column="2" selection-end-line="168" selection-end-column="2" />
+              <folding>
+                <marker date="1482893442170" expanded="true" signature="42:85" ph="..." />
+                <marker date="1482893442170" expanded="true" signature="10370:10386" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CodeGeneratorMap.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/juliar/codegenerator/CodeGeneratorMap.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="12" column="20" lean-forward="false" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -188,13 +156,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>foo</find>
-      <find>source</find>
-      <find>stackSize</find>
-      <find>operation</find>
-      <find>IntigralAdd</find>
-      <find>addType</find>
-      <find>/</find>
       <find>multiply</find>
       <find>pushIntigralMultiplyInsn</find>
       <find>codeGeneratorMap</find>
@@ -215,6 +176,16 @@
       <find>invokest</find>
       <find>ws</find>
       <find>LINE_COMMENT</find>
+      <find>isr</find>
+      <find>out</find>
+      <find>new</find>
+      <find>add</find>
+      <find>abs</find>
+      <find>ID</find>
+      <find>divi</find>
+      <find>absolute</find>
+      <find>new Print</find>
+      <find>text</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -239,7 +210,6 @@
         <option value="$PROJECT_DIR$/antlrbuild.sh" />
         <option value="$PROJECT_DIR$/src/com/juliar/unittest/JuliarClassLoader.java" />
         <option value="$PROJECT_DIR$/src/com/juliar/nodes/BinaryOperation.java" />
-        <option value="$PROJECT_DIR$/src/com/juliar/nodes/Operation.java" />
         <option value="$PROJECT_DIR$/src/com/juliar/test/UT_CompiledCode.java" />
         <option value="$PROJECT_DIR$/src/com/juliar/test/JuliarCompilerTest.java" />
         <option value="$PROJECT_DIR$/src/com/juliar/test/JuliarClassLoader.java" />
@@ -248,8 +218,6 @@
         <option value="$PROJECT_DIR$/src/com/juliar/nodes/AggregateNode.java" />
         <option value="$PROJECT_DIR$/src/com/juliar/nodes/VisitPrimitiveNode.java" />
         <option value="$PROJECT_DIR$/src/com/juliar/nodes/PrimitiveNode.java" />
-        <option value="$PROJECT_DIR$/src/com/juliar/vistor/JuliarVisitor.java" />
-        <option value="$PROJECT_DIR$/src/com/juliar/JuliarCompiler.java" />
         <option value="$PROJECT_DIR$/src/JuliarFutureTest.java" />
         <option value="$PROJECT_DIR$/src/com/juliar/test/Primitives.java" />
         <option value="$PROJECT_DIR$/src/com/juliar/primitives/Primitives.java" />
@@ -260,7 +228,10 @@
         <option value="$PROJECT_DIR$/src/com/juliar/errors/JuliarExceptions.java" />
         <option value="$PROJECT_DIR$/src/com/juliar/pal/Primitives.java" />
         <option value="$PROJECT_DIR$/src/com/juliar/errors/PrintError.java" />
+        <option value="$PROJECT_DIR$/src/com/juliar/JuliarCompiler.java" />
         <option value="$PROJECT_DIR$/src/com/juliar/parser/juliar.g4" />
+        <option value="$PROJECT_DIR$/src/com/juliar/vistor/JuliarVisitor.java" />
+        <option value="$PROJECT_DIR$/src/com/juliar/nodes/Operation.java" />
       </list>
     </option>
   </component>
@@ -272,8 +243,7 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1378" />
+    <option name="width" value="1374" />
     <option name="height" value="744" />
   </component>
   <component name="ProjectView">
@@ -291,9 +261,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -321,6 +288,50 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="juliar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="juliarFuture" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="juliarFuture" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="juliar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vistor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="juliarFuture" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="juliarFuture" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="juliar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -472,6 +483,9 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -904,26 +918,25 @@
     <option name="totallyTimeSpent" value="115462000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1378" height="744" extended-state="0" />
+    <frame x="-8" y="0" width="1374" height="744" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Tool Output" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32923368" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2814259" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22362205" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22362205" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1431718" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27098674" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="ANTLR Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -936,6 +949,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2814259" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296185" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26017028" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -994,25 +1008,25 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/juliar/vistor/JuliarVisitor.java</url>
-          <line>83</line>
+          <line>84</line>
           <properties />
           <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/juliar/vistor/JuliarVisitor.java</url>
-          <line>71</line>
+          <line>72</line>
           <properties />
           <option name="timeStamp" value="20" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/juliar/vistor/JuliarVisitor.java</url>
-          <line>66</line>
+          <line>67</line>
           <properties />
           <option name="timeStamp" value="21" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/juliar/JuliarCompiler.java</url>
-          <line>35</line>
+          <line>36</line>
           <properties />
           <option name="timeStamp" value="57" />
         </line-breakpoint>
@@ -1024,7 +1038,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/juliar/JuliarCompiler.java</url>
-          <line>76</line>
+          <line>70</line>
           <properties />
           <option name="timeStamp" value="85" />
         </line-breakpoint>
@@ -1175,36 +1189,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/juliar/vistor/JuliarVisitor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4233">
-          <caret line="266" column="0" lean-forward="false" selection-start-line="266" selection-start-column="0" selection-end-line="266" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/JuliarFutureTest.java" />
-    <entry file="file://$PROJECT_DIR$/src/com/juliar/test/JClassLoader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="12" column="13" lean-forward="false" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test.jrl">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/juliar/test/JuliarCompilerTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1213,29 +1202,44 @@
         <state relative-caret-position="267">
           <caret line="16" column="5" lean-forward="true" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#336#337#0" expanded="true" />
-            <element signature="e#395#396#0" expanded="true" />
-            <element signature="e#516#517#0" expanded="true" />
-            <element signature="e#551#552#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#336#337#0" expanded="false" />
+            <element signature="e#395#396#0" expanded="false" />
+            <element signature="e#516#517#0" expanded="false" />
+            <element signature="e#551#552#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/juliar/JuliarCompiler.java">
+    <entry file="file://$PROJECT_DIR$/src/com/juliar/errors/JuliarException.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/juliar/test/JuliarCompilerTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="901">
-          <caret line="53" column="11" lean-forward="true" selection-start-line="53" selection-start-column="11" selection-end-line="53" selection-end-column="11" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="224">
+          <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/juliar/errors/JuliarException.java">
+    <entry file="file://$PROJECT_DIR$/src/com/juliar/test/JClassLoader.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
-          <caret line="7" column="28" lean-forward="false" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
+          <caret line="12" column="13" lean-forward="false" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/juliar/pal/Primitives.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="139">
+          <caret line="32" column="45" lean-forward="false" selection-start-line="32" selection-start-column="45" selection-end-line="32" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/juliar/nodes/Node.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="17" lean-forward="false" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
           <folding />
         </state>
       </provider>
@@ -1244,6 +1248,275 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/juliar/nodes/AggregateNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="26" column="41" lean-forward="false" selection-start-line="26" selection-start-column="41" selection-end-line="26" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/juliar/juliarRepl/jRepl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="19" column="5" lean-forward="false" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/juliar/errors/PrintError.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="6" lean-forward="true" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/juliar/errors/ErrorListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding>
+            <element signature="e#853#854#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/juliar/parser/juliar.tokens">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="38" column="4" lean-forward="false" selection-start-line="38" selection-start-column="1" selection-end-line="38" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/juliar/parser/juliarLexer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="37" column="35" lean-forward="false" selection-start-line="37" selection-start-column="35" selection-end-line="37" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/juliar/parser/juliarLexer.tokens">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/juliar/parser/juliar.g4">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="96" column="12" lean-forward="false" selection-start-line="96" selection-start-column="12" selection-end-line="96" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/juliar/parser/juliarBaseVisitor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="96" column="36" lean-forward="false" selection-start-line="96" selection-start-column="28" selection-end-line="96" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/juliar/JuliarCompiler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-293">
+          <caret line="28" column="21" lean-forward="false" selection-start-line="28" selection-start-column="12" selection-end-line="28" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/juliar/parser/juliarParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27727">
+          <caret line="1638" column="0" lean-forward="false" selection-start-line="1638" selection-start-column="0" selection-end-line="1638" selection-end-column="0" />
+          <folding>
+            <element signature="e#3174#3175#0" expanded="true" />
+            <element signature="e#3198#3199#0" expanded="true" />
+            <element signature="e#3248#3249#0" expanded="true" />
+            <element signature="e#3272#3273#0" expanded="true" />
+            <element signature="e#3791#3792#0" expanded="true" />
+            <element signature="e#3846#3847#0" expanded="true" />
+            <element signature="e#3891#3892#0" expanded="true" />
+            <element signature="e#3947#3948#0" expanded="true" />
+            <element signature="e#4022#4023#0" expanded="true" />
+            <element signature="e#4059#4060#0" expanded="true" />
+            <element signature="e#5449#5450#0" expanded="true" />
+            <element signature="e#5503#5504#0" expanded="true" />
+            <element signature="e#5545#5546#0" expanded="true" />
+            <element signature="e#5602#5603#0" expanded="true" />
+            <element signature="e#5675#5676#0" expanded="true" />
+            <element signature="e#5712#5713#0" expanded="true" />
+            <element signature="e#6630#6631#0" expanded="true" />
+            <element signature="e#6686#6687#0" expanded="true" />
+            <element signature="e#6757#6758#0" expanded="true" />
+            <element signature="e#6794#6795#0" expanded="true" />
+            <element signature="e#7691#7692#0" expanded="true" />
+            <element signature="e#7728#7729#0" expanded="true" />
+            <element signature="e#8609#8610#0" expanded="true" />
+            <element signature="e#8662#8663#0" expanded="true" />
+            <element signature="e#8703#8704#0" expanded="true" />
+            <element signature="e#8757#8758#0" expanded="true" />
+            <element signature="e#8942#8943#0" expanded="true" />
+            <element signature="e#9006#9007#0" expanded="true" />
+            <element signature="e#9040#9041#0" expanded="true" />
+            <element signature="e#9093#9094#0" expanded="true" />
+            <element signature="e#9129#9130#0" expanded="true" />
+            <element signature="e#9183#9184#0" expanded="true" />
+            <element signature="e#9257#9258#0" expanded="true" />
+            <element signature="e#9294#9295#0" expanded="true" />
+            <element signature="e#12005#12006#0" expanded="true" />
+            <element signature="e#12059#12060#0" expanded="true" />
+            <element signature="e#12102#12103#0" expanded="true" />
+            <element signature="e#12157#12158#0" expanded="true" />
+            <element signature="e#12197#12198#0" expanded="true" />
+            <element signature="e#12253#12254#0" expanded="true" />
+            <element signature="e#12289#12290#0" expanded="true" />
+            <element signature="e#12343#12344#0" expanded="true" />
+            <element signature="e#12427#12428#0" expanded="true" />
+            <element signature="e#12464#12465#0" expanded="true" />
+            <element signature="e#13809#13810#0" expanded="true" />
+            <element signature="e#13863#13864#0" expanded="true" />
+            <element signature="e#13906#13907#0" expanded="true" />
+            <element signature="e#13961#13962#0" expanded="true" />
+            <element signature="e#14003#14004#0" expanded="true" />
+            <element signature="e#14060#14061#0" expanded="true" />
+            <element signature="e#14096#14097#0" expanded="true" />
+            <element signature="e#14150#14151#0" expanded="true" />
+            <element signature="e#14231#14232#0" expanded="true" />
+            <element signature="e#14268#14269#0" expanded="true" />
+            <element signature="e#15782#15783#0" expanded="true" />
+            <element signature="e#15832#15833#0" expanded="true" />
+            <element signature="e#15870#15871#0" expanded="true" />
+            <element signature="e#15925#15926#0" expanded="true" />
+            <element signature="e#15963#15964#0" expanded="true" />
+            <element signature="e#16018#16019#0" expanded="true" />
+            <element signature="e#16052#16053#0" expanded="true" />
+            <element signature="e#16105#16106#0" expanded="true" />
+            <element signature="e#16139#16140#0" expanded="true" />
+            <element signature="e#16192#16193#0" expanded="true" />
+            <element signature="e#16228#16229#0" expanded="true" />
+            <element signature="e#16282#16283#0" expanded="true" />
+            <element signature="e#16324#16325#0" expanded="true" />
+            <element signature="e#16381#16382#0" expanded="true" />
+            <element signature="e#16419#16420#0" expanded="true" />
+            <element signature="e#16474#16475#0" expanded="true" />
+            <element signature="e#16504#16505#0" expanded="true" />
+            <element signature="e#16555#16556#0" expanded="true" />
+            <element signature="e#16587#16588#0" expanded="true" />
+            <element signature="e#16639#16640#0" expanded="true" />
+            <element signature="e#16710#16711#0" expanded="true" />
+            <element signature="e#16747#16748#0" expanded="true" />
+            <element signature="e#18770#18771#0" expanded="true" />
+            <element signature="e#18834#18835#0" expanded="true" />
+            <element signature="e#18880#18881#0" expanded="true" />
+            <element signature="e#18935#18936#0" expanded="true" />
+            <element signature="e#18980#18981#0" expanded="true" />
+            <element signature="e#19036#19037#0" expanded="true" />
+            <element signature="e#19106#19107#0" expanded="true" />
+            <element signature="e#19143#19144#0" expanded="true" />
+            <element signature="e#20732#20733#0" expanded="true" />
+            <element signature="e#20796#20797#0" expanded="true" />
+            <element signature="e#20842#20843#0" expanded="true" />
+            <element signature="e#20897#20898#0" expanded="true" />
+            <element signature="e#20942#20943#0" expanded="true" />
+            <element signature="e#20998#20999#0" expanded="true" />
+            <element signature="e#21069#21070#0" expanded="true" />
+            <element signature="e#21106#21107#0" expanded="true" />
+            <element signature="e#22787#22788#0" expanded="true" />
+            <element signature="e#22824#22825#0" expanded="true" />
+            <element signature="e#23692#23693#0" expanded="true" />
+            <element signature="e#23743#23744#0" expanded="true" />
+            <element signature="e#23780#23781#0" expanded="true" />
+            <element signature="e#23832#23833#0" expanded="true" />
+            <element signature="e#23904#23905#0" expanded="true" />
+            <element signature="e#23941#23942#0" expanded="true" />
+            <element signature="e#25495#25496#0" expanded="true" />
+            <element signature="e#25546#25547#0" expanded="true" />
+            <element signature="e#25583#25584#0" expanded="true" />
+            <element signature="e#25635#25636#0" expanded="true" />
+            <element signature="e#25703#25704#0" expanded="true" />
+            <element signature="e#25740#25741#0" expanded="true" />
+            <element signature="e#27267#27268#0" expanded="true" />
+            <element signature="e#27318#27319#0" expanded="true" />
+            <element signature="e#27355#27356#0" expanded="true" />
+            <element signature="e#27407#27408#0" expanded="true" />
+            <element signature="e#27476#27477#0" expanded="true" />
+            <element signature="e#27513#27514#0" expanded="true" />
+            <element signature="e#29047#29048#0" expanded="true" />
+            <element signature="e#29103#29104#0" expanded="true" />
+            <element signature="e#29141#29142#0" expanded="true" />
+            <element signature="e#29192#29193#0" expanded="true" />
+            <element signature="e#29229#29230#0" expanded="true" />
+            <element signature="e#29281#29282#0" expanded="true" />
+            <element signature="e#29348#29349#0" expanded="true" />
+            <element signature="e#29385#29386#0" expanded="true" />
+            <element signature="e#30944#30945#0" expanded="true" />
+            <element signature="e#30981#30982#0" expanded="true" />
+            <element signature="e#31990#31991#0" expanded="true" />
+            <element signature="e#32048#32049#0" expanded="true" />
+            <element signature="e#32086#32087#0" expanded="true" />
+            <element signature="e#32137#32138#0" expanded="true" />
+            <element signature="e#32174#32175#0" expanded="true" />
+            <element signature="e#32226#32227#0" expanded="true" />
+            <element signature="e#32298#32299#0" expanded="true" />
+            <element signature="e#32335#32336#0" expanded="true" />
+            <element signature="e#33937#33938#0" expanded="true" />
+            <element signature="e#33974#33975#0" expanded="true" />
+            <element signature="e#35003#35004#0" expanded="true" />
+            <element signature="e#35064#35065#0" expanded="true" />
+            <element signature="e#35102#35103#0" expanded="true" />
+            <element signature="e#35153#35154#0" expanded="true" />
+            <element signature="e#35190#35191#0" expanded="true" />
+            <element signature="e#35242#35243#0" expanded="true" />
+            <element signature="e#35314#35315#0" expanded="true" />
+            <element signature="e#35351#35352#0" expanded="true" />
+            <element signature="e#36965#36966#0" expanded="true" />
+            <element signature="e#37002#37003#0" expanded="true" />
+            <element signature="e#38038#38039#0" expanded="true" />
+            <element signature="e#38093#38094#0" expanded="true" />
+            <element signature="e#38131#38132#0" expanded="true" />
+            <element signature="e#38182#38183#0" expanded="true" />
+            <element signature="e#38219#38220#0" expanded="true" />
+            <element signature="e#38271#38272#0" expanded="true" />
+            <element signature="e#38341#38342#0" expanded="true" />
+            <element signature="e#38378#38379#0" expanded="true" />
+            <element signature="e#39954#39955#0" expanded="true" />
+            <element signature="e#39991#39992#0" expanded="true" />
+            <element signature="e#41307#41308#0" expanded="true" />
+            <element signature="e#41344#41345#0" expanded="true" />
+            <element signature="e#42439#42440#0" expanded="true" />
+            <element signature="e#42476#42477#0" expanded="true" />
+            <element signature="e#43392#43393#0" expanded="true" />
+            <element signature="e#43429#43430#0" expanded="true" />
+            <element signature="e#44428#44429#0" expanded="true" />
+            <element signature="e#44465#44466#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/juliar/parser/juliarVisitor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="89" column="15" lean-forward="false" selection-start-line="89" selection-start-column="6" selection-end-line="89" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/juliar/nodes/IfExprNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
           <folding />
         </state>
       </provider>
@@ -1258,20 +1531,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/juliar/nodes/IntegralTypeNode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="431">
+        <state relative-caret-position="420">
           <caret line="31" column="18" lean-forward="false" selection-start-line="31" selection-start-column="18" selection-end-line="31" selection-end-column="18" />
           <folding>
-            <element signature="e#1009#1010#0" expanded="false" />
-            <element signature="e#1042#1043#0" expanded="false" />
+            <element signature="e#1009#1010#0" expanded="true" />
+            <element signature="e#1042#1043#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/juliar/nodes/IfExprNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1287,22 +1552,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="8" column="29" lean-forward="false" selection-start-line="8" selection-start-column="29" selection-end-line="8" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/juliar/nodes/Node.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="17" lean-forward="false" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/juliar/nodes/Operation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="7" lean-forward="false" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
           <folding />
         </state>
       </provider>
@@ -1323,35 +1572,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/juliar/nodes/AggregateNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="26" column="41" lean-forward="false" selection-start-line="26" selection-start-column="41" selection-end-line="26" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/juliar/nodes/BinaryNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="431">
-          <caret line="29" column="26" lean-forward="false" selection-start-line="29" selection-start-column="26" selection-end-line="29" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/juliar/pal/Primitives.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="32" column="45" lean-forward="false" selection-start-line="32" selection-start-column="45" selection-end-line="32" selection-end-column="45" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/juliar/codegenerator/CodeGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1244">
+        <state relative-caret-position="17">
           <caret line="168" column="2" lean-forward="false" selection-start-line="168" selection-start-column="2" selection-end-line="168" selection-end-column="2" />
           <folding>
             <marker date="1482893442170" expanded="true" signature="42:85" ph="..." />
@@ -1362,96 +1585,34 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/juliar/codegenerator/CodeGeneratorMap.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="98">
+        <state relative-caret-position="102">
           <caret line="12" column="20" lean-forward="false" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/juliar/errors/ErrorListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-          <folding>
-            <element signature="e#853#854#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/juliar/juliarRepl/jRepl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="19" column="5" lean-forward="false" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/juliar/parser/juliarVisitor.java">
+    <entry file="file://$PROJECT_DIR$/src/com/juliar/nodes/Operation.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
-          <caret line="10" column="3" lean-forward="false" selection-start-line="10" selection-start-column="3" selection-end-line="10" selection-end-column="3" />
+          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/juliar/parser/juliarParser.java">
+    <entry file="file://$PROJECT_DIR$/src/com/juliar/nodes/BinaryNode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="26316">
-          <caret line="1548" column="0" lean-forward="false" selection-start-line="1548" selection-start-column="0" selection-end-line="1548" selection-end-column="0" />
+        <state relative-caret-position="236">
+          <caret line="29" column="26" lean-forward="false" selection-start-line="29" selection-start-column="26" selection-end-line="29" selection-end-column="26" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/juliar/parser/juliarLexer.tokens">
+    <entry file="file://$PROJECT_DIR$/src/com/juliar/vistor/JuliarVisitor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-402">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/juliar/parser/juliarBaseVisitor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1822">
-          <caret line="68" column="70" lean-forward="false" selection-start-line="68" selection-start-column="70" selection-end-line="68" selection-end-column="70" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/juliar/parser/juliarLexer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="111">
-          <caret line="37" column="35" lean-forward="false" selection-start-line="37" selection-start-column="35" selection-end-line="37" selection-end-column="35" />
+        <state relative-caret-position="3077">
+          <caret line="183" column="12" lean-forward="false" selection-start-line="183" selection-start-column="12" selection-end-line="183" selection-end-column="12" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#421#490#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/juliar/parser/juliar.tokens">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-315">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/juliar/parser/juliar.g4">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="165" column="0" lean-forward="false" selection-start-line="165" selection-start-column="0" selection-end-line="165" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/juliar/errors/PrintError.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="7" lean-forward="false" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
-          <folding>
-            <element signature="e#259#260#0" expanded="true" />
-            <element signature="e#302#303#0" expanded="true" />
           </folding>
         </state>
       </provider>

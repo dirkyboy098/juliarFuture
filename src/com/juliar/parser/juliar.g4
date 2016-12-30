@@ -48,6 +48,9 @@ command
     | ifExpr
 	| nifExpr
 	| primitives
+	| absolute
+	| acos
+	| acosh
     ;
 /*
     : absolute
@@ -80,15 +83,18 @@ variable
     ;
 
 absolute
-    : ID (FLOAT)*
+    : 'absolute' types (types)*
+    | 'absolute' types types
     ;
 
 acos
-    : ID (FLOAT)*
+    : 'acos' types (types)*
+    | 'acos' types types
     ;
 
 acosh
-    : ID (FLOAT)*
+    : 'acosh' types (types)*
+    | 'acosh' types types
     ;
 
 add

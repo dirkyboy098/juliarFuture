@@ -16,6 +16,7 @@ import com.juliar.parser.*;
 
 import static java.lang.System.err;
 import static java.lang.System.out;
+import com.juliar.errors.PrintError;
 
 
 public class JuliarCompiler {
@@ -25,7 +26,7 @@ public class JuliarCompiler {
             JuliarCompiler compiler = new JuliarCompiler();
             compiler.compile(args[0], args[1], false);
         } catch (Exception ex) {
-            out.println(ex.getMessage());
+            new PrintError(ex.getMessage(),ex);
         }
     }
 
@@ -33,8 +34,8 @@ public class JuliarCompiler {
         try {
             FileInputStream fileInputStream = new FileInputStream(source);
             return compile(fileInputStream, outputPath, isRepl);
-        } catch (Exception e) {
-
+        } catch (Exception ex) {
+            new PrintError(ex.getMessage(),ex);
         }
 
         return new ArrayList<String>();
@@ -54,19 +55,13 @@ public class JuliarCompiler {
             ErrorListener errors = new ErrorListener();
             parser.addErrorListener(errors);
 
-            if (isRepl) {
-                juliarParser.StatementContext context = parser.statement();
-                out.println(context.toStringTree(parser));
+            //Additional
+            juliarParser.StatementContext context = parser.statement();
+            out.println(context.toStringTree(parser));
 
-                JuliarVisitor v = new JuliarVisitor();
-                v.visit(context);
-            } else {
-                juliarParser.CompileUnitContext context = parser.compileUnit();
-                out.println(context.toStringTree(parser));
-
-                JuliarVisitor visitor = new JuliarVisitor();
-                visitor.visit(context);
-
+            JuliarVisitor visitor = new JuliarVisitor();
+            visitor.visit(context);
+            if (!isRepl) {
                 com.juliar.codegenerator.CodeGenerator generator = new com.juliar.codegenerator.CodeGenerator();
                 generator.Generate(visitor.instructions());
             }
@@ -74,7 +69,7 @@ public class JuliarCompiler {
 
 
         } catch (Exception ex) {
-            out.println(ex.getMessage());
+            new PrintError(ex.getMessage(),ex);
         }
 
         return new ArrayList<>();
