@@ -13,6 +13,9 @@ public class PrimitivesMap {
         map = new HashMap<>();
         map.put("fileOpen", "sys_file_open");
         map.put("printLine", "sys_print_line");
+        map.put("fileWrite", "sys_file_write");
+        map.put("print", "sys_print");
+        map.put("available_memory", "sys_available_memory");
     }
 
 

@@ -92,7 +92,7 @@ public class CodeGenerator {
                 String function = ((PrimitiveNode) instruction).getPrimitiveName().toString();
 
                 function = PrimitivesMap.getFunction(function);
-                mw.visitLdcInsn( ((PrimitiveNode) instruction).getGetPrimitiveArgument().toString());
+                mw.visitLdcInsn(((PrimitiveNode) instruction).getGetPrimitiveArgument().toString());
                 mw.visitIntInsn(ASTORE, 0);
                 mw.visitIntInsn(ALOAD, 0);
                 mw.visitMethodInsn(
@@ -101,35 +101,8 @@ public class CodeGenerator {
                         function,
                         "(Ljava/lang/String;)Ljava/lang/String;",
                         false);
-
-
-                /*if (function.equals("fileOpen")){
-                    function = "sys_file_open";
-
-                mw.visitLdcInsn( ((PrimitiveNode) instruction).getGetPrimitiveArgument().toString());
-                mw.visitIntInsn(ASTORE, 0);
-                mw.visitIntInsn(ALOAD, 0);
-                mw.visitMethodInsn(
-                        INVOKESTATIC,
-                        "com/juliar/pal/Primitives",
-                        function,
-                        "(Ljava/lang/String;)Ljava/lang/String;",
-                        false);
-                }
-
-                if (function.equals("printLine")){
-                    function = "sys_print_line";
-                    mw.visitLdcInsn( ((PrimitiveNode) instruction).getGetPrimitiveArgument().toString());
-                    mw.visitIntInsn(ASTORE, 0);
-                    mw.visitIntInsn(ALOAD, 0);
-                    mw.visitMethodInsn(
-                            INVOKESTATIC,
-                            "com/juliar/pal/Primitives",
-                            function,
-                            "(Ljava/lang/String;)V",
-                            false);
-                }*/
             }
+
 
             if (instruction instanceof CompliationUnitNode) {
                 /*
