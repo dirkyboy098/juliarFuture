@@ -85,7 +85,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
     public Node visitBooleanExpression(juliarParser.BooleanExpressionContext ctx) {
         return super.visitBooleanExpression(ctx);
     }
-
+/*
     @Override
     public Node visitIfExpr(juliarParser.IfExprContext ctx) {
         Object booleanExpression = ctx.booleanExpression().accept(this);
@@ -96,7 +96,9 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
         return super.visitIfExpr(ctx);
     }
+    */
 
+    /*
     @Override
     public Node visitAbsolute(juliarParser.AbsoluteContext ctx){
 
@@ -114,7 +116,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
         return super.visitAcosh(ctx);
     }
-
+*/
     //TODO need to refactor and combine vistAdd and visitSubtract
     @Override
     public Node visitAdd(juliarParser.AddContext ctx) {
@@ -261,18 +263,25 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         return super.visitEqualequal(ctx);
     }
 
+
     @Override
     public Node visitPrimitives(juliarParser.PrimitivesContext ctx) {
         if (ctx != null){
             List<ParseTree> parseTreeList = ctx.children;
-            instructionList.add(
-                    new PrimitiveNode(
-                            parseTreeList.toArray()[0].toString(),
-                            parseTreeList.toArray()[2].toString()));
+            if (parseTreeList.toArray()[0].toString().equals( "printInt") ){
+                instructionList.add(
+                        new PrimitiveNode( "printInt" , null));
+            }else {
+                instructionList.add(
+                        new PrimitiveNode(
+                                parseTreeList.toArray()[0].toString(),
+                                parseTreeList.toArray()[2].toString()));
+            }
         }
 
         return null;
     }
+
 
     @Override
     public Node visitTerminal(TerminalNode node) {

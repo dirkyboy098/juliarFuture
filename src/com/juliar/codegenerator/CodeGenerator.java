@@ -46,11 +46,11 @@ public class CodeGenerator {
         // creates a MethodWriter for the 'main' method
         mw = cw.visitMethod(ACC_PUBLIC + ACC_STATIC, "main", "([Ljava/lang/String;)V", null, null);
         // pushes the 'out' field (of type PrintStream) of the System class
-        mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out","Ljava/io/PrintStream;");
+        //mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out","Ljava/io/PrintStream;");
         // pushes the "Hello Juliar Future" String constant
-        mw.visitLdcInsn("Now Calling generated Juliar Methods!");
+        //mw.visitLdcInsn("Now Calling generated Juliar Methods!");
         // invokes the 'println' method (defined in the PrintStream class)
-        mw.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println","(Ljava/lang/String;)V", false);
+        //mw.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println","(Ljava/lang/String;)V", false);
         // mw.visitInsn(RETURN);
         // this code uses a maximum of two stack elements and two local
         // variables
@@ -101,6 +101,32 @@ public class CodeGenerator {
                         function,
                         "(Ljava/lang/String;)Ljava/lang/String;",
                         false);
+
+
+                if (function.equals("printLine")){
+                    function = "sys_print_line";
+                    mw.visitLdcInsn( ((PrimitiveNode) instruction).getGetPrimitiveArgument().toString());
+                    mw.visitIntInsn(ASTORE, 0);
+                    mw.visitIntInsn(ALOAD, 0);
+                    mw.visitMethodInsn(
+                            INVOKESTATIC,
+                            "com/juliar/pal/Primitives",
+                            function,
+                            "(Ljava/lang/String;)V",
+                            false);
+                }
+
+                if (function.equals( "printInt" )){
+                    function = "sys_print_int";
+                    //mw.visitLdcInsn( ((PrimitiveNode) instruction).getGetPrimitiveArgument().toString());
+                    //mw.visitIntInsn(ASTORE, 0);
+                    mw.visitMethodInsn(
+                            INVOKESTATIC,
+                            "com/juliar/pal/Primitives",
+                            function,
+                            "(I)V",
+                            false);
+                }
             }
 
 
@@ -129,7 +155,7 @@ public class CodeGenerator {
 
                 BinaryNode b = ((BinaryNode)instruction);
                 if (debug) {
-                    mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
+                    //mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
                 }
 
                 IntegralType addType;
@@ -149,10 +175,16 @@ public class CodeGenerator {
                 }
 
                 pushIntegralType(ga, b.left(),addType);
+                ga.visitIntInsn(ISTORE, 1);
                 pushIntegralType(ga, b.right(),addType);
+                ga.visitIntInsn(ISTORE, 2);
+                ga.visitIntInsn(ILOAD, 1);
+                ga.visitIntInsn(ILOAD, 2);
                 ga.visitInsn(op.get(addType));
 
-                debugPrintLine(mw,addType);
+                //mw.visitIntInsn(ILOAD, 0);
+
+                //debugPrintLine(mw,addType);
             }
 
             if (instruction instanceof AggregateNode) {
@@ -199,7 +231,7 @@ public class CodeGenerator {
                     ga.visitInsn(op.get(addType));
                 }
 
-                debugPrintLine(mw,addType);
+                //debugPrintLine(mw,addType);
             }
         }
 

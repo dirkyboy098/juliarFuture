@@ -40,32 +40,30 @@ booleanExpression
     | variable (equalequal) variable
     ;
 
+primitives
+    : 'fileOpen' '(' STRING ')'
+    | 'printLine' '(' STRING ')'
+    | 'printInt' '('')'
+    ;
+
 command
-    : add
+    : primitives
+    | add
 	| subtract
 	| multiply
 	| divide
     | ifExpr
 	| nifExpr
-	| primitives
-    ;
-/*
-    : absolute
+    | absolute
+	| acos
+	| acosh
+	| absolute
     | acos
     | acosh
     | add
 	| subtract
-	| minus
-    | alternatecase
-    | and
-    | asin
-    | asinh
-    | ask
-    | atan
-    | atanh
-    | baseconvert
-    | block
-*/
+    ;
+
 
 ifExpr
     : 'if' '(' booleanExpression ')' '{' (statement)* '}'
@@ -79,17 +77,22 @@ variable
     : ID
     ;
 
+
 absolute
-    : ID (FLOAT)*
+    : 'absolute' types (types)*
+    | 'absolute' types types
     ;
 
 acos
-    : ID (FLOAT)*
+    : 'acos' types (types)*
+    | 'acos' types types
     ;
 
 acosh
-    : ID (FLOAT)*
+    : 'acosh' types (types)*
+    | 'acosh' types types
     ;
+
 
 add
     : summation types (types)*
@@ -115,12 +118,9 @@ multiply
     : multiplication types (types)*
     | multiplication types types
     ;
-/*
-Using 'x' for multiplcation means that a user won't be able to use x as a variable.
-It is now a reserved symbol
-*/
+
 multiplication
-    : 'x'
+    : '*'
     | 'multiply'
     ;
 
@@ -149,10 +149,6 @@ equalequal
     : '=='
     ;
 
-primitives
-    : 'fileOpen' '(' STRING ')'
-    | 'printLine' '(' STRING ')'
-    ;
 /*
  * Lexer Rules
  */

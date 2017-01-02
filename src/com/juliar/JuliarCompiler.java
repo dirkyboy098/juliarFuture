@@ -55,13 +55,19 @@ public class JuliarCompiler {
             ErrorListener errors = new ErrorListener();
             parser.addErrorListener(errors);
 
-            //Additional
-            juliarParser.StatementContext context = parser.statement();
-            out.println(context.toStringTree(parser));
+            if (isRepl) {
+                juliarParser.StatementContext context = parser.statement();
+                out.println(context.toStringTree(parser));
 
-            JuliarVisitor visitor = new JuliarVisitor();
-            visitor.visit(context);
-            if (!isRepl) {
+                JuliarVisitor v = new JuliarVisitor();
+                v.visit(context);
+            } else {
+                juliarParser.CompileUnitContext context = parser.compileUnit();
+                out.println(context.toStringTree(parser));
+
+                JuliarVisitor visitor = new JuliarVisitor();
+                visitor.visit(context);
+
                 com.juliar.codegenerator.CodeGenerator generator = new com.juliar.codegenerator.CodeGenerator();
                 generator.Generate(visitor.instructions());
             }

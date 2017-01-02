@@ -1,21 +1,23 @@
-fileOpen("C:\Users\AndreiM\Desktop\juliarFuture\test.jrl");
-//fileOpen("D:\source\juliarFuture\test.jrl");
-
+printLine("testing Juliar");
 /*
-This is a comment test
-Let's see if it works
-add 3 22;
+Testing comments
 */
-printLine("this is a test  line");
 
+//Test primitive
+printLine("add 32 43");
++ 32 43;
+//Adding pushes an integer value onto the stack. The printInt method pops a value off the stack and prints it
+printInt();
 
-subtract /*2 */ 77 55.034 ;
+printLine("add 3 3 3 9 9 10 11 22");
++ 3 3 3 9 9 10 11 22;
+printInt();
+
+printLine("test subtraction subtract 77 105");
 - 77 105;
-/ 55 22;
-subtract 55 22;
-multiply 2 3;
-x 32 27;
-/ 55 22;
-divide 90 5;
+printInt();
 
+printLine("test divsion divide 55 22");
+/ 55 22;
+printInt();
 

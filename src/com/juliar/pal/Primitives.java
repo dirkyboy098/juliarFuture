@@ -40,11 +40,22 @@ public class Primitives {
     }
 
     public static void sys_print_line(String string) {
-        System.out.println(string);
+        System.out.println(stripQuotes(string));
+
     }
 
+    public static void sys_print_int(int integer){ System.out.println(integer);}
+
     public static void sys_print(String string) {
-        System.out.print(string);
+        System.out.print(stripQuotes(string));
+    }
+
+    private static String stripQuotes( String s){
+        if (s.startsWith("\"") && s.startsWith("\"")) {
+            return (s.substring(1, s.length()-1));
+        }
+
+        return s;
     }
 
     public static void sys_available_memory() {

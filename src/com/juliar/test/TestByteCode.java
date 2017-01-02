@@ -23,13 +23,14 @@ public class TestByteCode extends TestCase {
 
 
     public void testReturn(){
-        int i = returnInt();
+        //int i = returnInt();
     }
 
-    private int returnInt(){
-        int i = 3;
-        int y = 4;
-        return y + i;
+    public void testReturnInt(){
+        int i = 32;
+        int y = 43;
+        Primitives.sys_print_int( i + y );
+        //return y;
     }
 
     private String returnString(){

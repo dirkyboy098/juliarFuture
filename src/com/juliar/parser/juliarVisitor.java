@@ -1,4 +1,4 @@
-// Generated from C:\Users\AndreiM\Desktop\juliarFuture\src\com\juliar\parser\juliar.g4 by ANTLR 4.5.3
+// Generated from src/com/juliar/parser/juliar.g4 by ANTLR 4.6
 package com.juliar.parser;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -52,6 +52,12 @@ public interface juliarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitBooleanExpression(juliarParser.BooleanExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link juliarParser#primitives}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPrimitives(juliarParser.PrimitivesContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link juliarParser#command}.
 	 * @param ctx the parse tree
@@ -160,10 +166,4 @@ public interface juliarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitEqualequal(juliarParser.EqualequalContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link juliarParser#primitives}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPrimitives(juliarParser.PrimitivesContext ctx);
 }
