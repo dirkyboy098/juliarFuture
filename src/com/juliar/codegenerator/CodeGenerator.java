@@ -16,6 +16,8 @@ import static org.objectweb.asm.Opcodes.*;
 import com.juliar.nodes.*;
 import com.juliar.codegenerator.CodeGeneratorMap;
 
+import com.juliar.pal.PrimitivesMap;
+
 
 /**
  * Created by donreamey on 10/22/16.
@@ -89,10 +91,8 @@ public class CodeGenerator {
             if ( instruction instanceof PrimitiveNode){
                 String function = ((PrimitiveNode) instruction).getPrimitiveName().toString();
 
-                if (function.equals("fileOpen")){
-                    function = "sys_file_open";
-
-                mw.visitLdcInsn( ((PrimitiveNode) instruction).getGetPrimitiveArgument().toString());
+                function = PrimitivesMap.getFunction(function);
+                mw.visitLdcInsn(((PrimitiveNode) instruction).getGetPrimitiveArgument().toString());
                 mw.visitIntInsn(ASTORE, 0);
                 mw.visitIntInsn(ALOAD, 0);
                 mw.visitMethodInsn(
@@ -101,21 +101,8 @@ public class CodeGenerator {
                         function,
                         "(Ljava/lang/String;)Ljava/lang/String;",
                         false);
-                }
-
-                if (function.equals("printLine")){
-                    function = "sys_print_line";
-                    mw.visitLdcInsn( ((PrimitiveNode) instruction).getGetPrimitiveArgument().toString());
-                    mw.visitIntInsn(ASTORE, 0);
-                    mw.visitIntInsn(ALOAD, 0);
-                    mw.visitMethodInsn(
-                            INVOKESTATIC,
-                            "com/juliar/pal/Primitives",
-                            function,
-                            "(Ljava/lang/String;)V",
-                            false);
-                }
             }
+
 
             if (instruction instanceof CompliationUnitNode) {
                 /*
