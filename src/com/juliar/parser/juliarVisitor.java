@@ -1,4 +1,4 @@
-// Generated from src/com/juliar/parser/juliar.g4 by ANTLR 4.6
+// Generated from C:\Users\AndreiM\Desktop\juliarFuture\src\com\juliar\parser\juliar.g4 by ANTLR 4.6
 package com.juliar.parser;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -166,4 +166,10 @@ public interface juliarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitEqualequal(juliarParser.EqualequalContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link juliarParser#arrowsign}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrowsign(juliarParser.ArrowsignContext ctx);
 }
