@@ -24,3 +24,7 @@ src/com/juliar/parser/juliarVisitor.java
 out/com/juliar/codegenerator/CodeGenerator.class
 
 out/com/juliar/parser/juliarVisitor.class
+
+out/.idea/src.iml
+
+out/com/juliar/parser/juliar.g4
