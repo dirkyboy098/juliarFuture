@@ -10,3 +10,17 @@ src/com/juliar/parser/juliarLexer.java
 src/com/juliar/parser/juliarParser.java
 
 src/com/juliar/parser/juliarVisitor.java
+
+*.xml
+
+.idea/workspace.xml
+
+.idea/workspace.xml
+
+.idea/workspace.xml
+
+*.class
+
+out/com/juliar/codegenerator/CodeGenerator.class
+
+out/com/juliar/parser/juliarVisitor.class
