@@ -1,6 +1,7 @@
 package com.juliar;
 
 import com.juliar.errors.ErrorListener;
+import com.juliar.interpreter.interpreter;
 import com.juliar.nodes.*;
 import com.juliar.vistor.JuliarVisitor;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -23,6 +24,7 @@ public class JuliarCompiler {
 
     public static void main(String[] args) {
         try {
+            assert args[0] != null && args[1] != null;
             JuliarCompiler compiler = new JuliarCompiler();
             compiler.compile(args[0], args[1], false);
         } catch (Exception ex) {
@@ -44,34 +46,36 @@ public class JuliarCompiler {
     public List<String> compile(InputStream b, String source, boolean isRepl) {
 
         try {
-            //FileInputStream fileInputStream = new FileInputStream(source);
-            ANTLRInputStream s = new ANTLRInputStream(b);
+            juliarParser parser = parse( b );
 
-            juliarLexer lexer = new juliarLexer(s);
-            CommonTokenStream tokenStream = new CommonTokenStream(lexer);
-            juliarParser parser = new juliarParser(tokenStream);
-
-            parser.removeErrorListeners();
-            ErrorListener errors = new ErrorListener();
-            parser.addErrorListener(errors);
-
+            // call parse statement.
+            // This will parse a single line to validate the syntax
             if (isRepl) {
                 juliarParser.StatementContext context = parser.statement();
                 out.println(context.toStringTree(parser));
 
                 JuliarVisitor v = new JuliarVisitor();
                 v.visit(context);
+                interpreter i = new interpreter(v.instructions());
+                i.execute();
             } else {
+                // Calls the parse CompileUnit method
+                // to parse a complete program
+                // then calls the code generator.
                 juliarParser.CompileUnitContext context = parser.compileUnit();
                 out.println(context.toStringTree(parser));
 
                 JuliarVisitor visitor = new JuliarVisitor();
                 visitor.visit(context);
 
-                com.juliar.codegenerator.CodeGenerator generator = new com.juliar.codegenerator.CodeGenerator();
-                generator.Generate(visitor.instructions());
+                interpreter i = new interpreter(visitor.instructions());
+                i.execute();
+
+                //com.juliar.codegenerator.CodeGenerator generator = new com.juliar.codegenerator.CodeGenerator();
+                //generator.Generate(visitor.instructions());
             }
-            return errors.ErrorList();
+
+            //return errors.ErrorList();
 
 
         } catch (Exception ex) {
@@ -81,4 +85,25 @@ public class JuliarCompiler {
         return new ArrayList<>();
     }
 
+
+
+    private juliarParser parse(InputStream b) throws Exception {
+        juliarParser parser = null;
+
+        try {
+            ANTLRInputStream s = new ANTLRInputStream(b);
+
+            juliarLexer lexer = new juliarLexer(s);
+            CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+            parser = new juliarParser(tokenStream);
+
+            parser.removeErrorListeners();
+            ErrorListener errors = new ErrorListener();
+            parser.addErrorListener(errors);
+        } catch (Exception ex) {
+            throw ex;
+        }
+
+        return parser;
+    }
 }

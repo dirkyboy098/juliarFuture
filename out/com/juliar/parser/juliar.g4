@@ -20,25 +20,32 @@ semiColon
     : ';'
     ;
 
+expressions
+    : (expression)*
+    //| (expression)?(expression)*
+    //| assignmentExpression
+    //| booleanExpression
+    //| ifExpr
+	//| nifExpr
+    ;
+
 expression
-    : (command)*
-    | (command)?(command)*
-    | assignmentExpression
-    | booleanExpression
-    | ifExpr
-	| nifExpr
+    : assignmentExpression
+    | primitives
     ;
 
 assignmentExpression
-    : variable equalsign command
-	| variable equalsign variable
+    : keywords variable equalsign command
+	| keywords variable equalsign variable
     ;
 
+/*
 booleanExpression
     : variable (equalequal) variable
     | variable (equalequal) command
     | variable (equalequal) variable
     ;
+*/
 
 primitives
     : 'fileOpen' '(' STRING ')'
@@ -47,8 +54,9 @@ primitives
     ;
 
 command
-    : primitives
-    | add
+    : add
+     //|primitives
+    /*
 	| subtract
 	| multiply
 	| divide
@@ -60,37 +68,12 @@ command
 	| absolute
     | acos
     | acosh
-    | add
-	| subtract
+    | subtract
+    */
     ;
-
-
-ifExpr
-    : 'if' '(' booleanExpression ')' '{' (statement)* '}'
-    ;
-	
-nifExpr
-	: 'nif' '(' booleanExpression ')' '{' (statement)* '}'
-	;
 
 variable
     : ID
-    ;
-
-
-absolute
-    : 'absolute' types (types)*
-    | 'absolute' types types
-    ;
-
-acos
-    : 'acos' types (types)*
-    | 'acos' types types
-    ;
-
-acosh
-    : 'acosh' types (types)*
-    | 'acosh' types types
     ;
 
 
@@ -113,7 +96,7 @@ subtraction
 	: '-'
 	| 'subtract'
 	;
-	
+/*
 multiply
     : multiplication types (types)*
     | multiplication types types
@@ -134,7 +117,12 @@ division
     : '/'
     | 'divide'
     ;
+*/
 types
+    : numericTypes
+    ;
+
+numericTypes
     : INT
     | FLOAT
     | DOUBLE
@@ -148,6 +136,40 @@ equalsign
 equalequal
     : '=='
     ;
+
+keywords
+    : 'int'
+    | 'float'
+    | 'double'
+    | 'long'
+    | 'object'
+    ;
+
+/*
+ifExpr
+    : 'if' '(' booleanExpression ')' '{' (statement)* '}'
+    ;
+
+nifExpr
+	: 'nif' '(' booleanExpression ')' '{' (statement)* '}'
+	;
+
+absolute
+    : 'absolute' types (types)*
+    | 'absolute' types types
+    ;
+
+acos
+    : 'acos' types (types)*
+    | 'acos' types types
+    ;
+
+acosh
+    : 'acosh' types (types)*
+    | 'acosh' types types
+    ;
+*/
+
 
 /*
  * Lexer Rules

@@ -44,7 +44,9 @@ public class Primitives {
 
     }
 
-    public static void sys_print_int(int integer){ System.out.println(integer);}
+    public static void sys_print_int(int integer) {
+        System.out.println(integer);
+    }
 
     public static void sys_print(String string) {
         System.out.print(stripQuotes(string));

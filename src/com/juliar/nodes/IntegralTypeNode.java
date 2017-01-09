@@ -13,20 +13,32 @@ public class IntegralTypeNode implements Node {
     public IntegralTypeNode(){
     }
 
+    public IntegralTypeNode(String data, IntegralType it){
+        objectData = data;
+        integralType = it;
+    }
+
     public IntegralTypeNode(juliarParser.TypesContext value, JTerminalNode jTerminalNode) {
-        if (value.FLOAT() != null) {
-            objectData = value.FLOAT().getText();
-            integralType =  IntegralType.jfloat;
-        }else if (value.INT() != null) {
-            objectData = value.INT().getText();
-            integralType =  IntegralType.jinteger;
-        }else if (value.DOUBLE() != null) {
-            objectData = value.DOUBLE().getText();
-            integralType =  IntegralType.jdouble;
-        }else if (value.LONG() != null) {
-            objectData = value.LONG().getText();
-            integralType =  IntegralType.jlong;
+        objectData = value.getText();
+        integralType = IntegralType.jinteger;
+        /*
+                break;
+            case "int":
+                objectData = value.getText();
+                integralType = IntegralType.jinteger;
+                break;
+            case "double":
+                objectData = value.getText();
+                integralType = IntegralType.jdouble;
+                break;
+            case "long":
+                objectData = value.getText();
+                integralType = IntegralType.jlong;
+                break;
+            default:
+                assert false;
         }
+        */
     }
 
     public String data(){

@@ -35,4 +35,6 @@ public class AggregateNode implements Node {
     public List<IntegralTypeNode> data(){
         return objectData;
     }
+
+
 }

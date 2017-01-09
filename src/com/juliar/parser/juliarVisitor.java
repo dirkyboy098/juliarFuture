@@ -35,6 +35,12 @@ public interface juliarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSemiColon(juliarParser.SemiColonContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link juliarParser#expressions}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpressions(juliarParser.ExpressionsContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link juliarParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -46,12 +52,6 @@ public interface juliarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAssignmentExpression(juliarParser.AssignmentExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link juliarParser#booleanExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBooleanExpression(juliarParser.BooleanExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link juliarParser#primitives}.
 	 * @param ctx the parse tree
@@ -65,41 +65,11 @@ public interface juliarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCommand(juliarParser.CommandContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link juliarParser#ifExpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitIfExpr(juliarParser.IfExprContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link juliarParser#nifExpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNifExpr(juliarParser.NifExprContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link juliarParser#variable}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitVariable(juliarParser.VariableContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link juliarParser#absolute}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAbsolute(juliarParser.AbsoluteContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link juliarParser#acos}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAcos(juliarParser.AcosContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link juliarParser#acosh}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAcosh(juliarParser.AcoshContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link juliarParser#add}.
 	 * @param ctx the parse tree
@@ -125,35 +95,17 @@ public interface juliarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSubtraction(juliarParser.SubtractionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link juliarParser#multiply}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMultiply(juliarParser.MultiplyContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link juliarParser#multiplication}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMultiplication(juliarParser.MultiplicationContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link juliarParser#divide}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDivide(juliarParser.DivideContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link juliarParser#division}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDivision(juliarParser.DivisionContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link juliarParser#types}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitTypes(juliarParser.TypesContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link juliarParser#numericTypes}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNumericTypes(juliarParser.NumericTypesContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link juliarParser#equalsign}.
 	 * @param ctx the parse tree
@@ -166,4 +118,10 @@ public interface juliarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitEqualequal(juliarParser.EqualequalContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link juliarParser#keywords}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitKeywords(juliarParser.KeywordsContext ctx);
 }

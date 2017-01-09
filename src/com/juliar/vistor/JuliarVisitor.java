@@ -34,7 +34,6 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
         for(ParseTree t : ctx.children){
             t.accept(this);
-            //node.statementNodes.add(t.accept(this));
         }
 
         //return node;
@@ -81,11 +80,12 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         return null;
     }
 
+    /*
     @Override
     public Node visitBooleanExpression(juliarParser.BooleanExpressionContext ctx) {
         return super.visitBooleanExpression(ctx);
     }
-/*
+
     @Override
     public Node visitIfExpr(juliarParser.IfExprContext ctx) {
         Object booleanExpression = ctx.booleanExpression().accept(this);
@@ -117,6 +117,8 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         return super.visitAcosh(ctx);
     }
 */
+
+
     //TODO need to refactor and combine vistAdd and visitSubtract
     @Override
     public Node visitAdd(juliarParser.AddContext ctx) {
@@ -148,7 +150,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         }
         return null;
     }
-
+/*
     @Override
     public Node visitSubtract(juliarParser.SubtractContext ctx) {
         String text = ctx.subtraction().getText();
@@ -244,6 +246,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         //return super.visitAdd(ctx);
         return null;
     }
+    */
 
     @Override
     public Node visitTypes(juliarParser.TypesContext ctx) {
@@ -286,5 +289,36 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
     @Override
     public Node visitTerminal(TerminalNode node) {
         return new JTerminalNode(node);
+    }
+
+    @Override
+    public Node visitAssignmentExpression(juliarParser.AssignmentExpressionContext ctx) {
+        if (ctx.variable().size() == 1){
+
+            String type = ctx.keywords().getText();
+            // The type will dictate the valid values used in the command.
+
+            String variableName = ctx.variable( 0 ).getText();
+            String operator = ctx.equalsign().getText();
+            if(operator != "="){
+                //hook up to error listener;
+            }
+
+            ctx.command().accept( this );
+
+            int instructionCount = instructionList.size() - 1;
+            Node instruction = instructionList.remove( instructionCount );
+
+            assert instruction != null;
+
+            instructionList.add( new AssignmentNode( type, variableName, instruction));
+        }
+
+        return null;
+    }
+
+    @Override
+    public Node visitExpression(juliarParser.ExpressionContext ctx) {
+        return super.visitExpression(ctx);
     }
 }
