@@ -43,14 +43,16 @@ assignmentExpression
 booleanExpression
     : variable (equalequal) variable
     | variable (equalequal) command
-    | variable (equalequal) variable
+    | command (equalequal) command
     ;
 */
 
 primitives
     : 'fileOpen' '(' STRING ')'
     | 'printLine' '(' STRING ')'
-    | 'printInt' '('')'
+    | 'printInt' '(' INT ')'
+    | 'printFloat' '(' FLOAT ')'
+    | 'printDouble' '(' DOUBLE ')'
     ;
 
 command
@@ -170,6 +172,10 @@ acosh
     ;
 */
 
+
+arrowsign    /*Not Sure yet...it may conflict with comparison. Possibly <- would be better? */
+    :'<='
+    ;
 
 /*
  * Lexer Rules

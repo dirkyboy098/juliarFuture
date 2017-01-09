@@ -127,6 +127,28 @@ public class CodeGenerator {
                             "(I)V",
                             false);
                 }
+                if (function.equals( "printFloat" )){
+                    function = "sys_print_float";
+                    //mw.visitLdcInsn( ((PrimitiveNode) instruction).getGetPrimitiveArgument().toString());
+                    //mw.visitIntInsn(ASTORE, 0);
+                    mw.visitMethodInsn(
+                            INVOKESTATIC,
+                            "com/juliar/pal/Primitives",
+                            function,
+                            "(I)V",
+                            false);
+                }
+                if (function.equals( "printDouble" )){
+                    function = "sys_print_double";
+                    //mw.visitLdcInsn( ((PrimitiveNode) instruction).getGetPrimitiveArgument().toString());
+                    //mw.visitIntInsn(ASTORE, 0);
+                    mw.visitMethodInsn(
+                            INVOKESTATIC,
+                            "com/juliar/pal/Primitives",
+                            function,
+                            "(I)V",
+                            false);
+                }
             }
 
 

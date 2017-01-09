@@ -124,4 +124,10 @@ public interface juliarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitKeywords(juliarParser.KeywordsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link juliarParser#arrowsign}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrowsign(juliarParser.ArrowsignContext ctx);
 }
