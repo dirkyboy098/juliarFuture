@@ -1,2 +1,12 @@
 
 .idea/workspace.xml
+
+*.tokens
+
+src/com/juliar/parser/juliarBaseVisitor.java
+
+src/com/juliar/parser/juliarLexer.java
+
+src/com/juliar/parser/juliarParser.java
+
+src/com/juliar/parser/juliarVisitor.java
