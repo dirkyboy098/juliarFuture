@@ -57,11 +57,11 @@ primitives
 
 command
     : add
-     //|primitives
-    /*
+    | primitives
 	| subtract
 	| multiply
 	| divide
+    /*
     | ifExpr
 	| nifExpr
     | absolute
@@ -98,7 +98,7 @@ subtraction
 	: '-'
 	| 'subtract'
 	;
-/*
+
 multiply
     : multiplication types (types)*
     | multiplication types types
@@ -119,7 +119,7 @@ division
     : '/'
     | 'divide'
     ;
-*/
+
 types
     : primitiveTypes
     ;
@@ -194,7 +194,7 @@ INT: [0-9]+ ;
 FLOAT : ('0'..'9')+ '.' ('0'..'9')*;
 DOUBLE : ('0'..'9')+ '.' ('0'..'9')*;
 LONG : ('0'..'9')+ '.' ('0'..'9')*;
-STRING : '"' ('0'..'9' | 'a'..'z' | 'A'..'Z' | '_' | ' ' | '\\' | ':' | '.' )* '"';
+STRING : '"' ('0'..'@' | 'a'..'z' | 'A'..'Z' | '_' | ' '..'.' | '\\' )* '"';
 ID : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_'| '-' )*;
 WS : [ \t\r\n]+ -> skip ;
 

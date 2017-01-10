@@ -2,7 +2,7 @@ package com.juliar.nodes;
 
 public enum Operation {
     add,
-    sub,
+    subtract,
     data,
     sum,
     equalequal,

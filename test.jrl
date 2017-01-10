@@ -1,5 +1,10 @@
-//printLine("add 3 3 3 9 9 10 11 22");
-int y2 = + 3 3 3 9 9 10 11 22;
+int z = - 3 2;
+printInt();
+
+printLine("###### test multiply #######");
+int s = * 10 10;
+printInt();
+printLine("####### end test multiply ########");
 
 int x = + 33 3;
 printInt();
@@ -8,6 +13,11 @@ printLine("testing Juliar");
 /*
 Testing comments
 */
+
+
+printLine("test divide");
+int xxx = / 8234234 332;
+printInt();
 
 printLine("add commands");
 int x1 = + 32 431;
@@ -26,15 +36,16 @@ printInt();
 //Test primitive
 printLine("add 32 43");
 int y1 = + 32 43;
+printInt();
 //Adding pushes an integer value onto the stack. The printInt method pops a value off the stack and prints it
 
 
 printLine("test subtraction subtract 77 105");
 int y3 = - 77 105;
+printInt()
 
 printLine("test divsion divide 55 22");
 int y4 = + 55 22;
 printInt();
-
 
 

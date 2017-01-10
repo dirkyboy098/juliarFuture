@@ -14,7 +14,7 @@ public class interpreter {
     private Stack<Node> operandStack = new Stack<Node>();
     private List<Node> inst;
 
-    public interpreter(List<Node> instructions){
+    public interpreter(List<Node> instructions) {
         inst = instructions;
     }
 
@@ -24,11 +24,11 @@ public class interpreter {
                 primitives((PrimitiveNode) n);
             }
 
-            if ( n instanceof AssignmentNode){
+            if (n instanceof AssignmentNode) {
                 assignment((AssignmentNode) n);
             }
 
-            if (n instanceof BinaryNode){
+            if (n instanceof BinaryNode) {
 
             }
         }
@@ -38,90 +38,93 @@ public class interpreter {
         String functionName = n.getPrimitiveName();
         String argument = n.getGetPrimitiveArgument();
 
-        if (functionName.equals("printLine")){
+        if (functionName.equals("printLine")) {
             com.juliar.pal.Primitives.sys_print_line(argument);
         }
-        if (functionName.equals("printInt")){
+        if (functionName.equals("printInt")) {
             argument = ((IntegralTypeNode) operandStack.pop()).data();
-            int intValue = Integer.decode( argument ).intValue();
-            com.juliar.pal.Primitives.sys_print_int( intValue );
+            int intValue = Integer.decode(argument).intValue();
+            com.juliar.pal.Primitives.sys_print_int(intValue);
         }
-        if (functionName.equals("printFloat")){
+        if (functionName.equals("printFloat")) {
             argument = ((IntegralTypeNode) operandStack.pop()).data();
-            float floatValue = Integer.decode( argument ).floatValue();
-            com.juliar.pal.Primitives.sys_print_float( floatValue );
+            float floatValue = Integer.decode(argument).floatValue();
+            com.juliar.pal.Primitives.sys_print_float(floatValue);
         }
-        if (functionName.equals("printDouble")){
+        if (functionName.equals("printDouble")) {
             argument = ((IntegralTypeNode) operandStack.pop()).data();
-            double doubleValue = Integer.decode( argument ).doubleValue();
-            com.juliar.pal.Primitives.sys_print_double( doubleValue );
+            double doubleValue = Integer.decode(argument).doubleValue();
+            com.juliar.pal.Primitives.sys_print_double(doubleValue);
         }
     }
 
     private void assignment(AssignmentNode n) {
         String variableName = n.variableName;
         Node command = n.command;
-        if ( command instanceof BinaryNode){
-            binaryNode( command );
+        if (command instanceof BinaryNode) {
+            binaryNode(command);
         }
         String type = n.type;
     }
 
-    private void binaryNode( Node n){
-        BinaryNode bn = (BinaryNode)n;
+    private void binaryNode(Node n) {
+        BinaryNode bn = (BinaryNode) n;
         String operation = bn.operation().name();
 
         Object ol = bn.left();
         Object or = bn.right();
 
-        if (ol instanceof IntegralTypeNode){
-            integralTypeNode( (IntegralTypeNode)ol);
+        if (ol instanceof IntegralTypeNode) {
+            integralTypeNode((IntegralTypeNode) ol);
         }
 
-        if (or instanceof IntegralTypeNode){
-            integralTypeNode( (IntegralTypeNode)or);
+        if (or instanceof IntegralTypeNode) {
+            integralTypeNode((IntegralTypeNode) or);
         }
 
-        switch ( operation.toLowerCase() )  {
+        switch (operation.toLowerCase()) {
             case "+":
             case "add":
-                add();
+                binaryOperation( (a, b) -> a + b );
                 break;
             case "-":
             case "subtract":
-                subtract();
+                binaryOperation( (a, b) -> a - b );
+                break;
+            case "*":
+            case "multiply":
+                binaryOperation( (a, b) -> a * b );
+                break;
+            case "/":
+            case "divide":
+                binaryOperation( (a, b) -> a / b );
+                break;
             default:
-                assert false;
+                assert true;
         }
     }
 
-    private void subtract(){
+    private void binaryOperation( IntegerMath integerMath) {
         String data1 = ((IntegralTypeNode) operandStack.pop()).data();
-        int v1 = Integer.decode ( data1 ).intValue();
+        int v1 = Integer.decode(data1).intValue();
+
 
         String data2 = ((IntegralTypeNode) operandStack.pop()).data();
-        int v2 = Integer.decode ( data2 ).intValue();
+        int v2 = Integer.decode(data2).intValue();
 
-        String sum = new Integer(v1 - v2).toString();
+        String sum = new Integer(integerMath.operation(v2, v1)).toString();
 
-        operandStack.push (new IntegralTypeNode(sum, IntegralType.jinteger));
+        operandStack.push(new IntegralTypeNode(sum, IntegralType.jinteger));
     }
 
 
-    private void add(){
-        String data1 = ((IntegralTypeNode) operandStack.pop()).data();
-        int v1 = Integer.decode ( data1 ).intValue();
 
-        String data2 = ((IntegralTypeNode) operandStack.pop()).data();
-        int v2 = Integer.decode ( data2 ).intValue();
-
-        String sum = new Integer(v1 + v2).toString();
-
-        operandStack.push (new IntegralTypeNode(sum, IntegralType.jinteger));
+    private void integralTypeNode(IntegralTypeNode itn) {
+        operandStack.push(itn);
     }
 
-
-    private void integralTypeNode(IntegralTypeNode itn){
-        operandStack.push( itn );
+    interface IntegerMath {
+        int operation(int a, int b);
     }
+
 }

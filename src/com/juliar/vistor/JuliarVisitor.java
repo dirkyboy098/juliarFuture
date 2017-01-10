@@ -150,7 +150,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         }
         return null;
     }
-/*
+
     @Override
     public Node visitSubtract(juliarParser.SubtractContext ctx) {
         String text = ctx.subtraction().getText();
@@ -159,7 +159,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
                 BinaryNode node = new BinaryNode();
                 try {
                     instructionList.add(node.MakeNode(
-                            Operation.sub,
+                            Operation.subtract,
                             ctx.types(0).accept(this),
                             ctx.types(1).accept(this)));
                 }catch( Exception ex){
@@ -173,7 +173,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
                 for ( int i = 0; i< ctx.types().size(); i++) {
                     data.add((IntegralTypeNode) ctx.types(i).accept(this));
                 }
-                AggregateNode aggregateNode = new AggregateNode(Operation.sub, data);
+                AggregateNode aggregateNode = new AggregateNode(Operation.subtract, data);
 
                 instructionList.add( aggregateNode );
             }
@@ -214,11 +214,12 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         return null;
     }
 
+
     @Override
     public Node visitMultiply(juliarParser.MultiplyContext ctx) {
 
         String text = ctx.multiplication().getText();
-        if (text.equals("multiply") || text.equals("x")){
+        if (text.equals("multiply") || text.equals("*")){
             if (ctx.types().size() == 2) {
                 BinaryNode node = new BinaryNode();
                 try {
@@ -246,7 +247,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         //return super.visitAdd(ctx);
         return null;
     }
-    */
+
 
     @Override
     public Node visitTypes(juliarParser.TypesContext ctx) {
