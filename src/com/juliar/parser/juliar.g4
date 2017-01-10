@@ -121,7 +121,14 @@ division
     ;
 */
 types
+    : primitiveTypes
+    ;
+
+
+primitiveTypes
     : numericTypes
+    | BOOLEAN
+    | NULL
     ;
 
 numericTypes
@@ -181,6 +188,8 @@ arrowsign    /*Not Sure yet...it may conflict with comparison. Possibly <- would
  * Lexer Rules
  */
 
+NULL: 'null';
+BOOLEAN: 'true'|'false';
 INT: [0-9]+ ;
 FLOAT : ('0'..'9')+ '.' ('0'..'9')*;
 DOUBLE : ('0'..'9')+ '.' ('0'..'9')*;

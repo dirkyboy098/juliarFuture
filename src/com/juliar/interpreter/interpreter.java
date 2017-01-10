@@ -46,6 +46,16 @@ public class interpreter {
             int intValue = Integer.decode( argument ).intValue();
             com.juliar.pal.Primitives.sys_print_int( intValue );
         }
+        if (functionName.equals("printFloat")){
+            argument = ((IntegralTypeNode) operandStack.pop()).data();
+            float floatValue = Integer.decode( argument ).floatValue();
+            com.juliar.pal.Primitives.sys_print_float( floatValue );
+        }
+        if (functionName.equals("printDouble")){
+            argument = ((IntegralTypeNode) operandStack.pop()).data();
+            double doubleValue = Integer.decode( argument ).doubleValue();
+            com.juliar.pal.Primitives.sys_print_double( doubleValue );
+        }
     }
 
     private void assignment(AssignmentNode n) {
