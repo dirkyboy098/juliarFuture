@@ -64,7 +64,22 @@ public class interpreter {
         if (command instanceof BinaryNode) {
             binaryNode(command);
         }
+        if (command instanceof AggregateNode){
+            AggregateNode(command);
+        }
         String type = n.type;
+    }
+
+    private void AggregateNode(Node n){
+        List<IntegralTypeNode> integralTypeNodes = ((AggregateNode)n).data();
+        int addCount = integralTypeNodes.size() - 1;
+        //TODO Different Primitive Types //add
+        for(IntegralTypeNode mintegralTypeNode : integralTypeNodes) {
+            integralTypeNode((IntegralTypeNode) mintegralTypeNode);
+        }
+        for(int i =0;i<addCount;i++){
+            binaryOperation( (a,b) -> a+b); //check
+        }
     }
 
     private void binaryNode(Node n) {
