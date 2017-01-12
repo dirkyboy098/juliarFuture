@@ -114,6 +114,10 @@ public class interpreter {
             case "divide":
                 binaryOperation( (a, b) -> a / b );
                 break;
+            case "%":
+            case "modulo":
+                binaryOperation( (a,b) -> a % b);
+                break;
             default:
                 assert true;
         }

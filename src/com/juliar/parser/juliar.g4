@@ -61,6 +61,7 @@ command
 	| subtract
 	| multiply
 	| divide
+	| modulo
     /*
     | ifExpr
 	| nifExpr
@@ -118,6 +119,16 @@ divide
 division
     : '/'
     | 'divide'
+    ;
+
+modulo
+    : moduli types (types)*
+    | moduli types types
+    ;
+
+moduli
+    :'%'
+    |'modulo'
     ;
 
 types

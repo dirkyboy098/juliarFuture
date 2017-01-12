@@ -18,6 +18,7 @@ public class CodeGeneratorMap {
         map.put("sub", new ArrayList<>(Arrays.asList(ISUB,LSUB,FSUB,DSUB)));
         map.put("multiply", new ArrayList<>(Arrays.asList(IMUL,LMUL,FMUL,DMUL)));
         map.put("divide", new ArrayList<>(Arrays.asList(IDIV, LDIV,FDIV,DDIV)));
+        map.put("modulo", new ArrayList<>(Arrays.asList(IREM,LREM,FREM,DREM)));
     }
 
 
