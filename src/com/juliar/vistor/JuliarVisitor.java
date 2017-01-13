@@ -182,6 +182,39 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
     }
 
     @Override
+    public Node visitModulo(juliarParser.ModuloContext ctx) {
+
+        String text = ctx.moduli().getText();
+        if (text.equals("modulo") || text.equals("%")){
+            if (ctx.types().size() == 2) {
+                BinaryNode node = new BinaryNode();
+                try {
+                    instructionList.add(node.MakeNode(
+                            Operation.modulo,
+                            ctx.types(0).accept(this),
+                            ctx.types(1).accept(this)));
+                }catch( Exception ex){
+                    new PrintError(ex.getMessage(),ex);
+                }
+            }
+
+            if (ctx.types().size() > 2){
+                List<IntegralTypeNode> data = new ArrayList<>();
+
+                for ( int i = 0; i< ctx.types().size(); i++) {
+                    data.add((IntegralTypeNode) ctx.types(i).accept(this));
+                }
+                AggregateNode aggregateNode = new AggregateNode(Operation.modulo, data);
+
+                instructionList.add( aggregateNode );
+            }
+        }
+
+        //return super.visitAdd(ctx);
+        return null;
+    }
+
+    @Override
     public Node visitDivide(juliarParser.DivideContext ctx) {
 
         String text = ctx.division().getText();
