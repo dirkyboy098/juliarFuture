@@ -3,7 +3,7 @@ package com.juliar.nodes;
 /**
  * Created by Don on 12/24/2016.
  */
-public class PrimitiveNode implements Node {
+public class PrimitiveNode extends NodeImpl {
     private String primitiveName;
     private String primitiveArgument;
 

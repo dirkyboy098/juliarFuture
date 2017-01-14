@@ -3,7 +3,7 @@ package com.juliar.nodes;
 /**
  * Created by donreamey on 10/21/16.
  */
-public class BinaryNode implements Node {
+public class BinaryNode extends NodeImpl  {
     private Operation op;
     private Node lv;
     private Node rv;

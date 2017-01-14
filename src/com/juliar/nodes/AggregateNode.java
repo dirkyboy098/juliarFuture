@@ -7,7 +7,7 @@ import java.util.List;
  */
 
 
-public class AggregateNode implements Node {
+public class AggregateNode extends NodeImpl {
 
     private Operation op;
     private List<IntegralTypeNode> objectData;

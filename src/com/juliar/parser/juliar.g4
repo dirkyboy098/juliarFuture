@@ -5,7 +5,7 @@ grammar juliar;
  */
 
 compileUnit
-	:	(statement)*
+	:	(functionDeclaration)*
 	;
 
 statement
@@ -32,12 +32,30 @@ expressions
 expression
     : assignmentExpression
     | primitives
+    | functionCall
     ;
 
 assignmentExpression
     : keywords variable equalsign command
 	| keywords variable equalsign variable
     ;
+
+functionCallKeyword
+    : 'call'
+    ;
+
+functionCall
+    : (functionCallKeyword)(funcName)'()'
+    ;
+
+functionDeclaration
+    : 'function' funcName '()' equalsign '{' (statement)* '}'
+    ;
+
+funcName
+    : ID
+    ;
+
 
 /*
 booleanExpression

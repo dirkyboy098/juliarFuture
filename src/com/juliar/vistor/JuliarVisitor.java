@@ -1,15 +1,10 @@
 package com.juliar.vistor;
 
-import com.sun.scenario.effect.impl.sw.java.JSWBlend_EXCLUSIONPeer;
+import com.juliar.codegenerator.InstructionInvocation;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
-
 import java.lang.*;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
-
-import static java.lang.System.out;
+import java.util.*;
 import com.juliar.nodes.*;
 import com.juliar.parser.*;
 import com.juliar.errors.PrintError;
@@ -20,9 +15,11 @@ import com.juliar.errors.PrintError;
 public class JuliarVisitor extends juliarBaseVisitor<Node>
 {
     private List<Node> instructionList = new ArrayList<>();
+    private HashMap<String, Node> functionNodeMap = new HashMap<String, Node>();
+    private Stack<Node> funcContextStack = new Stack<Node>();
 
-    public List<Node> instructions(){
-        return instructionList;
+    public InstructionInvocation instructions(){
+        return new InstructionInvocation(instructionList, functionNodeMap);
     }
 
 
@@ -36,7 +33,6 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
             t.accept(this);
         }
 
-        //return node;
         return null;
     }
 
@@ -50,37 +46,273 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
             }
 
             t.accept(this);
-            //Node n = t.accept(this);
-            //node.statements.add(n);
         }
 
         return null;
     }
 
-/*
-    @Override
-    public Node visitStartLine(juliarParser.StartLineContext ctx) {
-        for(ParseTree t : ctx.children){
-            t.accept(this);
-            //Object n = t.accept(this);
-            //out.println(n);
-        }
-        //return super.visitStartLine(ctx);
-        return null;
-    }
-*/
     @Override
     public Node visitEndLine(juliarParser.EndLineContext ctx) {
         for(ParseTree t : ctx.children){
             t.accept(this);
-            //Object n = t.accept(this);
-            //out.println(n);
         }
-        //return super.visitEndLine(ctx);
         return null;
     }
 
-    /*
+
+    //TODO need to refactor and combine vistAdd and visitSubtract
+    @Override
+    public Node visitAdd(juliarParser.AddContext ctx) {
+
+        String text = ctx.summation().getText();
+        if (text.equals("add") || text.equals("+")){
+            if (ctx.types().size() == 2) {
+                BinaryNode node = new BinaryNode();
+                try {
+                    FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
+                    functionDeclNode.AddInst(node.MakeNode(
+                            Operation.add,
+                            ctx.types(0).accept(this),
+                            ctx.types(1).accept(this)));
+                }catch( Exception ex){
+                    new PrintError(ex.getMessage(),ex);
+                }
+            }
+
+            if (ctx.types().size() > 2){
+                List<IntegralTypeNode> data = new ArrayList<>();
+
+                for ( int i = 0; i< ctx.types().size(); i++) {
+                    data.add((IntegralTypeNode) ctx.types(i).accept(this));
+                }
+                AggregateNode aggregateNode = new AggregateNode(Operation.add, data);
+
+                FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
+                functionDeclNode.AddInst( aggregateNode );
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Node visitSubtract(juliarParser.SubtractContext ctx) {
+        String text = ctx.subtraction().getText();
+        if (text.equals("subtract") || text.equals("-")){
+            if (ctx.types().size() == 2) {
+                BinaryNode node = new BinaryNode();
+                try {
+
+                    Node n = node.MakeNode(
+                                Operation.subtract,
+                                ctx.types(0).accept(this),
+                                ctx.types(1).accept(this));
+                    n.AddInst( funcContextStack, n);
+                }catch( Exception ex){
+                    new PrintError(ex.getMessage(),ex);
+                }
+            }
+
+            if (ctx.types().size() > 2){
+                List<IntegralTypeNode> data = new ArrayList<>();
+
+                for ( int i = 0; i< ctx.types().size(); i++) {
+                    data.add((IntegralTypeNode) ctx.types(i).accept(this));
+                }
+                AggregateNode aggregateNode = new AggregateNode(Operation.subtract, data);
+
+                FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
+                functionDeclNode.AddInst( aggregateNode );
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Node visitFunctionDeclaration(juliarParser.FunctionDeclarationContext ctx) {
+        String funcName = ctx.funcName().getText();
+        FunctionDeclNode functionDeclNode = new FunctionDeclNode(funcName, new ArrayList<Node>());
+        funcContextStack.push( functionDeclNode );
+
+        List<juliarParser.StatementContext> statementContexts = ctx.statement();
+        for(juliarParser.StatementContext context : statementContexts){
+            context.accept(this);
+        }
+
+        funcContextStack.pop();
+
+        instructionList.add( functionDeclNode );
+        functionNodeMap.put(funcName, functionDeclNode);
+
+        return null;
+    }
+
+    @Override
+    public Node visitFunctionCallKeyword(juliarParser.FunctionCallKeywordContext ctx) {
+        return super.visitFunctionCallKeyword(ctx);
+    }
+
+    @Override
+    public Node visitFunctionCall(juliarParser.FunctionCallContext ctx) {
+        FunctionCallNode node = new FunctionCallNode(ctx.funcName().ID().getText());
+        node.AddInst(funcContextStack , node);
+
+        return null;
+    }
+
+
+    @Override
+    public Node visitDivide(juliarParser.DivideContext ctx) {
+
+        String text = ctx.division().getText();
+        if (text.equals("divide") || text.equals("/")){
+            if (ctx.types().size() == 2) {
+                BinaryNode node = new BinaryNode();
+                try {
+                    if (!funcContextStack.empty()) {
+                        FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
+                        functionDeclNode.AddInst(node.MakeNode(
+                                Operation.divide,
+                                ctx.types(0).accept(this),
+                                ctx.types(1).accept(this)));
+                    }
+                }catch( Exception ex){
+                    new PrintError(ex.getMessage(),ex);
+                }
+            }
+
+            if (ctx.types().size() > 2){
+                List<IntegralTypeNode> data = new ArrayList<>();
+
+                for ( int i = 0; i< ctx.types().size(); i++) {
+                    data.add((IntegralTypeNode) ctx.types(i).accept(this));
+                }
+                AggregateNode aggregateNode = new AggregateNode(Operation.divide, data);
+
+                FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
+                functionDeclNode.AddInst( aggregateNode );
+            }
+        }
+
+        //return super.visitAdd(ctx);
+        return null;
+    }
+
+
+    @Override
+    public Node visitMultiply(juliarParser.MultiplyContext ctx) {
+
+        String text = ctx.multiplication().getText();
+        if (text.equals("multiply") || text.equals("*")){
+            if (ctx.types().size() == 2) {
+                BinaryNode node = new BinaryNode();
+                try {
+                    FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
+                    functionDeclNode.AddInst(node.MakeNode(
+                            Operation.multiply,
+                            ctx.types(0).accept(this),
+                            ctx.types(1).accept(this)));
+                }catch( Exception ex){
+                    new PrintError(ex.getMessage(),ex);
+                }
+            }
+
+            if (ctx.types().size() > 2){
+                List<IntegralTypeNode> data = new ArrayList<>();
+
+                for ( int i = 0; i< ctx.types().size(); i++) {
+                    data.add((IntegralTypeNode) ctx.types(i).accept(this));
+                }
+                AggregateNode aggregateNode = new AggregateNode(Operation.multiply, data);
+                FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
+                functionDeclNode.AddInst( aggregateNode );
+            }
+        }
+
+        //return super.visitAdd(ctx);
+        return null;
+    }
+
+
+    @Override
+    public Node visitTypes(juliarParser.TypesContext ctx) {
+        if (ctx.children.size() > 1) {
+            //throw new Exception("invalid number of types");
+        }
+        ParseTree tn = ctx.children.get(0);
+
+        JTerminalNode terminal = (JTerminalNode) tn.accept(this);
+        IntegralTypeNode itn = new IntegralTypeNode(ctx, terminal);
+
+        return itn;
+    }
+
+    @Override
+    public Node visitEqualequal(juliarParser.EqualequalContext ctx) {
+        return super.visitEqualequal(ctx);
+    }
+
+
+    @Override
+    public Node visitPrimitives(juliarParser.PrimitivesContext ctx) {
+        if (ctx != null){
+            List<ParseTree> parseTreeList = ctx.children;
+            if (parseTreeList.toArray()[0].toString().equals( "printInt") ){
+                FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
+                functionDeclNode.AddInst(new PrimitiveNode( "printInt" , null));
+            }else {
+                FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
+                functionDeclNode.AddInst(new PrimitiveNode(
+                                parseTreeList.toArray()[0].toString(),
+                                parseTreeList.toArray()[2].toString()));
+            }
+        }
+
+        return null;
+    }
+
+
+    @Override
+    public Node visitTerminal(TerminalNode node) {
+        return new JTerminalNode(node);
+    }
+
+    @Override
+    public Node visitAssignmentExpression(juliarParser.AssignmentExpressionContext ctx) {
+        if (funcContextStack.empty()){
+            assert true;
+        }
+
+        if (ctx.variable().size() == 1){
+
+            String type = ctx.keywords().getText();
+            // The type will dictate the valid values used in the command.
+
+            String variableName = ctx.variable( 0 ).getText();
+            String operator = ctx.equalsign().getText();
+            if(operator != "="){
+                //hook up to error listener;
+            }
+
+
+            AssignmentNode node = new AssignmentNode( type, variableName, null);
+
+            funcContextStack.push( node );
+            ctx.command().accept( this );
+            funcContextStack.pop();
+            node.AddInst(funcContextStack, node);
+        }
+
+        return null;
+    }
+
+    @Override
+    public Node visitExpression(juliarParser.ExpressionContext ctx) {
+        return super.visitExpression(ctx);
+    }
+
+
+
+        /*
     @Override
     public Node visitBooleanExpression(juliarParser.BooleanExpressionContext ctx) {
         return super.visitBooleanExpression(ctx);
@@ -118,208 +350,4 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
     }
 */
 
-
-    //TODO need to refactor and combine vistAdd and visitSubtract
-    @Override
-    public Node visitAdd(juliarParser.AddContext ctx) {
-
-        String text = ctx.summation().getText();
-        if (text.equals("add") || text.equals("+")){
-            if (ctx.types().size() == 2) {
-                BinaryNode node = new BinaryNode();
-                try {
-                    instructionList.add(node.MakeNode(
-                            Operation.add,
-                            ctx.types(0).accept(this),
-                            ctx.types(1).accept(this)));
-                }catch( Exception ex){
-                    new PrintError(ex.getMessage(),ex);
-                }
-            }
-
-            if (ctx.types().size() > 2){
-                List<IntegralTypeNode> data = new ArrayList<>();
-
-                for ( int i = 0; i< ctx.types().size(); i++) {
-                    data.add((IntegralTypeNode) ctx.types(i).accept(this));
-                }
-                AggregateNode aggregateNode = new AggregateNode(Operation.add, data);
-
-                instructionList.add( aggregateNode );
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public Node visitSubtract(juliarParser.SubtractContext ctx) {
-        String text = ctx.subtraction().getText();
-        if (text.equals("subtract") || text.equals("-")){
-            if (ctx.types().size() == 2) {
-                BinaryNode node = new BinaryNode();
-                try {
-                    instructionList.add(node.MakeNode(
-                            Operation.subtract,
-                            ctx.types(0).accept(this),
-                            ctx.types(1).accept(this)));
-                }catch( Exception ex){
-                    new PrintError(ex.getMessage(),ex);
-                }
-            }
-
-            if (ctx.types().size() > 2){
-                List<IntegralTypeNode> data = new ArrayList<>();
-
-                for ( int i = 0; i< ctx.types().size(); i++) {
-                    data.add((IntegralTypeNode) ctx.types(i).accept(this));
-                }
-                AggregateNode aggregateNode = new AggregateNode(Operation.subtract, data);
-
-                instructionList.add( aggregateNode );
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public Node visitDivide(juliarParser.DivideContext ctx) {
-
-        String text = ctx.division().getText();
-        if (text.equals("divide") || text.equals("/")){
-            if (ctx.types().size() == 2) {
-                BinaryNode node = new BinaryNode();
-                try {
-                    instructionList.add(node.MakeNode(
-                            Operation.divide,
-                            ctx.types(0).accept(this),
-                            ctx.types(1).accept(this)));
-                }catch( Exception ex){
-                    new PrintError(ex.getMessage(),ex);
-                }
-            }
-
-            if (ctx.types().size() > 2){
-                List<IntegralTypeNode> data = new ArrayList<>();
-
-                for ( int i = 0; i< ctx.types().size(); i++) {
-                    data.add((IntegralTypeNode) ctx.types(i).accept(this));
-                }
-                AggregateNode aggregateNode = new AggregateNode(Operation.divide, data);
-
-                instructionList.add( aggregateNode );
-            }
-        }
-
-        //return super.visitAdd(ctx);
-        return null;
-    }
-
-
-    @Override
-    public Node visitMultiply(juliarParser.MultiplyContext ctx) {
-
-        String text = ctx.multiplication().getText();
-        if (text.equals("multiply") || text.equals("*")){
-            if (ctx.types().size() == 2) {
-                BinaryNode node = new BinaryNode();
-                try {
-                    instructionList.add(node.MakeNode(
-                            Operation.multiply,
-                            ctx.types(0).accept(this),
-                            ctx.types(1).accept(this)));
-                }catch( Exception ex){
-                    new PrintError(ex.getMessage(),ex);
-                }
-            }
-
-            if (ctx.types().size() > 2){
-                List<IntegralTypeNode> data = new ArrayList<>();
-
-                for ( int i = 0; i< ctx.types().size(); i++) {
-                    data.add((IntegralTypeNode) ctx.types(i).accept(this));
-                }
-                AggregateNode aggregateNode = new AggregateNode(Operation.multiply, data);
-
-                instructionList.add( aggregateNode );
-            }
-        }
-
-        //return super.visitAdd(ctx);
-        return null;
-    }
-
-
-    @Override
-    public Node visitTypes(juliarParser.TypesContext ctx) {
-        if (ctx.children.size() > 1) {
-            //throw new Exception("invalid number of types");
-        }
-        ParseTree tn = ctx.children.get(0);
-
-        JTerminalNode terminal = (JTerminalNode) tn.accept(this);
-        IntegralTypeNode itn = new IntegralTypeNode(ctx, terminal);
-
-        return itn;
-    }
-
-    @Override
-    public Node visitEqualequal(juliarParser.EqualequalContext ctx) {
-        return super.visitEqualequal(ctx);
-    }
-
-
-    @Override
-    public Node visitPrimitives(juliarParser.PrimitivesContext ctx) {
-        if (ctx != null){
-            List<ParseTree> parseTreeList = ctx.children;
-            if (parseTreeList.toArray()[0].toString().equals( "printInt") ){
-                instructionList.add(
-                        new PrimitiveNode( "printInt" , null));
-            }else {
-                instructionList.add(
-                        new PrimitiveNode(
-                                parseTreeList.toArray()[0].toString(),
-                                parseTreeList.toArray()[2].toString()));
-            }
-        }
-
-        return null;
-    }
-
-
-    @Override
-    public Node visitTerminal(TerminalNode node) {
-        return new JTerminalNode(node);
-    }
-
-    @Override
-    public Node visitAssignmentExpression(juliarParser.AssignmentExpressionContext ctx) {
-        if (ctx.variable().size() == 1){
-
-            String type = ctx.keywords().getText();
-            // The type will dictate the valid values used in the command.
-
-            String variableName = ctx.variable( 0 ).getText();
-            String operator = ctx.equalsign().getText();
-            if(operator != "="){
-                //hook up to error listener;
-            }
-
-            ctx.command().accept( this );
-
-            int instructionCount = instructionList.size() - 1;
-            Node instruction = instructionList.remove( instructionCount );
-
-            assert instruction != null;
-
-            instructionList.add( new AssignmentNode( type, variableName, instruction));
-        }
-
-        return null;
-    }
-
-    @Override
-    public Node visitExpression(juliarParser.ExpressionContext ctx) {
-        return super.visitExpression(ctx);
-    }
 }

@@ -57,7 +57,6 @@ public class JuliarCompiler {
                 JuliarVisitor v = new JuliarVisitor();
                 v.visit(context);
                 interpreter i = new interpreter(v.instructions());
-                i.execute();
             } else {
                 // Calls the parse CompileUnit method
                 // to parse a complete program
@@ -69,7 +68,6 @@ public class JuliarCompiler {
                 visitor.visit(context);
 
                 interpreter i = new interpreter(visitor.instructions());
-                i.execute();
 
                 //com.juliar.codegenerator.CodeGenerator generator = new com.juliar.codegenerator.CodeGenerator();
                 //generator.Generate(visitor.instructions());

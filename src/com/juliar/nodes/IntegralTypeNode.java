@@ -6,7 +6,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 /**
  * Created by donreamey on 10/28/16.
  */
-public class IntegralTypeNode implements Node {
+public class IntegralTypeNode extends NodeImpl {
     private String objectData;
     private IntegralType integralType;
 

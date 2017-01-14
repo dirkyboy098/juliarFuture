@@ -1,9 +1,9 @@
 package com.juliar.interpreter;
 
+import com.juliar.codegenerator.InstructionInvocation;
 import com.juliar.nodes.*;
 
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Created by donreamey on 1/8/17.
@@ -13,13 +13,49 @@ public class interpreter {
     private Stack<Node> operatorStack = new Stack<Node>();
     private Stack<Node> operandStack = new Stack<Node>();
     private List<Node> inst;
+    private InstructionInvocation invocationList;
+    private HashMap<String, Node> functionNodeMap;
 
     public interpreter(List<Node> instructions) {
         inst = instructions;
     }
 
-    public void execute() {
-        for (Node n : inst) {
+    public interpreter(InstructionInvocation invocation){
+        invocationList = invocation;
+        inst = invocation.getInstructionList();
+        functionNodeMap = invocation.getFunctionNodeMap();
+
+        execute(inst);
+    }
+
+    public void execute( List<Node> instructions) {
+        for (Node n : instructions) {
+            if (n instanceof CompliationUnitNode){
+              for(Map.Entry<String, Node> entry : functionNodeMap.entrySet()) {
+                  if (entry.getKey().toString().equals("main")) {
+                      execute(entry.getValue().getInstructions());
+                      break;
+                  }
+              }
+            }
+
+            if (n instanceof FunctionCallNode){
+                FunctionCallNode functionCallNode = (FunctionCallNode)n;
+                String functionToCall = functionCallNode.FunctionName();
+
+                // main should only be called from the compliationUnit
+                if (functionCallNode.equals( "main ")){
+                    continue;
+                }
+
+                for(Map.Entry<String, Node> entry : functionNodeMap.entrySet()){
+                    if (entry.getKey().toString().equals( functionToCall )) {
+                        execute(entry.getValue().getInstructions());
+                        break;
+                    }
+                }
+            }
+
             if (n instanceof PrimitiveNode) {
                 primitives((PrimitiveNode) n);
             }
@@ -60,7 +96,10 @@ public class interpreter {
 
     private void assignment(AssignmentNode n) {
         String variableName = n.variableName;
-        Node command = n.command;
+
+        // only supports one command for now
+        Node command = n.getInstructions().get(0);
+
         if (command instanceof BinaryNode) {
             binaryNode(command);
         }
