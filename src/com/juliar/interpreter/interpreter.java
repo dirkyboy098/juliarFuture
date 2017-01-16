@@ -16,6 +16,7 @@ public class interpreter {
     private InstructionInvocation invocationList;
     private HashMap<String, Node> functionNodeMap;
 
+
     public interpreter(List<Node> instructions) {
         inst = instructions;
     }
@@ -95,7 +96,7 @@ public class interpreter {
     }
 
     private void assignment(AssignmentNode n) {
-        String variableName = n.variableName;
+        String variableName = n.getVariableNode().variableName;
 
         // only supports one command for now
         Node command = n.getInstructions().get(0);
@@ -106,7 +107,7 @@ public class interpreter {
         if (command instanceof AggregateNode){
             AggregateNode(command);
         }
-        String type = n.type;
+        String type = n.getVariableNode().type;
     }
 
     private void AggregateNode(Node n){

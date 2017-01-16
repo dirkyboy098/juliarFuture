@@ -68,10 +68,17 @@ booleanExpression
 primitives
     : 'fileOpen' '(' STRING ')'
     | 'printLine' '(' STRING ')'
-    | 'printInt' '(' INT ')'
-    | 'printFloat' '(' FLOAT ')'
-    | 'printDouble' '(' DOUBLE ')'
+    | 'printInt' '(' ')'
+    | 'printInt' '(' variable ')'
+    | 'printFloat' '('')'
+    | 'printDouble' '('')'
     ;
+
+printPrimitives
+    : 'printInt' '(' INT ')'
+    | 'printInt' '(' variable ')'
+    ;
+
 
 command
     : add

@@ -1,6 +1,7 @@
 package com.juliar.vistor;
 
 import com.juliar.codegenerator.InstructionInvocation;
+import com.juliar.errors.ErrorListener;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import java.lang.*;
@@ -317,15 +318,13 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
             String type = ctx.keywords().getText();
             // The type will dictate the valid values used in the command.
-
             String variableName = ctx.variable( 0 ).getText();
+
+            VariableNode variableNode = new VariableNode( variableName, type );
+
             String operator = ctx.equalsign().getText();
-            if(operator != "="){
-                //hook up to error listener;
-            }
 
-
-            AssignmentNode node = new AssignmentNode( type, variableName, null);
+            AssignmentNode node = new AssignmentNode( variableNode);
 
             funcContextStack.push( node );
             ctx.command().accept( this );

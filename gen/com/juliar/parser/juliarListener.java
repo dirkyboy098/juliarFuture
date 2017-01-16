@@ -1,4 +1,4 @@
-// Generated from /Users/donreamey/github/juliarFuture/src/com/juliar/parser/juliar.g4 by ANTLR 4.5.3
+// Generated from D:/source/juliarFuture/src/com/juliar/parser\juliar.g4 by ANTLR 4.6
 package com.juliar.parser;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -28,16 +28,6 @@ public interface juliarListener extends ParseTreeListener {
 	 */
 	void exitStatement(juliarParser.StatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link juliarParser#startLine}.
-	 * @param ctx the parse tree
-	 */
-	void enterStartLine(juliarParser.StartLineContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link juliarParser#startLine}.
-	 * @param ctx the parse tree
-	 */
-	void exitStartLine(juliarParser.StartLineContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link juliarParser#endLine}.
 	 * @param ctx the parse tree
 	 */
@@ -48,15 +38,25 @@ public interface juliarListener extends ParseTreeListener {
 	 */
 	void exitEndLine(juliarParser.EndLineContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link juliarParser#asterisk}.
+	 * Enter a parse tree produced by {@link juliarParser#semiColon}.
 	 * @param ctx the parse tree
 	 */
-	void enterAsterisk(juliarParser.AsteriskContext ctx);
+	void enterSemiColon(juliarParser.SemiColonContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link juliarParser#asterisk}.
+	 * Exit a parse tree produced by {@link juliarParser#semiColon}.
 	 * @param ctx the parse tree
 	 */
-	void exitAsterisk(juliarParser.AsteriskContext ctx);
+	void exitSemiColon(juliarParser.SemiColonContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link juliarParser#expressions}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpressions(juliarParser.ExpressionsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link juliarParser#expressions}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpressions(juliarParser.ExpressionsContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link juliarParser#expression}.
 	 * @param ctx the parse tree
@@ -78,15 +78,55 @@ public interface juliarListener extends ParseTreeListener {
 	 */
 	void exitAssignmentExpression(juliarParser.AssignmentExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link juliarParser#booleanExpression}.
+	 * Enter a parse tree produced by {@link juliarParser#functionCallKeyword}.
 	 * @param ctx the parse tree
 	 */
-	void enterBooleanExpression(juliarParser.BooleanExpressionContext ctx);
+	void enterFunctionCallKeyword(juliarParser.FunctionCallKeywordContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link juliarParser#booleanExpression}.
+	 * Exit a parse tree produced by {@link juliarParser#functionCallKeyword}.
 	 * @param ctx the parse tree
 	 */
-	void exitBooleanExpression(juliarParser.BooleanExpressionContext ctx);
+	void exitFunctionCallKeyword(juliarParser.FunctionCallKeywordContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link juliarParser#functionCall}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionCall(juliarParser.FunctionCallContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link juliarParser#functionCall}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionCall(juliarParser.FunctionCallContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link juliarParser#functionDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionDeclaration(juliarParser.FunctionDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link juliarParser#functionDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionDeclaration(juliarParser.FunctionDeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link juliarParser#funcName}.
+	 * @param ctx the parse tree
+	 */
+	void enterFuncName(juliarParser.FuncNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link juliarParser#funcName}.
+	 * @param ctx the parse tree
+	 */
+	void exitFuncName(juliarParser.FuncNameContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link juliarParser#primitives}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrimitives(juliarParser.PrimitivesContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link juliarParser#primitives}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrimitives(juliarParser.PrimitivesContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link juliarParser#command}.
 	 * @param ctx the parse tree
@@ -108,36 +148,6 @@ public interface juliarListener extends ParseTreeListener {
 	 */
 	void exitVariable(juliarParser.VariableContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link juliarParser#absolute}.
-	 * @param ctx the parse tree
-	 */
-	void enterAbsolute(juliarParser.AbsoluteContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link juliarParser#absolute}.
-	 * @param ctx the parse tree
-	 */
-	void exitAbsolute(juliarParser.AbsoluteContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link juliarParser#acos}.
-	 * @param ctx the parse tree
-	 */
-	void enterAcos(juliarParser.AcosContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link juliarParser#acos}.
-	 * @param ctx the parse tree
-	 */
-	void exitAcos(juliarParser.AcosContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link juliarParser#acosh}.
-	 * @param ctx the parse tree
-	 */
-	void enterAcosh(juliarParser.AcoshContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link juliarParser#acosh}.
-	 * @param ctx the parse tree
-	 */
-	void exitAcosh(juliarParser.AcoshContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link juliarParser#add}.
 	 * @param ctx the parse tree
 	 */
@@ -158,16 +168,6 @@ public interface juliarListener extends ParseTreeListener {
 	 */
 	void exitSummation(juliarParser.SummationContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link juliarParser#minus}.
-	 * @param ctx the parse tree
-	 */
-	void enterMinus(juliarParser.MinusContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link juliarParser#minus}.
-	 * @param ctx the parse tree
-	 */
-	void exitMinus(juliarParser.MinusContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link juliarParser#subtract}.
 	 * @param ctx the parse tree
 	 */
@@ -177,6 +177,76 @@ public interface juliarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitSubtract(juliarParser.SubtractContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link juliarParser#subtraction}.
+	 * @param ctx the parse tree
+	 */
+	void enterSubtraction(juliarParser.SubtractionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link juliarParser#subtraction}.
+	 * @param ctx the parse tree
+	 */
+	void exitSubtraction(juliarParser.SubtractionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link juliarParser#multiply}.
+	 * @param ctx the parse tree
+	 */
+	void enterMultiply(juliarParser.MultiplyContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link juliarParser#multiply}.
+	 * @param ctx the parse tree
+	 */
+	void exitMultiply(juliarParser.MultiplyContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link juliarParser#multiplication}.
+	 * @param ctx the parse tree
+	 */
+	void enterMultiplication(juliarParser.MultiplicationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link juliarParser#multiplication}.
+	 * @param ctx the parse tree
+	 */
+	void exitMultiplication(juliarParser.MultiplicationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link juliarParser#divide}.
+	 * @param ctx the parse tree
+	 */
+	void enterDivide(juliarParser.DivideContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link juliarParser#divide}.
+	 * @param ctx the parse tree
+	 */
+	void exitDivide(juliarParser.DivideContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link juliarParser#division}.
+	 * @param ctx the parse tree
+	 */
+	void enterDivision(juliarParser.DivisionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link juliarParser#division}.
+	 * @param ctx the parse tree
+	 */
+	void exitDivision(juliarParser.DivisionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link juliarParser#modulo}.
+	 * @param ctx the parse tree
+	 */
+	void enterModulo(juliarParser.ModuloContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link juliarParser#modulo}.
+	 * @param ctx the parse tree
+	 */
+	void exitModulo(juliarParser.ModuloContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link juliarParser#moduli}.
+	 * @param ctx the parse tree
+	 */
+	void enterModuli(juliarParser.ModuliContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link juliarParser#moduli}.
+	 * @param ctx the parse tree
+	 */
+	void exitModuli(juliarParser.ModuliContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link juliarParser#types}.
 	 * @param ctx the parse tree
@@ -188,6 +258,26 @@ public interface juliarListener extends ParseTreeListener {
 	 */
 	void exitTypes(juliarParser.TypesContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link juliarParser#primitiveTypes}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrimitiveTypes(juliarParser.PrimitiveTypesContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link juliarParser#primitiveTypes}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrimitiveTypes(juliarParser.PrimitiveTypesContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link juliarParser#numericTypes}.
+	 * @param ctx the parse tree
+	 */
+	void enterNumericTypes(juliarParser.NumericTypesContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link juliarParser#numericTypes}.
+	 * @param ctx the parse tree
+	 */
+	void exitNumericTypes(juliarParser.NumericTypesContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link juliarParser#equalsign}.
 	 * @param ctx the parse tree
 	 */
@@ -197,4 +287,34 @@ public interface juliarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitEqualsign(juliarParser.EqualsignContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link juliarParser#equalequal}.
+	 * @param ctx the parse tree
+	 */
+	void enterEqualequal(juliarParser.EqualequalContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link juliarParser#equalequal}.
+	 * @param ctx the parse tree
+	 */
+	void exitEqualequal(juliarParser.EqualequalContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link juliarParser#keywords}.
+	 * @param ctx the parse tree
+	 */
+	void enterKeywords(juliarParser.KeywordsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link juliarParser#keywords}.
+	 * @param ctx the parse tree
+	 */
+	void exitKeywords(juliarParser.KeywordsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link juliarParser#arrowsign}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrowsign(juliarParser.ArrowsignContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link juliarParser#arrowsign}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrowsign(juliarParser.ArrowsignContext ctx);
 }

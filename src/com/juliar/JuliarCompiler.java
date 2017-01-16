@@ -22,6 +22,8 @@ import com.juliar.errors.PrintError;
 
 public class JuliarCompiler {
 
+    private ErrorListener errors;
+
     public static void main(String[] args) {
         try {
             assert args[0] != null && args[1] != null;
@@ -44,9 +46,11 @@ public class JuliarCompiler {
     }
 
     public List<String> compile(InputStream b, String source, boolean isRepl) {
-
         try {
             juliarParser parser = parse( b );
+
+            errors = new ErrorListener();
+            parser.addErrorListener(errors);
 
             // call parse statement.
             // This will parse a single line to validate the syntax
@@ -63,6 +67,15 @@ public class JuliarCompiler {
                 // then calls the code generator.
                 juliarParser.CompileUnitContext context = parser.compileUnit();
                 out.println(context.toStringTree(parser));
+
+                if (errors.ErrorList().size() > 0){
+                    for (String error : errors.ErrorList()){
+                        out.println( error );
+                    }
+
+                    return errors.ErrorList();
+                }
+
 
                 JuliarVisitor visitor = new JuliarVisitor();
                 visitor.visit(context);
@@ -96,8 +109,6 @@ public class JuliarCompiler {
             parser = new juliarParser(tokenStream);
 
             parser.removeErrorListeners();
-            ErrorListener errors = new ErrorListener();
-            parser.addErrorListener(errors);
         } catch (Exception ex) {
             throw ex;
         }

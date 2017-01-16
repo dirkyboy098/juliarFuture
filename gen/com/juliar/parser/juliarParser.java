@@ -1,4 +1,4 @@
-// Generated from /Users/donreamey/github/juliarFuture/src/com/juliar/parser/juliar.g4 by ANTLR 4.5.3
+// Generated from D:/source/juliarFuture/src/com/juliar/parser\juliar.g4 by ANTLR 4.6
 package com.juliar.parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -11,32 +11,49 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class juliarParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.5.3", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.6", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, INT=6, FLOAT=7, DOUBLE=8, LONG=9, 
-		STRING=10, ID=11, WS=12;
+		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
+		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
+		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
+		T__24=25, T__25=26, T__26=27, T__27=28, T__28=29, T__29=30, T__30=31, 
+		NULL=32, BOOLEAN=33, INT=34, FLOAT=35, DOUBLE=36, LONG=37, STRING=38, 
+		ID=39, WS=40, COMMENT=41, LINE_COMMENT=42;
 	public static final int
-		RULE_compileUnit = 0, RULE_statement = 1, RULE_startLine = 2, RULE_endLine = 3, 
-		RULE_asterisk = 4, RULE_expression = 5, RULE_assignmentExpression = 6, 
-		RULE_booleanExpression = 7, RULE_command = 8, RULE_variable = 9, RULE_absolute = 10, 
-		RULE_acos = 11, RULE_acosh = 12, RULE_add = 13, RULE_summation = 14, RULE_minus = 15, 
-		RULE_subtract = 16, RULE_types = 17, RULE_equalsign = 18;
+		RULE_compileUnit = 0, RULE_statement = 1, RULE_endLine = 2, RULE_semiColon = 3, 
+		RULE_expressions = 4, RULE_expression = 5, RULE_assignmentExpression = 6, 
+		RULE_functionCallKeyword = 7, RULE_functionCall = 8, RULE_functionDeclaration = 9, 
+		RULE_funcName = 10, RULE_primitives = 11, RULE_command = 12, RULE_variable = 13, 
+		RULE_add = 14, RULE_summation = 15, RULE_subtract = 16, RULE_subtraction = 17, 
+		RULE_multiply = 18, RULE_multiplication = 19, RULE_divide = 20, RULE_division = 21, 
+		RULE_modulo = 22, RULE_moduli = 23, RULE_types = 24, RULE_primitiveTypes = 25, 
+		RULE_numericTypes = 26, RULE_equalsign = 27, RULE_equalequal = 28, RULE_keywords = 29, 
+		RULE_arrowsign = 30;
 	public static final String[] ruleNames = {
-		"compileUnit", "statement", "startLine", "endLine", "asterisk", "expression", 
-		"assignmentExpression", "booleanExpression", "command", "variable", "absolute", 
-		"acos", "acosh", "add", "summation", "minus", "subtract", "types", "equalsign"
+		"compileUnit", "statement", "endLine", "semiColon", "expressions", "expression", 
+		"assignmentExpression", "functionCallKeyword", "functionCall", "functionDeclaration", 
+		"funcName", "primitives", "command", "variable", "add", "summation", "subtract", 
+		"subtraction", "multiply", "multiplication", "divide", "division", "modulo", 
+		"moduli", "types", "primitiveTypes", "numericTypes", "equalsign", "equalequal", 
+		"keywords", "arrowsign"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'*'", "'+'", "'add'", "'-'", "'='"
+		null, "';'", "'call'", "'()'", "'function'", "'{'", "'}'", "'fileOpen'", 
+		"'('", "')'", "'printLine'", "'printInt'", "'printFloat'", "'printDouble'", 
+		"'+'", "'add'", "'-'", "'subtract'", "'*'", "'multiply'", "'/'", "'divide'", 
+		"'%'", "'modulo'", "'='", "'=='", "'int'", "'float'", "'double'", "'long'", 
+		"'object'", "'<='", "'null'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, null, null, null, "INT", "FLOAT", "DOUBLE", "LONG", 
-		"STRING", "ID", "WS"
+		null, null, null, null, null, null, null, null, null, null, null, null, 
+		null, null, null, null, null, null, null, null, null, null, null, null, 
+		null, null, null, null, null, null, null, null, "NULL", "BOOLEAN", "INT", 
+		"FLOAT", "DOUBLE", "LONG", "STRING", "ID", "WS", "COMMENT", "LINE_COMMENT"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -88,11 +105,11 @@ public class juliarParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 	public static class CompileUnitContext extends ParserRuleContext {
-		public List<StatementContext> statement() {
-			return getRuleContexts(StatementContext.class);
+		public List<FunctionDeclarationContext> functionDeclaration() {
+			return getRuleContexts(FunctionDeclarationContext.class);
 		}
-		public StatementContext statement(int i) {
-			return getRuleContext(StatementContext.class,i);
+		public FunctionDeclarationContext functionDeclaration(int i) {
+			return getRuleContext(FunctionDeclarationContext.class,i);
 		}
 		public CompileUnitContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -120,17 +137,17 @@ public class juliarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(41);
+			setState(65);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==T__0) {
+			while (_la==T__3) {
 				{
 				{
-				setState(38);
-				statement();
+				setState(62);
+				functionDeclaration();
 				}
 				}
-				setState(43);
+				setState(67);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -148,9 +165,6 @@ public class juliarParser extends Parser {
 	}
 
 	public static class StatementContext extends ParserRuleContext {
-		public StartLineContext startLine() {
-			return getRuleContext(StartLineContext.class,0);
-		}
 		public EndLineContext endLine() {
 			return getRuleContext(EndLineContext.class,0);
 		}
@@ -183,59 +197,11 @@ public class juliarParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			{
-			setState(44);
-			startLine();
-			{
-			setState(45);
+			setState(68);
 			expression();
 			}
-			setState(46);
+			setState(69);
 			endLine();
-			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class StartLineContext extends ParserRuleContext {
-		public AsteriskContext asterisk() {
-			return getRuleContext(AsteriskContext.class,0);
-		}
-		public StartLineContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_startLine; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof juliarListener ) ((juliarListener)listener).enterStartLine(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof juliarListener ) ((juliarListener)listener).exitStartLine(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof juliarVisitor ) return ((juliarVisitor<? extends T>)visitor).visitStartLine(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final StartLineContext startLine() throws RecognitionException {
-		StartLineContext _localctx = new StartLineContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_startLine);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(48);
-			asterisk();
 			}
 		}
 		catch (RecognitionException re) {
@@ -250,8 +216,8 @@ public class juliarParser extends Parser {
 	}
 
 	public static class EndLineContext extends ParserRuleContext {
-		public AsteriskContext asterisk() {
-			return getRuleContext(AsteriskContext.class,0);
+		public SemiColonContext semiColon() {
+			return getRuleContext(SemiColonContext.class,0);
 		}
 		public EndLineContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -274,12 +240,12 @@ public class juliarParser extends Parser {
 
 	public final EndLineContext endLine() throws RecognitionException {
 		EndLineContext _localctx = new EndLineContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_endLine);
+		enterRule(_localctx, 4, RULE_endLine);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(50);
-			asterisk();
+			setState(71);
+			semiColon();
 			}
 		}
 		catch (RecognitionException re) {
@@ -293,33 +259,33 @@ public class juliarParser extends Parser {
 		return _localctx;
 	}
 
-	public static class AsteriskContext extends ParserRuleContext {
-		public AsteriskContext(ParserRuleContext parent, int invokingState) {
+	public static class SemiColonContext extends ParserRuleContext {
+		public SemiColonContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_asterisk; }
+		@Override public int getRuleIndex() { return RULE_semiColon; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof juliarListener ) ((juliarListener)listener).enterAsterisk(this);
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).enterSemiColon(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof juliarListener ) ((juliarListener)listener).exitAsterisk(this);
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).exitSemiColon(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof juliarVisitor ) return ((juliarVisitor<? extends T>)visitor).visitAsterisk(this);
+			if ( visitor instanceof juliarVisitor ) return ((juliarVisitor<? extends T>)visitor).visitSemiColon(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final AsteriskContext asterisk() throws RecognitionException {
-		AsteriskContext _localctx = new AsteriskContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_asterisk);
+	public final SemiColonContext semiColon() throws RecognitionException {
+		SemiColonContext _localctx = new SemiColonContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_semiColon);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(52);
+			setState(73);
 			match(T__0);
 			}
 		}
@@ -334,24 +300,75 @@ public class juliarParser extends Parser {
 		return _localctx;
 	}
 
+	public static class ExpressionsContext extends ParserRuleContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public ExpressionsContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_expressions; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).enterExpressions(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).exitExpressions(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof juliarVisitor ) return ((juliarVisitor<? extends T>)visitor).visitExpressions(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final ExpressionsContext expressions() throws RecognitionException {
+		ExpressionsContext _localctx = new ExpressionsContext(_ctx, getState());
+		enterRule(_localctx, 8, RULE_expressions);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(78);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__6) | (1L << T__9) | (1L << T__10) | (1L << T__11) | (1L << T__12) | (1L << T__25) | (1L << T__26) | (1L << T__27) | (1L << T__28) | (1L << T__29))) != 0)) {
+				{
+				{
+				setState(75);
+				expression();
+				}
+				}
+				setState(80);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
 	public static class ExpressionContext extends ParserRuleContext {
-		public List<CommandContext> command() {
-			return getRuleContexts(CommandContext.class);
+		public AssignmentExpressionContext assignmentExpression() {
+			return getRuleContext(AssignmentExpressionContext.class,0);
 		}
-		public CommandContext command(int i) {
-			return getRuleContext(CommandContext.class,i);
+		public PrimitivesContext primitives() {
+			return getRuleContext(PrimitivesContext.class,0);
 		}
-		public List<AssignmentExpressionContext> assignmentExpression() {
-			return getRuleContexts(AssignmentExpressionContext.class);
-		}
-		public AssignmentExpressionContext assignmentExpression(int i) {
-			return getRuleContext(AssignmentExpressionContext.class,i);
-		}
-		public List<BooleanExpressionContext> booleanExpression() {
-			return getRuleContexts(BooleanExpressionContext.class);
-		}
-		public BooleanExpressionContext booleanExpression(int i) {
-			return getRuleContext(BooleanExpressionContext.class,i);
+		public FunctionCallContext functionCall() {
+			return getRuleContext(FunctionCallContext.class,0);
 		}
 		public ExpressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -375,68 +392,41 @@ public class juliarParser extends Parser {
 	public final ExpressionContext expression() throws RecognitionException {
 		ExpressionContext _localctx = new ExpressionContext(_ctx, getState());
 		enterRule(_localctx, 10, RULE_expression);
-		int _la;
 		try {
-			setState(72);
+			setState(84);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
-			case 1:
+			switch (_input.LA(1)) {
+			case T__25:
+			case T__26:
+			case T__27:
+			case T__28:
+			case T__29:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(57);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				while (_la==T__1 || _la==T__2) {
-					{
-					{
-					setState(54);
-					command();
-					}
-					}
-					setState(59);
-					_errHandler.sync(this);
-					_la = _input.LA(1);
-				}
+				setState(81);
+				assignmentExpression();
 				}
 				break;
-			case 2:
+			case T__6:
+			case T__9:
+			case T__10:
+			case T__11:
+			case T__12:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(63);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				while (_la==ID) {
-					{
-					{
-					setState(60);
-					assignmentExpression();
-					}
-					}
-					setState(65);
-					_errHandler.sync(this);
-					_la = _input.LA(1);
-				}
+				setState(82);
+				primitives();
 				}
 				break;
-			case 3:
+			case T__1:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(69);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				while (_la==ID) {
-					{
-					{
-					setState(66);
-					booleanExpression();
-					}
-					}
-					setState(71);
-					_errHandler.sync(this);
-					_la = _input.LA(1);
-				}
+				setState(83);
+				functionCall();
 				}
 				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -451,8 +441,14 @@ public class juliarParser extends Parser {
 	}
 
 	public static class AssignmentExpressionContext extends ParserRuleContext {
-		public VariableContext variable() {
-			return getRuleContext(VariableContext.class,0);
+		public KeywordsContext keywords() {
+			return getRuleContext(KeywordsContext.class,0);
+		}
+		public List<VariableContext> variable() {
+			return getRuleContexts(VariableContext.class);
+		}
+		public VariableContext variable(int i) {
+			return getRuleContext(VariableContext.class,i);
 		}
 		public EqualsignContext equalsign() {
 			return getRuleContext(EqualsignContext.class,0);
@@ -483,14 +479,35 @@ public class juliarParser extends Parser {
 		AssignmentExpressionContext _localctx = new AssignmentExpressionContext(_ctx, getState());
 		enterRule(_localctx, 12, RULE_assignmentExpression);
 		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(74);
-			variable();
-			setState(75);
-			equalsign();
-			setState(76);
-			command();
+			setState(96);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(86);
+				keywords();
+				setState(87);
+				variable();
+				setState(88);
+				equalsign();
+				setState(89);
+				command();
+				}
+				break;
+			case 2:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(91);
+				keywords();
+				setState(92);
+				variable();
+				setState(93);
+				equalsign();
+				setState(94);
+				variable();
+				}
+				break;
 			}
 		}
 		catch (RecognitionException re) {
@@ -504,99 +521,317 @@ public class juliarParser extends Parser {
 		return _localctx;
 	}
 
-	public static class BooleanExpressionContext extends ParserRuleContext {
-		public List<VariableContext> variable() {
-			return getRuleContexts(VariableContext.class);
-		}
-		public VariableContext variable(int i) {
-			return getRuleContext(VariableContext.class,i);
-		}
-		public List<EqualsignContext> equalsign() {
-			return getRuleContexts(EqualsignContext.class);
-		}
-		public EqualsignContext equalsign(int i) {
-			return getRuleContext(EqualsignContext.class,i);
-		}
-		public CommandContext command() {
-			return getRuleContext(CommandContext.class,0);
-		}
-		public BooleanExpressionContext(ParserRuleContext parent, int invokingState) {
+	public static class FunctionCallKeywordContext extends ParserRuleContext {
+		public FunctionCallKeywordContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_booleanExpression; }
+		@Override public int getRuleIndex() { return RULE_functionCallKeyword; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof juliarListener ) ((juliarListener)listener).enterBooleanExpression(this);
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).enterFunctionCallKeyword(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof juliarListener ) ((juliarListener)listener).exitBooleanExpression(this);
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).exitFunctionCallKeyword(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof juliarVisitor ) return ((juliarVisitor<? extends T>)visitor).visitBooleanExpression(this);
+			if ( visitor instanceof juliarVisitor ) return ((juliarVisitor<? extends T>)visitor).visitFunctionCallKeyword(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final BooleanExpressionContext booleanExpression() throws RecognitionException {
-		BooleanExpressionContext _localctx = new BooleanExpressionContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_booleanExpression);
+	public final FunctionCallKeywordContext functionCallKeyword() throws RecognitionException {
+		FunctionCallKeywordContext _localctx = new FunctionCallKeywordContext(_ctx, getState());
+		enterRule(_localctx, 14, RULE_functionCallKeyword);
 		try {
-			setState(93);
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(98);
+			match(T__1);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class FunctionCallContext extends ParserRuleContext {
+		public FunctionCallKeywordContext functionCallKeyword() {
+			return getRuleContext(FunctionCallKeywordContext.class,0);
+		}
+		public FuncNameContext funcName() {
+			return getRuleContext(FuncNameContext.class,0);
+		}
+		public FunctionCallContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_functionCall; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).enterFunctionCall(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).exitFunctionCall(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof juliarVisitor ) return ((juliarVisitor<? extends T>)visitor).visitFunctionCall(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final FunctionCallContext functionCall() throws RecognitionException {
+		FunctionCallContext _localctx = new FunctionCallContext(_ctx, getState());
+		enterRule(_localctx, 16, RULE_functionCall);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			{
+			setState(100);
+			functionCallKeyword();
+			}
+			{
+			setState(101);
+			funcName();
+			}
+			setState(102);
+			match(T__2);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class FunctionDeclarationContext extends ParserRuleContext {
+		public FuncNameContext funcName() {
+			return getRuleContext(FuncNameContext.class,0);
+		}
+		public EqualsignContext equalsign() {
+			return getRuleContext(EqualsignContext.class,0);
+		}
+		public List<StatementContext> statement() {
+			return getRuleContexts(StatementContext.class);
+		}
+		public StatementContext statement(int i) {
+			return getRuleContext(StatementContext.class,i);
+		}
+		public FunctionDeclarationContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_functionDeclaration; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).enterFunctionDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).exitFunctionDeclaration(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof juliarVisitor ) return ((juliarVisitor<? extends T>)visitor).visitFunctionDeclaration(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final FunctionDeclarationContext functionDeclaration() throws RecognitionException {
+		FunctionDeclarationContext _localctx = new FunctionDeclarationContext(_ctx, getState());
+		enterRule(_localctx, 18, RULE_functionDeclaration);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(104);
+			match(T__3);
+			setState(105);
+			funcName();
+			setState(106);
+			match(T__2);
+			setState(107);
+			equalsign();
+			setState(108);
+			match(T__4);
+			setState(112);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
-			case 1:
+			_la = _input.LA(1);
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__6) | (1L << T__9) | (1L << T__10) | (1L << T__11) | (1L << T__12) | (1L << T__25) | (1L << T__26) | (1L << T__27) | (1L << T__28) | (1L << T__29))) != 0)) {
+				{
+				{
+				setState(109);
+				statement();
+				}
+				}
+				setState(114);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			setState(115);
+			match(T__5);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class FuncNameContext extends ParserRuleContext {
+		public TerminalNode ID() { return getToken(juliarParser.ID, 0); }
+		public FuncNameContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_funcName; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).enterFuncName(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).exitFuncName(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof juliarVisitor ) return ((juliarVisitor<? extends T>)visitor).visitFuncName(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final FuncNameContext funcName() throws RecognitionException {
+		FuncNameContext _localctx = new FuncNameContext(_ctx, getState());
+		enterRule(_localctx, 20, RULE_funcName);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(117);
+			match(ID);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class PrimitivesContext extends ParserRuleContext {
+		public TerminalNode STRING() { return getToken(juliarParser.STRING, 0); }
+		public PrimitivesContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_primitives; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).enterPrimitives(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).exitPrimitives(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof juliarVisitor ) return ((juliarVisitor<? extends T>)visitor).visitPrimitives(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final PrimitivesContext primitives() throws RecognitionException {
+		PrimitivesContext _localctx = new PrimitivesContext(_ctx, getState());
+		enterRule(_localctx, 22, RULE_primitives);
+		try {
+			setState(136);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case T__6:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(78);
-				variable();
-				{
-				setState(79);
-				equalsign();
-				}
-				{
-				setState(80);
-				equalsign();
-				}
-				setState(81);
-				variable();
+				setState(119);
+				match(T__6);
+				setState(120);
+				match(T__7);
+				setState(121);
+				match(STRING);
+				setState(122);
+				match(T__8);
 				}
 				break;
-			case 2:
+			case T__9:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(83);
-				variable();
-				{
-				setState(84);
-				equalsign();
-				}
-				{
-				setState(85);
-				equalsign();
-				}
-				setState(86);
-				command();
+				setState(123);
+				match(T__9);
+				setState(124);
+				match(T__7);
+				setState(125);
+				match(STRING);
+				setState(126);
+				match(T__8);
 				}
 				break;
-			case 3:
+			case T__10:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(88);
-				variable();
 				{
-				setState(89);
-				equalsign();
+				setState(127);
+				match(T__10);
 				}
 				{
-				setState(90);
-				equalsign();
+				setState(128);
+				match(T__7);
 				}
-				setState(91);
-				variable();
+				{
+				setState(129);
+				match(T__8);
+				}
 				}
 				break;
+			case T__11:
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(130);
+				match(T__11);
+				setState(131);
+				match(T__7);
+				setState(132);
+				match(T__8);
+				}
+				break;
+			case T__12:
+				enterOuterAlt(_localctx, 5);
+				{
+				setState(133);
+				match(T__12);
+				setState(134);
+				match(T__7);
+				setState(135);
+				match(T__8);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -613,6 +848,21 @@ public class juliarParser extends Parser {
 	public static class CommandContext extends ParserRuleContext {
 		public AddContext add() {
 			return getRuleContext(AddContext.class,0);
+		}
+		public PrimitivesContext primitives() {
+			return getRuleContext(PrimitivesContext.class,0);
+		}
+		public SubtractContext subtract() {
+			return getRuleContext(SubtractContext.class,0);
+		}
+		public MultiplyContext multiply() {
+			return getRuleContext(MultiplyContext.class,0);
+		}
+		public DivideContext divide() {
+			return getRuleContext(DivideContext.class,0);
+		}
+		public ModuloContext modulo() {
+			return getRuleContext(ModuloContext.class,0);
 		}
 		public CommandContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -635,12 +885,64 @@ public class juliarParser extends Parser {
 
 	public final CommandContext command() throws RecognitionException {
 		CommandContext _localctx = new CommandContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_command);
+		enterRule(_localctx, 24, RULE_command);
 		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(95);
-			add();
+			setState(144);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case T__13:
+			case T__14:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(138);
+				add();
+				}
+				break;
+			case T__6:
+			case T__9:
+			case T__10:
+			case T__11:
+			case T__12:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(139);
+				primitives();
+				}
+				break;
+			case T__15:
+			case T__16:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(140);
+				subtract();
+				}
+				break;
+			case T__17:
+			case T__18:
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(141);
+				multiply();
+				}
+				break;
+			case T__19:
+			case T__20:
+				enterOuterAlt(_localctx, 5);
+				{
+				setState(142);
+				divide();
+				}
+				break;
+			case T__21:
+			case T__22:
+				enterOuterAlt(_localctx, 6);
+				{
+				setState(143);
+				modulo();
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -677,195 +979,12 @@ public class juliarParser extends Parser {
 
 	public final VariableContext variable() throws RecognitionException {
 		VariableContext _localctx = new VariableContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_variable);
+		enterRule(_localctx, 26, RULE_variable);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(97);
+			setState(146);
 			match(ID);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class AbsoluteContext extends ParserRuleContext {
-		public TerminalNode ID() { return getToken(juliarParser.ID, 0); }
-		public List<TerminalNode> FLOAT() { return getTokens(juliarParser.FLOAT); }
-		public TerminalNode FLOAT(int i) {
-			return getToken(juliarParser.FLOAT, i);
-		}
-		public AbsoluteContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_absolute; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof juliarListener ) ((juliarListener)listener).enterAbsolute(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof juliarListener ) ((juliarListener)listener).exitAbsolute(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof juliarVisitor ) return ((juliarVisitor<? extends T>)visitor).visitAbsolute(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final AbsoluteContext absolute() throws RecognitionException {
-		AbsoluteContext _localctx = new AbsoluteContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_absolute);
-		int _la;
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(99);
-			match(ID);
-			setState(103);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while (_la==FLOAT) {
-				{
-				{
-				setState(100);
-				match(FLOAT);
-				}
-				}
-				setState(105);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class AcosContext extends ParserRuleContext {
-		public TerminalNode ID() { return getToken(juliarParser.ID, 0); }
-		public List<TerminalNode> FLOAT() { return getTokens(juliarParser.FLOAT); }
-		public TerminalNode FLOAT(int i) {
-			return getToken(juliarParser.FLOAT, i);
-		}
-		public AcosContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_acos; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof juliarListener ) ((juliarListener)listener).enterAcos(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof juliarListener ) ((juliarListener)listener).exitAcos(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof juliarVisitor ) return ((juliarVisitor<? extends T>)visitor).visitAcos(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final AcosContext acos() throws RecognitionException {
-		AcosContext _localctx = new AcosContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_acos);
-		int _la;
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(106);
-			match(ID);
-			setState(110);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while (_la==FLOAT) {
-				{
-				{
-				setState(107);
-				match(FLOAT);
-				}
-				}
-				setState(112);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class AcoshContext extends ParserRuleContext {
-		public TerminalNode ID() { return getToken(juliarParser.ID, 0); }
-		public List<TerminalNode> FLOAT() { return getTokens(juliarParser.FLOAT); }
-		public TerminalNode FLOAT(int i) {
-			return getToken(juliarParser.FLOAT, i);
-		}
-		public AcoshContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_acosh; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof juliarListener ) ((juliarListener)listener).enterAcosh(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof juliarListener ) ((juliarListener)listener).exitAcosh(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof juliarVisitor ) return ((juliarVisitor<? extends T>)visitor).visitAcosh(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final AcoshContext acosh() throws RecognitionException {
-		AcoshContext _localctx = new AcoshContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_acosh);
-		int _la;
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(113);
-			match(ID);
-			setState(117);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while (_la==FLOAT) {
-				{
-				{
-				setState(114);
-				match(FLOAT);
-				}
-				}
-				setState(119);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -910,30 +1029,30 @@ public class juliarParser extends Parser {
 
 	public final AddContext add() throws RecognitionException {
 		AddContext _localctx = new AddContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_add);
+		enterRule(_localctx, 28, RULE_add);
 		int _la;
 		try {
-			setState(132);
+			setState(160);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,10,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,8,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(120);
+				setState(148);
 				summation();
-				setState(121);
+				setState(149);
 				types();
-				setState(125);
+				setState(153);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << INT) | (1L << FLOAT) | (1L << DOUBLE) | (1L << LONG))) != 0)) {
+				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << NULL) | (1L << BOOLEAN) | (1L << INT) | (1L << FLOAT) | (1L << DOUBLE) | (1L << LONG))) != 0)) {
 					{
 					{
-					setState(122);
+					setState(150);
 					types();
 					}
 					}
-					setState(127);
+					setState(155);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
@@ -942,11 +1061,11 @@ public class juliarParser extends Parser {
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(128);
+				setState(156);
 				summation();
-				setState(129);
+				setState(157);
 				types();
-				setState(130);
+				setState(158);
 				types();
 				}
 				break;
@@ -985,16 +1104,19 @@ public class juliarParser extends Parser {
 
 	public final SummationContext summation() throws RecognitionException {
 		SummationContext _localctx = new SummationContext(_ctx, getState());
-		enterRule(_localctx, 28, RULE_summation);
+		enterRule(_localctx, 30, RULE_summation);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(134);
+			setState(162);
 			_la = _input.LA(1);
-			if ( !(_la==T__1 || _la==T__2) ) {
+			if ( !(_la==T__13 || _la==T__14) ) {
 			_errHandler.recoverInline(this);
-			} else {
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
 				consume();
 			}
 			}
@@ -1010,56 +1132,15 @@ public class juliarParser extends Parser {
 		return _localctx;
 	}
 
-	public static class MinusContext extends ParserRuleContext {
-		public MinusContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_minus; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof juliarListener ) ((juliarListener)listener).enterMinus(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof juliarListener ) ((juliarListener)listener).exitMinus(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof juliarVisitor ) return ((juliarVisitor<? extends T>)visitor).visitMinus(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final MinusContext minus() throws RecognitionException {
-		MinusContext _localctx = new MinusContext(_ctx, getState());
-		enterRule(_localctx, 30, RULE_minus);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(136);
-			match(T__3);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
 	public static class SubtractContext extends ParserRuleContext {
-		public TerminalNode ID() { return getToken(juliarParser.ID, 0); }
-		public List<TerminalNode> FLOAT() { return getTokens(juliarParser.FLOAT); }
-		public TerminalNode FLOAT(int i) {
-			return getToken(juliarParser.FLOAT, i);
+		public SubtractionContext subtraction() {
+			return getRuleContext(SubtractionContext.class,0);
 		}
-		public List<TerminalNode> INT() { return getTokens(juliarParser.INT); }
-		public TerminalNode INT(int i) {
-			return getToken(juliarParser.INT, i);
+		public List<TypesContext> types() {
+			return getRuleContexts(TypesContext.class);
+		}
+		public TypesContext types(int i) {
+			return getRuleContext(TypesContext.class,i);
 		}
 		public SubtractContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1085,25 +1166,27 @@ public class juliarParser extends Parser {
 		enterRule(_localctx, 32, RULE_subtract);
 		int _la;
 		try {
-			setState(155);
+			setState(176);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,13,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,10,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(138);
-				match(ID);
-				setState(142);
+				setState(164);
+				subtraction();
+				setState(165);
+				types();
+				setState(169);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while (_la==FLOAT) {
+				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << NULL) | (1L << BOOLEAN) | (1L << INT) | (1L << FLOAT) | (1L << DOUBLE) | (1L << LONG))) != 0)) {
 					{
 					{
-					setState(139);
-					match(FLOAT);
+					setState(166);
+					types();
 					}
 					}
-					setState(144);
+					setState(171);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
@@ -1112,33 +1195,12 @@ public class juliarParser extends Parser {
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(145);
-				match(ID);
-				setState(149);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				while (_la==INT) {
-					{
-					{
-					setState(146);
-					match(INT);
-					}
-					}
-					setState(151);
-					_errHandler.sync(this);
-					_la = _input.LA(1);
-				}
-				}
-				break;
-			case 3:
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(152);
-				match(ID);
-				setState(153);
-				match(INT);
-				setState(154);
-				match(INT);
+				setState(172);
+				subtraction();
+				setState(173);
+				types();
+				setState(174);
+				types();
 				}
 				break;
 			}
@@ -1154,11 +1216,462 @@ public class juliarParser extends Parser {
 		return _localctx;
 	}
 
+	public static class SubtractionContext extends ParserRuleContext {
+		public SubtractionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_subtraction; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).enterSubtraction(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).exitSubtraction(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof juliarVisitor ) return ((juliarVisitor<? extends T>)visitor).visitSubtraction(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final SubtractionContext subtraction() throws RecognitionException {
+		SubtractionContext _localctx = new SubtractionContext(_ctx, getState());
+		enterRule(_localctx, 34, RULE_subtraction);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(178);
+			_la = _input.LA(1);
+			if ( !(_la==T__15 || _la==T__16) ) {
+			_errHandler.recoverInline(this);
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class MultiplyContext extends ParserRuleContext {
+		public MultiplicationContext multiplication() {
+			return getRuleContext(MultiplicationContext.class,0);
+		}
+		public List<TypesContext> types() {
+			return getRuleContexts(TypesContext.class);
+		}
+		public TypesContext types(int i) {
+			return getRuleContext(TypesContext.class,i);
+		}
+		public MultiplyContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_multiply; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).enterMultiply(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).exitMultiply(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof juliarVisitor ) return ((juliarVisitor<? extends T>)visitor).visitMultiply(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final MultiplyContext multiply() throws RecognitionException {
+		MultiplyContext _localctx = new MultiplyContext(_ctx, getState());
+		enterRule(_localctx, 36, RULE_multiply);
+		int _la;
+		try {
+			setState(192);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,12,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(180);
+				multiplication();
+				setState(181);
+				types();
+				setState(185);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << NULL) | (1L << BOOLEAN) | (1L << INT) | (1L << FLOAT) | (1L << DOUBLE) | (1L << LONG))) != 0)) {
+					{
+					{
+					setState(182);
+					types();
+					}
+					}
+					setState(187);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
+				}
+				break;
+			case 2:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(188);
+				multiplication();
+				setState(189);
+				types();
+				setState(190);
+				types();
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class MultiplicationContext extends ParserRuleContext {
+		public MultiplicationContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_multiplication; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).enterMultiplication(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).exitMultiplication(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof juliarVisitor ) return ((juliarVisitor<? extends T>)visitor).visitMultiplication(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final MultiplicationContext multiplication() throws RecognitionException {
+		MultiplicationContext _localctx = new MultiplicationContext(_ctx, getState());
+		enterRule(_localctx, 38, RULE_multiplication);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(194);
+			_la = _input.LA(1);
+			if ( !(_la==T__17 || _la==T__18) ) {
+			_errHandler.recoverInline(this);
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class DivideContext extends ParserRuleContext {
+		public DivisionContext division() {
+			return getRuleContext(DivisionContext.class,0);
+		}
+		public List<TypesContext> types() {
+			return getRuleContexts(TypesContext.class);
+		}
+		public TypesContext types(int i) {
+			return getRuleContext(TypesContext.class,i);
+		}
+		public DivideContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_divide; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).enterDivide(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).exitDivide(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof juliarVisitor ) return ((juliarVisitor<? extends T>)visitor).visitDivide(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final DivideContext divide() throws RecognitionException {
+		DivideContext _localctx = new DivideContext(_ctx, getState());
+		enterRule(_localctx, 40, RULE_divide);
+		int _la;
+		try {
+			setState(208);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,14,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(196);
+				division();
+				setState(197);
+				types();
+				setState(201);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << NULL) | (1L << BOOLEAN) | (1L << INT) | (1L << FLOAT) | (1L << DOUBLE) | (1L << LONG))) != 0)) {
+					{
+					{
+					setState(198);
+					types();
+					}
+					}
+					setState(203);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
+				}
+				break;
+			case 2:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(204);
+				division();
+				setState(205);
+				types();
+				setState(206);
+				types();
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class DivisionContext extends ParserRuleContext {
+		public DivisionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_division; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).enterDivision(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).exitDivision(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof juliarVisitor ) return ((juliarVisitor<? extends T>)visitor).visitDivision(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final DivisionContext division() throws RecognitionException {
+		DivisionContext _localctx = new DivisionContext(_ctx, getState());
+		enterRule(_localctx, 42, RULE_division);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(210);
+			_la = _input.LA(1);
+			if ( !(_la==T__19 || _la==T__20) ) {
+			_errHandler.recoverInline(this);
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ModuloContext extends ParserRuleContext {
+		public ModuliContext moduli() {
+			return getRuleContext(ModuliContext.class,0);
+		}
+		public List<TypesContext> types() {
+			return getRuleContexts(TypesContext.class);
+		}
+		public TypesContext types(int i) {
+			return getRuleContext(TypesContext.class,i);
+		}
+		public ModuloContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_modulo; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).enterModulo(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).exitModulo(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof juliarVisitor ) return ((juliarVisitor<? extends T>)visitor).visitModulo(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final ModuloContext modulo() throws RecognitionException {
+		ModuloContext _localctx = new ModuloContext(_ctx, getState());
+		enterRule(_localctx, 44, RULE_modulo);
+		int _la;
+		try {
+			setState(224);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,16,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(212);
+				moduli();
+				setState(213);
+				types();
+				setState(217);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << NULL) | (1L << BOOLEAN) | (1L << INT) | (1L << FLOAT) | (1L << DOUBLE) | (1L << LONG))) != 0)) {
+					{
+					{
+					setState(214);
+					types();
+					}
+					}
+					setState(219);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
+				}
+				break;
+			case 2:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(220);
+				moduli();
+				setState(221);
+				types();
+				setState(222);
+				types();
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ModuliContext extends ParserRuleContext {
+		public ModuliContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_moduli; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).enterModuli(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).exitModuli(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof juliarVisitor ) return ((juliarVisitor<? extends T>)visitor).visitModuli(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final ModuliContext moduli() throws RecognitionException {
+		ModuliContext _localctx = new ModuliContext(_ctx, getState());
+		enterRule(_localctx, 46, RULE_moduli);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(226);
+			_la = _input.LA(1);
+			if ( !(_la==T__21 || _la==T__22) ) {
+			_errHandler.recoverInline(this);
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
 	public static class TypesContext extends ParserRuleContext {
-		public TerminalNode INT() { return getToken(juliarParser.INT, 0); }
-		public TerminalNode FLOAT() { return getToken(juliarParser.FLOAT, 0); }
-		public TerminalNode DOUBLE() { return getToken(juliarParser.DOUBLE, 0); }
-		public TerminalNode LONG() { return getToken(juliarParser.LONG, 0); }
+		public PrimitiveTypesContext primitiveTypes() {
+			return getRuleContext(PrimitiveTypesContext.class,0);
+		}
 		public TypesContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1180,16 +1693,135 @@ public class juliarParser extends Parser {
 
 	public final TypesContext types() throws RecognitionException {
 		TypesContext _localctx = new TypesContext(_ctx, getState());
-		enterRule(_localctx, 34, RULE_types);
+		enterRule(_localctx, 48, RULE_types);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(228);
+			primitiveTypes();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class PrimitiveTypesContext extends ParserRuleContext {
+		public NumericTypesContext numericTypes() {
+			return getRuleContext(NumericTypesContext.class,0);
+		}
+		public TerminalNode BOOLEAN() { return getToken(juliarParser.BOOLEAN, 0); }
+		public TerminalNode NULL() { return getToken(juliarParser.NULL, 0); }
+		public PrimitiveTypesContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_primitiveTypes; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).enterPrimitiveTypes(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).exitPrimitiveTypes(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof juliarVisitor ) return ((juliarVisitor<? extends T>)visitor).visitPrimitiveTypes(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final PrimitiveTypesContext primitiveTypes() throws RecognitionException {
+		PrimitiveTypesContext _localctx = new PrimitiveTypesContext(_ctx, getState());
+		enterRule(_localctx, 50, RULE_primitiveTypes);
+		try {
+			setState(233);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case INT:
+			case FLOAT:
+			case DOUBLE:
+			case LONG:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(230);
+				numericTypes();
+				}
+				break;
+			case BOOLEAN:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(231);
+				match(BOOLEAN);
+				}
+				break;
+			case NULL:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(232);
+				match(NULL);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class NumericTypesContext extends ParserRuleContext {
+		public TerminalNode INT() { return getToken(juliarParser.INT, 0); }
+		public TerminalNode FLOAT() { return getToken(juliarParser.FLOAT, 0); }
+		public TerminalNode DOUBLE() { return getToken(juliarParser.DOUBLE, 0); }
+		public TerminalNode LONG() { return getToken(juliarParser.LONG, 0); }
+		public NumericTypesContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_numericTypes; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).enterNumericTypes(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).exitNumericTypes(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof juliarVisitor ) return ((juliarVisitor<? extends T>)visitor).visitNumericTypes(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final NumericTypesContext numericTypes() throws RecognitionException {
+		NumericTypesContext _localctx = new NumericTypesContext(_ctx, getState());
+		enterRule(_localctx, 52, RULE_numericTypes);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(157);
+			setState(235);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << INT) | (1L << FLOAT) | (1L << DOUBLE) | (1L << LONG))) != 0)) ) {
 			_errHandler.recoverInline(this);
-			} else {
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
 				consume();
 			}
 			}
@@ -1227,12 +1859,144 @@ public class juliarParser extends Parser {
 
 	public final EqualsignContext equalsign() throws RecognitionException {
 		EqualsignContext _localctx = new EqualsignContext(_ctx, getState());
-		enterRule(_localctx, 36, RULE_equalsign);
+		enterRule(_localctx, 54, RULE_equalsign);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(159);
-			match(T__4);
+			setState(237);
+			match(T__23);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class EqualequalContext extends ParserRuleContext {
+		public EqualequalContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_equalequal; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).enterEqualequal(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).exitEqualequal(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof juliarVisitor ) return ((juliarVisitor<? extends T>)visitor).visitEqualequal(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final EqualequalContext equalequal() throws RecognitionException {
+		EqualequalContext _localctx = new EqualequalContext(_ctx, getState());
+		enterRule(_localctx, 56, RULE_equalequal);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(239);
+			match(T__24);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class KeywordsContext extends ParserRuleContext {
+		public KeywordsContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_keywords; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).enterKeywords(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).exitKeywords(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof juliarVisitor ) return ((juliarVisitor<? extends T>)visitor).visitKeywords(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final KeywordsContext keywords() throws RecognitionException {
+		KeywordsContext _localctx = new KeywordsContext(_ctx, getState());
+		enterRule(_localctx, 58, RULE_keywords);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(241);
+			_la = _input.LA(1);
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__25) | (1L << T__26) | (1L << T__27) | (1L << T__28) | (1L << T__29))) != 0)) ) {
+			_errHandler.recoverInline(this);
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ArrowsignContext extends ParserRuleContext {
+		public ArrowsignContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_arrowsign; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).enterArrowsign(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof juliarListener ) ((juliarListener)listener).exitArrowsign(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof juliarVisitor ) return ((juliarVisitor<? extends T>)visitor).visitArrowsign(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final ArrowsignContext arrowsign() throws RecognitionException {
+		ArrowsignContext _localctx = new ArrowsignContext(_ctx, getState());
+		enterRule(_localctx, 60, RULE_arrowsign);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(243);
+			match(T__30);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1247,51 +2011,85 @@ public class juliarParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\16\u00a4\4\2\t\2"+
-		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
-		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
-		"\4\23\t\23\4\24\t\24\3\2\7\2*\n\2\f\2\16\2-\13\2\3\3\3\3\3\3\3\3\3\4\3"+
-		"\4\3\5\3\5\3\6\3\6\3\7\7\7:\n\7\f\7\16\7=\13\7\3\7\7\7@\n\7\f\7\16\7C"+
-		"\13\7\3\7\7\7F\n\7\f\7\16\7I\13\7\5\7K\n\7\3\b\3\b\3\b\3\b\3\t\3\t\3\t"+
-		"\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\5\t`\n\t\3\n\3\n\3\13"+
-		"\3\13\3\f\3\f\7\fh\n\f\f\f\16\fk\13\f\3\r\3\r\7\ro\n\r\f\r\16\rr\13\r"+
-		"\3\16\3\16\7\16v\n\16\f\16\16\16y\13\16\3\17\3\17\3\17\7\17~\n\17\f\17"+
-		"\16\17\u0081\13\17\3\17\3\17\3\17\3\17\5\17\u0087\n\17\3\20\3\20\3\21"+
-		"\3\21\3\22\3\22\7\22\u008f\n\22\f\22\16\22\u0092\13\22\3\22\3\22\7\22"+
-		"\u0096\n\22\f\22\16\22\u0099\13\22\3\22\3\22\3\22\5\22\u009e\n\22\3\23"+
-		"\3\23\3\24\3\24\3\24\2\2\25\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \""+
-		"$&\2\4\3\2\4\5\3\2\b\13\u00a1\2+\3\2\2\2\4.\3\2\2\2\6\62\3\2\2\2\b\64"+
-		"\3\2\2\2\n\66\3\2\2\2\fJ\3\2\2\2\16L\3\2\2\2\20_\3\2\2\2\22a\3\2\2\2\24"+
-		"c\3\2\2\2\26e\3\2\2\2\30l\3\2\2\2\32s\3\2\2\2\34\u0086\3\2\2\2\36\u0088"+
-		"\3\2\2\2 \u008a\3\2\2\2\"\u009d\3\2\2\2$\u009f\3\2\2\2&\u00a1\3\2\2\2"+
-		"(*\5\4\3\2)(\3\2\2\2*-\3\2\2\2+)\3\2\2\2+,\3\2\2\2,\3\3\2\2\2-+\3\2\2"+
-		"\2./\5\6\4\2/\60\5\f\7\2\60\61\5\b\5\2\61\5\3\2\2\2\62\63\5\n\6\2\63\7"+
-		"\3\2\2\2\64\65\5\n\6\2\65\t\3\2\2\2\66\67\7\3\2\2\67\13\3\2\2\28:\5\22"+
-		"\n\298\3\2\2\2:=\3\2\2\2;9\3\2\2\2;<\3\2\2\2<K\3\2\2\2=;\3\2\2\2>@\5\16"+
-		"\b\2?>\3\2\2\2@C\3\2\2\2A?\3\2\2\2AB\3\2\2\2BK\3\2\2\2CA\3\2\2\2DF\5\20"+
-		"\t\2ED\3\2\2\2FI\3\2\2\2GE\3\2\2\2GH\3\2\2\2HK\3\2\2\2IG\3\2\2\2J;\3\2"+
-		"\2\2JA\3\2\2\2JG\3\2\2\2K\r\3\2\2\2LM\5\24\13\2MN\5&\24\2NO\5\22\n\2O"+
-		"\17\3\2\2\2PQ\5\24\13\2QR\5&\24\2RS\5&\24\2ST\5\24\13\2T`\3\2\2\2UV\5"+
-		"\24\13\2VW\5&\24\2WX\5&\24\2XY\5\22\n\2Y`\3\2\2\2Z[\5\24\13\2[\\\5&\24"+
-		"\2\\]\5&\24\2]^\5\24\13\2^`\3\2\2\2_P\3\2\2\2_U\3\2\2\2_Z\3\2\2\2`\21"+
-		"\3\2\2\2ab\5\34\17\2b\23\3\2\2\2cd\7\r\2\2d\25\3\2\2\2ei\7\r\2\2fh\7\t"+
-		"\2\2gf\3\2\2\2hk\3\2\2\2ig\3\2\2\2ij\3\2\2\2j\27\3\2\2\2ki\3\2\2\2lp\7"+
-		"\r\2\2mo\7\t\2\2nm\3\2\2\2or\3\2\2\2pn\3\2\2\2pq\3\2\2\2q\31\3\2\2\2r"+
-		"p\3\2\2\2sw\7\r\2\2tv\7\t\2\2ut\3\2\2\2vy\3\2\2\2wu\3\2\2\2wx\3\2\2\2"+
-		"x\33\3\2\2\2yw\3\2\2\2z{\5\36\20\2{\177\5$\23\2|~\5$\23\2}|\3\2\2\2~\u0081"+
-		"\3\2\2\2\177}\3\2\2\2\177\u0080\3\2\2\2\u0080\u0087\3\2\2\2\u0081\177"+
-		"\3\2\2\2\u0082\u0083\5\36\20\2\u0083\u0084\5$\23\2\u0084\u0085\5$\23\2"+
-		"\u0085\u0087\3\2\2\2\u0086z\3\2\2\2\u0086\u0082\3\2\2\2\u0087\35\3\2\2"+
-		"\2\u0088\u0089\t\2\2\2\u0089\37\3\2\2\2\u008a\u008b\7\6\2\2\u008b!\3\2"+
-		"\2\2\u008c\u0090\7\r\2\2\u008d\u008f\7\t\2\2\u008e\u008d\3\2\2\2\u008f"+
-		"\u0092\3\2\2\2\u0090\u008e\3\2\2\2\u0090\u0091\3\2\2\2\u0091\u009e\3\2"+
-		"\2\2\u0092\u0090\3\2\2\2\u0093\u0097\7\r\2\2\u0094\u0096\7\b\2\2\u0095"+
-		"\u0094\3\2\2\2\u0096\u0099\3\2\2\2\u0097\u0095\3\2\2\2\u0097\u0098\3\2"+
-		"\2\2\u0098\u009e\3\2\2\2\u0099\u0097\3\2\2\2\u009a\u009b\7\r\2\2\u009b"+
-		"\u009c\7\b\2\2\u009c\u009e\7\b\2\2\u009d\u008c\3\2\2\2\u009d\u0093\3\2"+
-		"\2\2\u009d\u009a\3\2\2\2\u009e#\3\2\2\2\u009f\u00a0\t\3\2\2\u00a0%\3\2"+
-		"\2\2\u00a1\u00a2\7\7\2\2\u00a2\'\3\2\2\2\20+;AGJ_ipw\177\u0086\u0090\u0097"+
-		"\u009d";
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3,\u00f8\4\2\t\2\4"+
+		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
+		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
+		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
+		"\4\32\t\32\4\33\t\33\4\34\t\34\4\35\t\35\4\36\t\36\4\37\t\37\4 \t \3\2"+
+		"\7\2B\n\2\f\2\16\2E\13\2\3\3\3\3\3\3\3\4\3\4\3\5\3\5\3\6\7\6O\n\6\f\6"+
+		"\16\6R\13\6\3\7\3\7\3\7\5\7W\n\7\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3"+
+		"\b\5\bc\n\b\3\t\3\t\3\n\3\n\3\n\3\n\3\13\3\13\3\13\3\13\3\13\3\13\7\13"+
+		"q\n\13\f\13\16\13t\13\13\3\13\3\13\3\f\3\f\3\r\3\r\3\r\3\r\3\r\3\r\3\r"+
+		"\3\r\3\r\3\r\3\r\3\r\3\r\3\r\3\r\3\r\3\r\5\r\u008b\n\r\3\16\3\16\3\16"+
+		"\3\16\3\16\3\16\5\16\u0093\n\16\3\17\3\17\3\20\3\20\3\20\7\20\u009a\n"+
+		"\20\f\20\16\20\u009d\13\20\3\20\3\20\3\20\3\20\5\20\u00a3\n\20\3\21\3"+
+		"\21\3\22\3\22\3\22\7\22\u00aa\n\22\f\22\16\22\u00ad\13\22\3\22\3\22\3"+
+		"\22\3\22\5\22\u00b3\n\22\3\23\3\23\3\24\3\24\3\24\7\24\u00ba\n\24\f\24"+
+		"\16\24\u00bd\13\24\3\24\3\24\3\24\3\24\5\24\u00c3\n\24\3\25\3\25\3\26"+
+		"\3\26\3\26\7\26\u00ca\n\26\f\26\16\26\u00cd\13\26\3\26\3\26\3\26\3\26"+
+		"\5\26\u00d3\n\26\3\27\3\27\3\30\3\30\3\30\7\30\u00da\n\30\f\30\16\30\u00dd"+
+		"\13\30\3\30\3\30\3\30\3\30\5\30\u00e3\n\30\3\31\3\31\3\32\3\32\3\33\3"+
+		"\33\3\33\5\33\u00ec\n\33\3\34\3\34\3\35\3\35\3\36\3\36\3\37\3\37\3 \3"+
+		" \3 \2\2!\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\66"+
+		"8:<>\2\t\3\2\20\21\3\2\22\23\3\2\24\25\3\2\26\27\3\2\30\31\3\2$\'\3\2"+
+		"\34 \u00f3\2C\3\2\2\2\4F\3\2\2\2\6I\3\2\2\2\bK\3\2\2\2\nP\3\2\2\2\fV\3"+
+		"\2\2\2\16b\3\2\2\2\20d\3\2\2\2\22f\3\2\2\2\24j\3\2\2\2\26w\3\2\2\2\30"+
+		"\u008a\3\2\2\2\32\u0092\3\2\2\2\34\u0094\3\2\2\2\36\u00a2\3\2\2\2 \u00a4"+
+		"\3\2\2\2\"\u00b2\3\2\2\2$\u00b4\3\2\2\2&\u00c2\3\2\2\2(\u00c4\3\2\2\2"+
+		"*\u00d2\3\2\2\2,\u00d4\3\2\2\2.\u00e2\3\2\2\2\60\u00e4\3\2\2\2\62\u00e6"+
+		"\3\2\2\2\64\u00eb\3\2\2\2\66\u00ed\3\2\2\28\u00ef\3\2\2\2:\u00f1\3\2\2"+
+		"\2<\u00f3\3\2\2\2>\u00f5\3\2\2\2@B\5\24\13\2A@\3\2\2\2BE\3\2\2\2CA\3\2"+
+		"\2\2CD\3\2\2\2D\3\3\2\2\2EC\3\2\2\2FG\5\f\7\2GH\5\6\4\2H\5\3\2\2\2IJ\5"+
+		"\b\5\2J\7\3\2\2\2KL\7\3\2\2L\t\3\2\2\2MO\5\f\7\2NM\3\2\2\2OR\3\2\2\2P"+
+		"N\3\2\2\2PQ\3\2\2\2Q\13\3\2\2\2RP\3\2\2\2SW\5\16\b\2TW\5\30\r\2UW\5\22"+
+		"\n\2VS\3\2\2\2VT\3\2\2\2VU\3\2\2\2W\r\3\2\2\2XY\5<\37\2YZ\5\34\17\2Z["+
+		"\58\35\2[\\\5\32\16\2\\c\3\2\2\2]^\5<\37\2^_\5\34\17\2_`\58\35\2`a\5\34"+
+		"\17\2ac\3\2\2\2bX\3\2\2\2b]\3\2\2\2c\17\3\2\2\2de\7\4\2\2e\21\3\2\2\2"+
+		"fg\5\20\t\2gh\5\26\f\2hi\7\5\2\2i\23\3\2\2\2jk\7\6\2\2kl\5\26\f\2lm\7"+
+		"\5\2\2mn\58\35\2nr\7\7\2\2oq\5\4\3\2po\3\2\2\2qt\3\2\2\2rp\3\2\2\2rs\3"+
+		"\2\2\2su\3\2\2\2tr\3\2\2\2uv\7\b\2\2v\25\3\2\2\2wx\7)\2\2x\27\3\2\2\2"+
+		"yz\7\t\2\2z{\7\n\2\2{|\7(\2\2|\u008b\7\13\2\2}~\7\f\2\2~\177\7\n\2\2\177"+
+		"\u0080\7(\2\2\u0080\u008b\7\13\2\2\u0081\u0082\7\r\2\2\u0082\u0083\7\n"+
+		"\2\2\u0083\u008b\7\13\2\2\u0084\u0085\7\16\2\2\u0085\u0086\7\n\2\2\u0086"+
+		"\u008b\7\13\2\2\u0087\u0088\7\17\2\2\u0088\u0089\7\n\2\2\u0089\u008b\7"+
+		"\13\2\2\u008ay\3\2\2\2\u008a}\3\2\2\2\u008a\u0081\3\2\2\2\u008a\u0084"+
+		"\3\2\2\2\u008a\u0087\3\2\2\2\u008b\31\3\2\2\2\u008c\u0093\5\36\20\2\u008d"+
+		"\u0093\5\30\r\2\u008e\u0093\5\"\22\2\u008f\u0093\5&\24\2\u0090\u0093\5"+
+		"*\26\2\u0091\u0093\5.\30\2\u0092\u008c\3\2\2\2\u0092\u008d\3\2\2\2\u0092"+
+		"\u008e\3\2\2\2\u0092\u008f\3\2\2\2\u0092\u0090\3\2\2\2\u0092\u0091\3\2"+
+		"\2\2\u0093\33\3\2\2\2\u0094\u0095\7)\2\2\u0095\35\3\2\2\2\u0096\u0097"+
+		"\5 \21\2\u0097\u009b\5\62\32\2\u0098\u009a\5\62\32\2\u0099\u0098\3\2\2"+
+		"\2\u009a\u009d\3\2\2\2\u009b\u0099\3\2\2\2\u009b\u009c\3\2\2\2\u009c\u00a3"+
+		"\3\2\2\2\u009d\u009b\3\2\2\2\u009e\u009f\5 \21\2\u009f\u00a0\5\62\32\2"+
+		"\u00a0\u00a1\5\62\32\2\u00a1\u00a3\3\2\2\2\u00a2\u0096\3\2\2\2\u00a2\u009e"+
+		"\3\2\2\2\u00a3\37\3\2\2\2\u00a4\u00a5\t\2\2\2\u00a5!\3\2\2\2\u00a6\u00a7"+
+		"\5$\23\2\u00a7\u00ab\5\62\32\2\u00a8\u00aa\5\62\32\2\u00a9\u00a8\3\2\2"+
+		"\2\u00aa\u00ad\3\2\2\2\u00ab\u00a9\3\2\2\2\u00ab\u00ac\3\2\2\2\u00ac\u00b3"+
+		"\3\2\2\2\u00ad\u00ab\3\2\2\2\u00ae\u00af\5$\23\2\u00af\u00b0\5\62\32\2"+
+		"\u00b0\u00b1\5\62\32\2\u00b1\u00b3\3\2\2\2\u00b2\u00a6\3\2\2\2\u00b2\u00ae"+
+		"\3\2\2\2\u00b3#\3\2\2\2\u00b4\u00b5\t\3\2\2\u00b5%\3\2\2\2\u00b6\u00b7"+
+		"\5(\25\2\u00b7\u00bb\5\62\32\2\u00b8\u00ba\5\62\32\2\u00b9\u00b8\3\2\2"+
+		"\2\u00ba\u00bd\3\2\2\2\u00bb\u00b9\3\2\2\2\u00bb\u00bc\3\2\2\2\u00bc\u00c3"+
+		"\3\2\2\2\u00bd\u00bb\3\2\2\2\u00be\u00bf\5(\25\2\u00bf\u00c0\5\62\32\2"+
+		"\u00c0\u00c1\5\62\32\2\u00c1\u00c3\3\2\2\2\u00c2\u00b6\3\2\2\2\u00c2\u00be"+
+		"\3\2\2\2\u00c3\'\3\2\2\2\u00c4\u00c5\t\4\2\2\u00c5)\3\2\2\2\u00c6\u00c7"+
+		"\5,\27\2\u00c7\u00cb\5\62\32\2\u00c8\u00ca\5\62\32\2\u00c9\u00c8\3\2\2"+
+		"\2\u00ca\u00cd\3\2\2\2\u00cb\u00c9\3\2\2\2\u00cb\u00cc\3\2\2\2\u00cc\u00d3"+
+		"\3\2\2\2\u00cd\u00cb\3\2\2\2\u00ce\u00cf\5,\27\2\u00cf\u00d0\5\62\32\2"+
+		"\u00d0\u00d1\5\62\32\2\u00d1\u00d3\3\2\2\2\u00d2\u00c6\3\2\2\2\u00d2\u00ce"+
+		"\3\2\2\2\u00d3+\3\2\2\2\u00d4\u00d5\t\5\2\2\u00d5-\3\2\2\2\u00d6\u00d7"+
+		"\5\60\31\2\u00d7\u00db\5\62\32\2\u00d8\u00da\5\62\32\2\u00d9\u00d8\3\2"+
+		"\2\2\u00da\u00dd\3\2\2\2\u00db\u00d9\3\2\2\2\u00db\u00dc\3\2\2\2\u00dc"+
+		"\u00e3\3\2\2\2\u00dd\u00db\3\2\2\2\u00de\u00df\5\60\31\2\u00df\u00e0\5"+
+		"\62\32\2\u00e0\u00e1\5\62\32\2\u00e1\u00e3\3\2\2\2\u00e2\u00d6\3\2\2\2"+
+		"\u00e2\u00de\3\2\2\2\u00e3/\3\2\2\2\u00e4\u00e5\t\6\2\2\u00e5\61\3\2\2"+
+		"\2\u00e6\u00e7\5\64\33\2\u00e7\63\3\2\2\2\u00e8\u00ec\5\66\34\2\u00e9"+
+		"\u00ec\7#\2\2\u00ea\u00ec\7\"\2\2\u00eb\u00e8\3\2\2\2\u00eb\u00e9\3\2"+
+		"\2\2\u00eb\u00ea\3\2\2\2\u00ec\65\3\2\2\2\u00ed\u00ee\t\7\2\2\u00ee\67"+
+		"\3\2\2\2\u00ef\u00f0\7\32\2\2\u00f09\3\2\2\2\u00f1\u00f2\7\33\2\2\u00f2"+
+		";\3\2\2\2\u00f3\u00f4\t\b\2\2\u00f4=\3\2\2\2\u00f5\u00f6\7!\2\2\u00f6"+
+		"?\3\2\2\2\24CPVbr\u008a\u0092\u009b\u00a2\u00ab\u00b2\u00bb\u00c2\u00cb"+
+		"\u00d2\u00db\u00e2\u00eb";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
