@@ -81,8 +81,8 @@ public class interpreter {
         }
         if (functionName.equals("printInt")) {
             //argument = ((IntegralTypeNode) operandStack.pop()).data();
-            IntegralTypeNode integralTypeNode = (IntegralTypeNode)variableSet.get(argument);
-            String variableValue = integralTypeNode.data();
+            VariableNode variableNode = (VariableNode)variableSet.get(argument);
+            String variableValue = variableNode.integralTypeNode.data();
             int intValue = Integer.decode(variableValue).intValue();
             com.juliar.pal.Primitives.sys_print_int(intValue);
         }

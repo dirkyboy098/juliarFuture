@@ -9,9 +9,9 @@ public class VariableNode extends NodeImpl {
     public IntegralTypeNode integralTypeNode;
 
 
-    public VariableNode(String t, String v){
-        type = t;
-        variableName = v;
+    public VariableNode(String vName, String vType){
+        type = vType;
+        variableName = vName;
     }
 
     public void SetIntegralTypeNode( IntegralTypeNode typeNode){
