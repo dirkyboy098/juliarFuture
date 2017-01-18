@@ -15,6 +15,7 @@ public class interpreter {
     private List<Node> inst;
     private InstructionInvocation invocationList;
     private HashMap<String, Node> functionNodeMap;
+    private HashMap<String, Node> variableSet = new HashMap<String , Node>();
 
 
     public interpreter(List<Node> instructions) {
@@ -79,8 +80,10 @@ public class interpreter {
             com.juliar.pal.Primitives.sys_print_line(argument);
         }
         if (functionName.equals("printInt")) {
-            argument = ((IntegralTypeNode) operandStack.pop()).data();
-            int intValue = Integer.decode(argument).intValue();
+            //argument = ((IntegralTypeNode) operandStack.pop()).data();
+            IntegralTypeNode integralTypeNode = (IntegralTypeNode)variableSet.get(argument);
+            String variableValue = integralTypeNode.data();
+            int intValue = Integer.decode(variableValue).intValue();
             com.juliar.pal.Primitives.sys_print_int(intValue);
         }
         if (functionName.equals("printFloat")) {
@@ -97,13 +100,14 @@ public class interpreter {
 
     private void assignment(AssignmentNode n) {
         String variableName = n.getVariableNode().variableName;
-
+        variableSet.put( variableName, n.getVariableNode());
         // only supports one command for now
         Node command = n.getInstructions().get(0);
 
         if (command instanceof BinaryNode) {
-            binaryNode(command);
+            binaryNode(variableName, command);
         }
+
         if (command instanceof AggregateNode){
             AggregateNode(command);
         }
@@ -120,6 +124,13 @@ public class interpreter {
         for(int i =0;i<addCount;i++){
             binaryOperation( (a,b) -> a+b); //check
         }
+    }
+
+    private void binaryNode( String variableName, Node n){
+        binaryNode( n );
+        VariableNode v = (VariableNode) variableSet.get( variableName );
+
+        v.SetIntegralTypeNode( (IntegralTypeNode)operandStack.pop() );
     }
 
     private void binaryNode(Node n) {

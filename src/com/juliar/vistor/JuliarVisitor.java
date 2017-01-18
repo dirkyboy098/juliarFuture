@@ -290,7 +290,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
             List<ParseTree> parseTreeList = ctx.children;
             if (parseTreeList.toArray()[0].toString().equals( "printInt") ){
                 FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
-                functionDeclNode.AddInst(new PrimitiveNode( "printInt" , null));
+                functionDeclNode.AddInst(new PrimitiveNode( "printInt" , ctx.variable().getText()));
             }else {
                 FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
                 functionDeclNode.AddInst(new PrimitiveNode(
