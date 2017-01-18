@@ -1,6 +1,5 @@
 package com.juliar.nodes;
 
-import java.util.ArrayList;
 
 /**
  * Created by donreamey on 1/7/17.
