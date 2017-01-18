@@ -1,7 +1,6 @@
 package com.juliar.vistor;
 
 import com.juliar.codegenerator.InstructionInvocation;
-import com.juliar.errors.ErrorListener;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import java.lang.*;

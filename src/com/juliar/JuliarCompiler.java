@@ -2,20 +2,14 @@ package com.juliar;
 
 import com.juliar.errors.ErrorListener;
 import com.juliar.interpreter.interpreter;
-import com.juliar.nodes.*;
 import com.juliar.vistor.JuliarVisitor;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
-
-import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import com.juliar.parser.*;
-
-import static java.lang.System.err;
 import static java.lang.System.out;
 import com.juliar.errors.PrintError;
 

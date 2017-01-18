@@ -2,7 +2,6 @@ package com.juliar.interpreter;
 
 import com.juliar.codegenerator.InstructionInvocation;
 import com.juliar.nodes.*;
-
 import java.util.*;
 
 /**
@@ -80,7 +79,6 @@ public class interpreter {
             com.juliar.pal.Primitives.sys_print_line(argument);
         }
         if (functionName.equals("printInt")) {
-            //argument = ((IntegralTypeNode) operandStack.pop()).data();
             VariableNode variableNode = (VariableNode)variableSet.get(argument);
             String variableValue = variableNode.integralTypeNode.data();
             int intValue = Integer.decode(variableValue).intValue();
