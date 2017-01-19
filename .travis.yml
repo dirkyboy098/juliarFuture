@@ -1,0 +1,14 @@
+language: java
+sudo: true
+jdk:
+  - oraclejdk8
+
+os:
+  - linux
+
+
+notifications:
+  email:
+  - andreim@juliar.org
+
+script: ./antlrbuild.sh
