@@ -12,3 +12,9 @@ notifications:
   - andreim@juliar.org
 
 script: ./antlrbuild.sh
+       javac src.com.juliar.test.JuliarCompilerTest.java
+       javac src.com.juliar.test.JClassLoader.java
+       javac src.com.juliar.test.TestByteCode.java
+       java  out.com.juliar.test.JuliarCompilerTest
+       java  out.com.juliar.test.JClassLoader
+       java  out.com.juliar.test.TestByteCode
