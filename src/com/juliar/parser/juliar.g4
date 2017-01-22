@@ -32,12 +32,13 @@ expressions
 expression
     : assignmentExpression
     | primitives
+    | variabledeclartion
     | functionCall
     ;
 
 assignmentExpression
-    : keywords variable equalsign command
-	| keywords variable equalsign variable
+    : variabledeclartion equalsign command
+	| variabledeclartion equalsign variable
     ;
 
 functionCallKeyword
@@ -51,6 +52,7 @@ functionCall
 functionDeclaration
     : 'function' funcName '()' equalsign '{' (statement)* '}'
     ;
+
 
 funcName
     : ID
@@ -104,6 +106,9 @@ variable
     : ID
     ;
 
+variabledeclartion
+    : keywords variable
+    ;
 
 add
     : summation types (types)*
