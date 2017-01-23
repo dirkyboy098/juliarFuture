@@ -3,6 +3,8 @@
 chmod +x build-idea.sh
 ./build-idea.sh
 
+ls
+
 # Run the tests
 ant -f juliarfuture.xml -Didea.home=./idea-IC -Djdk.bin=${JAVA_HOME}/bin compile.module.juliarfuture.tests
 
