@@ -5,7 +5,7 @@
 [![Build Status](https://travis-ci.org/juliarLang/juliarFuture.svg?branch=master)](https://travis-ci.org/juliarLang/juliarFuture)
 
 Juliar.Future is a programming language that is compiled directly into JAVA bytecode that can be ran in any JAVA environments.
-Juliar aim is to combine functional languages such as lisp with imperatif languages like JAVA,
+Juliar aim is to combine functional languages such as lisp with imperative languages like JAVA,
 in order to optimize programming efficiency.
 
 
