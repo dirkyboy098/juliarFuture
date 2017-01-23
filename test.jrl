@@ -16,7 +16,7 @@ function main() = {
 function test() = {
     printLine("======= test method===============");
     int s = - 1259 2;
-    printInt( s );
+    printInt( s1 );
     printLine("=======end of test method==========");
 }
 

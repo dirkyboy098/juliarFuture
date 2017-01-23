@@ -9,12 +9,9 @@ import java.util.*;
  */
 public class interpreter {
     private Stack<ActivationFrame> activationFrameStack = new Stack<ActivationFrame>();
-    private Stack<Node> operandStack = new Stack<Node>();
     private List<Node> inst;
     private InstructionInvocation invocationList;
     private HashMap<String, Node> functionNodeMap;
-    private HashMap<String, Node> variableSet = new HashMap<String , Node>();
-
 
     public interpreter(List<Node> instructions) {
         inst = instructions;
@@ -33,7 +30,10 @@ public class interpreter {
             if (n instanceof CompliationUnitNode){
               for(Map.Entry<String, Node> entry : functionNodeMap.entrySet()) {
                   if (entry.getKey().toString().equals("main")) {
+
+                      activationFrameStack.push( new ActivationFrame() );
                       execute(entry.getValue().getInstructions());
+                      activationFrameStack.pop();
                       break;
                   }
               }
@@ -52,7 +52,9 @@ public class interpreter {
 
                 for(Map.Entry<String, Node> entry : functionNodeMap.entrySet()){
                     if (entry.getKey().toString().equals( functionToCall )) {
+                        activationFrameStack.push( new ActivationFrame());
                         execute(entry.getValue().getInstructions());
+                        activationFrameStack.peek();
                         break;
                     }
                 }
@@ -68,7 +70,8 @@ public class interpreter {
 
 
             if (n instanceof VariableNode){
-                variableSet.put (((VariableNode)n).variableName, n);
+                ActivationFrame frame = activationFrameStack.peek();
+                frame.variableSet.put (((VariableNode)n).variableName, n);
             }
 
             if (n instanceof AssignmentNode) {
@@ -89,18 +92,27 @@ public class interpreter {
             com.juliar.pal.Primitives.sys_print_line(argument);
         }
         if (functionName.equals("printInt")) {
-            VariableNode variableNode = (VariableNode)variableSet.get(argument);
-            String variableValue = variableNode.integralTypeNode.data();
-            int intValue = Integer.decode(variableValue).intValue();
-            com.juliar.pal.Primitives.sys_print_int(intValue);
+            ActivationFrame frame = activationFrameStack.peek();
+            if ( frame.variableSet.containsKey(argument)) {
+                VariableNode variableNode = (VariableNode) frame.variableSet.get(argument);
+                String variableValue = variableNode.integralTypeNode.data();
+                int intValue = Integer.decode(variableValue).intValue();
+                com.juliar.pal.Primitives.sys_print_int(intValue);
+            }
+            else {
+                throw new RuntimeException("variable not found");
+            }
+
         }
         if (functionName.equals("printFloat")) {
-            argument = ((IntegralTypeNode) operandStack.pop()).data();
+            ActivationFrame frame = activationFrameStack.peek();
+            argument = ((IntegralTypeNode) frame.operandStack.pop()).data();
             float floatValue = Integer.decode(argument).floatValue();
             com.juliar.pal.Primitives.sys_print_float(floatValue);
         }
         if (functionName.equals("printDouble")) {
-            argument = ((IntegralTypeNode) operandStack.pop()).data();
+            ActivationFrame frame = activationFrameStack.peek();
+            argument = ((IntegralTypeNode) frame.operandStack.pop()).data();
             double doubleValue = Integer.decode(argument).doubleValue();
             com.juliar.pal.Primitives.sys_print_double(doubleValue);
         }
@@ -109,9 +121,6 @@ public class interpreter {
     private void assignment(AssignmentNode n) {
 
         String variableName = null;
-        //variableSet.put( variableName, n.getVariableNode());
-        // only supports one command for now
-
 
         List<Node> instructions = n.getInstructions();
         if (instructions.size() > 2 ){
@@ -127,9 +136,9 @@ public class interpreter {
 
         execute(instructions);
 
-
-        VariableNode integral = (VariableNode)variableSet.get ( variableName );
-        integral.SetIntegralTypeNode( (IntegralTypeNode) operandStack.pop() );
+        ActivationFrame frame = activationFrameStack.peek();
+        VariableNode integral = (VariableNode)frame.variableSet.get ( variableName );
+        integral.SetIntegralTypeNode( (IntegralTypeNode) frame.operandStack.pop() );
 
         /*
         for( Node node : instructions) {
@@ -157,8 +166,8 @@ public class interpreter {
         List<IntegralTypeNode> integralTypeNodes = ((AggregateNode)n).data();
         int addCount = integralTypeNodes.size() - 1;
         //TODO Different Primitive Types //add
-        for(IntegralTypeNode mintegralTypeNode : integralTypeNodes) {
-            integralTypeNode((IntegralTypeNode) mintegralTypeNode);
+        for(IntegralTypeNode integralTypeNode : integralTypeNodes) {
+            integralTypeNode( integralTypeNode);
         }
         for(int i =0;i<addCount;i++){
             binaryOperation( (a,b) -> a+b); //check
@@ -167,9 +176,10 @@ public class interpreter {
 
     private void binaryNode( String variableName, Node n){
         binaryNode( n );
-        VariableNode v = (VariableNode) variableSet.get( variableName );
+        ActivationFrame frame = activationFrameStack.peek();
+        VariableNode v = (VariableNode) frame.variableSet.get( variableName );
 
-        v.SetIntegralTypeNode( (IntegralTypeNode)operandStack.pop() );
+        v.SetIntegralTypeNode( (IntegralTypeNode)frame.operandStack.pop() );
     }
 
     private void binaryNode(Node n) {
@@ -214,22 +224,24 @@ public class interpreter {
     }
 
     private void binaryOperation( IntegerMath integerMath) {
-        String data1 = ((IntegralTypeNode) operandStack.pop()).data();
+        ActivationFrame frame = activationFrameStack.peek();
+        String data1 = ((IntegralTypeNode) frame.operandStack.pop()).data();
         int v1 = Integer.decode(data1).intValue();
 
 
-        String data2 = ((IntegralTypeNode) operandStack.pop()).data();
+        String data2 = ((IntegralTypeNode) frame.operandStack.pop()).data();
         int v2 = Integer.decode(data2).intValue();
 
         String sum = new Integer(integerMath.operation(v2, v1)).toString();
 
-        operandStack.push(new IntegralTypeNode(sum, IntegralType.jinteger));
+        frame.operandStack.push(new IntegralTypeNode(sum, IntegralType.jinteger));
     }
 
 
 
     private void integralTypeNode(IntegralTypeNode itn) {
-        operandStack.push(itn);
+        ActivationFrame frame = activationFrameStack.peek();
+        frame.operandStack.push(itn);
     }
 
     interface IntegerMath {
