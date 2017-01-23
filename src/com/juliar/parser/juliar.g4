@@ -41,12 +41,9 @@ assignmentExpression
 	| variabledeclartion equalsign variable
     ;
 
-functionCallKeyword
-    : 'call'
-    ;
 
 functionCall
-    : (functionCallKeyword)(funcName)'()'
+    : funcName leftParen rightParen
     ;
 
 functionDeclaration
@@ -56,6 +53,15 @@ functionDeclaration
 
 funcName
     : ID
+    ;
+
+
+leftParen
+    : '('
+    ;
+
+rightParen
+    : ')'
     ;
 
 

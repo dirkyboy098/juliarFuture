@@ -147,18 +147,12 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
     }
 
     @Override
-    public Node visitFunctionCallKeyword(juliarParser.FunctionCallKeywordContext ctx) {
-        return super.visitFunctionCallKeyword(ctx);
-    }
-
-    @Override
     public Node visitFunctionCall(juliarParser.FunctionCallContext ctx) {
         FunctionCallNode node = new FunctionCallNode(ctx.funcName().ID().getText());
         node.AddInst(funcContextStack , node);
 
         return null;
     }
-
 
     public Node visitModulo(juliarParser.ModuloContext ctx) {
 

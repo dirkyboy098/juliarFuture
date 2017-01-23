@@ -1,3 +1,9 @@
+
+function t() = {
+    foo3( );
+}
+
+
 function main() = {
     printLine(" ============= main method ================");
 
@@ -7,7 +13,7 @@ function main() = {
     printLine("printing the value of the z1 variable");
     printInt(z1);
 
-    call test();
+    test( );
 
     printLine ("=========== end of main method==================");
 }
@@ -16,7 +22,7 @@ function main() = {
 function test() = {
     printLine("======= test method===============");
     int s = - 1259 2;
-    printInt( s1 );
+    printInt( s );
     printLine("=======end of test method==========");
 }
 
