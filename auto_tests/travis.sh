@@ -1,7 +1,16 @@
 #!/bin/bash
 
-chmod +x build-idea.sh
-./build-idea.sh
+echo "a) Downloading"
+echo wget -O idea.tar.gz https://data.services.jetbrains.com/products/download?code=IIC&platform=linuxWithoutJDK 
+echo "b) Extracting"
+tar zxf idea.tar.gz
+echo "c) Removing"
+rm -rf idea.tar.gz
+
+# Move the versioned IDEA folder to a known location
+ideaPath=$(find . -name 'idea-IC*' | head -n 1)
+echo "D) Moving $ideaPath"
+mv ${ideaPath} ./idea-IC
 
 
 # Run the tests

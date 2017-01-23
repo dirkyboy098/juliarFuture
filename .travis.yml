@@ -12,4 +12,5 @@ before_script:
 
 script:
   - ./antlrbuild.sh
-  - cd auto_tests && ./travis.sh
+  - cd auto_tests
+  - ./travis.sh
