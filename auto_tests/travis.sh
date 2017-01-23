@@ -4,7 +4,7 @@ chmod +x build-idea.sh
 ./build-idea.sh
 
 # Run the tests
-ant -f travis-ci.xml -Didea.home=./idea-IC -Djdk.bin=${JAVA_HOME}/bin test.modules
+ant -f juliarfuture.xml -Didea.home=./idea-IC -Djdk.bin=${JAVA_HOME}/bin compile.module.juliarfuture.tests
 
 # Was our build successful?
 stat=$?

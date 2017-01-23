@@ -6,13 +6,10 @@ jdk:
 os:
   - linux
 
-
-notifications:
-  email:
-  - andreim@juliar.org
+before_script:
+ - chmod +x antlrbuild.sh
+ - chmod +x auto_tests/travis.sh
 
 script:
   - ./antlrbuild.sh
-  - javac src.com.juliar.test.JuliarCompilerTest.java
-  - javac src.com.juliar.test.JClassLoader.java
-  - javac src.com.juliar.test.TestByteCode.java
+  - cd auto_tests && ./travis.sh
