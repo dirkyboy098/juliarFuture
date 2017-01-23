@@ -313,23 +313,28 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
             assert true;
         }
 
-        if (ctx.variable().size() == 1){
+        //if (ctx.variable().size() == 1){
 
-            String type = ctx.keywords().getText();
+
+            //String type = ctx.variable().ac .keywords().getText();
             // The type will dictate the valid values used in the command.
-            String variableName = ctx.variable( 0 ).getText();
+            //String variableName = ctx.variable( 0 ).getText();
 
-            VariableNode variableNode = new VariableNode( variableName, type );
+            //ctx.variable().
+
+            //VariableNode variableNode = new VariableNode( variableName, type );
 
             String operator = ctx.equalsign().getText();
 
-            AssignmentNode node = new AssignmentNode( variableNode);
+            //AssignmentNode node = new AssignmentNode( variableNode);
+            AssignmentNode node = new AssignmentNode( null );
 
             funcContextStack.push( node );
+            ctx.variabledeclartion().accept(this);
             ctx.command().accept( this );
             funcContextStack.pop();
             node.AddInst(funcContextStack, node);
-        }
+        //}
 
         return null;
     }
@@ -339,9 +344,31 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         return super.visitExpression(ctx);
     }
 
+    @Override
+    public Node visitVariable(juliarParser.VariableContext ctx) {
+        VariableNode variableNode = new VariableNode(ctx.ID().getText(), null);
+        variableNode.AddInst(funcContextStack, variableNode );
+
+        return null;
+    }
+
+    @Override
+    public Node visitVariabledeclartion(juliarParser.VariabledeclartionContext ctx) {
+        VariableDeclarationNode variableDeclarationNode = new VariableDeclarationNode( );
+        variableDeclarationNode.type = ctx.keywords().getText();
+
+        //funcContextStack.push( variableDeclarationNode );
+        variableDeclarationNode.AddInst( funcContextStack, variableDeclarationNode);
+        ctx.variable().accept( this );
+        //funcContextStack.pop ();
 
 
-        /*
+
+
+        return null;
+    }
+
+    /*
     @Override
     public Node visitBooleanExpression(juliarParser.BooleanExpressionContext ctx) {
         return super.visitBooleanExpression(ctx);

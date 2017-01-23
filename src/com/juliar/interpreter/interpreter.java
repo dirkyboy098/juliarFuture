@@ -8,8 +8,7 @@ import java.util.*;
  * Created by donreamey on 1/8/17.
  */
 public class interpreter {
-    private Stack<Node> parameterStack = new Stack<Node>();
-    private Stack<Node> operatorStack = new Stack<Node>();
+    private Stack<ActivationFrame> activationFrameStack = new Stack<ActivationFrame>();
     private Stack<Node> operandStack = new Stack<Node>();
     private List<Node> inst;
     private InstructionInvocation invocationList;
@@ -41,6 +40,8 @@ public class interpreter {
             }
 
             if (n instanceof FunctionCallNode){
+                activationFrameStack.push( new ActivationFrame());
+
                 FunctionCallNode functionCallNode = (FunctionCallNode)n;
                 String functionToCall = functionCallNode.FunctionName();
 
@@ -61,12 +62,21 @@ public class interpreter {
                 primitives((PrimitiveNode) n);
             }
 
+            if (n instanceof VariableDeclarationNode){
+                int i =3;
+            }
+
+
+            if (n instanceof VariableNode){
+                variableSet.put (((VariableNode)n).variableName, n);
+            }
+
             if (n instanceof AssignmentNode) {
                 assignment((AssignmentNode) n);
             }
 
             if (n instanceof BinaryNode) {
-
+                binaryNode( n );
             }
         }
     }
@@ -97,19 +107,50 @@ public class interpreter {
     }
 
     private void assignment(AssignmentNode n) {
-        String variableName = n.getVariableNode().variableName;
-        variableSet.put( variableName, n.getVariableNode());
+
+        String variableName = null;
+        //variableSet.put( variableName, n.getVariableNode());
         // only supports one command for now
-        Node command = n.getInstructions().get(0);
 
-        if (command instanceof BinaryNode) {
-            binaryNode(variableName, command);
+
+        List<Node> instructions = n.getInstructions();
+        if (instructions.size() > 2 ){
+            if ( instructions.get(0 ) instanceof  VariableDeclarationNode){
+                // get the type and insure the value on stack matches
+                // if not runtime exception
+            }
+
+            if (instructions.get(1) instanceof  VariableNode ){
+                variableName = ((VariableNode) instructions.get(1)).variableName;
+            }
         }
 
-        if (command instanceof AggregateNode){
-            AggregateNode(command);
+        execute(instructions);
+
+
+        VariableNode integral = (VariableNode)variableSet.get ( variableName );
+        integral.SetIntegralTypeNode( (IntegralTypeNode) operandStack.pop() );
+
+        /*
+        for( Node node : instructions) {
+            if (node instanceof VariableDeclarationNode) {
+                //String type = n.getVariableNode().type;
+            }
+
+            if (node instanceof VariableNode){
+                variableName = ((VariableNode)node).variableName;
+                variableSet.put (variableName, node);
+            }
+
+            if (node instanceof BinaryNode) {
+                binaryNode(variableName, node);
+            }
+
+            if (node instanceof AggregateNode) {
+                AggregateNode(node);
+            }
         }
-        String type = n.getVariableNode().type;
+        */
     }
 
     private void AggregateNode(Node n){

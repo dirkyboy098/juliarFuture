@@ -19,3 +19,14 @@ function test() = {
     printInt( s );
     printLine("=======end of test method==========");
 }
+
+
+function foo1() = {
+}
+
+function foo2() = {
+}
+
+function foo3() = {
+
+}
