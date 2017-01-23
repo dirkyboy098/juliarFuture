@@ -1,7 +1,8 @@
 #!/bin/bash
 
 echo "a) Downloading"
-echo wget -O idea.tar.gz https://data.services.jetbrains.com/products/download?code=IIC&platform=linuxWithoutJDK 
+wget -O idea.tar.gz https://data.services.jetbrains.com/products/download?code=IIC&platform=linuxWithoutJDK &
+wait
 echo "b) Extracting"
 tar zxf idea.tar.gz
 echo "c) Removing"
