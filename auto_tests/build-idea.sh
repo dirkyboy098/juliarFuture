@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ideaVersion="14.0.2"
+ideaVersion="16.0.2"
 
 if [ ! -d ./idea-IC ]; then
     # Get our IDEA dependency
@@ -8,7 +8,7 @@ if [ ! -d ./idea-IC ]; then
     then
         cp ~/Tools/ideaIC-${ideaVersion}.tar.gz .
     else
-        wget http://download-cf.jetbrains.com/idea/ideaIC-${ideaVersion}.tar.gz
+        wget https://data.services.jetbrains.com/products/download?code=IIC&platform=linuxWithoutJDK
     fi
 
     # Unzip IDEA
