@@ -20,15 +20,6 @@ semiColon
     : ';'
     ;
 
-expressions
-    : (expression)*
-    //| (expression)?(expression)*
-    //| assignmentExpression
-    //| booleanExpression
-    //| ifExpr
-	//| nifExpr
-    ;
-
 expression
     : assignmentExpression
     | primitives
@@ -43,11 +34,13 @@ assignmentExpression
 
 
 functionCall
-    : funcName leftParen rightParen
+    : funcName '()'
+    | funcName (leftParen) variable (',' variable)? (rightParen)
     ;
 
 functionDeclaration
     : 'function' funcName '()' equalsign '{' (statement)* '}'
+    | 'function' funcName leftParen variabledeclartion (',' variabledeclartion)? rightParen equalsign '{' (statement)* '}'
     ;
 
 

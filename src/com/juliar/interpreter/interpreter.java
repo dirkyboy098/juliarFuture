@@ -40,13 +40,11 @@ public class interpreter {
             }
 
             if (n instanceof FunctionCallNode){
-                activationFrameStack.push( new ActivationFrame());
-
                 FunctionCallNode functionCallNode = (FunctionCallNode)n;
                 String functionToCall = functionCallNode.FunctionName();
 
                 // main should only be called from the compliationUnit
-                if (functionCallNode.equals( "main ")){
+                if (functionCallNode.equals( "main")){
                     continue;
                 }
 
@@ -56,6 +54,9 @@ public class interpreter {
                         execute(entry.getValue().getInstructions());
                         activationFrameStack.peek();
                         break;
+                    }
+                    else{
+                        // Should throw runtime exception if function can't be found
                     }
                 }
             }
