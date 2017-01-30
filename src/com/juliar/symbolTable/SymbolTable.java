@@ -1,7 +1,6 @@
 package com.juliar.symbolTable;
 
 import com.juliar.nodes.IContextInfo;
-import sun.jvm.hotspot.debugger.cdbg.Sym;
 
 import java.util.ArrayList;
 import java.util.List;
