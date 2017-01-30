@@ -1,6 +1,7 @@
 package com.juliar.vistor;
 
 import com.juliar.codegenerator.InstructionInvocation;
+import com.juliar.symbolTable.SymbolTable;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import java.lang.*;
@@ -17,6 +18,8 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
     private List<Node> instructionList = new ArrayList<>();
     private HashMap<String, Node> functionNodeMap = new HashMap<String, Node>();
     private Stack<Node> funcContextStack = new Stack<Node>();
+    private Queue<String> callStack = new ArrayDeque<>();
+    private SymbolTable symbolTable = SymbolTable.CreateSymbolTable();
 
     public InstructionInvocation instructions(){
         return new InstructionInvocation(instructionList, functionNodeMap);
@@ -133,12 +136,16 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         FunctionDeclNode functionDeclNode = new FunctionDeclNode(funcName, new ArrayList<Node>());
         funcContextStack.push( functionDeclNode );
 
+        callStack.add( funcName );
+        symbolTable.AddLevel( callStack.peek(), funcName);
+
         List<juliarParser.StatementContext> statementContexts = ctx.statement();
         for(juliarParser.StatementContext context : statementContexts){
             context.accept(this);
         }
 
         funcContextStack.pop();
+        callStack.remove();
 
         instructionList.add( functionDeclNode );
         functionNodeMap.put(funcName, functionDeclNode);
@@ -340,8 +347,11 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
     @Override
     public Node visitVariable(juliarParser.VariableContext ctx) {
-        VariableNode variableNode = new VariableNode(ctx.ID().getText(), null);
+        String variableName = ctx.ID().getText();
+        VariableNode variableNode = new VariableNode( variableName , null);
         variableNode.AddInst(funcContextStack, variableNode );
+
+        symbolTable.AddLevel( callStack.peek(), variableName );
 
         return null;
     }

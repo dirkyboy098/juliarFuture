@@ -1,5 +1,7 @@
 
 function t(int s) = {
+    int TTT;
+    int TTT1;
     foo3();
 }
 
@@ -27,7 +29,6 @@ function test() = {
 
     z();
 }
-
 
 function foo1() = {
 }

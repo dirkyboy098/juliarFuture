@@ -7,7 +7,7 @@ import java.util.Stack;
 /**
  * Created by Don on 1/12/2017.
  */
-public class FunctionDeclNode extends NodeImpl {
+public class FunctionDeclNode extends NodeImpl implements IContextInfo {
     private String functionName;
 
 
