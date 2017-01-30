@@ -1,11 +1,7 @@
 package com.juliar.symbolTable;
 
-import com.juliar.nodes.IContextInfo;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
-import java.util.Stack;
 
 /**
  * Created by donreamey on 1/9/17.
@@ -38,13 +34,6 @@ public class SymbolTable {
         return symbolTable;
     }
 
-    private void AddLevel(String current){
-        if (root == null){
-            root = new SymbolTableNode();
-        }
-        root.levelName = current;
-    }
-
     public void AddLevel(String parent, String current){
         SymbolTableNode parentNode = findLevel(parent);
         SymbolTableNode childNode = findLevel( current );
@@ -63,6 +52,17 @@ public class SymbolTable {
         }
     }
 
+    public SymbolTableNode findLevel(String levelName){
+        return findLevel(root, levelName);
+    }
+
+    private void AddLevel(String current){
+        if (root == null){
+            root = new SymbolTableNode();
+        }
+        root.levelName = current;
+    }
+
     private boolean doesSymbolExistAtScope(SymbolTableNode parent, SymbolTableNode childNode) {
         long count = parent.children
                 .stream()
@@ -72,15 +72,7 @@ public class SymbolTable {
             throw new RuntimeException("identifier " + childNode.levelName + " already exist");
         }
 
-        if (count > 0){
-            return true;
-        }
-
         return false;
-    }
-
-    public SymbolTableNode findLevel(String levelName){
-        return findLevel(root, levelName);
     }
 
     private SymbolTableNode findLevel(SymbolTableNode node, String levelName){

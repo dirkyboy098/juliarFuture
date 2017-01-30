@@ -25,6 +25,7 @@ expression
     | primitives
     | variabledeclartion
     | functionCall
+    | returnValue
     ;
 
 assignmentExpression
@@ -48,6 +49,11 @@ funcName
     : ID
     ;
 
+returnValue
+    : 'return'
+    | 'return' (variable)
+    | 'return' (functionCall)
+    ;
 
 leftParen
     : '('
