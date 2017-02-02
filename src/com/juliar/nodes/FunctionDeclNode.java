@@ -32,4 +32,8 @@ public class FunctionDeclNode extends NodeImpl implements IContextInfo {
     public void AddInst(Stack<Node> contextStack, Node instruction) {
         super.AddInst(contextStack, instruction);
     }
+
+    public String getFunctionName(){
+        return functionName;
+    }
 }

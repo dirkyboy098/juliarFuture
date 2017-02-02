@@ -34,7 +34,7 @@ public class SymbolTable {
         return symbolTable;
     }
 
-    public void AddLevel(String parent, String current){
+    public void AddLevel(String parent, String current, SymbolTypeEnum symbolType){
         SymbolTableNode parentNode = findLevel(parent);
         SymbolTableNode childNode = findLevel( current );
 
@@ -88,10 +88,28 @@ public class SymbolTable {
         return newNode;
     }
 
+    public void dumpSymbolTable(){
+        dumpSymbolTable(root , "");
+    }
+
+    private void dumpSymbolTable(SymbolTableNode node, String space){
+        if (node != null) {
+            System.out.print( space + node.levelName );
+            for( SymbolTableNode n : node.children){
+                space += "\t";
+                dumpSymbolTable( n ,space);
+            }
+
+            space = "";
+            System.out.println();
+        }
+    }
+
 }
 
 class SymbolTableNode{
     public String levelName;
+    public SymbolTypeEnum symbolTypeEnum;
     public SymbolTableNode parent;
     public List<SymbolTableNode> children = new ArrayList<>();
 }

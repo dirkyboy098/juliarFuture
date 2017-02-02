@@ -1,7 +1,9 @@
 package com.juliar.vistor;
 
 import com.juliar.codegenerator.InstructionInvocation;
+import com.juliar.controlflow.ControlFlowAdjacencyList;
 import com.juliar.symbolTable.SymbolTable;
+import com.juliar.symbolTable.SymbolTypeEnum;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import java.lang.*;
@@ -20,6 +22,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
     private Stack<Node> funcContextStack = new Stack<Node>();
     private Queue<String> callStack = new ArrayDeque<>();
     private SymbolTable symbolTable = SymbolTable.CreateSymbolTable();
+    private ControlFlowAdjacencyList cfa = new ControlFlowAdjacencyList();
 
     public InstructionInvocation instructions(){
         return new InstructionInvocation(instructionList, functionNodeMap);
@@ -35,6 +38,9 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         for(ParseTree t : ctx.children){
             t.accept(this);
         }
+
+        cfa.walkGraph();
+        symbolTable.dumpSymbolTable();
 
         return null;
     }
@@ -137,7 +143,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         funcContextStack.push( functionDeclNode );
 
         callStack.add( funcName );
-        symbolTable.AddLevel( callStack.peek(), funcName);
+        symbolTable.AddLevel( callStack.peek(), funcName, SymbolTypeEnum.functionDecl);
 
         List<juliarParser.StatementContext> statementContexts = ctx.statement();
         for(juliarParser.StatementContext context : statementContexts){
@@ -155,7 +161,11 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
     @Override
     public Node visitFunctionCall(juliarParser.FunctionCallContext ctx) {
-        FunctionCallNode node = new FunctionCallNode(ctx.funcName().ID().getText());
+        String caller = ((FunctionDeclNode) funcContextStack.peek()).getFunctionName();
+        String callee = ctx.funcName().ID().getText();
+        cfa.addNode( caller, callee);
+
+        FunctionCallNode node = new FunctionCallNode( callee );
         node.AddInst(funcContextStack , node);
 
         return null;
@@ -351,7 +361,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         VariableNode variableNode = new VariableNode( variableName , null);
         variableNode.AddInst(funcContextStack, variableNode );
 
-        symbolTable.AddLevel( callStack.peek(), variableName );
+        symbolTable.AddLevel( callStack.peek(), variableName, SymbolTypeEnum.variableDecl);
 
         return null;
     }

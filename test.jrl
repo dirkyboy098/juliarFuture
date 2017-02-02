@@ -3,6 +3,7 @@ function t(int s) = {
     int TTT;
     int TTT1;
     foo3();
+    foo3();
 }
 
 
@@ -27,10 +28,11 @@ function test() = {
     printInt( s );
     printLine("=======end of test method==========");
 
-    z();
+    foo1();
 }
 
 function foo1() = {
+    t();
 }
 
 function foo2() = {
