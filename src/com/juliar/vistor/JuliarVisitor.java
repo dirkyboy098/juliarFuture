@@ -171,6 +171,67 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         return null;
     }
 
+    @Override
+    public Node visitEqualequal(juliarParser.EqualequalContext ctx){
+        //ifeq or if_acmpeq
+        /*String text = ctx.().getText();
+        if (text.equals("add") || text.equals("+")){
+            if (ctx.types().size() == 2) {
+                BinaryNode node = new BinaryNode();
+                try {
+                    FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
+                    functionDeclNode.AddInst(node.MakeNode(
+                            Operation.add,
+                            ctx.types(0).accept(this),
+                            ctx.types(1).accept(this)));
+                }catch( Exception ex){
+                    new PrintError(ex.getMessage(),ex);
+                }
+            }
+
+            if (ctx.types().size() > 2){
+                List<IntegralTypeNode> data = new ArrayList<>();
+
+                for ( int i = 0; i< ctx.types().size(); i++) {
+                    data.add((IntegralTypeNode) ctx.types(i).accept(this));
+                }
+                AggregateNode aggregateNode = new AggregateNode(Operation.add, data);
+
+                FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
+                functionDeclNode.AddInst( aggregateNode );
+            }
+        }
+        return null;*/
+        return null;
+
+    }
+
+    @Override
+    public Node visitLessthan(juliarParser.LessthanContext ctx){
+        //if_icmplt
+        return null;
+    }
+    @Override
+    public Node visitGreaterthan(juliarParser.GreaterthanContext ctx){
+        //if_icmpgt
+        return null;
+    }
+    @Override
+    public Node visitLessthanorequalto(juliarParser.LessthanorequaltoContext ctx){
+
+        //if_icmple
+        return null;
+    }
+    @Override
+    public Node visitGreaterthanorequalto(juliarParser.GreaterthanorequaltoContext ctx){
+        //if_icmpge
+        return null;
+    }
+    @Override
+    public Node visitThreeway(juliarParser.ThreewayContext ctx){
+        return null;
+    }
+
     public Node visitModulo(juliarParser.ModuloContext ctx) {
 
         String text = ctx.moduli().getText();
@@ -288,10 +349,6 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         return itn;
     }
 
-    @Override
-    public Node visitEqualequal(juliarParser.EqualequalContext ctx) {
-        return super.visitEqualequal(ctx);
-    }
 
 
     @Override
@@ -366,7 +423,8 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         return null;
     }
 
-    @Override
+
+    /*@Override
     public Node visitVariabledeclartion(juliarParser.VariabledeclartionContext ctx) {
         VariableDeclarationNode variableDeclarationNode = new VariableDeclarationNode( );
         variableDeclarationNode.type = ctx.keywords().getText();
@@ -380,7 +438,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
 
         return null;
-    }
+    }*/
 
     /*
     @Override

@@ -26,6 +26,7 @@ expression
     | variabledeclartion
     | functionCall
     | returnValue
+    | booleanExpression
     ;
 
 assignmentExpression
@@ -64,13 +65,13 @@ rightParen
     ;
 
 
-/*
+
 booleanExpression
-    : variable (equalequal) variable
-    | variable (equalequal) command
-    | command (equalequal) command
+    : variable (comparisonOperator) variable
+    | variable (comparisonOperator) command
+    | command (comparisonOperator) command
     ;
-*/
+
 
 primitives
     : 'fileOpen' '(' STRING ')'
@@ -188,9 +189,22 @@ equalsign
     : '='
     ;
 
-equalequal
-    : '=='
+comparisonOperator
+    : equalequal
+    | lessthan
+    | greaterthan
+    | lessthanorequalto
+    | greaterthanorequalto
+    | threeway
     ;
+
+equalequal: '==';
+lessthan: '<';
+greaterthan: '>';
+lessthanorequalto: '<=' ;
+greaterthanorequalto: '>=' ;
+threeway: '<=>';
+
 
 keywords
     : 'int'
