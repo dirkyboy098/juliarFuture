@@ -1,6 +1,7 @@
 # juliar.Future
-![juliar.Future](https://cloud.githubusercontent.com/assets/11934545/21415540/c50c8034-c7d8-11e6-9f76-9b37833e6cae.jpg)
-
+![jfanimated](https://cloud.githubusercontent.com/assets/11934545/22674649/0b2d5d68-ecaf-11e6-9141-40ac1aefaa16.gif)
+<!---![juliar.Future](https://cloud.githubusercontent.com/assets/11934545/21415540/c50c8034-c7d8-11e6-9f76-9b37833e6cae.jpg)
+-->
 [![version](https://img.shields.io/badge/version-0.0.1-green.svg)](https://www.juliar.org/downloads.ju)
 [![Build Status](https://travis-ci.org/juliarLang/juliarFuture.svg?branch=master)](https://travis-ci.org/juliarLang/juliarFuture)
 
