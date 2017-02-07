@@ -29,6 +29,7 @@ public class JuliarCompiler {
         }
     }
 
+
     public List<String> compile(String source, String outputPath, boolean isRepl) {
         try {
             FileInputStream fileInputStream = new FileInputStream(source);
@@ -38,6 +39,21 @@ public class JuliarCompiler {
         }
 
         return new ArrayList<String>();
+    }
+
+    public List<String> compile(String source, String outputPath, boolean compilerFlag, boolean isRepl) {
+        try {
+            FileInputStream fileInputStream = new FileInputStream(source);
+            return compile(fileInputStream, outputPath, false, isRepl);
+        } catch (Exception ex) {
+            new PrintError(ex.getMessage(),ex);
+        }
+
+        return new ArrayList<String>();
+    }
+
+    public List<String> compile(InputStream b, String source, boolean isRepl) {
+        return compile(b,source,false, isRepl);
     }
 
     public List<String> compile(InputStream b, String source, boolean compilerFlag, boolean isRepl) {
@@ -79,8 +95,9 @@ public class JuliarCompiler {
                     interpreter i = new interpreter(visitor.instructions());
                 }
                 else {
-                    com.juliar.codegenerator.CodeGenerator generator = new com.juliar.codegenerator.CodeGenerator();
+                    //com.juliar.codegenerator.CodeGenerator generator = new com.juliar.codegenerator.CodeGenerator();
                     //generator.Generate(visitor.instructions());
+                    interpreter i = new interpreter(visitor.instructions());
                 }
             }
 
