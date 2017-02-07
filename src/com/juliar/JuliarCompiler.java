@@ -21,8 +21,9 @@ public class JuliarCompiler {
     public static void main(String[] args) {
         try {
             assert args[0] != null && args[1] != null;
+            boolean compilerFlag = args[2] == null ? true : false;
             JuliarCompiler compiler = new JuliarCompiler();
-            compiler.compile(args[0], args[1], false);
+            compiler.compile(args[0], args[1], compilerFlag, false);
         } catch (Exception ex) {
             new PrintError(ex.getMessage(),ex);
         }
@@ -31,7 +32,7 @@ public class JuliarCompiler {
     public List<String> compile(String source, String outputPath, boolean isRepl) {
         try {
             FileInputStream fileInputStream = new FileInputStream(source);
-            return compile(fileInputStream, outputPath, isRepl);
+            return compile(fileInputStream, outputPath, false, isRepl);
         } catch (Exception ex) {
             new PrintError(ex.getMessage(),ex);
         }
@@ -39,7 +40,7 @@ public class JuliarCompiler {
         return new ArrayList<String>();
     }
 
-    public List<String> compile(InputStream b, String source, boolean isRepl) {
+    public List<String> compile(InputStream b, String source, boolean compilerFlag, boolean isRepl) {
         try {
             juliarParser parser = parse( b );
 
@@ -74,10 +75,13 @@ public class JuliarCompiler {
                 JuliarVisitor visitor = new JuliarVisitor();
                 visitor.visit(context);
 
-                interpreter i = new interpreter(visitor.instructions());
-
-                //com.juliar.codegenerator.CodeGenerator generator = new com.juliar.codegenerator.CodeGenerator();
-                //generator.Generate(visitor.instructions());
+                if(compilerFlag){
+                    interpreter i = new interpreter(visitor.instructions());
+                }
+                else {
+                    com.juliar.codegenerator.CodeGenerator generator = new com.juliar.codegenerator.CodeGenerator();
+                    //generator.Generate(visitor.instructions());
+                }
             }
 
             //return errors.ErrorList();
