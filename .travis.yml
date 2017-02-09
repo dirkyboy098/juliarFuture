@@ -8,9 +8,6 @@ os:
 
 before_script:
  - chmod +x antlrbuild.sh
- - chmod +x auto_tests/travis.sh
 
 script:
   - ./antlrbuild.sh
-  - cd auto_tests
-  - ./travis.sh
