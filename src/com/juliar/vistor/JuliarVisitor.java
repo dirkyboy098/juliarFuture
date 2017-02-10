@@ -161,7 +161,17 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
     @Override
     public Node visitFunctionCall(juliarParser.FunctionCallContext ctx) {
-        String caller = ((FunctionDeclNode) funcContextStack.peek()).getFunctionName();
+        Node parent = funcContextStack.peek();
+        String caller = null;
+
+        if (parent instanceof  FunctionDeclNode) {
+            caller = ((FunctionDeclNode) parent).getFunctionName();
+        }
+
+        if (parent instanceof  AssignmentNode){
+            caller = "assignment";//((AssignmentNode) parent).getVariableNode().variableName;
+        }
+
         String callee = ctx.funcName().ID().getText();
         cfa.addNode( caller, callee);
 
@@ -381,15 +391,18 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
             assert true;
         }
 
-
         String operator = ctx.equalsign().getText();
-
-        //AssignmentNode node = new AssignmentNode( variableNode);
         AssignmentNode node = new AssignmentNode(null);
 
         funcContextStack.push(node);
         ctx.variabledeclartion().accept(this);
-        ctx.command().accept(this);
+
+        if (ctx.command() != null) {
+            ctx.command().accept(this);
+        }else if (ctx.functionCall() != null){
+            ctx.functionCall().accept( this );
+        }
+
         funcContextStack.pop();
         node.AddInst(funcContextStack, node);
 
@@ -412,59 +425,21 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         return null;
     }
 
-
-    /*@Override
-    public Node visitVariabledeclartion(juliarParser.VariabledeclartionContext ctx) {
-        VariableDeclarationNode variableDeclarationNode = new VariableDeclarationNode( );
-        variableDeclarationNode.type = ctx.keywords().getText();
-
-        //funcContextStack.push( variableDeclarationNode );
-        variableDeclarationNode.AddInst( funcContextStack, variableDeclarationNode);
-        ctx.variable().accept( this );
-        //funcContextStack.pop ();
-
-
-
-
-        return null;
-    }*/
-
-    /*
     @Override
-    public Node visitBooleanExpression(juliarParser.BooleanExpressionContext ctx) {
-        return super.visitBooleanExpression(ctx);
-    }
+    public Node visitReturnValue(juliarParser.ReturnValueContext ctx) {
+        ReturnValueNode valueNode = null;
 
-    @Override
-    public Node visitIfExpr(juliarParser.IfExprContext ctx) {
-        Object booleanExpression = ctx.booleanExpression().accept(this);
-
-        for(juliarParser.StatementContext statementContext : ctx.statement()){
-            statementContext.accept(this);
+        if (ctx.variable() != null) {
+            ctx.variable().accept(this);
+            valueNode = new ReturnValueNode( SymbolTypeEnum.variableRef, ctx.variable().getText());
+        }
+        else if(ctx.functionCall() != null) {
+            valueNode = new ReturnValueNode(SymbolTypeEnum.functionCall, ctx.functionCall().getText());
         }
 
-        return super.visitIfExpr(ctx);
+        funcContextStack.peek().AddInst( valueNode );
+
+        return null;
     }
-    */
-
-    /*
-    @Override
-    public Node visitAbsolute(juliarParser.AbsoluteContext ctx){
-
-        return super.visitAbsolute(ctx);
-    }
-
-    @Override
-    public Node visitAcos(juliarParser.AcosContext ctx){
-
-        return super.visitAcos(ctx);
-    }
-
-    @Override
-    public Node visitAcosh(juliarParser.AcoshContext ctx){
-
-        return super.visitAcosh(ctx);
-    }
-*/
 
 }

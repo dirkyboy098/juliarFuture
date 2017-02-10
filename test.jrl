@@ -1,34 +1,24 @@
 
 function t(int s) = {
-    int TTT;
-    int TTT1;
-    foo3();
-    foo3();
+    printLine("test return");
+    int s1 = test();
+    printLine("called return");
 }
 
 
 function main() = {
+    t();
     printLine(" ============= main method ================");
-
-    int z1 = - 58912 2;
-    int X1 = - 3 2;
-
-    printLine("printing the value of the z1 variable");
-    printInt(z1);
-
-    test(z1);
 
     printLine ("=========== end of main method==================");
 }
 
 
 function test() = {
+    int s;
     printLine("======= test method===============");
-    int s = - 1259 2;
-    printInt( s );
     printLine("=======end of test method==========");
-
-    foo1();
+    return s;
 }
 
 function foo1() = {

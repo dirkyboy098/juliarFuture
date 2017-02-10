@@ -2,6 +2,8 @@ package com.juliar.interpreter;
 
 import com.juliar.codegenerator.InstructionInvocation;
 import com.juliar.nodes.*;
+import com.juliar.symbolTable.SymbolTypeEnum;
+
 import java.util.*;
 
 /**
@@ -9,6 +11,7 @@ import java.util.*;
  */
 public class interpreter {
     private Stack<ActivationFrame> activationFrameStack = new Stack<ActivationFrame>();
+    private Stack<Node> returnValueStack = new Stack<>();
     private List<Node> inst;
     private InstructionInvocation invocationList;
     private HashMap<String, Node> functionNodeMap;
@@ -59,20 +62,31 @@ public class interpreter {
                         // Should throw runtime exception if function can't be found
                     }
                 }
+                continue;
+            }
+
+            if ( n instanceof ReturnValueNode){
+                ReturnValueNode node = (ReturnValueNode)n;
+                if (node.getSymbolTypeEnum() == SymbolTypeEnum.variableRef) {
+                    ActivationFrame frame =  activationFrameStack.peek();
+                    if (frame.variableSet.containsKey(node.typeName())) {
+                        Node variableNode = frame.variableSet.get(node.typeName());
+                        returnValueStack.push( variableNode );
+                    }
+                }
+                continue;
             }
 
             if (n instanceof PrimitiveNode) {
                 primitives((PrimitiveNode) n);
-            }
-
-            if (n instanceof VariableDeclarationNode){
-                int i =3;
+                continue;
             }
 
 
             if (n instanceof VariableNode){
                 ActivationFrame frame = activationFrameStack.peek();
                 frame.variableSet.put (((VariableNode)n).variableName, n);
+                continue;
             }
 
             if (n instanceof AssignmentNode) {
@@ -81,6 +95,7 @@ public class interpreter {
 
             if (n instanceof BinaryNode) {
                 binaryNode( n );
+                continue;
             }
         }
     }
@@ -124,8 +139,13 @@ public class interpreter {
         String variableName = null;
 
         List<Node> instructions = n.getInstructions();
+        Object returnStackValue = null;
         if (instructions.size() >= 2 ){
-            for( Node node: instructions) {
+            int size = instructions.size() - 1;
+            for( int start = size; start >= 0 ; start--){
+                // Get nodes in reverse order to execute expressions or functions
+                // before doing assignment
+                Node node = instructions.get(start);
                 if (node instanceof VariableDeclarationNode) {
                     // get the type and insure the value on stack matches
                     // if not runtime exception
@@ -133,6 +153,20 @@ public class interpreter {
 
                 if (node instanceof VariableNode) {
                     variableName = ((VariableNode) node).variableName;
+                    ActivationFrame frame = activationFrameStack.peek();
+                    if ( frame.variableSet.containsKey(variableName) &&  returnStackValue != null) {
+                        frame.variableSet.remove( variableName );
+                        frame.variableSet.put( variableName, (VariableNode)returnStackValue);
+                        //frame.parameterStack.push((VariableNode)returnStackValue);
+                    }
+
+                }
+
+                if ( node instanceof FunctionCallNode ){
+                    List<Node> f = new ArrayList<>();
+                    f.add(node);
+                    execute( f );
+                    returnStackValue = returnValueStack.pop();
                 }
             }
         }
