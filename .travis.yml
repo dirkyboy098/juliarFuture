@@ -8,12 +8,8 @@ os:
 
 before_script:
  - chmod +x antlrbuild.sh
- - chmod +x JuliarCreateJAR.sh
- - chmod -R 777 *
+
 
 script:
   - ./antlrbuild.sh
-  - ./JuliarCreateJAR.sh
-  - java -jar JuliarCompiler.jar test.jrl . false
-
 
