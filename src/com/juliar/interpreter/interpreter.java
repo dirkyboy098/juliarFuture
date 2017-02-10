@@ -124,14 +124,16 @@ public class interpreter {
         String variableName = null;
 
         List<Node> instructions = n.getInstructions();
-        if (instructions.size() > 2 ){
-            if ( instructions.get(0 ) instanceof  VariableDeclarationNode){
-                // get the type and insure the value on stack matches
-                // if not runtime exception
-            }
+        if (instructions.size() >= 2 ){
+            for( Node node: instructions) {
+                if (node instanceof VariableDeclarationNode) {
+                    // get the type and insure the value on stack matches
+                    // if not runtime exception
+                }
 
-            if (instructions.get(1) instanceof  VariableNode ){
-                variableName = ((VariableNode) instructions.get(1)).variableName;
+                if (node instanceof VariableNode) {
+                    variableName = ((VariableNode) node).variableName;
+                }
             }
         }
 
@@ -139,7 +141,8 @@ public class interpreter {
 
         ActivationFrame frame = activationFrameStack.peek();
         VariableNode integral = (VariableNode)frame.variableSet.get ( variableName );
-        integral.SetIntegralTypeNode( (IntegralTypeNode) frame.operandStack.pop() );
+        IntegralTypeNode value = (IntegralTypeNode) frame.operandStack.pop();
+        integral.SetIntegralTypeNode( value );
 
         /*
         for( Node node : instructions) {

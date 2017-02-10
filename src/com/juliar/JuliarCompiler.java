@@ -20,7 +20,11 @@ public class JuliarCompiler {
 
     public static void main(String[] args) {
         try {
-            assert args[0] != null && args[1] != null;
+
+            // if new mandatory parameters are added then we need to
+            // update the assert to catch the errors.
+
+            assert args[0] != null && args[1] != null && args[2] != null;
             boolean compilerFlag = args[2] == null ? true : false;
             JuliarCompiler compiler = new JuliarCompiler();
             compiler.compile(args[0], args[1], compilerFlag, false);
