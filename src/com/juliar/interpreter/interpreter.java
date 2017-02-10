@@ -144,26 +144,6 @@ public class interpreter {
         IntegralTypeNode value = (IntegralTypeNode) frame.operandStack.pop();
         integral.SetIntegralTypeNode( value );
 
-        /*
-        for( Node node : instructions) {
-            if (node instanceof VariableDeclarationNode) {
-                //String type = n.getVariableNode().type;
-            }
-
-            if (node instanceof VariableNode){
-                variableName = ((VariableNode)node).variableName;
-                variableSet.put (variableName, node);
-            }
-
-            if (node instanceof BinaryNode) {
-                binaryNode(variableName, node);
-            }
-
-            if (node instanceof AggregateNode) {
-                AggregateNode(node);
-            }
-        }
-        */
     }
 
     private void AggregateNode(Node n){

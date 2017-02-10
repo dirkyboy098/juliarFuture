@@ -377,32 +377,21 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
     @Override
     public Node visitAssignmentExpression(juliarParser.AssignmentExpressionContext ctx) {
-        if (funcContextStack.empty()){
+        if (funcContextStack.empty()) {
             assert true;
         }
 
-        //if (ctx.variable().size() == 1){
 
+        String operator = ctx.equalsign().getText();
 
-            //String type = ctx.variable().ac .keywords().getText();
-            // The type will dictate the valid values used in the command.
-            //String variableName = ctx.variable( 0 ).getText();
+        //AssignmentNode node = new AssignmentNode( variableNode);
+        AssignmentNode node = new AssignmentNode(null);
 
-            //ctx.variable().
-
-            //VariableNode variableNode = new VariableNode( variableName, type );
-
-            String operator = ctx.equalsign().getText();
-
-            //AssignmentNode node = new AssignmentNode( variableNode);
-            AssignmentNode node = new AssignmentNode( null );
-
-            funcContextStack.push( node );
-            ctx.variabledeclartion().accept(this);
-            ctx.command().accept( this );
-            funcContextStack.pop();
-            node.AddInst(funcContextStack, node);
-        //}
+        funcContextStack.push(node);
+        ctx.variabledeclartion().accept(this);
+        ctx.command().accept(this);
+        funcContextStack.pop();
+        node.AddInst(funcContextStack, node);
 
         return null;
     }
