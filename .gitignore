@@ -30,3 +30,12 @@ out/.idea/src.iml
 out/com/juliar/parser/juliar.g4
 .idea/misc.xml
 .idea/misc.xml
+gen/com/juliar/parser/juliar.tokens
+gen/com/juliar/parser/juliarBaseListener.java
+gen/com/juliar/parser/juliarBaseVisitor.java
+gen/com/juliar/parser/juliarLexer.java
+gen/com/juliar/parser/juliarLexer.tokens
+gen/com/juliar/parser/juliarListener.java
+gen/com/juliar/parser/juliarParser.java
+gen/com/juliar/parser/juliarVisitor.java
+hs_err_pid19144.log

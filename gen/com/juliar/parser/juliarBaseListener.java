@@ -64,18 +64,6 @@ public class juliarBaseListener implements juliarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpressions(juliarParser.ExpressionsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitExpressions(juliarParser.ExpressionsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterExpression(juliarParser.ExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -95,18 +83,6 @@ public class juliarBaseListener implements juliarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAssignmentExpression(juliarParser.AssignmentExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterFunctionCallKeyword(juliarParser.FunctionCallKeywordContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitFunctionCallKeyword(juliarParser.FunctionCallKeywordContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -148,6 +124,54 @@ public class juliarBaseListener implements juliarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterReturnValue(juliarParser.ReturnValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitReturnValue(juliarParser.ReturnValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLeftParen(juliarParser.LeftParenContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLeftParen(juliarParser.LeftParenContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterRightParen(juliarParser.RightParenContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRightParen(juliarParser.RightParenContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBooleanExpression(juliarParser.BooleanExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBooleanExpression(juliarParser.BooleanExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterPrimitives(juliarParser.PrimitivesContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -155,6 +179,18 @@ public class juliarBaseListener implements juliarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitPrimitives(juliarParser.PrimitivesContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterPrintPrimitives(juliarParser.PrintPrimitivesContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPrintPrimitives(juliarParser.PrintPrimitivesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -179,6 +215,18 @@ public class juliarBaseListener implements juliarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitVariable(juliarParser.VariableContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterVariabledeclartion(juliarParser.VariabledeclartionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVariabledeclartion(juliarParser.VariabledeclartionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -352,6 +400,18 @@ public class juliarBaseListener implements juliarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterComparisonOperator(juliarParser.ComparisonOperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitComparisonOperator(juliarParser.ComparisonOperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterEqualequal(juliarParser.EqualequalContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -359,6 +419,66 @@ public class juliarBaseListener implements juliarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitEqualequal(juliarParser.EqualequalContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLessthan(juliarParser.LessthanContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLessthan(juliarParser.LessthanContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterGreaterthan(juliarParser.GreaterthanContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGreaterthan(juliarParser.GreaterthanContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLessthanorequalto(juliarParser.LessthanorequaltoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLessthanorequalto(juliarParser.LessthanorequaltoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterGreaterthanorequalto(juliarParser.GreaterthanorequaltoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGreaterthanorequalto(juliarParser.GreaterthanorequaltoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterThreeway(juliarParser.ThreewayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitThreeway(juliarParser.ThreewayContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

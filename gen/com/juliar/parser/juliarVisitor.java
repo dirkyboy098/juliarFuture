@@ -35,12 +35,6 @@ public interface juliarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSemiColon(juliarParser.SemiColonContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link juliarParser#expressions}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpressions(juliarParser.ExpressionsContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link juliarParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -52,12 +46,6 @@ public interface juliarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAssignmentExpression(juliarParser.AssignmentExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link juliarParser#functionCallKeyword}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFunctionCallKeyword(juliarParser.FunctionCallKeywordContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link juliarParser#functionCall}.
 	 * @param ctx the parse tree
@@ -77,11 +65,41 @@ public interface juliarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFuncName(juliarParser.FuncNameContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link juliarParser#returnValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitReturnValue(juliarParser.ReturnValueContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link juliarParser#leftParen}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLeftParen(juliarParser.LeftParenContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link juliarParser#rightParen}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRightParen(juliarParser.RightParenContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link juliarParser#booleanExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBooleanExpression(juliarParser.BooleanExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link juliarParser#primitives}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitPrimitives(juliarParser.PrimitivesContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link juliarParser#printPrimitives}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPrintPrimitives(juliarParser.PrintPrimitivesContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link juliarParser#command}.
 	 * @param ctx the parse tree
@@ -94,6 +112,12 @@ public interface juliarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitVariable(juliarParser.VariableContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link juliarParser#variabledeclartion}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVariabledeclartion(juliarParser.VariabledeclartionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link juliarParser#add}.
 	 * @param ctx the parse tree
@@ -179,11 +203,47 @@ public interface juliarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitEqualsign(juliarParser.EqualsignContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link juliarParser#comparisonOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitComparisonOperator(juliarParser.ComparisonOperatorContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link juliarParser#equalequal}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitEqualequal(juliarParser.EqualequalContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link juliarParser#lessthan}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLessthan(juliarParser.LessthanContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link juliarParser#greaterthan}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGreaterthan(juliarParser.GreaterthanContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link juliarParser#lessthanorequalto}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLessthanorequalto(juliarParser.LessthanorequaltoContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link juliarParser#greaterthanorequalto}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGreaterthanorequalto(juliarParser.GreaterthanorequaltoContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link juliarParser#threeway}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitThreeway(juliarParser.ThreewayContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link juliarParser#keywords}.
 	 * @param ctx the parse tree

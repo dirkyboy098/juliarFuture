@@ -1,5 +1,5 @@
 
-function t(int s) = {
+function t() = {
     printLine("test return");
     int s1 = test();
     printLine("called return");
@@ -15,10 +15,10 @@ function main() = {
 
 
 function test() = {
-    int s;
+    int x;
     printLine("======= test method===============");
     printLine("=======end of test method==========");
-    return s;
+    return x;
 }
 
 function foo1() = {
