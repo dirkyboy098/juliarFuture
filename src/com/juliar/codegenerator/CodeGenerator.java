@@ -1,10 +1,13 @@
 package com.juliar.codegenerator;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.jar.JarOutputStream;
+import java.util.zip.ZipEntry;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
@@ -27,9 +30,24 @@ public class CodeGenerator {
     public CodeGenerator(){
     }
 
-    public void Generate(List<Node> instructions) throws java.io.FileNotFoundException, java.io.IOException {
+
+    private List<Node> inst;
+    private InstructionInvocation invocationList;
+    private HashMap<String, Node> functionNodeMap;
+
+
+    public void Generate(InstructionInvocation invocation, String outputfile) throws IOException {
+        invocationList = invocation;
+        inst = invocation.getInstructionList();
+        functionNodeMap = invocation.getFunctionNodeMap();
+
+        Generate(inst,outputfile);
+    }
+
+
+    public void Generate(List<Node> instructions, String outputfile) throws java.io.FileNotFoundException, java.io.IOException {
         ClassWriter cw = new ClassWriter(0);
-        cw.visit(V1_1, ACC_PUBLIC, "JuliarFuture", null, "java/lang/Object", null);
+        cw.visit(V1_1, ACC_PUBLIC, outputfile, null, "java/lang/Object", null);
 
         // creates a MethodWriter for the (implicit) constructor
         MethodVisitor mw = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
@@ -46,16 +64,16 @@ public class CodeGenerator {
         // creates a MethodWriter for the 'main' method
         mw = cw.visitMethod(ACC_PUBLIC + ACC_STATIC, "main", "([Ljava/lang/String;)V", null, null);
         // pushes the 'out' field (of type PrintStream) of the System class
-        //mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out","Ljava/io/PrintStream;");
+        mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out","Ljava/io/PrintStream;");
         // pushes the "Hello Juliar Future" String constant
-        //mw.visitLdcInsn("Now Calling generated Juliar Methods!");
+        mw.visitLdcInsn("Now Calling generated Juliar Methods!");
         // invokes the 'println' method (defined in the PrintStream class)
-        //mw.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println","(Ljava/lang/String;)V", false);
-        // mw.visitInsn(RETURN);
+        mw.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println","(Ljava/lang/String;)V", false);
+        mw.visitInsn(RETURN);
         // this code uses a maximum of two stack elements and two local
         // variables
-        //mw.visitVarInsn(ALOAD,0);
-        mw.visitMethodInsn(INVOKESTATIC, "JuliarFuture", "juliarMethod", "()V", false);
+        mw.visitVarInsn(ALOAD,0);
+        mw.visitMethodInsn(INVOKESTATIC, outputfile, "juliarMethod", "()V", false);
         mw.visitInsn(RETURN);
 
         mw.visitMaxs(2, 2);
@@ -81,9 +99,20 @@ public class CodeGenerator {
         // gets the bytecode of the Example class, and loads it dynamically
         byte[] code = cw.toByteArray();
 
-        FileOutputStream fos = new FileOutputStream("JuliarFuture.class");
+        FileOutputStream fos = new FileOutputStream(outputfile+".class");
         fos.write(code);
         fos.close();
+        /*FileOutputStream fout = new FileOutputStream(outputfile+".jar");
+        JarOutputStream jarOut = new JarOutputStream(fout);
+        jarOut.putNextEntry(new ZipEntry("com/juliar/pal")); // Folders must end with "/".
+        jarOut.putNextEntry(new ZipEntry("com/juliar/pal/Primitives.class"));
+        jarOut.write(getBytes("com/juliar/pal/Primitives.class"));
+        jarOut.closeEntry();
+        jarOut.putNextEntry(new ZipEntry(outputfile+".class"));
+        jarOut.write(getBytes(outputfile+".class"));
+        jarOut.closeEntry();
+        jarOut.close();
+        fout.close();*/
     }
 
     private MethodVisitor EvaluateExpressions(List<Node> instructions, MethodVisitor mw, GeneratorAdapter ga, Integer stackSize ){
@@ -153,23 +182,23 @@ public class CodeGenerator {
 
 
             if (instruction instanceof CompliationUnitNode) {
-                /*
-                List<Node> t = ((CompliationUnitNode) instructions).statementNodes;
+
+                /*List<Node> t = ((CompliationUnitNode) instructions).statementNodes;
 
                 for (Node n : t) {
                     EvaluateExpressions(n, mw, ga, stackSize);
-                }
-                */
+                }*/
+
             }
 
             if (instruction instanceof StatementNode) {
-                /*
-                List<Node> t = ((StatementNode) instructions).statements;
+
+                /*List<Node> t = ((StatementNode) instructions).statements;
 
                 for (Node n : t) {
                     EvaluateExpressions(n, mw, ga, stackSize);
-                }
-                */
+                }*/
+
             }
 
             if (instruction instanceof BinaryNode){
@@ -177,7 +206,7 @@ public class CodeGenerator {
 
                 BinaryNode b = ((BinaryNode)instruction);
                 if (debug) {
-                    //mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
+                    mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
                 }
 
                 IntegralType addType;
