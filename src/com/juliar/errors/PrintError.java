@@ -28,11 +28,15 @@ public class PrintError {
         }
     }
 
-    public PrintError(){}
     public PrintError(String Message){
         System.out.println(Message);
     }
+
     public PrintError(String Message,Exception Type){
         System.out.println(Message);
+    }
+
+    public static void message(String message){
+        System.out.println( message );
     }
 }

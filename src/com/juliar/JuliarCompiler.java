@@ -22,18 +22,24 @@ public class JuliarCompiler {
     public static void main(String[] args) {
         try {
 
-            // if new mandatory parameters are added then we need to
-            // update the assert to catch the errors.
+            PrintError.message("Juliar Compiler - Copyright (C) 2017");
 
             assert args[0] != null && args[1] != null;
             if(args.length < 2){
-                new PrintError("Usage: java -jar JuliarCompiler.jar input.jrl output [-optional compilerflag] \r\n\r\n" +
-                        "-input.jrl is juliar code \r\n" +
-                        "-output is the name of output \r\n" +
-                        "-true is just the word true in order to compile \r\n");
+                PrintError.message("Usage: java -jar JuliarCompiler.jar <source file> <output path> [optional compilerflag]");
+                PrintError.message("Path to Juliar source file");
+                PrintError.message("Path to output directory");
+                PrintError.message("True will execute the stand alone compiler false will exectue the interpreter");
                 return;
             }
+
+            // set default to true... over ride if a value is passed in by the user.
             boolean compilerFlag = true;
+
+            if (args[2] != null){
+                compilerFlag = Boolean.valueOf( args[2] );
+            }
+
             JuliarCompiler compiler = new JuliarCompiler();
             compiler.compile(args[0], args[1], compilerFlag, false);
         } catch (Exception ex) {
