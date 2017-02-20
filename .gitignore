@@ -39,3 +39,5 @@ gen/com/juliar/parser/juliarListener.java
 gen/com/juliar/parser/juliarParser.java
 gen/com/juliar/parser/juliarVisitor.java
 hs_err_pid19144.log
+
+juliarFuture.iml
