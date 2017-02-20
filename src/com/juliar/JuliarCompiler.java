@@ -2,6 +2,7 @@ package com.juliar;
 
 import com.juliar.errors.ErrorListener;
 import com.juliar.interpreter.interpreter;
+import com.juliar.nodes.Node;
 import com.juliar.vistor.JuliarVisitor;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -24,8 +25,15 @@ public class JuliarCompiler {
             // if new mandatory parameters are added then we need to
             // update the assert to catch the errors.
 
-            assert args[0] != null && args[1] != null && args[2] != null;
-            boolean compilerFlag = args[2] == null ? true : false;
+            assert args[0] != null && args[1] != null;
+            if(args.length < 2){
+                new PrintError("Usage: java -jar JuliarCompiler.jar input.jrl output [-optional compilerflag] \r\n\r\n" +
+                        "-input.jrl is juliar code \r\n" +
+                        "-output is the name of output \r\n" +
+                        "-true is just the word true in order to compile \r\n");
+                return;
+            }
+            boolean compilerFlag = true;
             JuliarCompiler compiler = new JuliarCompiler();
             compiler.compile(args[0], args[1], compilerFlag, false);
         } catch (Exception ex) {
@@ -48,7 +56,7 @@ public class JuliarCompiler {
     public List<String> compile(String source, String outputPath, boolean compilerFlag, boolean isRepl) {
         try {
             FileInputStream fileInputStream = new FileInputStream(source);
-            return compile(fileInputStream, outputPath, false, isRepl);
+            return compile(fileInputStream, outputPath, compilerFlag, isRepl);
         } catch (Exception ex) {
             new PrintError(ex.getMessage(),ex);
         }
@@ -60,7 +68,7 @@ public class JuliarCompiler {
         return compile(b,source,false, isRepl);
     }
 
-    public List<String> compile(InputStream b, String source, boolean compilerFlag, boolean isRepl) {
+    public List<String> compile(InputStream b, String outputfile, boolean compilerFlag, boolean isRepl) {
         try {
             juliarParser parser = parse( b );
 
@@ -95,12 +103,12 @@ public class JuliarCompiler {
                 JuliarVisitor visitor = new JuliarVisitor();
                 visitor.visit(context);
 
-                if(compilerFlag){
+                if(!compilerFlag){
                     interpreter i = new interpreter(visitor.instructions());
                 }
                 else {
-                    //com.juliar.codegenerator.CodeGenerator generator = new com.juliar.codegenerator.CodeGenerator();
-                    //generator.Generate(visitor.instructions());
+                    com.juliar.codegenerator.CodeGenerator generator = new com.juliar.codegenerator.CodeGenerator();
+                    generator.Generate(visitor.instructions(),outputfile);
                     interpreter i = new interpreter(visitor.instructions());
                 }
             }
