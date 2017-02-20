@@ -69,10 +69,10 @@ public class CodeGenerator {
         mw.visitLdcInsn("Now Calling generated Juliar Methods!");
         // invokes the 'println' method (defined in the PrintStream class)
         mw.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println","(Ljava/lang/String;)V", false);
-        mw.visitInsn(RETURN);
+        //mw.visitInsn(RETURN);
         // this code uses a maximum of two stack elements and two local
         // variables
-        mw.visitVarInsn(ALOAD,0);
+        //mw.visitVarInsn(ALOAD,0);
         mw.visitMethodInsn(INVOKESTATIC, outputfile, "juliarMethod", "()V", false);
         mw.visitInsn(RETURN);
 
@@ -85,15 +85,22 @@ public class CodeGenerator {
         GeneratorAdapter ga = new GeneratorAdapter(mw, ACC_PUBLIC + ACC_STATIC, "juliarMethod", "()V");
         EvaluateExpressions(instructions, mw, ga, stackSize);
 
+
+
+        mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out","Ljava/io/PrintStream;");
+        mw.visitLdcInsn("Instructions:"+instructions);
+        mw.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println","(Ljava/lang/String;)V", false);
+
+
         mw.visitInsn(RETURN);
         mw.visitMaxs(16, 6);
         mw.visitEnd();
 
-        MethodVisitor foo = cw.visitMethod(ACC_PUBLIC + ACC_STATIC, "foo", "()V", null, null);
+        /*MethodVisitor foo = cw.visitMethod(ACC_PUBLIC + ACC_STATIC, "foo", "()V", null, null);
 
         GeneratorAdapter ga1 = new GeneratorAdapter(foo, ACC_PUBLIC + ACC_STATIC, "foo", "()V");
         foo.visitInsn(RETURN);
-        foo.visitEnd();
+        foo.visitEnd();*/
 
 
         // gets the bytecode of the Example class, and loads it dynamically
@@ -118,6 +125,7 @@ public class CodeGenerator {
     private MethodVisitor EvaluateExpressions(List<Node> instructions, MethodVisitor mw, GeneratorAdapter ga, Integer stackSize ){
         for(Node instruction : instructions) {
             if ( instruction instanceof PrimitiveNode){
+
                 String function = ((PrimitiveNode) instruction).getPrimitiveName().toString();
 
                 function = PrimitivesMap.getFunction(function);
@@ -233,9 +241,9 @@ public class CodeGenerator {
                 ga.visitIntInsn(ILOAD, 2);
                 ga.visitInsn(op.get(addType));
 
-                //mw.visitIntInsn(ILOAD, 0);
+                mw.visitIntInsn(ILOAD, 0);
 
-                //debugPrintLine(mw,addType);
+                debugPrintLine(mw,addType);
             }
 
             if (instruction instanceof AggregateNode) {
@@ -282,7 +290,7 @@ public class CodeGenerator {
                     ga.visitInsn(op.get(addType));
                 }
 
-                //debugPrintLine(mw,addType);
+                debugPrintLine(mw,addType);
             }
         }
 
