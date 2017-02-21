@@ -1,8 +1,10 @@
 package com.juliar.interpreter;
 
 import com.juliar.codegenerator.InstructionInvocation;
+import com.juliar.errors.PrintError;
 import com.juliar.nodes.*;
 import com.juliar.symbolTable.SymbolTypeEnum;
+import java.util.function.Function;
 
 import java.util.*;
 
@@ -15,92 +17,113 @@ public class interpreter {
     private List<Node> inst;
     private InstructionInvocation invocationList;
     private HashMap<String, Node> functionNodeMap;
+    private HashMap<Node, Function> functionMap = new HashMap<Node, Function>();
 
     public interpreter(List<Node> instructions) {
         inst = instructions;
     }
 
     public interpreter(InstructionInvocation invocation){
-        invocationList = invocation;
-        inst = invocation.getInstructionList();
-        functionNodeMap = invocation.getFunctionNodeMap();
+        try {
+            invocationList = invocation;
+            inst = invocation.getInstructionList();
+            functionNodeMap = invocation.getFunctionNodeMap();
 
-        execute(inst);
+            execute(inst);
+        }
+        catch( Exception ex){
+            PrintError.message( ex.getMessage() );
+        }
     }
 
     public void execute( List<Node> instructions) {
         for (Node n : instructions) {
             if (n instanceof CompliationUnitNode){
-              for(Map.Entry<String, Node> entry : functionNodeMap.entrySet()) {
-                  if (entry.getKey().toString().equals("main")) {
-
-                      activationFrameStack.push( new ActivationFrame() );
-                      execute(entry.getValue().getInstructions());
-                      activationFrameStack.pop();
-                      break;
-                  }
-              }
+                evalCompliationUnit();
+                continue;
             }
-
             if (n instanceof FunctionCallNode){
-                FunctionCallNode functionCallNode = (FunctionCallNode)n;
-                String functionToCall = functionCallNode.FunctionName();
-
-                // main should only be called from the compliationUnit
-                if (functionCallNode.equals( "main")){
-                    continue;
-                }
-
-                for(Map.Entry<String, Node> entry : functionNodeMap.entrySet()){
-                    if (entry.getKey().toString().equals( functionToCall )) {
-                        activationFrameStack.push( new ActivationFrame());
-                        execute(entry.getValue().getInstructions());
-                        activationFrameStack.peek();
-                        break;
-                    }
-                    else{
-                        // Should throw runtime exception if function can't be found
-                    }
-                }
+                evalFunctionCall((FunctionCallNode) n);
                 continue;
             }
-
             if ( n instanceof ReturnValueNode){
-                ReturnValueNode node = (ReturnValueNode)n;
-                if (node.getSymbolTypeEnum() == SymbolTypeEnum.variableRef) {
-                    ActivationFrame frame =  activationFrameStack.peek();
-                    if (frame.variableSet.containsKey(node.typeName())) {
-                        Node variableNode = frame.variableSet.get(node.typeName());
-                        returnValueStack.push( variableNode );
-                    }
-                }
+                evalReturn((ReturnValueNode) n);
                 continue;
             }
-
             if (n instanceof PrimitiveNode) {
-                primitives((PrimitiveNode) n);
+                evalPrimitives((PrimitiveNode) n);
                 continue;
             }
-
-
             if (n instanceof VariableNode){
-                ActivationFrame frame = activationFrameStack.peek();
-                frame.variableSet.put (((VariableNode)n).variableName, n);
+                evalActivationFrame(n);
                 continue;
             }
-
-            if (n instanceof AssignmentNode) {
-                assignment((AssignmentNode) n);
+            if (n instanceof VariableDeclarationNode){
+                continue;
             }
-
+            if (n instanceof AssignmentNode) {
+                evalAssignment((AssignmentNode) n);
+            }
             if (n instanceof BinaryNode) {
-                binaryNode( n );
+                evalBinaryNode( n );
                 continue;
             }
         }
     }
 
-    private void primitives(PrimitiveNode n) {
+    private void evalActivationFrame(Node n) {
+        ActivationFrame frame = activationFrameStack.peek();
+        frame.variableSet.put (((VariableNode)n).variableName, n);
+    }
+
+    private void evalCompliationUnit() {
+        for(Map.Entry<String, Node> entry : functionNodeMap.entrySet()) {
+            if (entry.getKey().toString().equals("main")) {
+
+                activationFrameStack.push( new ActivationFrame() );
+                execute( entry.getValue().getInstructions() );
+                activationFrameStack.pop();
+
+                break;
+            }
+        }
+    }
+
+    private void evalReturn(ReturnValueNode n) {
+        ReturnValueNode node = n;
+        if (node.getSymbolTypeEnum() == SymbolTypeEnum.variableRef) {
+            ActivationFrame frame =  activationFrameStack.peek();
+            if (frame.variableSet.containsKey(node.typeName())) {
+                Node variableNode = frame.variableSet.get(node.typeName());
+                returnValueStack.push( variableNode );
+            }
+        }
+    }
+
+    private void evalFunctionCall(FunctionCallNode n) {
+        FunctionCallNode functionCallNode = n;
+        String functionToCall = functionCallNode.FunctionName();
+
+        // main should only be called from the compliationUnit
+        if (functionCallNode.equals( "main")){
+            return;
+        }
+
+        for(Map.Entry<String, Node> entry : functionNodeMap.entrySet()){
+            if (entry.getKey().toString().equals( functionToCall )) {
+                activationFrameStack.push( new ActivationFrame());
+                execute(entry.getValue().getInstructions());
+                activationFrameStack.pop();
+                break;
+            }
+            else{
+                // Should throw runtime exception if function can't be found
+            }
+        }
+        return;
+    }
+
+    private void evalPrimitives(PrimitiveNode n) {
         String functionName = n.getPrimitiveName();
         String argument = n.getGetPrimitiveArgument();
 
@@ -134,50 +157,17 @@ public class interpreter {
         }
     }
 
-    private void assignment(AssignmentNode n) {
-
-        String variableName = null;
-
+    private void evalAssignment(AssignmentNode n) {
         List<Node> instructions = n.getInstructions();
-        Object returnStackValue = null;
-        if (instructions.size() >= 2 ){
-            int size = instructions.size() - 1;
-            for( int start = size; start >= 0 ; start--){
-                // Get nodes in reverse order to execute expressions or functions
-                // before doing assignment
-                Node node = instructions.get(start);
-                if (node instanceof VariableDeclarationNode) {
-                    // get the type and insure the value on stack matches
-                    // if not runtime exception
-                }
-
-                if (node instanceof VariableNode) {
-                    variableName = ((VariableNode) node).variableName;
-                    ActivationFrame frame = activationFrameStack.peek();
-                    if ( frame.variableSet.containsKey(variableName) &&  returnStackValue != null) {
-                        frame.variableSet.remove( variableName );
-                        frame.variableSet.put( variableName, (VariableNode)returnStackValue);
-                        //frame.parameterStack.push((VariableNode)returnStackValue);
-                    }
-
-                }
-
-                if ( node instanceof FunctionCallNode ){
-                    List<Node> f = new ArrayList<>();
-                    f.add(node);
-                    execute( f );
-                    returnStackValue = returnValueStack.pop();
-                }
-            }
-        }
-
-        execute(instructions);
+        VariableNode variableToAssignTo =  (VariableNode)instructions.get(0);
+        execute( instructions );
 
         ActivationFrame frame = activationFrameStack.peek();
-        VariableNode integral = (VariableNode)frame.variableSet.get ( variableName );
-        IntegralTypeNode value = (IntegralTypeNode) frame.operandStack.pop();
-        integral.SetIntegralTypeNode( value );
-
+        if ( returnValueStack != null && !returnValueStack.empty()) {
+            VariableNode v = (VariableNode)frame.variableSet.get( variableToAssignTo.variableName);
+            frame.variableSet.remove( variableToAssignTo.variableName );
+            frame.variableSet.put( variableToAssignTo.variableName, returnValueStack.pop());
+        }
     }
 
     private void AggregateNode(Node n){
@@ -193,14 +183,14 @@ public class interpreter {
     }
 
     private void binaryNode( String variableName, Node n){
-        binaryNode( n );
+        evalBinaryNode( n );
         ActivationFrame frame = activationFrameStack.peek();
         VariableNode v = (VariableNode) frame.variableSet.get( variableName );
 
         v.SetIntegralTypeNode( (IntegralTypeNode)frame.operandStack.pop() );
     }
 
-    private void binaryNode(Node n) {
+    private void evalBinaryNode(Node n) {
         BinaryNode bn = (BinaryNode) n;
         String operation = bn.operation().name();
 
@@ -254,8 +244,6 @@ public class interpreter {
 
         frame.operandStack.push(new IntegralTypeNode(sum, IntegralType.jinteger));
     }
-
-
 
     private void integralTypeNode(IntegralTypeNode itn) {
         ActivationFrame frame = activationFrameStack.peek();

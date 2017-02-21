@@ -430,7 +430,6 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         ReturnValueNode valueNode = null;
 
         if (ctx.variable() != null) {
-            ctx.variable().accept(this);
             valueNode = new ReturnValueNode( SymbolTypeEnum.variableRef, ctx.variable().getText());
         }
         else if(ctx.functionCall() != null) {
