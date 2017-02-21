@@ -21,6 +21,10 @@ src/com/juliar/parser/juliarVisitor.java
 
 *.class
 
+JuliarCompiler.jar
+
+test2.jrl
+
 out/com/juliar/codegenerator/CodeGenerator.class
 
 out/com/juliar/parser/juliarVisitor.class
