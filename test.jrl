@@ -1,7 +1,7 @@
 
 function t() = {
     printLine("test return");
-    int s1 = 3;
+   // int s1 = 3;
     printLine("called return");
 
     return s1;
