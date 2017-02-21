@@ -1,13 +1,15 @@
 
 function t() = {
     printLine("test return");
-    int s1 = test();
+    int s1 = 3;
     printLine("called return");
+
+    return s1;
 }
 
 
 function main() = {
-    t();
+    int s = t();
     printLine(" ============= main method ================");
 
     printLine ("=========== end of main method==================");

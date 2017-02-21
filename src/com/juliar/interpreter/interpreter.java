@@ -159,9 +159,14 @@ public class interpreter {
 
     private void evalAssignment(AssignmentNode n) {
         List<Node> instructions = n.getInstructions();
+
+        // cache the variable that is going to get stuff assigned to it.
         VariableNode variableToAssignTo =  (VariableNode)instructions.get(0);
+
+        // execute all of the instructions
         execute( instructions );
 
+        // assign to cached variable for return.
         ActivationFrame frame = activationFrameStack.peek();
         if ( returnValueStack != null && !returnValueStack.empty()) {
             VariableNode v = (VariableNode)frame.variableSet.get( variableToAssignTo.variableName);

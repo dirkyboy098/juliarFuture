@@ -33,6 +33,7 @@ assignmentExpression
     : variabledeclartion equalsign command
 	| variabledeclartion equalsign variable
 	| variabledeclartion equalsign functionCall
+	| variabledeclartion equalsign primitiveTypes
     ;
 
 
