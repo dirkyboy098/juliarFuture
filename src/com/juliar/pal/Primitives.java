@@ -36,7 +36,7 @@ public class Primitives {
             }
 
             return text;
-
+ 
         } catch (Exception fne) {
             new PrintError(fne.getMessage());
         }
