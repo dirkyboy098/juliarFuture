@@ -395,18 +395,33 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         AssignmentNode node = new AssignmentNode(null);
 
         funcContextStack.push(node);
-        ctx.variabledeclartion().accept(this);
-
-        if (ctx.command() != null) {
-            ctx.command().accept(this);
-        }else if (ctx.functionCall() != null){
-            ctx.functionCall().accept( this );
+        for ( ParseTree p : ctx.children ) {
+            p.accept( this );
         }
 
         funcContextStack.pop();
         node.AddInst(funcContextStack, node);
 
         return null;
+    }
+
+    @Override
+    public Node visitNumericTypes(juliarParser.NumericTypesContext ctx) {
+        return super.visitNumericTypes(ctx);
+    }
+
+    @Override
+    public Node visitPrimitiveTypes(juliarParser.PrimitiveTypesContext ctx) {
+        for (ParseTree p : ctx.children){
+            p.accept( this );
+        }
+
+        return null;
+    }
+
+    @Override
+    public Node visitEqualsign(juliarParser.EqualsignContext ctx) {
+        return super.visitEqualsign(ctx);
     }
 
     @Override

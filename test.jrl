@@ -1,7 +1,7 @@
 
 function t() = {
     printLine("test return");
-   // int s1 = 3;
+    int tVariable = 3;
     printLine("called return");
 
     return s1;
@@ -9,7 +9,7 @@ function t() = {
 
 
 function main() = {
-    int s = t();
+    // int mainVariable = t();
     printLine(" ============= main method ================");
 
     printLine ("=========== end of main method==================");

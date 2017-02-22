@@ -176,6 +176,7 @@ types
 
 primitiveTypes
     : numericTypes
+    | STRING
     | BOOLEAN
     | NULL
     ;
