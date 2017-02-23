@@ -36,14 +36,14 @@ public class JuliarCompiler {
             // set default to true... over ride if a value is passed in by the user.
             boolean compilerFlag = true;
 
-            if (args[2] != null){
+            if (args.length > 2){
                 compilerFlag = Boolean.valueOf( args[2] );
             }
 
             JuliarCompiler compiler = new JuliarCompiler();
             compiler.compile(args[0], args[1], compilerFlag, false);
         } catch (Exception ex) {
-            new PrintError(ex.getMessage(),ex);
+            new PrintError("Error " + ex.getMessage(),ex);
         }
     }
 
