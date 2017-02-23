@@ -109,16 +109,32 @@ public class CodeGenerator {
         FileOutputStream fos = new FileOutputStream(outputfile+".class");
         fos.write(code);
         fos.close();
-        /*FileOutputStream fout = new FileOutputStream(outputfile+".jar");
+        /*
+        List<String> Dependencies = SomeClass.getDependencies();
+        FileOutputStream fout = new FileOutputStream(outputfile+".jar");
+
         JarOutputStream jarOut = new JarOutputStream(fout);
-        jarOut.putNextEntry(new ZipEntry("com/juliar/pal")); // Folders must end with "/".
-        jarOut.putNextEntry(new ZipEntry("com/juliar/pal/Primitives.class"));
-        jarOut.write(getBytes("com/juliar/pal/Primitives.class"));
-        jarOut.closeEntry();
+
+        //jarOut.putNextEntry(new ZipEntry("com/juliar/pal")); // Folders must end with "/".
+        //jarOut.putNextEntry(new ZipEntry("com/juliar/pal/Primitives.class"));
+        //jarOut.write(getBytes("com/juliar/pal/Primitives.class"));
+        //jarOut.closeEntry();
+
         jarOut.putNextEntry(new ZipEntry(outputfile+".class"));
         jarOut.write(getBytes(outputfile+".class"));
         jarOut.closeEntry();
+
+        for(String dependency : Dependencies){
+            int index = dependency.lastIndexOf( '/' );
+            jarOut.putNextEntry(new ZipEntry(dependency.substring( index ))); // Folders must end with "/".
+            jarOut.putNextEntry(new ZipEntry(dependency));
+            jarOut.write(getBytes(dependency));
+            jarOut.closeEntry();
+        }
+
+
         jarOut.close();
+
         fout.close();*/
     }
 
