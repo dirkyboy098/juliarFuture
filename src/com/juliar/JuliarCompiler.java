@@ -25,23 +25,19 @@ public class JuliarCompiler {
             PrintError.message("Juliar Compiler - Copyright (C) 2017");
 
             assert args[0] != null && args[1] != null;
-            if(args.length < 2){
-                PrintError.message("Usage: java -jar JuliarCompiler.jar <source file> <output path> [optional compilerflag]");
+            if(args.length < 1){
+                PrintError.message("Usage: java -jar JuliarCompiler.jar <source file> <output path>");
                 PrintError.message("Path to Juliar source file");
-                PrintError.message("Path to output directory");
-                PrintError.message("True will execute the stand alone compiler false will exectue the interpreter");
+                PrintError.message("Path to output directory if compiled.");
+                PrintError.message("If output path is undefined, source file will be interpreted");
                 return;
             }
-
-            // set default to true... over ride if a value is passed in by the user.
-            boolean compilerFlag = true;
-
-            if (args.length > 2){
-                compilerFlag = Boolean.valueOf( args[2] );
-            }
-
             JuliarCompiler compiler = new JuliarCompiler();
-            compiler.compile(args[0], args[1], compilerFlag, false);
+            if (args.length > 1) {
+                compiler.compile(args[0], args[1], false);
+            }else {
+                compiler.compile(args[0],"",false, false);
+            }
         } catch (Exception ex) {
             new PrintError("Error " + ex.getMessage(),ex);
         }

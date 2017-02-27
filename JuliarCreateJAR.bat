@@ -24,10 +24,10 @@ xcopy /e /v %JULIARPATH%\out %JULIARPATH%\temp
 
 copy %JULIARPATH%\temp\JuliarCompiler.jar  %JULIARPATH%\JuliarCompiler.jar
 
-cd %JULIARPATH%\..
-
+cd %JULIARPATH%
 rd %JULIARPATH%\temp /s/q
 
+set CLASSPATH=
 
 
 
