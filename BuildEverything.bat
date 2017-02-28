@@ -28,3 +28,4 @@ cd %JULIARPATH%
 rd %JULIARPATH%\temp /s/q
 
 set CLASSPATH=
+java -jar JuliarCompiler.jar test.jrl
