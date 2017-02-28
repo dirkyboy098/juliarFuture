@@ -27,7 +27,7 @@ https://www.juliar.org/JuliarCompiler.jar
 The download should automatically begin.
 
 # Modes
-JuliarCompiler.jar works in 3 modes. It can be compiled,interpreted,  and ran through FastCGI web services.
+JuliarCompiler.jar works in 3 modes. It can be compiled, interpreted, and ran through FastCGI web services.
 
 # Compile
 JuliarCompiler.jar works on all platforms that have JAVA installed. So it is system independent!
@@ -108,18 +108,21 @@ and dynamic cast the function, so that you don't need to create a template.
 # Function Overloading
 
 Juliar currently doesn't support overloading. However, this may change in the future. Let us know how you feel.
-Variable Declaration
-Variables are declared using one of the following declarations: int, double, float, string, obj. Please note, if you are not sure what type is going to be, you can let the compiler
-decide by using var instead.
-Printing to Screen
-Juliar has lots of options for printing to the screen. If you just want to print, use printLine("something"). If you know the type, or want to cast it to a different type,
-consider using printInt(64), printFloat(2.3), printDouble(.312321).
+
+# Variable Declaration
+
+Variables are declared using one of the following declarations: `int`, `double`, `float`, `string`, `obj`. Please note, if you are not sure what type is going to be, you can let the compiler
+decide by using `var` instead.
+
+# Printing to Screen
+Juliar has lots of options for printing to the screen. If you just want to print, use `printLine("Hello Me");` . If you know the type, or want to cast it to a different type,
+consider using `printInt(64);`, `printFloat(2.3);`, `printDouble(.312321);`.
 
 # Writing/Opening Files
 
 Juliar uses "Open Format" standard for opening and storing files. Hence, it should potentially work on all Operating Systems. To Open a file just do
 `
-fileOpen("filename")
+fileOpen("filename");
 `
 
 # Prefix Notation
