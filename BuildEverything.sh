@@ -1,7 +1,4 @@
-export CLASSPATH="$CLASSPATH:jars/antlr-4.6-complete.jar:jars/nirerepl.jar:jars/asm-all-6.0_ALPHA.jar:jars/fastcgi.jar:out"
-echo $CLASSPATH
-
-
+export CLASSPATH="jars/antlr-4.6-complete.jar:jars/nirerepl.jar:jars/asm-all-6.0_ALPHA.jar:jars/fastcgi.jar:out"
 
 mkdir out
 java org.antlr.v4.Tool src/com/juliar/parser/juliar.g4  -o . -no-listener -package com.juliar.parser -visitor

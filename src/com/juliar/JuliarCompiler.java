@@ -51,8 +51,9 @@ public class JuliarCompiler {
 					System.out.println("Count: "+count);
 					count++;
 					
-					if(SCRIPT_NAME == "/" || SCRIPT_NAME == "") SCRIPT_NAME = "index.jrl";	
-					compiler.compile(DOCUMENT_ROOT+SCRIPT_NAME,"",false, false);
+					if(SCRIPT_NAME == "/" || SCRIPT_NAME == "") SCRIPT_NAME = "index.jrl";
+					JuliarCompiler compiler2 = new JuliarCompiler();
+					compiler2.compile(DOCUMENT_ROOT+SCRIPT_NAME,"",false, false);
 					System.out.println("</body></html>");
 				}
 				else{
