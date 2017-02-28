@@ -1,5 +1,5 @@
 # juliar.Future
-![jfanimated](https://cloud.githubusercontent.com/assets/11934545/22674649/0b2d5d68-ecaf-11e6-9141-40ac1aefaa16.gif)
+[![jfanimated](https://cloud.githubusercontent.com/assets/11934545/22674649/0b2d5d68-ecaf-11e6-9141-40ac1aefaa16.gif)](https://www.juliar.org/)
 <!---![juliar.Future](https://cloud.githubusercontent.com/assets/11934545/21415540/c50c8034-c7d8-11e6-9f76-9b37833e6cae.jpg)
 -->
 [![version](https://img.shields.io/badge/version-0.0.1-green.svg)](https://www.juliar.org/downloads.ju)
@@ -26,6 +26,9 @@ https://www.juliar.org/JuliarCompiler.jar
 
 The download should automatically begin.
 
+# Modes
+JuliarCompiler.jar works in 3 modes. It can be compiled,interpreted,  and ran through FastCGI web services.
+
 # Compile
 JuliarCompiler.jar works on all platforms that have JAVA installed. So it is system independent!
 run it in CommandPrompt/Console using the following command:
@@ -36,6 +39,25 @@ java -jar JuliarCompiler.jar something.jrl output
 
 Where something.jrl is Juliar script and output is output name.
 Because Juliar compiles directly into JAVA bytecode, Juliar programs can run anywhere JAVA is installed.
+
+# Interpret
+JuliarCompiler.jar can also interpret code for those people that want to tweak and tinker with the code on the go.
+You can have Juliar interpret by leaving out the output argument
+
+`
+java -jar JuliarCompiler.jar something.jrl
+`
+This will interpret the code and output the results on the screen. You can pipe the results to a file by using '>' followed by file name.
+
+# FastCGI
+JuliarCompiler.jar can also run as web service. This is a second form of interpreter. You can connect JuliarCompiler.jar
+to Apache, NGINX, Lighttpd, and many other services to process HTML files and output results to the user. JuliarCompiler.jar
+makes it very easy to have a web server running by providing configurations for most popular web servers.
+To launch JuliarCompiler.jar in FastCGI mod:
+
+`
+java -jar -DFCGI_PORT=9000 JuliarCompiler.jar
+`
 
 
 # Why?

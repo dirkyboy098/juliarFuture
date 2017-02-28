@@ -11,5 +11,5 @@ before_script:
 
 
 script:
-  - ./antlrbuild.sh
+  - ./BuildEverything.sh
 
