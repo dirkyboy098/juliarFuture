@@ -1,13 +1,10 @@
 language: java
-sudo: required
-
-matrix:
-  include:
-  - os: linux
-  - os: osx
-
+sudo: true
 jdk:
   - oraclejdk8
+
+os:
+  - linux
 
 before_script:
  - chmod +x BuildEverything.sh
