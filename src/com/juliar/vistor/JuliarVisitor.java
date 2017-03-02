@@ -2,6 +2,7 @@ package com.juliar.vistor;
 
 import com.juliar.codegenerator.InstructionInvocation;
 import com.juliar.controlflow.ControlFlowAdjacencyList;
+import com.juliar.errors.LogMessage;
 import com.juliar.symbolTable.SymbolTable;
 import com.juliar.symbolTable.SymbolTypeEnum;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -10,7 +11,6 @@ import java.lang.*;
 import java.util.*;
 import com.juliar.nodes.*;
 import com.juliar.parser.*;
-import com.juliar.errors.PrintError;
 
 /**
  * Created by donreamey on 10/21/16.
@@ -84,7 +84,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
                             ctx.types(0).accept(this),
                             ctx.types(1).accept(this)));
                 }catch( Exception ex){
-                    new PrintError(ex.getMessage(),ex);
+                    new LogMessage(ex.getMessage(),ex);
                 }
             }
 
@@ -117,7 +117,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
                                 ctx.types(1).accept(this));
                     n.AddInst( funcContextStack, n);
                 }catch( Exception ex){
-                    new PrintError(ex.getMessage(),ex);
+                    new LogMessage(ex.getMessage(),ex);
                 }
             }
 
@@ -195,7 +195,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
                             ctx.types(0).accept(this),
                             ctx.types(1).accept(this)));
                 }catch( Exception ex){
-                    new PrintError(ex.getMessage(),ex);
+                    new LogMessage(ex.getMessage(),ex);
                 }
             }
 
@@ -254,7 +254,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
                             ctx.types(0).accept(this),
                             ctx.types(1).accept(this)));
                 }catch( Exception ex){
-                    new PrintError(ex.getMessage(),ex);
+                    new LogMessage(ex.getMessage(),ex);
                 }
             }
 
@@ -289,7 +289,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
                                 ctx.types(1).accept(this)));
                     }
                 }catch( Exception ex){
-                    new PrintError(ex.getMessage(),ex);
+                    new LogMessage(ex.getMessage(),ex);
                 }
             }
 
@@ -325,7 +325,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
                             ctx.types(0).accept(this),
                             ctx.types(1).accept(this)));
                 }catch( Exception ex){
-                    new PrintError(ex.getMessage(),ex);
+                    new LogMessage(ex.getMessage(),ex);
                 }
             }
 

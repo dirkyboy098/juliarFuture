@@ -1,8 +1,8 @@
 package com.juliar;
 
 import com.juliar.errors.ErrorListener;
+import com.juliar.errors.LogMessage;
 import com.juliar.interpreter.interpreter;
-import com.juliar.nodes.Node;
 import com.juliar.vistor.JuliarVisitor;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -12,15 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import com.juliar.parser.*;
 import static java.lang.System.out;
-import com.juliar.errors.PrintError;
 
 
 import com.fastcgi.FCGIInterface;
-import com.fastcgi.FCGIGlobalDefs;
-import com.fastcgi.FCGIInputStream;
-import com.fastcgi.FCGIOutputStream;
-import com.fastcgi.FCGIMessage;
-import com.fastcgi.FCGIRequest;
 
 
 public class JuliarCompiler {
@@ -60,14 +54,14 @@ public class JuliarCompiler {
 					break;
 				}
 			}
-            PrintError.message("Juliar Compiler - Copyright (C) 2017");
+            LogMessage.message("Juliar Compiler - Copyright (C) 2017");
 			
             assert args[0] != null && args[1] != null;
             if(args.length < 1){
-                PrintError.message("Usage: java -jar JuliarCompiler.jar <source file> <output path>");
-                PrintError.message("Path to Juliar source file");
-                PrintError.message("Path to output directory if compiled.");
-                PrintError.message("If output path is undefined, source file will be interpreted");
+                LogMessage.message("Usage: java -jar JuliarCompiler.jar <source file> <output path>");
+                LogMessage.message("Path to Juliar source file");
+                LogMessage.message("Path to output directory if compiled.");
+                LogMessage.message("If output path is undefined, source file will be interpreted");
                 return;
 			}
             JuliarCompiler compiler = new JuliarCompiler();
@@ -77,7 +71,7 @@ public class JuliarCompiler {
                 compiler.compile(args[0],"",false, false);
 			}
 			} catch (Exception ex) {
-            new PrintError("Error " + ex.getMessage(),ex);
+            new LogMessage("Error " + ex.getMessage(),ex);
 		}
 	}
 	
@@ -87,7 +81,7 @@ public class JuliarCompiler {
 			FileInputStream fileInputStream = new FileInputStream(source);
 			return compile(fileInputStream, outputPath, false, isRepl);
 			} catch (Exception ex) {
-			new PrintError(ex.getMessage(),ex);
+			new LogMessage(ex.getMessage(),ex);
 		}
 		
         return new ArrayList<String>();
@@ -98,7 +92,7 @@ public class JuliarCompiler {
 			FileInputStream fileInputStream = new FileInputStream(source);
 			return compile(fileInputStream, outputPath, compilerFlag, isRepl);
 			} catch (Exception ex) {
-			new PrintError(ex.getMessage(),ex);
+			new LogMessage(ex.getMessage(),ex);
 		}
 		
         return new ArrayList<String>();
@@ -157,7 +151,7 @@ public class JuliarCompiler {
 			
 			
 			} catch (Exception ex) {
-			new PrintError(ex.getMessage(),ex);
+			new LogMessage(ex.getMessage(),ex);
 		}
 		
         return new ArrayList<>();

@@ -1,7 +1,7 @@
 package com.juliar.interpreter;
 
 import com.juliar.codegenerator.InstructionInvocation;
-import com.juliar.errors.PrintError;
+import com.juliar.errors.LogMessage;
 import com.juliar.nodes.*;
 import com.juliar.symbolTable.SymbolTypeEnum;
 import java.util.function.Function;
@@ -32,7 +32,7 @@ public class interpreter {
             execute(inst);
         }
         catch( Exception ex){
-            PrintError.message( ex.getMessage() );
+            LogMessage.message( ex.getMessage() );
         }
     }
 

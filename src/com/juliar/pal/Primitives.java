@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
-import com.juliar.errors.PrintError;
+import com.juliar.errors.LogMessage;
 /**
  * platform abstraction layer.
  */
@@ -38,7 +38,7 @@ public class Primitives {
             return text;
 
         } catch (Exception fne) {
-            new PrintError(fne.getMessage());
+            new LogMessage(fne.getMessage());
         }
 
         return "";
@@ -50,7 +50,7 @@ public class Primitives {
             Path file = Paths.get("the-file-name.txt");
             Files.write(file, lines, Charset.forName("UTF-8"));
         } catch (IOException e) {
-            new PrintError(e.getMessage() + " sys_file_write error");
+            new LogMessage(e.getMessage() + " sys_file_write error");
         }
     }
 

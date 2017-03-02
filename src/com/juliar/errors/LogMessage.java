@@ -3,7 +3,7 @@ package com.juliar.errors;
 /**
  * Created by AndreiM on 12/27/2016.
  */
-public class PrintError {
+public class LogMessage {
     private static boolean hasError = false;
     private static int errors = 0;
 
@@ -22,17 +22,17 @@ public class PrintError {
     }
 
     public static void exitIfErrors(){
-        if(PrintError.hasError){
+        if(LogMessage.hasError){
             System.err.println("Found "+errors+" errors!");
             System.exit(1);
         }
     }
 
-    public PrintError(String Message){
+    public LogMessage(String Message){
         System.out.println("Error: " + Message);
     }
 
-    public PrintError(String Message,Exception Type){
+    public LogMessage(String Message, Exception Type){
         System.out.println("Error: " + Message);
     }
 
