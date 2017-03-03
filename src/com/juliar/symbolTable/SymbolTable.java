@@ -34,6 +34,10 @@ public class SymbolTable {
         return symbolTable;
     }
 
+    static public void DeleteSymbolTable(){
+        symbolTable = null;
+    }
+
     public void AddLevel(String parent, String current, SymbolTypeEnum symbolType){
         SymbolTableNode parentNode = findLevel(parent);
         SymbolTableNode childNode = findLevel( current );

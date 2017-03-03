@@ -40,7 +40,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         }
 
         cfa.walkGraph();
-        symbolTable.dumpSymbolTable();
+        //symbolTable.dumpSymbolTable();
 
         return null;
     }

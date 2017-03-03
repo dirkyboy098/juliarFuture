@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.juliar.parser.*;
 import static java.lang.System.out;
+import com.juliar.symbolTable.SymbolTable;
 
 
 import com.fastcgi.FCGIInterface;
@@ -29,7 +30,7 @@ public class JuliarCompiler {
 			while (intf.FCGIaccept() >= 0) {
 				String method = System.getProperty("REQUEST_METHOD");
 				if (method != null) {
-					String DOCUMENT_ROOT= System.getProperty("SERVER_NAME");
+					String DOCUMENT_ROOT= System.getProperty("DOCUMENT_ROOT");
 					String SCRIPT_NAME =  System.getProperty("SCRIPT_NAME");
 					/*String QUERY_STRING = System.getProperty("QUERY_STRING"); //PARAMETERS
 						Map<String, String> query_pairs = new LinkedHashMap<String, String>();
@@ -39,16 +40,14 @@ public class JuliarCompiler {
 						query_pairs.put(URLDecoder.decode(pair.substring(0, idx), "UTF-8"), URLDecoder.decode(pair.substring(idx + 1), "UTF-8"));
 					}*/
 					System.out.println("Content-type: text/html\r\n\r\n");
-					
+
 					System.out.println("<html><head></head><body>");
-					System.out.println("<h1>Hello Friend!</h1>");
-					System.out.println("Count: "+count);
-					count++;
-					
+
 					if(SCRIPT_NAME == "/" || SCRIPT_NAME == "") SCRIPT_NAME = "index.jrl";
 					JuliarCompiler compiler2 = new JuliarCompiler();
 					compiler2.compile(DOCUMENT_ROOT+SCRIPT_NAME,"",false, false);
 					System.out.println("</body></html>");
+                    SymbolTable.DeleteSymbolTable();
 				}
 				else{
 					break;
@@ -80,7 +79,8 @@ public class JuliarCompiler {
         try {
 			FileInputStream fileInputStream = new FileInputStream(source);
 			return compile(fileInputStream, outputPath, false, isRepl);
-			} catch (Exception ex) {
+        }
+		catch (Exception ex) {
 			new LogMessage(ex.getMessage(),ex);
 		}
 		
@@ -91,7 +91,8 @@ public class JuliarCompiler {
         try {
 			FileInputStream fileInputStream = new FileInputStream(source);
 			return compile(fileInputStream, outputPath, compilerFlag, isRepl);
-			} catch (Exception ex) {
+        }
+        catch (Exception ex) {
 			new LogMessage(ex.getMessage(),ex);
 		}
 		
@@ -113,30 +114,31 @@ public class JuliarCompiler {
 			// This will parse a single line to validate the syntax
 			if (isRepl) {
 				juliarParser.StatementContext context = parser.statement();
-				out.println(context.toStringTree(parser));
+				//out.println(context.toStringTree(parser));
 				
 				JuliarVisitor v = new JuliarVisitor();
 				v.visit(context);
 				interpreter i = new interpreter(v.instructions());
-				} else {
+			}
+			else {
 				// Calls the parse CompileUnit method
 				// to parse a complete program
 				// then calls the code generator.
+
 				juliarParser.CompileUnitContext context = parser.compileUnit();
-				out.println(context.toStringTree(parser));
+				//out.println(context.toStringTree(parser));
 				
 				if (errors.ErrorList().size() > 0){
 					for (String error : errors.ErrorList()){
-						out.println( error );
+						//out.println( error );
 					}
 					
 					return errors.ErrorList();
 				}
-				
-				
+
 				JuliarVisitor visitor = new JuliarVisitor();
 				visitor.visit(context);
-				
+
 				if(!compilerFlag){
 					interpreter i = new interpreter(visitor.instructions());
 				}

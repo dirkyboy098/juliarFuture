@@ -1,7 +1,7 @@
 REM Modify JULIARPATH to the directory JuliarFuture is in.
 set JULIARPATH=C:\Users\AndreiM\Desktop\juliarFuture
 REM Modify JARPATH to the directory where JAR binary is located (needed to produce JAR file)
-set JARPATH=A:\jdk\bin
+set JARPATH=A:\jdk\bin\jar
 
 
 
