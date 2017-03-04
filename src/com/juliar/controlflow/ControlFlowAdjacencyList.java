@@ -23,13 +23,13 @@ public class ControlFlowAdjacencyList {
 
     private void walkGraph(ControlFlowNode main){
         try {
-            System.out.println(main.functionName);
+            //System.out.println(main.functionName);
             main.visited = true;
             queue.addFirst(main.next);
             while (!queue.isEmpty()) {
                 ControlFlowNode g = queue.removeLast();
                 if (!g.visited) {
-                    System.out.println(g.functionName);
+                    //System.out.println(g.functionName);
                     g.visited = true;
                 }
                 while (g != null) {
