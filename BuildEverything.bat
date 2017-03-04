@@ -12,7 +12,7 @@ REM DO NOT MODIFY ANYTHING BELOW THIS COMMENT
 set CLASSPATH=%JULIARPATH%\jars\antlr-4.6-complete.jar;%JULIARPATH%\jars\nirerepl.jar;%JULIARPATH%\jars\asm-all-6.0_ALPHA.jar;%JULIARPATH%\jars\fastcgi.jar;%JULIARPATH%\out
 
 mkdir %JULIARPATH%\out
-java org.antlr.v4.Tool %JULIARPATH%\src\com\juliar\parser\juliar.g4  -o %JULIARPATH%\juliarFuture\src\com\juliar\parser -no-listener -package com.juliar.parser -visitor
+java org.antlr.v4.Tool %JULIARPATH%\src\com\juliar\parser\juliar.g4  -o %JULIARPATH%\src\com\juliar\parser -no-listener -package com.juliar.parser -visitor
 javac -d %JULIARPATH%\out -sourcepath %JULIARPATH%\src -g -encoding UTF-8 -source 8 -target 8 %JULIARPATH%\src\com\juliar\JuliarCompiler.java
 
 
