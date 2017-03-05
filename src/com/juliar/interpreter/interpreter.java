@@ -17,7 +17,7 @@ public class interpreter {
     private List<Node> inst;
     private InstructionInvocation invocationList;
     private HashMap<String, Node> functionNodeMap;
-    private HashMap<Node, Function> functionMap = new HashMap<Node, Function>();
+    private HashMap<Node, HashMap<String, Node>> functionMap = new HashMap<Node, HashMap<String, Node>>();
 
     public interpreter(List<Node> instructions) {
         inst = instructions;
@@ -145,15 +145,39 @@ public class interpreter {
         }
         if (functionName.equals("printFloat")) {
             ActivationFrame frame = activationFrameStack.peek();
-            argument = ((IntegralTypeNode) frame.operandStack.pop()).data();
-            float floatValue = Integer.decode(argument).floatValue();
-            com.juliar.pal.Primitives.sys_print_float(floatValue);
+            if ( frame.variableSet.containsKey(argument)) {
+                VariableNode variableNode = (VariableNode) frame.variableSet.get(argument);
+                String variableValue = variableNode.integralTypeNode.data();
+                float floatValue = Float.parseFloat(variableValue);
+                com.juliar.pal.Primitives.sys_print_float(floatValue);
+            }
+            else{
+                throw new RuntimeException("variable not found");
+            }
         }
         if (functionName.equals("printDouble")) {
             ActivationFrame frame = activationFrameStack.peek();
-            argument = ((IntegralTypeNode) frame.operandStack.pop()).data();
-            double doubleValue = Integer.decode(argument).doubleValue();
-            com.juliar.pal.Primitives.sys_print_double(doubleValue);
+            if ( frame.variableSet.containsKey(argument)) {
+                VariableNode variableNode = (VariableNode) frame.variableSet.get(argument);
+                String variableValue = variableNode.integralTypeNode.data();
+                double doubleValue = Double.parseDouble(variableValue);
+                com.juliar.pal.Primitives.sys_print_double(doubleValue);
+            }
+            else{
+                throw new RuntimeException("variable not found");
+            }
+        }
+        if (functionName.equals("printLong")) {
+            ActivationFrame frame = activationFrameStack.peek();
+            if ( frame.variableSet.containsKey(argument)) {
+                VariableNode variableNode = (VariableNode) frame.variableSet.get(argument);
+                String variableValue = variableNode.integralTypeNode.data();
+                long longValue = Long.parseLong(variableValue);
+                com.juliar.pal.Primitives.sys_print_long(longValue);
+            }
+            else{
+                throw new RuntimeException("variable not found");
+            }
         }
     }
 

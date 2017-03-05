@@ -2,11 +2,15 @@ package com.juliar.codegenerator;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.jar.JarOutputStream;
+import java.util.jar.Attributes;
+import java.util.jar.JarEntry;
+import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
 
 import org.objectweb.asm.ClassWriter;
@@ -109,6 +113,29 @@ public class CodeGenerator {
         FileOutputStream fos = new FileOutputStream(outputfile+".class");
         fos.write(code);
         fos.close();
+
+        //Create JAR output
+        /*FileOutputStream fout = new FileOutputStream(outputfile+".jar");
+
+        Manifest manifest = new Manifest();
+        manifest.getMainAttributes().put(Attributes.Name.MANIFEST_VERSION, "1.0");
+        manifest.getMainAttributes().put(Attributes.Name.MAIN_CLASS, outputfile);
+
+        JarOutputStream jarOut = new JarOutputStream(fout, manifest);
+
+        jarOut.putNextEntry(new ZipEntry("com/juliar/pal/"));
+        jarOut.putNextEntry(new ZipEntry("com/juliar/pal/Primitives.class"));
+        jarOut.write(("com/juliar/pal/Primitives.class").getBytes());
+        jarOut.closeEntry();
+
+        jarOut.putNextEntry(new ZipEntry(outputfile+".class"));
+        jarOut.write((outputfile+".class").getBytes());
+        jarOut.closeEntry();
+
+        jarOut.close();
+        fout.close();*/
+
+
         /*
         List<String> Dependencies = SomeClass.getDependencies();
         FileOutputStream fout = new FileOutputStream(outputfile+".jar");
@@ -193,6 +220,17 @@ public class CodeGenerator {
                 }
                 if (function.equals( "printDouble" )){
                     function = "sys_print_double";
+                    //mw.visitLdcInsn( ((PrimitiveNode) instruction).getGetPrimitiveArgument().toString());
+                    //mw.visitIntInsn(ASTORE, 0);
+                    mw.visitMethodInsn(
+                            INVOKESTATIC,
+                            "com/juliar/pal/Primitives",
+                            function,
+                            "(I)V",
+                            false);
+                }
+                if (function.equals( "printLong" )){
+                    function = "sys_print_long";
                     //mw.visitLdcInsn( ((PrimitiveNode) instruction).getGetPrimitiveArgument().toString());
                     //mw.visitIntInsn(ASTORE, 0);
                     mw.visitMethodInsn(
@@ -338,16 +376,16 @@ public class CodeGenerator {
             IntegralTypeNode integralTypeNode = ((IntegralTypeNode)node);
             switch (integralType) {
                 case jdouble:
-                    ga.push(Double.parseDouble((String) integralTypeNode.data()));
+                    ga.push(Double.parseDouble(integralTypeNode.data()));
                     break;
                 case jfloat:
-                    ga.push(Float.parseFloat((String) integralTypeNode.data()));
+                    ga.push(Float.parseFloat(integralTypeNode.data()));
                     break;
                 case jinteger:
-                    ga.push(Integer.parseInt((String) integralTypeNode.data()));
+                    ga.push(Integer.parseInt(integralTypeNode.data()));
                     break;
                 case jlong:
-                    ga.push(Long.parseLong((String) integralTypeNode.data()));
+                    ga.push(Long.parseLong(integralTypeNode.data()));
                     break;
             }
         }

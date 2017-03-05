@@ -57,10 +57,11 @@ public class JuliarCompiler {
 			
             assert args[0] != null && args[1] != null;
             if(args.length < 1){
-                LogMessage.message("Usage: java -jar JuliarCompiler.jar <source file> <output path>");
+                LogMessage.message("Usage: java -jar JuliarCompiler.jar <source file> <output path> <fcgi port>");
                 LogMessage.message("Path to Juliar source file");
                 LogMessage.message("Path to output directory if compiled.");
                 LogMessage.message("If output path is undefined, source file will be interpreted");
+                LogMessage.message("If you would like to use JuliarCompiler for web specify fcgi port ex. -DFCGI 9000");
                 return;
 			}
             JuliarCompiler compiler = new JuliarCompiler();

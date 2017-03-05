@@ -368,7 +368,20 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
             if (parseTreeList.toArray()[0].toString().equals( "printInt") ){
                 FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
                 functionDeclNode.AddInst(new PrimitiveNode( "printInt" , ctx.variable().getText()));
-            }else {
+            }
+            else if (parseTreeList.toArray()[0].toString().equals( "printFloat")){
+                FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
+                functionDeclNode.AddInst(new PrimitiveNode( "printFloat" , ctx.variable().getText()));
+            }
+            else if (parseTreeList.toArray()[0].toString().equals( "printDouble")){
+                FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
+                functionDeclNode.AddInst(new PrimitiveNode( "printDouble" , ctx.variable().getText()));
+            }
+            else if (parseTreeList.toArray()[0].toString().equals( "printLong")){
+                FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
+                functionDeclNode.AddInst(new PrimitiveNode( "printLong" , ctx.variable().getText()));
+            }
+            else {
                 FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
                 functionDeclNode.AddInst(new PrimitiveNode(
                                 parseTreeList.toArray()[0].toString(),
