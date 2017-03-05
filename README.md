@@ -5,8 +5,8 @@
 [![version](https://img.shields.io/badge/version-0.0.1-green.svg)](https://www.juliar.org/downloads.ju)
 [![Build Status](https://travis-ci.org/juliarLang/juliarFuture.svg?branch=master)](https://travis-ci.org/juliarLang/juliarFuture)
 
-Juliar.Future is a programming language that is compiled directly into JAVA bytecode that can be ran in any JAVA environments.
-Juliar aim is to combine functional languages such as lisp with imperative languages like JAVA,
+Juliar.Future is a programming language that is compiled directly into JAVA bytecode that can be made to run in any JAVA environment.
+The aim of Juliar is to combine functional languages such as lisp with imperative languages like JAVA,
 in order to optimize programming efficiency.
 
 
@@ -19,8 +19,7 @@ to find out how you can contribute to the project.
 
 
 # Intro
-Juliar.Future is the latest iteration of Juliar Programming Language. The compiler is built on top of JAVA, so everywhere JAVA can be ran, the compiler can be ran.
-
+Juliar.Future is the latest iteration of Juliar Programming Language. The compiler is built on top of JAVA, so wherever JAVA can be run, the compiler works as it should.
 Download
 https://www.juliar.org/JuliarCompiler.jar
 
@@ -107,11 +106,11 @@ and dynamic cast the function, so that you don't need to create a template.
 
 # Function Overloading
 
-Juliar currently doesn't support overloading. However, this may change in the future. Let us know how you feel.
+Juliar currently doesn't support overloading. However, this may change in the future. Let us know how you feel!
 
 # Variable Declaration
 
-Variables are declared using one of the following declarations: `int`, `double`, `float`, `string`, `obj`. Please note, if you are not sure what type is going to be, you can let the compiler
+Variables are declared using one of the following declarations: `int`, `double`, `float`, `string`, `obj`. Please note, if you are not sure what type it is going to be, you can let the compiler
 decide by using `var` instead.
 
 # Printing to Screen
@@ -134,10 +133,10 @@ For example, you can do:
 int x = + 3 2 5 10;
 `
 
-which is equivalent of doing
+which is the equivalent of doing
 
 `
 int x = 3 + 2 + 5 + 10;
 `
 
-This is useful in doing when you have a huge file.
+This is useful in doing when you are having a huge file.
