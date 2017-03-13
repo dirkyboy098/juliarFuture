@@ -5,7 +5,7 @@ grammar juliar;
  */
 
 compileUnit
-	:	(functionDeclaration)*
+	: (functionDeclaration)*
 	;
 
 statement
@@ -27,6 +27,7 @@ expression
     | functionCall
     | returnValue
     | booleanExpression
+    | STRING
     ;
 
 assignmentExpression

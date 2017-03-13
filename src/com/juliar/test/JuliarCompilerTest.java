@@ -1,5 +1,6 @@
 package com.juliar.test;
 
+import com.juliar.ImportsInterface;
 import com.juliar.JuliarCompiler;
 import junit.framework.TestCase;
 import org.junit.Assert;
@@ -7,7 +8,6 @@ import org.junit.Assert;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import static java.lang.System.err;
 import static java.lang.System.out;
 
 /**
@@ -26,7 +26,7 @@ public class JuliarCompilerTest extends TestCase {
     public void testCompile() throws Exception {
         try {
             JuliarCompiler compiler = new JuliarCompiler();
-            List<String> errorList = compiler.compile("test.jrl", ".", false    );
+            List<String> errorList = compiler.compile("test.jrl", ".",  false,false);
 
             for(String s : errorList){
                 out.println(s);

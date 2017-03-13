@@ -68,7 +68,7 @@ public class Primitives {
         System.out.print(stripQuotes(string));
     }
 
-    private static String stripQuotes( String s){
+    public static String stripQuotes( String s){
         if (s.startsWith("\"") && s.startsWith("\"")) {
             return (s.substring(1, s.length()-1));
         }

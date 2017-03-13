@@ -1,4 +1,4 @@
-// Generated from D:/source/juliarFuture/src/com/juliar/parser\juliar.g4 by ANTLR 4.6
+// Generated from /Users/don/Desktop/repos/juliarFuture/src/com/juliar/parser/juliar.g4 by ANTLR 4.6
 package com.juliar.parser;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -179,18 +179,6 @@ public class juliarBaseListener implements juliarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitPrimitives(juliarParser.PrimitivesContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPrintPrimitives(juliarParser.PrintPrimitivesContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPrintPrimitives(juliarParser.PrintPrimitivesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -1,16 +1,24 @@
 package com.juliar.vistor;
 
+import com.juliar.ImportsInterface;
 import com.juliar.codegenerator.InstructionInvocation;
 import com.juliar.controlflow.ControlFlowAdjacencyList;
 import com.juliar.errors.LogMessage;
+import com.juliar.pal.Primitives;
 import com.juliar.symbolTable.SymbolTable;
 import com.juliar.symbolTable.SymbolTypeEnum;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.*;
 import java.util.*;
 import com.juliar.nodes.*;
 import com.juliar.parser.*;
+
 
 /**
  * Created by donreamey on 10/21/16.
@@ -23,11 +31,18 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
     private Queue<String> callStack = new ArrayDeque<>();
     private SymbolTable symbolTable = SymbolTable.CreateSymbolTable();
     private ControlFlowAdjacencyList cfa = new ControlFlowAdjacencyList();
+    private ImportsInterface importsInterfaceCallback;
+    private boolean skimImports = false;
+    private int currentLineNumber = 0;
 
     public InstructionInvocation instructions(){
         return new InstructionInvocation(instructionList, functionNodeMap);
     }
 
+    public JuliarVisitor(ImportsInterface cb, boolean skip){
+        importsInterfaceCallback = cb;
+        skimImports = skip;
+    }
 
     @Override
     public Node visitCompileUnit(juliarParser.CompileUnitContext ctx) {
@@ -40,7 +55,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         }
 
         cfa.walkGraph();
-        //symbolTable.dumpSymbolTable();
+        symbolTable.dumpSymbolTable();
 
         return null;
     }
@@ -54,11 +69,15 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
                 continue;
             }
 
+            currentLineNumber = ctx.start.getLine();
             t.accept(this);
         }
 
         return null;
     }
+
+
+
 
     @Override
     public Node visitEndLine(juliarParser.EndLineContext ctx) {
@@ -195,7 +214,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
                             ctx.types(0).accept(this),
                             ctx.types(1).accept(this)));
                 }catch( Exception ex){
-                    new LogMessage(ex.getMessage(),ex);
+                    new PrintError(ex.getMessage(),ex);
                 }
             }
 
@@ -368,20 +387,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
             if (parseTreeList.toArray()[0].toString().equals( "printInt") ){
                 FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
                 functionDeclNode.AddInst(new PrimitiveNode( "printInt" , ctx.variable().getText()));
-            }
-            else if (parseTreeList.toArray()[0].toString().equals( "printFloat")){
-                FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
-                functionDeclNode.AddInst(new PrimitiveNode( "printFloat" , ctx.variable().getText()));
-            }
-            else if (parseTreeList.toArray()[0].toString().equals( "printDouble")){
-                FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
-                functionDeclNode.AddInst(new PrimitiveNode( "printDouble" , ctx.variable().getText()));
-            }
-            else if (parseTreeList.toArray()[0].toString().equals( "printLong")){
-                FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
-                functionDeclNode.AddInst(new PrimitiveNode( "printLong" , ctx.variable().getText()));
-            }
-            else {
+            }else {
                 FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
                 functionDeclNode.AddInst(new PrimitiveNode(
                                 parseTreeList.toArray()[0].toString(),
@@ -395,8 +401,38 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
     @Override
     public Node visitTerminal(TerminalNode node) {
+        Node n = funcContextStack.peek();
+        if (n instanceof FunctionDeclNode) {
+            String name = ((FunctionDeclNode) n).getFunctionName();
+            if ( name.equals( "import" )) {
+               cacheImports( node.getText() );
+
+            }
+        }
         return new JTerminalNode(node);
     }
+
+    private void cacheImports( String fileName){
+        StringBuilder builder = new StringBuilder();
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(Primitives.stripQuotes( fileName ) ))){
+            String line = bufferedReader.readLine();
+            while ( line != null ){
+                builder.append( line );
+                line = bufferedReader.readLine();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        importBuffer.append( builder );
+        skimImports = true;
+        importsInterfaceCallback.createTempCallback( importBuffer.toString(), this.currentLineNumber);
+    }
+
+    private StringBuilder importBuffer = new StringBuilder();
 
     @Override
     public Node visitAssignmentExpression(juliarParser.AssignmentExpressionContext ctx) {

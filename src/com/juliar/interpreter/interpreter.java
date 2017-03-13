@@ -46,6 +46,9 @@ public class interpreter {
                 evalFunctionCall((FunctionCallNode) n);
                 continue;
             }
+            if (n instanceof FunctionDeclNode){
+                evalFunctionDecl((FunctionDeclNode) n);
+            }
             if ( n instanceof ReturnValueNode){
                 evalReturn((ReturnValueNode) n);
                 continue;
@@ -100,6 +103,12 @@ public class interpreter {
         }
     }
 
+    private void evalFunctionDecl(FunctionDeclNode n){
+        if (n.getFunctionName().toLowerCase() == "import"){
+
+        }
+    }
+
     private void evalFunctionCall(FunctionCallNode n) {
         FunctionCallNode functionCallNode = n;
         String functionToCall = functionCallNode.FunctionName();
@@ -120,6 +129,7 @@ public class interpreter {
                 // Should throw runtime exception if function can't be found
             }
         }
+
         return;
     }
 

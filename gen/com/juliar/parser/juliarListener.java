@@ -1,4 +1,4 @@
-// Generated from D:/source/juliarFuture/src/com/juliar/parser\juliar.g4 by ANTLR 4.6
+// Generated from /Users/don/Desktop/repos/juliarFuture/src/com/juliar/parser/juliar.g4 by ANTLR 4.6
 package com.juliar.parser;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -147,16 +147,6 @@ public interface juliarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitPrimitives(juliarParser.PrimitivesContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link juliarParser#printPrimitives}.
-	 * @param ctx the parse tree
-	 */
-	void enterPrintPrimitives(juliarParser.PrintPrimitivesContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link juliarParser#printPrimitives}.
-	 * @param ctx the parse tree
-	 */
-	void exitPrintPrimitives(juliarParser.PrintPrimitivesContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link juliarParser#command}.
 	 * @param ctx the parse tree

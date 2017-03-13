@@ -1,5 +1,6 @@
 package com.juliar.juliarRepl;
 
+import com.juliar.ImportsInterface;
 import com.juliar.JuliarCompiler;
 import com.nire4j.repl.*;
 
@@ -33,8 +34,7 @@ public class jRepl extends replTerminal {
 
     @Override
     public List<String> repl(ByteArrayInputStream byteArrayInputStream) {
-        JuliarCompiler jc = new JuliarCompiler();
-        return jc.compile(byteArrayInputStream, "", true);
+        return null;
     }
 
     @Override

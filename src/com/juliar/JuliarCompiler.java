@@ -11,7 +11,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import com.juliar.parser.*;
-import static java.lang.System.out;
 import com.juliar.symbolTable.SymbolTable;
 
 
@@ -24,39 +23,11 @@ public class JuliarCompiler {
 	
     public static void main(String[] args) {
         try {
-			int status =0;
-			int count = 0;
-			FCGIInterface intf = new FCGIInterface();
-			while (intf.FCGIaccept() >= 0) {
-				String method = System.getProperty("REQUEST_METHOD");
-				if (method != null) {
-					String DOCUMENT_ROOT= System.getProperty("DOCUMENT_ROOT");
-					String SCRIPT_NAME =  System.getProperty("SCRIPT_NAME");
-					/*String QUERY_STRING = System.getProperty("QUERY_STRING"); //PARAMETERS
-						Map<String, String> query_pairs = new LinkedHashMap<String, String>();
-						String[] pairs = QUERY_STRING.split('&');
-						for(String pair: pairs){
-						int idx = pair.indexOf('=');
-						query_pairs.put(URLDecoder.decode(pair.substring(0, idx), "UTF-8"), URLDecoder.decode(pair.substring(idx + 1), "UTF-8"));
-					}*/
-					System.out.println("Content-type: text/html\r\n\r\n");
-
-					System.out.println("<html><head></head><body>");
-
-					if(SCRIPT_NAME == "/" || SCRIPT_NAME == "") SCRIPT_NAME = "index.jrl";
-					JuliarCompiler compiler2 = new JuliarCompiler();
-					compiler2.compile(DOCUMENT_ROOT+SCRIPT_NAME,"",false, false);
-					System.out.println("</body></html>");
-                    SymbolTable.DeleteSymbolTable();
-				}
-				else{
-					break;
-				}
-			}
+			fastCGI();
             LogMessage.message("Juliar Compiler - Copyright (C) 2017");
 			
             assert args[0] != null && args[1] != null;
-            if(args.length < 1){
+            if(args.length != 4){
                 LogMessage.message("Usage: java -jar JuliarCompiler.jar <source file> <output path> <fcgi port>");
                 LogMessage.message("Path to Juliar source file");
                 LogMessage.message("Path to output directory if compiled.");
@@ -65,35 +36,59 @@ public class JuliarCompiler {
                 return;
 			}
             JuliarCompiler compiler = new JuliarCompiler();
-            if (args.length > 1) {
-                compiler.compile(args[0], args[1],true,false);
-				}else {
-                compiler.compile(args[0],"",false, false);
-			}
+
+
+            String fileName = args[0];
+            String outputPath = args[1];
+            Boolean compileFlag = args[2].equals("true") ? true : false;
+            Boolean replFlag = args[3].equals("true") ? true : false;
+
+            compiler.compile(fileName, outputPath, compileFlag , replFlag);
+
 			} catch (Exception ex) {
             new LogMessage("Error " + ex.getMessage(),ex);
 		}
 	}
-	
-	
-    public List<String> compile(String source, String outputPath, boolean isRepl) {
-        try {
-			FileInputStream fileInputStream = new FileInputStream(source);
-			return compile(fileInputStream, outputPath, false, isRepl);
+
+	private static void fastCGI() {
+		int status =0;
+		int count = 0;
+		FCGIInterface intf = new FCGIInterface();
+		while (intf.FCGIaccept() >= 0) {
+            String method = System.getProperty("REQUEST_METHOD");
+            if (method != null) {
+				String DOCUMENT_ROOT = System.getProperty("DOCUMENT_ROOT");
+				String SCRIPT_NAME = System.getProperty("SCRIPT_NAME");
+                /*String QUERY_STRING = System.getProperty("QUERY_STRING"); //PARAMETERS
+                    Map<String, String> query_pairs = new LinkedHashMap<String, String>();
+                    String[] pairs = QUERY_STRING.split('&');
+                    for(String pair: pairs){
+                    int idx = pair.indexOf('=');
+                    query_pairs.put(URLDecoder.decode(pair.substring(0, idx), "UTF-8"), URLDecoder.decode(pair.substring(idx + 1), "UTF-8"));
+                }*/
+				System.out.println("Content-type: text/html\r\n\r\n");
+
+				System.out.println("<html><head></head><body>");
+
+				if (SCRIPT_NAME == "/" || SCRIPT_NAME == "") SCRIPT_NAME = "index.jrl";
+				JuliarCompiler compiler2 = new JuliarCompiler();
+				compiler2.compile(DOCUMENT_ROOT + SCRIPT_NAME, "", false, false);
+				System.out.println("</body></html>");
+				SymbolTable.DeleteSymbolTable();
+			}
+            else{
+                break;
+            }
         }
-		catch (Exception ex) {
-			new LogMessage(ex.getMessage(),ex);
-		}
-		
-        return new ArrayList<String>();
 	}
-	
+
+
 	public List<String> compile(String source, String outputPath, boolean compilerFlag, boolean isRepl) {
         try {
 			FileInputStream fileInputStream = new FileInputStream(source);
 			return compile(fileInputStream, outputPath, compilerFlag, isRepl);
         }
-        catch (Exception ex) {
+		catch (Exception ex) {
 			new LogMessage(ex.getMessage(),ex);
 		}
 		
@@ -115,9 +110,15 @@ public class JuliarCompiler {
 			// This will parse a single line to validate the syntax
 			if (isRepl) {
 				juliarParser.StatementContext context = parser.statement();
-				//out.println(context.toStringTree(parser));
-				
-				JuliarVisitor v = new JuliarVisitor();
+				System.out.println(context.toStringTree(parser));
+
+				JuliarVisitor v = new JuliarVisitor(new ImportsInterface() {
+					@Override
+					public void createTempCallback(String imports, int linesToSkip) {
+
+					}
+				}, true);
+
 				v.visit(context);
 				interpreter i = new interpreter(v.instructions());
 			}
@@ -127,7 +128,7 @@ public class JuliarCompiler {
 				// then calls the code generator.
 
 				juliarParser.CompileUnitContext context = parser.compileUnit();
-				//out.println(context.toStringTree(parser));
+				System.out.println(context.toStringTree(parser));
 				
 				if (errors.ErrorList().size() > 0){
 					for (String error : errors.ErrorList()){
@@ -137,7 +138,12 @@ public class JuliarCompiler {
 					return errors.ErrorList();
 				}
 
-				JuliarVisitor visitor = new JuliarVisitor();
+				JuliarVisitor visitor = new JuliarVisitor(new ImportsInterface() {
+					@Override
+					public void createTempCallback(String imports, int linesToSkip) {
+
+					}
+				}, true);
 				visitor.visit(context);
 
 				if(!compilerFlag){

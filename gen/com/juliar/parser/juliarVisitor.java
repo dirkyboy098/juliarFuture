@@ -1,4 +1,4 @@
-// Generated from D:/source/juliarFuture/src/com/juliar/parser\juliar.g4 by ANTLR 4.6
+// Generated from /Users/don/Desktop/repos/juliarFuture/src/com/juliar/parser/juliar.g4 by ANTLR 4.6
 package com.juliar.parser;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -94,12 +94,6 @@ public interface juliarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitPrimitives(juliarParser.PrimitivesContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link juliarParser#printPrimitives}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPrintPrimitives(juliarParser.PrintPrimitivesContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link juliarParser#command}.
 	 * @param ctx the parse tree
