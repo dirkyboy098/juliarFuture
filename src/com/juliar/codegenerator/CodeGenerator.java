@@ -1,29 +1,24 @@
 package com.juliar.codegenerator;
 
+import com.juliar.nodes.*;
+import com.juliar.pal.PrimitivesMap;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.commons.GeneratorAdapter;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.*;
-import java.util.ArrayList;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.jar.JarOutputStream;
 import java.util.jar.Attributes;
-import java.util.jar.JarEntry;
+import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
 
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.Label;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.*;
-
 import static org.objectweb.asm.Opcodes.*;
-import com.juliar.nodes.*;
-import com.juliar.codegenerator.CodeGeneratorMap;
-
-import com.juliar.pal.PrimitivesMap;
 
 
 /**
@@ -110,12 +105,12 @@ public class CodeGenerator {
         // gets the bytecode of the Example class, and loads it dynamically
         byte[] code = cw.toByteArray();
 
-        FileOutputStream fos = new FileOutputStream(outputfile+".class");
-        fos.write(code);
-        fos.close();
+        //FileOutputStream fos = new FileOutputStream(outputfile+".class");
+        //fos.write(code);
+        //fos.close();
 
         //Create JAR output
-        /*FileOutputStream fout = new FileOutputStream(outputfile+".jar");
+        FileOutputStream fout = new FileOutputStream(outputfile+".jar");
 
         Manifest manifest = new Manifest();
         manifest.getMainAttributes().put(Attributes.Name.MANIFEST_VERSION, "1.0");
@@ -125,15 +120,15 @@ public class CodeGenerator {
 
         jarOut.putNextEntry(new ZipEntry("com/juliar/pal/"));
         jarOut.putNextEntry(new ZipEntry("com/juliar/pal/Primitives.class"));
-        jarOut.write(("com/juliar/pal/Primitives.class").getBytes());
+        jarOut.write(Files.readAllBytes(Paths.get("com/juliar/pal/Primitives.class")));
         jarOut.closeEntry();
 
         jarOut.putNextEntry(new ZipEntry(outputfile+".class"));
-        jarOut.write((outputfile+".class").getBytes());
+        jarOut.write(code);
         jarOut.closeEntry();
 
         jarOut.close();
-        fout.close();*/
+        fout.close();
 
 
         /*

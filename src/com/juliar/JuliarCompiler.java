@@ -1,20 +1,20 @@
 package com.juliar;
 
+import com.fastcgi.FCGIInterface;
 import com.juliar.errors.ErrorListener;
 import com.juliar.errors.LogMessage;
 import com.juliar.interpreter.interpreter;
+import com.juliar.parser.juliarLexer;
+import com.juliar.parser.juliarParser;
+import com.juliar.symbolTable.SymbolTable;
 import com.juliar.vistor.JuliarVisitor;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import com.juliar.parser.*;
-import com.juliar.symbolTable.SymbolTable;
-
-
-import com.fastcgi.FCGIInterface;
 
 
 public class JuliarCompiler {
@@ -23,16 +23,18 @@ public class JuliarCompiler {
 	
     public static void main(String[] args) {
         try {
-			fastCGI();
+        	for(int i=0; i < args.length; i++) {
+        		if(args[i].startsWith("-DFCGI_PORT=")) fastCGI();
+			}
             LogMessage.message("Juliar Compiler - Copyright (C) 2017");
 			
             assert args[0] != null && args[1] != null;
-            if(args.length != 4){
+            if(args.length == 0 || args.length > 3){
                 LogMessage.message("Usage: java -jar JuliarCompiler.jar <source file> <output path> <fcgi port>");
                 LogMessage.message("Path to Juliar source file");
                 LogMessage.message("Path to output directory if compiled.");
                 LogMessage.message("If output path is undefined, source file will be interpreted");
-                LogMessage.message("If you would like to use JuliarCompiler for web specify fcgi port ex. -DFCGI 9000");
+                LogMessage.message("If you would like to use JuliarCompiler for web specify fcgi port ex. -DFCGI=9000");
                 return;
 			}
             JuliarCompiler compiler = new JuliarCompiler();
@@ -55,8 +57,6 @@ public class JuliarCompiler {
 		int count = 0;
 		FCGIInterface intf = new FCGIInterface();
 		while (intf.FCGIaccept() >= 0) {
-            String method = System.getProperty("REQUEST_METHOD");
-            if (method != null) {
 				String DOCUMENT_ROOT = System.getProperty("DOCUMENT_ROOT");
 				String SCRIPT_NAME = System.getProperty("SCRIPT_NAME");
                 /*String QUERY_STRING = System.getProperty("QUERY_STRING"); //PARAMETERS
@@ -75,10 +75,6 @@ public class JuliarCompiler {
 				compiler2.compile(DOCUMENT_ROOT + SCRIPT_NAME, "", false, false);
 				System.out.println("</body></html>");
 				SymbolTable.DeleteSymbolTable();
-			}
-            else{
-                break;
-            }
         }
 	}
 

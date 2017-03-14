@@ -4,7 +4,10 @@ import com.juliar.ImportsInterface;
 import com.juliar.codegenerator.InstructionInvocation;
 import com.juliar.controlflow.ControlFlowAdjacencyList;
 import com.juliar.errors.LogMessage;
+import com.juliar.nodes.*;
 import com.juliar.pal.Primitives;
+import com.juliar.parser.juliarBaseVisitor;
+import com.juliar.parser.juliarParser;
 import com.juliar.symbolTable.SymbolTable;
 import com.juliar.symbolTable.SymbolTypeEnum;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -14,10 +17,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.*;
 import java.util.*;
-import com.juliar.nodes.*;
-import com.juliar.parser.*;
 
 
 /**
