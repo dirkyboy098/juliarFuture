@@ -4,6 +4,8 @@
 -->
 [![version](https://img.shields.io/badge/version-0.0.1-green.svg)](https://www.juliar.org/downloads.ju)
 [![Build Status](https://travis-ci.org/juliarLang/juliarFuture.svg?branch=master)](https://travis-ci.org/juliarLang/juliarFuture)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9a508bdddb8747bf9ed8e39bddfb10f2)](https://www.codacy.com/app/TheAndreiM/juliarFuture?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=juliarLang/juliarFuture&amp;utm_campaign=Badge_Grade)
+[![codebeat badge](https://codebeat.co/badges/4bdc346c-d5b6-41df-b491-9361caba6094)](https://codebeat.co/projects/github-com-juliarlang-juliarfuture-master)
 
 Juliar.Future is a programming language that is compiled directly into JAVA bytecode that can be made to run in any JAVA environment.
 The aim of Juliar is to combine functional languages such as lisp with imperative languages like JAVA,
