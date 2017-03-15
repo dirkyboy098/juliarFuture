@@ -1,6 +1,0 @@
-function modules() = {
-	return {
-		"jpm" => 0.1,
-		"web" => 0.1	
-	}
-}

@@ -8,13 +8,18 @@ import com.juliar.parser.juliarLexer;
 import com.juliar.parser.juliarParser;
 import com.juliar.symbolTable.SymbolTable;
 import com.juliar.vistor.JuliarVisitor;
+import com.juliar.jpm.JPM;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class JuliarCompiler {
@@ -25,6 +30,9 @@ public class JuliarCompiler {
         try {
         	for(int i=0; i < args.length; i++) {
         		if(args[i].startsWith("-DFCGI_PORT=")) fastCGI();
+        		else if(args[i].equals("-selfupdate")) new JPM();
+        		else if(args[i].equals("-error")) fastCGI(); //Show/Print Errors
+        		else if(args[i].equals("-verbose")) fastCGI(); //Enable verbose?? Advance debug errors.
 			}
             LogMessage.message("Juliar Compiler - Copyright (C) 2017");
 			
@@ -59,21 +67,24 @@ public class JuliarCompiler {
 		while (intf.FCGIaccept() >= 0) {
 				String DOCUMENT_ROOT = System.getProperty("DOCUMENT_ROOT");
 				String SCRIPT_NAME = System.getProperty("SCRIPT_NAME");
-                /*String QUERY_STRING = System.getProperty("QUERY_STRING"); //PARAMETERS
-                    Map<String, String> query_pairs = new LinkedHashMap<String, String>();
-                    String[] pairs = QUERY_STRING.split('&');
-                    for(String pair: pairs){
+                String QUERY_STRING = System.getProperty("QUERY_STRING"); //PARAMETERS
+                Map<String, String> query_pairs = new LinkedHashMap<String, String>();
+                String[] pairs = QUERY_STRING.split("&");
+                for(String pair: pairs){
                     int idx = pair.indexOf('=');
-                    query_pairs.put(URLDecoder.decode(pair.substring(0, idx), "UTF-8"), URLDecoder.decode(pair.substring(idx + 1), "UTF-8"));
-                }*/
+                    try {
+                        query_pairs.put(URLDecoder.decode(pair.substring(0, idx), "UTF-8"), URLDecoder.decode(pair.substring(idx + 1), "UTF-8"));
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                }
 				System.out.println("Content-type: text/html\r\n\r\n");
 
-				System.out.println("<html><head></head><body>");
-
+				System.out.println("<html>");
 				if (SCRIPT_NAME == "/" || SCRIPT_NAME == "") SCRIPT_NAME = "index.jrl";
 				JuliarCompiler compiler2 = new JuliarCompiler();
 				compiler2.compile(DOCUMENT_ROOT + SCRIPT_NAME, "", false, false);
-				System.out.println("</body></html>");
+				System.out.println("</html>");
 				SymbolTable.DeleteSymbolTable();
         }
 	}
