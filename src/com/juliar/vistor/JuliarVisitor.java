@@ -531,9 +531,12 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         }
 
         /*
-         this method will be overriden in implementation. 
+         this method will be overriden in implementation.
          */
         public void action(Node node){
+        /*
+        empty body
+        */
         }
     }
 }
