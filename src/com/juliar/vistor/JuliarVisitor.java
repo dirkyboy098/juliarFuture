@@ -369,11 +369,11 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
     public Node visitTypes(juliarParser.TypesContext ctx) {
         IterateOverContext context = new IterateOverContext(){
             @Override
-            public void Action(Node node) {
-                super.Action(node);
+            public void action(Node node) {
+                super.action(node);
             }
         };
-        context.IterateOverChildren( ctx, this);
+        context.iterateOverChildren( ctx, this);
         IntegralTypeNode itn = new IntegralTypeNode(ctx);
         return itn;
     }
@@ -386,7 +386,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
             IterateOverContext context = new IterateOverContext() {
                 @Override
-                public void Action(Node pt) {
+                public void action(Node pt) {
                     if ( pt instanceof JTerminalNode && ((JTerminalNode) pt).isPrimitive()) {
                         primitiveFunction = ((JTerminalNode) pt).dataString();
                     }
@@ -395,7 +395,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
                     }
                 }
             };
-            context.IterateOverChildren( ctx, this );
+            context.iterateOverChildren( ctx, this );
 
             FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
 
@@ -524,13 +524,16 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         public String primitiveFunction;
         public Node data;
 
-        public void IterateOverChildren(ParserRuleContext ctx, JuliarVisitor visitor) {
+        public void iterateOverChildren(ParserRuleContext ctx, JuliarVisitor visitor) {
             for (Iterator<ParseTree> pt = ctx.children.iterator(); pt.hasNext(); ) {
-                Action(pt.next().accept(visitor));
+                action(pt.next().accept(visitor));
             }
         }
 
-        public void Action(Node node){
+        /*
+         this method will be overriden in implementation. 
+         */
+        public void action(Node node){
         }
     }
 }

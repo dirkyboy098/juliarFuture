@@ -28,7 +28,7 @@ public class JuliarCompiler {
 	
     public static void main(String[] args) {
         try {
-			IntializeFastCGI(args);
+			intializeFastCGI(args);
 
 			LogMessage.message("Juliar Compiler - Copyright (C) 2017");
 			
@@ -55,7 +55,7 @@ public class JuliarCompiler {
 		}
 	}
 
-	private static void IntializeFastCGI(String[] args) {
+	private static void intializeFastCGI(String[] args) {
 		for(int i=0; i < args.length; i++) {
             if(args[i].startsWith("-DFCGI_PORT=")) fastCGI();
             else if(args[i].equals("-selfupdate")) new JPM();
