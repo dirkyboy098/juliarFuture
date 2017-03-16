@@ -367,6 +367,13 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
     @Override
     public Node visitTypes(juliarParser.TypesContext ctx) {
+        IterateOverContext context = new IterateOverContext(){
+            @Override
+            public void Action(Node node) {
+                super.Action(node);
+            }
+        };
+        context.IterateOverChildren( ctx, this);
         IntegralTypeNode itn = new IntegralTypeNode(ctx);
         return itn;
     }
