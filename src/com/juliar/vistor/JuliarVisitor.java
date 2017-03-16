@@ -10,6 +10,7 @@ import com.juliar.parser.juliarBaseVisitor;
 import com.juliar.parser.juliarParser;
 import com.juliar.symbolTable.SymbolTable;
 import com.juliar.symbolTable.SymbolTypeEnum;
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
@@ -360,21 +361,13 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
             }
         }
 
-        //return super.visitAdd(ctx);
         return null;
     }
 
 
     @Override
     public Node visitTypes(juliarParser.TypesContext ctx) {
-        if (ctx.children.size() > 1) {
-            //throw new Exception("invalid number of types");
-        }
-        ParseTree tn = ctx.children.get(0);
-
-        JTerminalNode terminal = (JTerminalNode) tn.accept(this);
-        IntegralTypeNode itn = new IntegralTypeNode(ctx, terminal);
-
+        IntegralTypeNode itn = new IntegralTypeNode(ctx);
         return itn;
     }
 
@@ -382,17 +375,28 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
     @Override
     public Node visitPrimitives(juliarParser.PrimitivesContext ctx) {
-        if (ctx != null){
-            List<ParseTree> parseTreeList = ctx.children;
-            if (parseTreeList.toArray()[0].toString().equals( "printInt") ){
-                FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
-                functionDeclNode.AddInst(new PrimitiveNode( "printInt" , ctx.variable().getText()));
-            }else {
-                FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
-                functionDeclNode.AddInst(new PrimitiveNode(
-                                parseTreeList.toArray()[0].toString(),
-                                parseTreeList.toArray()[2].toString()));
-            }
+        if (ctx != null) {
+
+            IterateOverContext context = new IterateOverContext() {
+                @Override
+                public void Action(Node pt) {
+                    if ( pt instanceof JTerminalNode && ((JTerminalNode) pt).isPrimitive()) {
+                        primitiveFunction = ((JTerminalNode) pt).dataString();
+                    }
+                    else if (pt instanceof IntegralTypeNode){
+                        data = pt;
+                    }
+                }
+            };
+            context.IterateOverChildren( ctx, this );
+
+            FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
+
+
+            // TODO - fix the null value so that it uses the integral type
+            PrimitiveNode primitiveNode = new PrimitiveNode(context.primitiveFunction , null);
+            functionDeclNode.AddInst( primitiveNode );
+
         }
 
         return null;
@@ -505,4 +509,21 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         return null;
     }
 
+
+
+
+
+    class IterateOverContext {
+        public String primitiveFunction;
+        public Node data;
+
+        public void IterateOverChildren(ParserRuleContext ctx, JuliarVisitor visitor) {
+            for (Iterator<ParseTree> pt = ctx.children.iterator(); pt.hasNext(); ) {
+                Action(pt.next().accept(visitor));
+            }
+        }
+
+        public void Action(Node node){
+        }
+    }
 }

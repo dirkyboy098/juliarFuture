@@ -1,7 +1,6 @@
 package com.juliar.nodes;
 
 import com.juliar.parser.juliarParser;
-import org.antlr.v4.runtime.tree.TerminalNode;
 
 /**
  * Created by donreamey on 10/28/16.
@@ -18,7 +17,7 @@ public class IntegralTypeNode extends NodeImpl {
         integralType = it;
     }
 
-    public IntegralTypeNode(juliarParser.TypesContext value, JTerminalNode jTerminalNode) {
+    public IntegralTypeNode(juliarParser.TypesContext value) {
         objectData = value.getText();
         integralType = IntegralType.jinteger;
         /*

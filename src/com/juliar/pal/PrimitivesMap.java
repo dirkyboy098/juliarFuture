@@ -25,8 +25,16 @@ public class PrimitivesMap {
 
     public static String getFunction(String name){
         String current = map.get(name);
-        if(current == null) return name;
+
+        if(current == null) {
+            return name;
+        }
+
         return current;
+    }
+
+    public static Boolean isPrimitive(String name) {
+        return map.get( name ) != null;
     }
 
 }

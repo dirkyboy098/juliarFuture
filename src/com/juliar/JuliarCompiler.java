@@ -28,16 +28,11 @@ public class JuliarCompiler {
 	
     public static void main(String[] args) {
         try {
-        	for(int i=0; i < args.length; i++) {
-        		if(args[i].startsWith("-DFCGI_PORT=")) fastCGI();
-        		else if(args[i].equals("-selfupdate")) new JPM();
-        		else if(args[i].equals("-error")) fastCGI(); //Show/Print Errors
-        		else if(args[i].equals("-verbose")) fastCGI(); //Enable verbose?? Advance debug errors.
-			}
-            LogMessage.message("Juliar Compiler - Copyright (C) 2017");
+			IntializeFastCGI(args);
+
+			LogMessage.message("Juliar Compiler - Copyright (C) 2017");
 			
-            assert args[0] != null && args[1] != null;
-            if(args.length == 0 || args.length > 3){
+            if(args.length != 4){
                 LogMessage.message("Usage: java -jar JuliarCompiler.jar <source file> <output path> <fcgi port>");
                 LogMessage.message("Path to Juliar source file");
                 LogMessage.message("Path to output directory if compiled.");
@@ -45,19 +40,28 @@ public class JuliarCompiler {
                 LogMessage.message("If you would like to use JuliarCompiler for web specify fcgi port ex. -DFCGI=9000");
                 return;
 			}
-            JuliarCompiler compiler = new JuliarCompiler();
 
+			String fileName = args[0];
+			String outputPath = args[1];
+			Boolean compileFlag = args[2].equals("true") ? true : false;
+			Boolean replFlag = args[3].equals("true") ? true : false;
 
-            String fileName = args[0];
-            String outputPath = args[1];
-            Boolean compileFlag = args[2].equals("true") ? true : false;
-            Boolean replFlag = args[3].equals("true") ? true : false;
+			JuliarCompiler compiler = new JuliarCompiler();
 
             compiler.compile(fileName, outputPath, compileFlag , replFlag);
 
 			} catch (Exception ex) {
             new LogMessage("Error " + ex.getMessage(),ex);
 		}
+	}
+
+	private static void IntializeFastCGI(String[] args) {
+		for(int i=0; i < args.length; i++) {
+            if(args[i].startsWith("-DFCGI_PORT=")) fastCGI();
+            else if(args[i].equals("-selfupdate")) new JPM();
+            else if(args[i].equals("-error")) fastCGI(); //Show/Print Errors
+            else if(args[i].equals("-verbose")) fastCGI(); //Enable verbose?? Advance debug errors.
+        }
 	}
 
 	private static void fastCGI() {
@@ -101,11 +105,7 @@ public class JuliarCompiler {
 		
         return new ArrayList<String>();
 	}
-	
-	public List<String> compile(InputStream b, String source, boolean isRepl) {
-        return compile(b,source,false, isRepl);
-	}
-	
+
 	public List<String> compile(InputStream b, String outputfile, boolean compilerFlag, boolean isRepl) {
         try {
 			juliarParser parser = parse( b );
@@ -116,7 +116,7 @@ public class JuliarCompiler {
 			// call parse statement.
 			// This will parse a single line to validate the syntax
 			if (isRepl) {
-				juliarParser.StatementContext context = parser.statement();
+				juliarParser.CompileUnitContext context = parser.compileUnit();
 				System.out.println(context.toStringTree(parser));
 
 				JuliarVisitor v = new JuliarVisitor(new ImportsInterface() {

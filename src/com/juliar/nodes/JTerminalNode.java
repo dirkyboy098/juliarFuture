@@ -1,5 +1,7 @@
 package com.juliar.nodes;
 
+import com.juliar.pal.PrimitivesMap;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 /**
@@ -14,6 +16,11 @@ public class JTerminalNode extends NodeImpl{
 
     public String dataString(){
         return dataString.getText();
+    }
+
+
+    public Boolean isPrimitive(){
+        return PrimitivesMap.isPrimitive( dataString.getText());
     }
 
 }
