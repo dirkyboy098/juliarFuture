@@ -280,7 +280,8 @@ public class Interpreter {
 
         String sum = new Integer(integerMath.operation(v2, v1)).toString();
 
-        frame.operandStack.push(new IntegralTypeNode(sum, IntegralType.jinteger));
+        //TODO - NEED to FIX THIS.
+        //frame.operandStack.push(new IntegralTypeNode(sum, IntegralType.jinteger));
     }
 
     private void integralTypeNode(IntegralTypeNode itn) {

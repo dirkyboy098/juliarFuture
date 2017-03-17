@@ -7,5 +7,8 @@ public enum IntegralType {
     jinteger,
     jfloat,
     jdouble,
-    jlong
+    jlong,
+    jstring,
+    jobject,
+    jboolean
 }

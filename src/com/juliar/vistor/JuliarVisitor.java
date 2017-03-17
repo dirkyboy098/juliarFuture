@@ -370,11 +370,14 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         IterateOverContext context = new IterateOverContext(){
             @Override
             public void action(Node node) {
-                super.action(node);
+                if (node instanceof JTerminalNode) {
+                    IntegralType integralType = ((JTerminalNode)node).getIntegralType();
+                    int x = 2;
+                }
             }
         };
-        context.iterateOverChildren( ctx, this);
-        IntegralTypeNode itn = new IntegralTypeNode(ctx);
+        context.iterateOverChildren( ctx.primitiveTypes(), this);
+        IntegralTypeNode itn = new IntegralTypeNode(null);
         return itn;
     }
 
@@ -526,7 +529,10 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
         public void iterateOverChildren(ParserRuleContext ctx, JuliarVisitor visitor) {
             for (Iterator<ParseTree> pt = ctx.children.iterator(); pt.hasNext(); ) {
-                action(pt.next().accept(visitor));
+                Node node = pt.next().accept(visitor);
+                if (node != null) {
+                    action(node);
+                }
             }
         }
 
