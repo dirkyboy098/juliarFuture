@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 
 public class JPM {
-    private static String DownloadUrlContent(){
+    private static String downloadUrlContent(){
         try {
             URL url = new URL("https://juliar.org/repo?package=JuliarFuture&download=0");
             HttpURLConnection hConnection = (HttpURLConnection) url.openConnection();
@@ -26,7 +26,7 @@ public class JPM {
         return "";
     }
 
-    private static boolean DownloadPackage(){
+    private static boolean downloadPackage(){
         URL url;
         try {
             url = new URL("https://juliar.org/repo?package=JuliarFuture&download=1");
@@ -61,7 +61,7 @@ public class JPM {
     }
 
     public static void main(String[] args) throws IOException, ParseException {
-        String new_v = DownloadUrlContent();
+        String new_v = downloadUrlContent();
         URL old_v = JPM.class.getResource("/com/juliar/JuliarCompiler.class");
 
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -73,8 +73,8 @@ public class JPM {
                 System.out.println("A new version of Juliar.Future Compiler is available," + old_version + " => " + new_version + " would you like to download? (yes/No)");
                 Scanner scan = new Scanner(System.in);
                 String choice = scan.nextLine();
-                if (choice.toLowerCase().equals("yes") || choice.toLowerCase().equals("y")) {
-                    DownloadPackage();
+                if (choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("y")) {
+                    downloadPackage();
                 }else{
                     System.out.println("Juliar.Future has not been downloaded!");
                 }

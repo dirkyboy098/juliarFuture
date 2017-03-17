@@ -14,7 +14,7 @@ public class VariableNode extends NodeImpl {
         variableName = vName;
     }
 
-    public void SetIntegralTypeNode( IntegralTypeNode typeNode){
+    public void setIntegralTypeNode(IntegralTypeNode typeNode){
         integralTypeNode = typeNode;
     }
 }

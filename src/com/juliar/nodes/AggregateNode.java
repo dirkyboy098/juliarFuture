@@ -24,7 +24,7 @@ public class AggregateNode extends NodeImpl {
         objectData = data;
     }
 
-    public AggregateNode MakeNode(Operation operation, List<IntegralTypeNode> data){
+    public AggregateNode makeNode(Operation operation, List<IntegralTypeNode> data){
         return new AggregateNode(operation, objectData = data);
     }
 

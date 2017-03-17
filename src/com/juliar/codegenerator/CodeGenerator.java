@@ -26,10 +26,6 @@ import static org.objectweb.asm.Opcodes.*;
  */
 public class CodeGenerator {
     private boolean debug = true;
-    public CodeGenerator(){
-    }
-
-
     private List<Node> inst;
     private InstructionInvocation invocationList;
     private HashMap<String, Node> functionNodeMap;
@@ -319,6 +315,8 @@ public class CodeGenerator {
                         case jlong:
                             anArray[2]++;
                             break;
+                        default:
+                            break;
                     }
                 }
                 //
@@ -362,6 +360,8 @@ public class CodeGenerator {
                 case jlong:
                     mw.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(L)V", false);
                     break;
+                default:
+                    break;
             }
         }
     }
@@ -381,6 +381,8 @@ public class CodeGenerator {
                     break;
                 case jlong:
                     ga.push(Long.parseLong(integralTypeNode.data()));
+                    break;
+                default:
                     break;
             }
         }

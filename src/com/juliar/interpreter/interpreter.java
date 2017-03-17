@@ -4,14 +4,13 @@ import com.juliar.codegenerator.InstructionInvocation;
 import com.juliar.errors.LogMessage;
 import com.juliar.nodes.*;
 import com.juliar.symbolTable.SymbolTypeEnum;
-import java.util.function.Function;
 
 import java.util.*;
 
 /**
  * Created by donreamey on 1/8/17.
  */
-public class interpreter {
+public class Interpreter {
     private Stack<ActivationFrame> activationFrameStack = new Stack<ActivationFrame>();
     private Stack<Node> returnValueStack = new Stack<>();
     private List<Node> inst;
@@ -19,11 +18,11 @@ public class interpreter {
     private HashMap<String, Node> functionNodeMap;
     private HashMap<Node, HashMap<String, Node>> functionMap = new HashMap<Node, HashMap<String, Node>>();
 
-    public interpreter(List<Node> instructions) {
+    public Interpreter(List<Node> instructions) {
         inst = instructions;
     }
 
-    public interpreter(InstructionInvocation invocation){
+    public Interpreter(InstructionInvocation invocation){
         try {
             invocationList = invocation;
             inst = invocation.getInstructionList();
@@ -111,7 +110,7 @@ public class interpreter {
 
     private void evalFunctionCall(FunctionCallNode n) {
         FunctionCallNode functionCallNode = n;
-        String functionToCall = functionCallNode.FunctionName();
+        String functionToCall = functionCallNode.functionName();
 
         // main should only be called from the compliationUnit
         if (functionCallNode.equals( "main")){
@@ -226,7 +225,7 @@ public class interpreter {
         ActivationFrame frame = activationFrameStack.peek();
         VariableNode v = (VariableNode) frame.variableSet.get( variableName );
 
-        v.SetIntegralTypeNode( (IntegralTypeNode)frame.operandStack.pop() );
+        v.setIntegralTypeNode( (IntegralTypeNode)frame.operandStack.pop() );
     }
 
     private void evalBinaryNode(Node n) {

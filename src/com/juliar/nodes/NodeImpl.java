@@ -12,7 +12,7 @@ public abstract class NodeImpl implements Node {
 
     @Override
     public void AddInst(Node parent, Node instruction) {
-
+    /*add instruction given parent*/
     }
 
     @Override

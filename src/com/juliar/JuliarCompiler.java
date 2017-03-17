@@ -3,7 +3,7 @@ package com.juliar;
 import com.fastcgi.FCGIInterface;
 import com.juliar.errors.ErrorListener;
 import com.juliar.errors.LogMessage;
-import com.juliar.interpreter.interpreter;
+import com.juliar.interpreter.Interpreter;
 import com.juliar.parser.juliarLexer;
 import com.juliar.parser.juliarParser;
 import com.juliar.symbolTable.SymbolTable;
@@ -127,7 +127,7 @@ public class JuliarCompiler {
 				}, true);
 
 				v.visit(context);
-				interpreter i = new interpreter(v.instructions());
+				Interpreter i = new Interpreter(v.instructions());
 			}
 			else {
 				// Calls the parse CompileUnit method
@@ -154,12 +154,12 @@ public class JuliarCompiler {
 				visitor.visit(context);
 
 				if(!compilerFlag){
-					interpreter i = new interpreter(visitor.instructions());
+					Interpreter i = new Interpreter(visitor.instructions());
 				}
 				else {
 					com.juliar.codegenerator.CodeGenerator generator = new com.juliar.codegenerator.CodeGenerator();
 					generator.Generate(visitor.instructions(),outputfile);
-					interpreter i = new interpreter(visitor.instructions());
+					Interpreter i = new Interpreter(visitor.instructions());
 				}
 			}
 			

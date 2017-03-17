@@ -32,17 +32,17 @@ public class JuliarCompilerTest extends TestCase {
                 out.println(s);
             }
             Assert.assertTrue( errorList.size() == 0 );
-            JClassLoader classLoader = new JClassLoader();
+            //JClassLoader classLoader = new JClassLoader();
 
-            Class <?> juliar = classLoader.findClass("JuliarFuture");
+            //Class <?> juliar = classLoader.findClass("JuliarFuture");
 
-            if (juliar != null) {
+            /*if (juliar != null) {
                 Method m = juliar.getMethod("juliarMethod");
                 Object obj = juliar.newInstance();
                 if (m != null && obj != null) {
                     m.invoke(obj);
                 }
-            }
+            }*/
         }
         catch(Exception ex) {
             throw ex;
