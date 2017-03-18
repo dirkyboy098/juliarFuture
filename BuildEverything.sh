@@ -24,6 +24,7 @@ cd ../temp || exit
 (echo Main-Class: com.juliar.JuliarCompiler)>manifest.txt
 rm "*.jar"
 cp -r ../out/com .
+cp ../src/com/juliar/gui/juliar.fxml ../temp/com/juliar/gui/juliar.fxml
 jar cvfm JuliarCompiler.jar manifest.txt com org javax antlr icons properties templates
 mv JuliarCompiler.jar ../JuliarCompiler.jar
 cd ..

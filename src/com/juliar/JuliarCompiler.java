@@ -1,6 +1,7 @@
 package com.juliar;
 
 import com.fastcgi.FCGIInterface;
+import com.juliar.gui.Gui;
 import com.juliar.errors.ErrorListener;
 import com.juliar.errors.LogMessage;
 import com.juliar.interpreter.Interpreter;
@@ -27,8 +28,17 @@ public class JuliarCompiler {
     private ErrorListener errors;
 	
     public static void main(String[] args) {
+    	if(System.console() == null) {
+            new Thread() {
+                @Override
+                public void run() {
+                    javafx.application.Application.launch(Gui.class);
+                }
+            }.start();
+    		return;
+		}
         try {
-			intializeFastCGI(args);
+			checkAddArgs(args);
 
 			LogMessage.message("Juliar Compiler - Copyright (C) 2017");
 			
@@ -55,12 +65,10 @@ public class JuliarCompiler {
 		}
 	}
 
-	private static void intializeFastCGI(String[] args) {
+	private static void checkAddArgs(String[] args) {
 		for(int i=0; i < args.length; i++) {
             if(args[i].startsWith("-DFCGI_PORT=")) fastCGI();
             else if(args[i].equals("-selfupdate")) new JPM();
-            else if(args[i].equals("-error")) fastCGI(); //Show/Print Errors
-            else if(args[i].equals("-verbose")) fastCGI(); //Enable verbose?? Advance debug errors.
         }
 	}
 
@@ -85,7 +93,7 @@ public class JuliarCompiler {
 				System.out.println("Content-type: text/html\r\n\r\n");
 
 				System.out.println("<html>");
-				if (SCRIPT_NAME == "/" || SCRIPT_NAME == "") SCRIPT_NAME = "index.jrl";
+				if (SCRIPT_NAME.equals("/") || SCRIPT_NAME.isEmpty()) SCRIPT_NAME = "index.jrl";
 				JuliarCompiler compiler2 = new JuliarCompiler();
 				compiler2.compile(DOCUMENT_ROOT + SCRIPT_NAME, "", false, false);
 				System.out.println("</html>");
@@ -103,7 +111,7 @@ public class JuliarCompiler {
 			new LogMessage(ex.getMessage(),ex);
 		}
 		
-        return new ArrayList<String>();
+        return new ArrayList<>();
 	}
 
 	public List<String> compile(InputStream b, String outputfile, boolean compilerFlag, boolean isRepl) {
@@ -177,19 +185,15 @@ public class JuliarCompiler {
 	
 	private juliarParser parse(InputStream b) throws Exception {
         juliarParser parser = null;
-		
-        try {
-			ANTLRInputStream s = new ANTLRInputStream(b);
-			
-			juliarLexer lexer = new juliarLexer(s);
-			CommonTokenStream tokenStream = new CommonTokenStream(lexer);
-			parser = new juliarParser(tokenStream);
-			
-			parser.removeErrorListeners();
-			} catch (Exception ex) {
-			throw ex;
-		}
-		
+
+        ANTLRInputStream s = new ANTLRInputStream(b);
+
+        juliarLexer lexer = new juliarLexer(s);
+        CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+        parser = new juliarParser(tokenStream);
+
+        parser.removeErrorListeners();
+
         return parser;
 	}
 }

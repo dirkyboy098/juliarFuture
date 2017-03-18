@@ -17,6 +17,7 @@ cd %JULIARPATH%\temp
 (echo Main-Class: com.juliar.JuliarCompiler)>%JULIARPATH%\temp\manifest.txt
 for /f %%f in ('dir /b %JULIARPATH%\jars') do %JARPATH% xf %JULIARPATH%\jars\%%f
 xcopy /e /v %JULIARPATH%\out %JULIARPATH%\temp
+copy %JULIARPATH%\src\com\juliar\gui\juliar.fxml %JULIARPATH%\temp\com\juliar\gui\juliar.fxml
 %JARPATH% cvfm JuliarCompiler.jar manifest.txt com org javax antlr icons properties templates
 copy %JULIARPATH%\temp\JuliarCompiler.jar  %JULIARPATH%\JuliarCompiler.jar
 

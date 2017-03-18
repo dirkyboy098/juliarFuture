@@ -5,35 +5,23 @@ package com.juliar.gui;
  */
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class Gui extends Application{
+public class Gui extends Application {
 
-    Button button;
-    Stage window;
-    Scene loadingScene;
+    @Override
+    public void start(Stage primaryStage) throws Exception{
+        Parent root = FXMLLoader.load(getClass().getResource("juliar.fxml"));
+        primaryStage.setTitle("Juliar.Future");
+        primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.show();
+    }
+
 
     public static void main(String[] args) {
         launch(args);
-    }
-
-    @Override
-    public void start(Stage primaryStage) {
-        window = primaryStage;
-        window.setTitle("Juliar.Future");
-
-        button = new Button();
-        button.setText("Run as FCGI");
-
-        StackPane layout = new StackPane();
-        layout.getChildren().add(button);
-
-
-        loadingScene = new Scene(layout,300,250);
-        window.setScene(loadingScene);
-        window.show();
     }
 }
