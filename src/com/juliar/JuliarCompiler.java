@@ -33,7 +33,8 @@ public class JuliarCompiler {
 			return;
 		}
         try {
-			checkAddArgs(args);
+			fastCGI();
+			//checkAddArgs(args);
 
 			LogMessage.message("Juliar Compiler - Copyright (C) 2017");
 			
@@ -75,7 +76,7 @@ public class JuliarCompiler {
 				String DOCUMENT_ROOT = System.getProperty("DOCUMENT_ROOT");
 				String SCRIPT_NAME = System.getProperty("SCRIPT_NAME");
                 String QUERY_STRING = System.getProperty("QUERY_STRING"); //PARAMETERS
-                Map<String, String> query_pairs = new LinkedHashMap<String, String>();
+                /*Map<String, String> query_pairs = new LinkedHashMap<String, String>();
                 String[] pairs = QUERY_STRING.split("&");
                 for(String pair: pairs){
                     int idx = pair.indexOf('=');
@@ -84,11 +85,11 @@ public class JuliarCompiler {
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
-                }
+                }*/
 				System.out.println("Content-type: text/html\r\n\r\n");
 
 				System.out.println("<html>");
-				if (SCRIPT_NAME.equals("/") || SCRIPT_NAME.isEmpty()) SCRIPT_NAME = "index.jrl";
+				if (SCRIPT_NAME == "/" || SCRIPT_NAME == "") SCRIPT_NAME = "index.jrl";
 				JuliarCompiler compiler2 = new JuliarCompiler();
 				compiler2.compile(DOCUMENT_ROOT + SCRIPT_NAME, "", false, false);
 				System.out.println("</html>");
