@@ -29,13 +29,8 @@ public class JuliarCompiler {
 	
     public static void main(String[] args) {
     	if(System.console() == null) {
-            new Thread() {
-                @Override
-                public void run() {
-                    javafx.application.Application.launch(Gui.class);
-                }
-            }.start();
-    		return;
+			new Thread(() -> javafx.application.Application.launch(Gui.class)).start();
+			return;
 		}
         try {
 			checkAddArgs(args);

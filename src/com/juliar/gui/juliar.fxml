@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="400" maxWidth="600" minHeight="400.0" minWidth="600.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="ap" maxHeight="400" maxWidth="600" minHeight="400.0" minWidth="600.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <TabPane layoutY="27.0" prefHeight="373.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
             <tabs>
@@ -22,11 +22,11 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="390.0" prefWidth="620.0">
                             <children>
-                                <Button layoutX="409.0" layoutY="59.0" mnemonicParsing="false" text="Select..." />
-                                <Button layoutX="409.0" layoutY="132.0" mnemonicParsing="false" text="Select..." />
-                                <TextField layoutX="91.0" layoutY="59.0" prefHeight="25.0" prefWidth="318.0" promptText="Input File" />
-                                <TextField layoutX="91.0" layoutY="132.0" prefHeight="25.0" prefWidth="318.0" promptText="Output File" />
-                                <Button layoutX="90.0" layoutY="225.0" mnemonicParsing="false" text="Compile">
+                                <Button fx:id="compileInputBtn" layoutX="409.0" layoutY="59.0" mnemonicParsing="false" text="Select..." />
+                                <Button fx:id="compileOutputBtn" layoutX="409.0" layoutY="132.0" mnemonicParsing="false" text="Select..." />
+                                <TextField fx:id="compileInputField" layoutX="91.0" layoutY="59.0" prefHeight="25.0" prefWidth="318.0" promptText="Input File" />
+                                <TextField fx:id="compileOutputField" layoutX="91.0" layoutY="132.0" prefHeight="25.0" prefWidth="318.0" promptText="Output File" />
+                                <Button fx:id="compile" layoutX="90.0" layoutY="225.0" mnemonicParsing="false" text="Compile">
                                     <font>
                                         <Font size="32.0" />
                                     </font>
@@ -39,15 +39,14 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
-                                <Button layoutX="430.0" layoutY="63.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" text="Select..." />
-                                <TextField layoutX="56.0" layoutY="63.0" prefHeight="25.0" prefWidth="373.0" promptText="Input File" />
-                                <TextField layoutX="56.0" layoutY="160.0" prefHeight="25.0" prefWidth="456.0" promptText="Output File" />
-                                <Button layoutX="56.0" layoutY="227.0" mnemonicParsing="false" text="Interpret &amp; Output">
+                                <Button fx:id="interpretInputBtn" layoutX="430.0" layoutY="99.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" text="Select..." />
+                                <TextField fx:id="interpretInputField" layoutX="56.0" layoutY="103.0" prefHeight="25.0" prefWidth="373.0" promptText="Input File" />
+                                <Button fx:id="interpret" layoutX="217.0" layoutY="221.0" mnemonicParsing="false" text="Interpret">
                                     <font>
                                         <Font size="32.0" />
                                     </font>
                                 </Button>
-                                <Separator layoutX="56.0" layoutY="128.0" prefHeight="14.0" prefWidth="456.0" />
+                                <Separator layoutX="56.0" layoutY="164.0" prefHeight="8.0" prefWidth="456.0" />
                             </children></AnchorPane>
                     </content>
                 </Tab>
@@ -56,8 +55,8 @@
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
                                 <Label layoutX="36.0" layoutY="65.0" text="PORT:" />
-                                <TextField layoutX="36.0" layoutY="93.0" prefHeight="35.0" prefWidth="511.0" promptText="Port #" text="9000" />
-                                <Button layoutX="36.0" layoutY="193.0" mnemonicParsing="false" text="Run FastCGI">
+                                <TextField fx:id="port" layoutX="34.0" layoutY="92.0" prefHeight="35.0" prefWidth="511.0" promptText="Port #" text="9000" />
+                                <Button fx:id="runFCGI" layoutX="36.0" layoutY="193.0" mnemonicParsing="false" text="Run FastCGI">
                                     <font>
                                         <Font size="32.0" />
                                     </font>
@@ -81,10 +80,14 @@
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Exit" />
+                        <MenuItem fx:id="menu_exit" mnemonicParsing="false" text="Exit" />
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="About" />
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem fx:id="about" mnemonicParsing="false" text="About" />
+                    </items>
+                </Menu>
             </menus>
             <effect>
                 <Glow />
