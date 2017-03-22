@@ -1,15 +1,15 @@
 package com.juliar.nodes;
 
-import com.juliar.parser.juliarParser;
-
 /**
  * Created by donreamey on 10/28/16.
  */
 public class IntegralTypeNode extends NodeImpl {
     private JTerminalNode objectData;
+    private String integralName;
 
-    public IntegralTypeNode(JTerminalNode terminalNode){
+    public IntegralTypeNode(JTerminalNode terminalNode, String name){
         objectData = terminalNode;
+        integralName = name;
     }
 
     public IntegralType getIntegralType()
@@ -17,7 +17,11 @@ public class IntegralTypeNode extends NodeImpl {
         return objectData.getIntegralType();
     }
 
-    public String data(){
+    public String getIntegralName(){
+        return integralName;
+    }
+
+    public JTerminalNode getIntegralValue(){
         return null;
     }
 

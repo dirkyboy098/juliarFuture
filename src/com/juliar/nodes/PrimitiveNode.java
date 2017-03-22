@@ -5,18 +5,29 @@ package com.juliar.nodes;
  */
 public class PrimitiveNode extends NodeImpl {
     private String primitiveName;
-    private String primitiveArgument;
+    private IntegralTypeNode primitiveArgument;
 
-    public PrimitiveNode(String name, String argument){
+    public PrimitiveNode(String name){
         primitiveName = name;
-        primitiveArgument = argument;
+    }
+
+    public PrimitiveNode(){
+
+    }
+
+    public void setPrimitiveName(String name){
+        primitiveName = name;
     }
 
     public String getPrimitiveName(){
         return primitiveName;
     }
 
-    public String getGetPrimitiveArgument(){
+    public IntegralTypeNode getGetPrimitiveArgument(){
         return primitiveArgument;
+    }
+
+    public IntegralType getArgumentType(){
+        return primitiveArgument.getIntegralType();
     }
 }

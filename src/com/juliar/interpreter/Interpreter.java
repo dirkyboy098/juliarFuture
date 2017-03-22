@@ -53,7 +53,7 @@ public class Interpreter {
                 continue;
             }
             if (n instanceof PrimitiveNode) {
-                evalPrimitives((PrimitiveNode) n);
+                //evalPrimitives((PrimitiveNode) n);
                 continue;
             }
             if (n instanceof VariableNode){
@@ -132,18 +132,19 @@ public class Interpreter {
         return;
     }
 
-    private void evalPrimitives(PrimitiveNode n) {
+    private void evalPrimitives(PrimitiveNode n, PrimitiveNode argument) {
         String functionName = n.getPrimitiveName();
-        String argument = n.getGetPrimitiveArgument();
+        String argumentName = argument.getPrimitiveName();
 
         if (functionName.equals("printLine")) {
-            com.juliar.pal.Primitives.sys_print_line(argument);
+            com.juliar.pal.Primitives.sys_print_line(argumentName);
         }
+        /*
         if (functionName.equals("printInt")) {
             ActivationFrame frame = activationFrameStack.peek();
             if ( frame.variableSet.containsKey(argument)) {
-                VariableNode variableNode = (VariableNode) frame.variableSet.get(argument);
-                String variableValue = variableNode.integralTypeNode.data();
+                VariableNode variableNode = (VariableNode) frame.variableSet.get(argumentName);
+                String variableValue = variableNode.integralTypeNode.getIntegralValue();
                 int intValue = Integer.decode(variableValue).intValue();
                 com.juliar.pal.Primitives.sys_print_int(intValue);
             }
@@ -154,9 +155,9 @@ public class Interpreter {
         }
         if (functionName.equals("printFloat")) {
             ActivationFrame frame = activationFrameStack.peek();
-            if ( frame.variableSet.containsKey(argument)) {
-                VariableNode variableNode = (VariableNode) frame.variableSet.get(argument);
-                String variableValue = variableNode.integralTypeNode.data();
+            if ( frame.variableSet.containsKey(argumentName)) {
+                VariableNode variableNode = (VariableNode) frame.variableSet.get(argumentName);
+                String variableValue = variableNode.integralTypeNode.getIntegralValue();
                 float floatValue = Float.parseFloat(variableValue);
                 com.juliar.pal.Primitives.sys_print_float(floatValue);
             }
@@ -166,9 +167,9 @@ public class Interpreter {
         }
         if (functionName.equals("printDouble")) {
             ActivationFrame frame = activationFrameStack.peek();
-            if ( frame.variableSet.containsKey(argument)) {
-                VariableNode variableNode = (VariableNode) frame.variableSet.get(argument);
-                String variableValue = variableNode.integralTypeNode.data();
+            if ( frame.variableSet.containsKey(argumentName)) {
+                VariableNode variableNode = (VariableNode) frame.variableSet.get(argumentName);
+                String variableValue = variableNode.integralTypeNode.getIntegralValue();
                 double doubleValue = Double.parseDouble(variableValue);
                 com.juliar.pal.Primitives.sys_print_double(doubleValue);
             }
@@ -178,9 +179,9 @@ public class Interpreter {
         }
         if (functionName.equals("printLong")) {
             ActivationFrame frame = activationFrameStack.peek();
-            if ( frame.variableSet.containsKey(argument)) {
-                VariableNode variableNode = (VariableNode) frame.variableSet.get(argument);
-                String variableValue = variableNode.integralTypeNode.data();
+            if ( frame.variableSet.containsKey(argumentName)) {
+                VariableNode variableNode = (VariableNode) frame.variableSet.get(argumentName);
+                String variableValue = variableNode.integralTypeNode.getIntegralValue();
                 long longValue = Long.parseLong(variableValue);
                 com.juliar.pal.Primitives.sys_print_long(longValue);
             }
@@ -188,6 +189,7 @@ public class Interpreter {
                 throw new RuntimeException("variable not found");
             }
         }
+        */
     }
 
     private void evalAssignment(AssignmentNode n) {
@@ -271,14 +273,14 @@ public class Interpreter {
 
     private void binaryOperation( IntegerMath integerMath) {
         ActivationFrame frame = activationFrameStack.peek();
-        String data1 = ((IntegralTypeNode) frame.operandStack.pop()).data();
-        int v1 = Integer.decode(data1).intValue();
+     //   String data1 = ((IntegralTypeNode) frame.operandStack.pop()).getIntegralValue();
+      //  int v1 = Integer.decode(data1).intValue();
 
 
-        String data2 = ((IntegralTypeNode) frame.operandStack.pop()).data();
-        int v2 = Integer.decode(data2).intValue();
+     //   String data2 = ((IntegralTypeNode) frame.operandStack.pop()).getIntegralValue();
+     //   int v2 = Integer.decode(data2).intValue();
 
-        String sum = new Integer(integerMath.operation(v2, v1)).toString();
+     //   String sum = new Integer(integerMath.operation(v2, v1)).toString();
 
         //TODO - NEED to FIX THIS.
         //frame.operandStack.push(new IntegralTypeNode(sum, IntegralType.jinteger));

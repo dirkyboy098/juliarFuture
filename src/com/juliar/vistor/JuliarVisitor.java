@@ -220,12 +220,12 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
             }
 
             if (ctx.types().size() > 2){
-                List<IntegralTypeNode> data = new ArrayList<>();
+                List<IntegralTypeNode> getIntegralValue = new ArrayList<>();
 
                 for ( int i = 0; i< ctx.types().size(); i++) {
-                    data.add((IntegralTypeNode) ctx.types(i).accept(this));
+                    getIntegralValue.add((IntegralTypeNode) ctx.types(i).accept(this));
                 }
-                AggregateNode aggregateNode = new AggregateNode(Operation.add, data);
+                AggregateNode aggregateNode = new AggregateNode(Operation.add, getIntegralValue);
 
                 FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
                 functionDeclNode.AddInst( aggregateNode );
@@ -367,6 +367,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
     @Override
     public Node visitTypes(juliarParser.TypesContext ctx) {
+        //IntegralTypeNode integralTypeNode = new IntegralTypeNode();
         IterateOverContext context = new IterateOverContext(){
             @Override
             public void action(Node node) {
@@ -376,9 +377,9 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
                 }
             }
         };
-        context.iterateOverChildren( ctx.primitiveTypes(), this);
-        IntegralTypeNode itn = new IntegralTypeNode(null);
-        return itn;
+   //     context.iterateOverChildren( ctx.primitiveTypes(), this, );
+   //     IntegralTypeNode itn = new IntegralTypeNode(null);
+        return null;
     }
 
 
@@ -387,26 +388,20 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
     public Node visitPrimitives(juliarParser.PrimitivesContext ctx) {
         if (ctx != null) {
 
+            FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
+
+            PrimitiveNode primitiveNode = new PrimitiveNode();
+
             IterateOverContext context = new IterateOverContext() {
                 @Override
                 public void action(Node pt) {
-                    if ( pt instanceof JTerminalNode && ((JTerminalNode) pt).isPrimitive()) {
-                        primitiveFunction = ((JTerminalNode) pt).dataString();
-                    }
-                    else if (pt instanceof IntegralTypeNode){
-                        data = pt;
-                    }
+                    primitiveNode.AddInst(pt);
                 }
             };
-            context.iterateOverChildren( ctx, this );
 
-            FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
+      //      context.iterateOverChildren( ctx, this );
 
-
-            // TODO - fix the null value so that it uses the integral type
-            PrimitiveNode primitiveNode = new PrimitiveNode(context.primitiveFunction , null);
             functionDeclNode.AddInst( primitiveNode );
-
         }
 
         return null;
@@ -423,6 +418,17 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
             }
         }
+
+        JTerminalNode terminalNode = new JTerminalNode(node);
+
+        IterateOverContext context = new IterateOverContext() {
+            @Override
+            public void action(Node pt) {
+                terminalNode.AddInst(pt);
+            }
+        };
+
+        //context.iterateOverChildren( node, this );
         return new JTerminalNode(node);
     }
 
@@ -450,19 +456,30 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
     @Override
     public Node visitAssignmentExpression(juliarParser.AssignmentExpressionContext ctx) {
-        if (funcContextStack.empty()) {
-            assert true;
-        }
-
-        String operator = ctx.equalsign().getText();
+        //String operator = ctx.equalsign().getText();
         AssignmentNode node = new AssignmentNode(null);
 
-        funcContextStack.push(node);
+        //funcContextStack.push(node);
+
+        /*
         for ( ParseTree p : ctx.children ) {
             p.accept( this );
         }
+        */
 
-        funcContextStack.pop();
+        IterateOverContext context = new IterateOverContext() {
+            @Override
+            public void action(Node pt) {
+                if (pt != null){
+
+                }
+                //primitiveNode.AddInst(pt);
+            }
+        };
+
+        context.iterateOverChildren( ctx, this, node);
+
+        //funcContextStack.pop();
         node.AddInst(funcContextStack, node);
 
         return null;
@@ -493,13 +510,38 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
     }
 
     @Override
+    public Node visitVariabledeclartion(juliarParser.VariabledeclartionContext ctx) {
+
+        VariableDeclarationNode variableDeclarationNode = new VariableDeclarationNode();
+
+        IterateOverContext context = new IterateOverContext() {
+            @Override
+            public void action(Node pt) {
+                //variableDeclarationNode.AddInst(pt);
+            }
+        };
+
+        context.iterateOverChildren( ctx, this , variableDeclarationNode);
+
+        return null;
+    }
+
+    @Override
     public Node visitVariable(juliarParser.VariableContext ctx) {
         String variableName = ctx.ID().getText();
         VariableNode variableNode = new VariableNode( variableName , null);
-        variableNode.AddInst(funcContextStack, variableNode );
+        //variableNode.AddInst(funcContextStack, variableNode );
 
         symbolTable.AddLevel( callStack.peek(), variableName, SymbolTypeEnum.variableDecl);
 
+        IterateOverContext context = new IterateOverContext() {
+            @Override
+            public void action(Node pt) {
+               // variableNode.AddInst(pt);
+            }
+        };
+
+        context.iterateOverChildren( ctx, this , variableNode);
         return null;
     }
 
@@ -524,16 +566,20 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
 
     class IterateOverContext {
-        public String primitiveFunction;
+        public String name;
         public Node data;
 
-        public void iterateOverChildren(ParserRuleContext ctx, JuliarVisitor visitor) {
+        public void iterateOverChildren(ParserRuleContext ctx, JuliarVisitor visitor, Node parent) {
+            funcContextStack.push( parent );
             for (Iterator<ParseTree> pt = ctx.children.iterator(); pt.hasNext(); ) {
-                Node node = pt.next().accept(visitor);
+                ParseTree parseTree = pt.next();
+                Node node = parseTree.accept( visitor );
                 if (node != null) {
                     action(node);
+                    parent.AddInst( node );
                 }
             }
+            funcContextStack.pop();
         }
 
         /*

@@ -371,16 +371,16 @@ public class CodeGenerator {
             IntegralTypeNode integralTypeNode = ((IntegralTypeNode)node);
             switch (integralType) {
                 case jdouble:
-                    ga.push(Double.parseDouble(integralTypeNode.data()));
+     //               ga.push(Double.parseDouble(integralTypeNode.getIntegralValue()));
                     break;
                 case jfloat:
-                    ga.push(Float.parseFloat(integralTypeNode.data()));
+     //               ga.push(Float.parseFloat(integralTypeNode.getIntegralValue()));
                     break;
                 case jinteger:
-                    ga.push(Integer.parseInt(integralTypeNode.data()));
+    //                ga.push(Integer.parseInt(integralTypeNode.getIntegralValue()));
                     break;
                 case jlong:
-                    ga.push(Long.parseLong(integralTypeNode.data()));
+    //                ga.push(Long.parseLong(integralTypeNode.getIntegralValue()));
                     break;
                 default:
                     break;
