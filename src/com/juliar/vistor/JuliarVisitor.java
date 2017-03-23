@@ -492,16 +492,14 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
     @Override
     public Node visitPrimitiveTypes(juliarParser.PrimitiveTypesContext ctx) {
-        for (ParseTree p : ctx.children){
-            p.accept( this );
-        }
-
-        return null;
+        PrimitiveNode node = new PrimitiveNode();
+        new IterateOverContext(ctx, this, node);
+        return node;
     }
 
     @Override
     public Node visitEqualsign(juliarParser.EqualsignContext ctx) {
-        return super.visitEqualsign(ctx);
+        return new EqualSignNode();
     }
 
     @Override
@@ -511,38 +509,30 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
     @Override
     public Node visitVariabledeclartion(juliarParser.VariabledeclartionContext ctx) {
-
         VariableDeclarationNode variableDeclarationNode = new VariableDeclarationNode();
+        new IterateOverContext(ctx, this , variableDeclarationNode);
+        return variableDeclarationNode;
+    }
 
-        IterateOverContext context = new IterateOverContext() {
-            @Override
-            public void action(Node pt) {
-                //variableDeclarationNode.AddInst(pt);
-            }
-        };
+    @Override
+    public Node visitKeywords(juliarParser.KeywordsContext ctx) {
 
-        context.iterateOverChildren( ctx, this , variableDeclarationNode);
+        KeywordNode keywordNode = new KeywordNode();
+        new IterateOverContext(ctx, this, keywordNode);
 
-        return null;
+        return keywordNode;
     }
 
     @Override
     public Node visitVariable(juliarParser.VariableContext ctx) {
         String variableName = ctx.ID().getText();
-        VariableNode variableNode = new VariableNode( variableName , null);
-        //variableNode.AddInst(funcContextStack, variableNode );
 
-        symbolTable.AddLevel( callStack.peek(), variableName, SymbolTypeEnum.variableDecl);
+        VariableNode variableNode = new VariableNode(variableName, null);
 
-        IterateOverContext context = new IterateOverContext() {
-            @Override
-            public void action(Node pt) {
-               // variableNode.AddInst(pt);
-            }
-        };
+        symbolTable.AddLevel(callStack.peek(), variableName, SymbolTypeEnum.variableDecl);
+        new IterateOverContext(ctx, this, variableNode);
 
-        context.iterateOverChildren( ctx, this , variableNode);
-        return null;
+        return variableNode;
     }
 
     @Override
@@ -565,9 +555,18 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
 
 
+
     class IterateOverContext {
         public String name;
         public Node data;
+
+        public IterateOverContext(){
+        }
+
+        public IterateOverContext(ParserRuleContext ctx, JuliarVisitor visitor, Node parent){
+            this();
+            iterateOverChildren( ctx, visitor, parent);
+        }
 
         public void iterateOverChildren(ParserRuleContext ctx, JuliarVisitor visitor, Node parent) {
             funcContextStack.push( parent );

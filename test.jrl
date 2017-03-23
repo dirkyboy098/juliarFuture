@@ -1,35 +1,3 @@
-
 function t() = {
-    printLine("test return");
     int tVariable = 3;
-    printLine("called return");
-
-    return s1;
-}
-
-
-function main() = {
-    // int mainVariable = t();
-    printLine(" ============= main method ================");
-
-    printLine ("=========== end of main method==================");
-}
-
-
-function test() = {
-    int x;
-    printLine("======= test method===============");
-    printLine("=======end of test method==========");
-    return x;
-}
-
-function foo1() = {
-    t();
-}
-
-function foo2() = {
-}
-
-function foo3() = {
-    printLine("foo3");
 }

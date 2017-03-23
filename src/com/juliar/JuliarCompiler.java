@@ -28,10 +28,11 @@ public class JuliarCompiler {
     private ErrorListener errors;
 	
     public static void main(String[] args) {
+		/*
     	if(System.console() == null) {
 			new Thread(() -> javafx.application.Application.launch(Gui.class)).start();
 			return;
-		}
+		}*/
         try {
 			fastCGI();
 			//checkAddArgs(args);
