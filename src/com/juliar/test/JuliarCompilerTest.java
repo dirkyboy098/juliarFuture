@@ -23,6 +23,11 @@ public class JuliarCompilerTest extends TestCase {
         super.tearDown();
     }
 
+    public void testInterpreter() throws Exception{
+        JuliarCompiler compiler = new JuliarCompiler();
+        List<String> errorList = compiler.compile("test.jrl", ".",  false,false);
+    }
+
     public void testCompile() throws Exception {
         try {
             JuliarCompiler compiler = new JuliarCompiler();

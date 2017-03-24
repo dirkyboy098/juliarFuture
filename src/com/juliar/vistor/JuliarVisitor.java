@@ -49,22 +49,20 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
     public Node visitCompileUnit(juliarParser.CompileUnitContext ctx) {
 
         CompliationUnitNode node = new CompliationUnitNode();
+
+        new IterateOverContext(ctx, this, node);
+
         instructionList.add(node);
-
-        for(ParseTree t : ctx.children){
-            t.accept(this);
-        }
-
         cfa.walkGraph();
         symbolTable.dumpSymbolTable();
 
-        return null;
+        return node;
     }
 
     @Override
     public Node visitStatement(juliarParser.StatementContext ctx) {
         StatementNode node = new StatementNode();
-
+        /*
         for (ParseTree t : ctx.children){
             if (t instanceof juliarParser.EndLineContext){
                 continue;
@@ -73,8 +71,11 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
             currentLineNumber = ctx.start.getLine();
             t.accept(this);
         }
+        */
 
-        return null;
+        new IterateOverContext(ctx, this, node);
+
+        return node;
     }
 
 
@@ -160,27 +161,22 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
     public Node visitFunctionDeclaration(juliarParser.FunctionDeclarationContext ctx) {
         String funcName = ctx.funcName().getText();
         FunctionDeclNode functionDeclNode = new FunctionDeclNode(funcName, new ArrayList<Node>());
-        funcContextStack.push( functionDeclNode );
 
         callStack.add( funcName );
         symbolTable.AddLevel( callStack.peek(), funcName, SymbolTypeEnum.functionDecl);
 
-        List<juliarParser.StatementContext> statementContexts = ctx.statement();
-        for(juliarParser.StatementContext context : statementContexts){
-            context.accept(this);
-        }
+        new IterateOverContext(ctx, this, functionDeclNode);
 
-        funcContextStack.pop();
         callStack.remove();
 
-        instructionList.add( functionDeclNode );
         functionNodeMap.put(funcName, functionDeclNode);
 
-        return null;
+        return functionDeclNode;
     }
 
     @Override
     public Node visitFunctionCall(juliarParser.FunctionCallContext ctx) {
+        /*
         Node parent = funcContextStack.peek();
         String caller = null;
 
@@ -197,8 +193,11 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
         FunctionCallNode node = new FunctionCallNode( callee );
         node.AddInst(funcContextStack , node);
+        */
+        FunctionCallNode node = new FunctionCallNode();
+        new IterateOverContext(ctx, this, node);
 
-        return null;
+        return node;
     }
 
     @Override
@@ -459,30 +458,14 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         //String operator = ctx.equalsign().getText();
         AssignmentNode node = new AssignmentNode(null);
 
-        //funcContextStack.push(node);
-
-        /*
-        for ( ParseTree p : ctx.children ) {
-            p.accept( this );
-        }
-        */
-
-        IterateOverContext context = new IterateOverContext() {
-            @Override
-            public void action(Node pt) {
-                if (pt != null){
-
-                }
-                //primitiveNode.AddInst(pt);
-            }
-        };
+        IterateOverContext context = new IterateOverContext();
 
         context.iterateOverChildren( ctx, this, node);
 
         //funcContextStack.pop();
-        node.AddInst(funcContextStack, node);
+        //node.AddInst(funcContextStack, node);
 
-        return null;
+        return node;
     }
 
     @Override

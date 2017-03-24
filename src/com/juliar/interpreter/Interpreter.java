@@ -70,7 +70,14 @@ public class Interpreter {
                 evalBinaryNode( n );
                 continue;
             }
+            if (n instanceof StatementNode){
+                evalStatement((StatementNode)n);
+            }
         }
+    }
+
+    private void evalStatement( StatementNode n){
+        execute( n.getInstructions() );
     }
 
     private void evalActivationFrame(Node n) {
@@ -110,7 +117,7 @@ public class Interpreter {
 
     private void evalFunctionCall(FunctionCallNode n) {
         FunctionCallNode functionCallNode = n;
-        String functionToCall = functionCallNode.functionName();
+        String functionToCall = n.functionName();
 
         // main should only be called from the compliationUnit
         if (functionCallNode.equals( "main")){
@@ -196,7 +203,17 @@ public class Interpreter {
         List<Node> instructions = n.getInstructions();
 
         // cache the variable that is going to get stuff assigned to it.
-        VariableNode variableToAssignTo =  (VariableNode)instructions.get(0);
+        VariableDeclarationNode variableToAssignTo =  (VariableDeclarationNode)instructions.get(0);
+
+        if (instructions.get(1) instanceof EqualSignNode ){
+            Object rvalue = instructions.get(2);
+            if (rvalue instanceof PrimitiveNode){
+                PrimitiveNode p = (PrimitiveNode)rvalue;
+                if (p != null && canPrimitiveValueBeAssignedToVar(variableToAssignTo, p)){
+                    //do stuff;
+                }
+            }
+        }
 
         // execute all of the instructions
         execute( instructions );
@@ -204,10 +221,22 @@ public class Interpreter {
         // assign to cached variable for return.
         ActivationFrame frame = activationFrameStack.peek();
         if ( returnValueStack != null && !returnValueStack.empty()) {
-            VariableNode v = (VariableNode)frame.variableSet.get( variableToAssignTo.variableName);
-            frame.variableSet.remove( variableToAssignTo.variableName );
-            frame.variableSet.put( variableToAssignTo.variableName, returnValueStack.pop());
+          //  VariableNode v = (VariableNode)frame.variableSet.get( variableToAssignTo.variableName);
+          //  frame.variableSet.remove( variableToAssignTo.variableName );
+          //  frame.variableSet.put( variableToAssignTo.variableName, returnValueStack.pop());
         }
+    }
+
+    private boolean canPrimitiveValueBeAssignedToVar(VariableDeclarationNode lvalue, PrimitiveNode rvalue){
+        JTerminalNode lvalueTerminal =  (JTerminalNode)lvalue.getInstructions().get(0).getInstructions().get(0);
+        JTerminalNode rvalueTerminal =  (JTerminalNode)rvalue.getInstructions().get(0);
+
+        if (lvalueTerminal.dataString().equals( "int" )){
+            int integerValue = Integer.parseInt(rvalueTerminal.dataString());
+            return true;
+        }
+
+        return false;
     }
 
     private void AggregateNode(Node n){
