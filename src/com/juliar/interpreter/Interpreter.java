@@ -202,11 +202,17 @@ public class Interpreter {
     private void evalAssignment(AssignmentNode n) {
         List<Node> instructions = n.getInstructions();
 
-        // cache the variable that is going to get stuff assigned to it.
-        VariableDeclarationNode variableToAssignTo =  (VariableDeclarationNode)instructions.get(0);
+        final int varDeclIndex = 0;
+        final int equalSignIndex = 1;
+        final int primtiveIndex = 2;
+        VariableDeclarationNode variableToAssignTo =  (VariableDeclarationNode)instructions.get(  varDeclIndex );
 
-        if (instructions.get(1) instanceof EqualSignNode ){
-            Object rvalue = instructions.get(2);
+        // | zero             | one       | two
+        // | variableDecl     | EqualSign | Primitive
+        // | int variableName | =         | 3
+        
+        if (instructions.get(equalSignIndex ) instanceof EqualSignNode ){
+            Object rvalue = instructions.get( primtiveIndex );
             if (rvalue instanceof PrimitiveNode){
                 PrimitiveNode p = (PrimitiveNode)rvalue;
                 if (p != null && canPrimitiveValueBeAssignedToVar(variableToAssignTo, p)){
