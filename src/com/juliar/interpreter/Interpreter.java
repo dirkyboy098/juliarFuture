@@ -210,20 +210,17 @@ public class Interpreter {
             if (rvalue instanceof PrimitiveNode){
                 PrimitiveNode p = (PrimitiveNode)rvalue;
                 if (p != null && canPrimitiveValueBeAssignedToVar(variableToAssignTo, p)){
-                    //do stuff;
+                    ActivationFrame frame = activationFrameStack.peek();
+                    JTerminalNode variableNameTerminalNode = (JTerminalNode) variableToAssignTo.getInstructions().get(1).getInstructions().get(0);
+                    String variableName = variableNameTerminalNode.dataString();
+
+                    if (frame.variableSet.containsKey( variableName )) {
+                        frame.variableSet.remove(variableName);
+                    }
+
+                    frame.variableSet.put( variableName, variableNameTerminalNode );
                 }
             }
-        }
-
-        // execute all of the instructions
-        execute( instructions );
-
-        // assign to cached variable for return.
-        ActivationFrame frame = activationFrameStack.peek();
-        if ( returnValueStack != null && !returnValueStack.empty()) {
-          //  VariableNode v = (VariableNode)frame.variableSet.get( variableToAssignTo.variableName);
-          //  frame.variableSet.remove( variableToAssignTo.variableName );
-          //  frame.variableSet.put( variableToAssignTo.variableName, returnValueStack.pop());
         }
     }
 

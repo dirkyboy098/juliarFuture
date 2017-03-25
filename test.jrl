@@ -1,3 +1,9 @@
 function t() = {
     int tVariable = 3;
 }
+
+
+function main() = {
+    // call t()
+    t();
+}

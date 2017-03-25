@@ -5,12 +5,6 @@ package com.juliar.nodes;
  */
 public class VariableDeclarationNode extends NodeImpl {
     public String type;
-    public VariableNode variableNode;
-
-    public VariableDeclarationNode ( String type, VariableNode variableNode){
-        this.type = type;
-        this.variableNode = variableNode;
-    }
 
     public VariableDeclarationNode(){
     }
