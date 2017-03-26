@@ -476,7 +476,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         new IterateOverContext( ctx, this, node);
         return node;
     }
-    
+
 
     @Override
     public Node visitNumericTypes(juliarParser.NumericTypesContext ctx) {

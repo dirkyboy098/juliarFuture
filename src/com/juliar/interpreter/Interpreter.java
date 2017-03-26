@@ -15,7 +15,7 @@ public class Interpreter {
     private Stack<Node> returnValueStack = new Stack<>();
     private List<Node> inst;
     private HashMap<String, Node> functionNodeMap;
-    private HashMap<NodeType, evaluateInstruction> functionMap = new HashMap<NodeType, evaluateInstruction>();
+    private HashMap<NodeType, Evaluate> functionMap = new HashMap<NodeType, Evaluate>();
 
     public Interpreter(InstructionInvocation invocation){
         try {
@@ -305,14 +305,7 @@ public class Interpreter {
         int operation(int a, int b);
     }
 
-    interface evaluateInstruction{
+    interface Evaluate {
         void evaluate(Node n);
     }
-
-    class evaluateExpression implements evaluateInstruction{
-        @Override
-        public void evaluate(Node n) {
-        }
-    }
-
 }
