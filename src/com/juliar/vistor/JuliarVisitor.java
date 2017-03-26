@@ -370,8 +370,8 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         IterateOverContext context = new IterateOverContext(){
             @Override
             public void action(Node node) {
-                if (node instanceof JTerminalNode) {
-                    IntegralType integralType = ((JTerminalNode)node).getIntegralType();
+                if (node instanceof FinalNode) {
+                    IntegralType integralType = ((FinalNode)node).getIntegralType();
                     int x = 2;
                 }
             }
@@ -418,7 +418,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
             }
         }
 
-        JTerminalNode terminalNode = new JTerminalNode(node);
+        FinalNode terminalNode = new FinalNode(node);
 
         IterateOverContext context = new IterateOverContext() {
             @Override
@@ -428,7 +428,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         };
 
         //context.iterateOverChildren( node, this );
-        return new JTerminalNode(node);
+        return new FinalNode(node);
     }
 
     private void cacheImports( String fileName){
@@ -465,6 +465,13 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         //funcContextStack.pop();
         //node.AddInst(funcContextStack, node);
 
+        return node;
+    }
+
+    @Override
+    public Node visitReassignmentExpression(juliarParser.ReassignmentExpressionContext ctx) {
+        VariableReassignmentNode node = new VariableReassignmentNode();
+        new IterateOverContext( ctx, this, node);
         return node;
     }
 
@@ -512,7 +519,15 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
         VariableNode variableNode = new VariableNode(variableName, null);
 
-        symbolTable.AddLevel(callStack.peek(), variableName, SymbolTypeEnum.variableDecl);
+        // Iterator<Node> nodeIterator = funcContextStack.iterator();
+        Object[] funcStackArray =  funcContextStack.toArray();
+        int i = funcStackArray.length;
+
+        Node node = (Node)funcStackArray[i - 1];
+
+        if (node instanceof VariableDeclarationNode) {
+           symbolTable.AddLevel(callStack.peek(), variableName, SymbolTypeEnum.variableDecl);
+        }
         new IterateOverContext(ctx, this, variableNode);
 
         return variableNode;

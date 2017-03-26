@@ -21,13 +21,13 @@ semiColon
     ;
 
 expression
-    : assignmentExpression
+    : variabledeclartion
+    | assignmentExpression
+    | reassignmentExpression
+    | booleanExpression
     | primitives
-    | variabledeclartion
     | functionCall
     | returnValue
-    | booleanExpression
-    | STRING
     ;
 
 assignmentExpression
@@ -35,6 +35,12 @@ assignmentExpression
 	| variabledeclartion equalsign variable
 	| variabledeclartion equalsign functionCall
 	| variabledeclartion equalsign primitiveTypes
+    ;
+
+reassignmentExpression
+    : variable equalsign variable
+	| variable equalsign functionCall
+	| variable equalsign primitiveTypes
     ;
 
 
