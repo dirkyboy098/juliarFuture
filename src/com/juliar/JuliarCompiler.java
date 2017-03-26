@@ -33,19 +33,12 @@ public class JuliarCompiler {
 			new Thread(() -> javafx.application.Application.launch(Gui.class)).start();
 			return;
 		}*/
-        try {
+		try {
 			fastCGI();
 			//checkAddArgs(args);
 
-			LogMessage.message("Juliar Compiler - Copyright (C) 2017");
-			
-            if(args.length != 4){
-                LogMessage.message("Usage: java -jar JuliarCompiler.jar <source file> <output path> <fcgi port>");
-                LogMessage.message("Path to Juliar source file");
-                LogMessage.message("Path to output directory if compiled.");
-                LogMessage.message("If output path is undefined, source file will be interpreted");
-                LogMessage.message("If you would like to use JuliarCompiler for web specify fcgi port ex. -DFCGI=9000");
-                return;
+			if (startupInstructions(args)) {
+				return;
 			}
 
 			String fileName = args[0];
@@ -55,11 +48,25 @@ public class JuliarCompiler {
 
 			JuliarCompiler compiler = new JuliarCompiler();
 
-            compiler.compile(fileName, outputPath, compileFlag , replFlag);
+			compiler.compile(fileName, outputPath, compileFlag, replFlag);
 
-			} catch (Exception ex) {
-            new LogMessage("Error " + ex.getMessage(),ex);
+		} catch (Exception ex) {
+			new LogMessage("Error " + ex.getMessage(), ex);
 		}
+	}
+
+	private static boolean startupInstructions(String[] args) {
+		LogMessage.message("Juliar Compiler - Copyright (C) 2017");
+
+		if(args.length != 4){
+            LogMessage.message("Usage: java -jar JuliarCompiler.jar <source file> <output path> <fcgi port>");
+            LogMessage.message("Path to Juliar source file");
+            LogMessage.message("Path to output directory if compiled.");
+            LogMessage.message("If output path is undefined, source file will be interpreted");
+            LogMessage.message("If you would like to use JuliarCompiler for web specify fcgi port ex. -DFCGI=9000");
+			return true;
+        }
+		return false;
 	}
 
 	private static void checkAddArgs(String[] args) {

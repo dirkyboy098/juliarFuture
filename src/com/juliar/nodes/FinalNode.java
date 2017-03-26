@@ -8,11 +8,11 @@ import static java.lang.Integer.getInteger;
 /**
  * Created by donreamey on 10/28/16.
  */
-public class JTerminalNode extends NodeImpl{
+public class FinalNode extends NodeImpl{
     private TerminalNode dataString;
     private Object object;
 
-    public JTerminalNode(TerminalNode data){
+    public FinalNode(TerminalNode data){
         dataString = data;
         object = data;
 

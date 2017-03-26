@@ -11,7 +11,7 @@ public class FunctionCallNode extends NodeImpl {
         List<Node> nodes = getInstructions();
         if (nodes.size() >= 1)
         {
-            JTerminalNode functionName = (JTerminalNode)nodes.get(0);
+            FinalNode functionName = (FinalNode)nodes.get(0);
             return functionName.dataString();
 
         }

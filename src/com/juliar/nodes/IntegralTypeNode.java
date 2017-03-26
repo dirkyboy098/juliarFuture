@@ -4,10 +4,10 @@ package com.juliar.nodes;
  * Created by donreamey on 10/28/16.
  */
 public class IntegralTypeNode extends NodeImpl {
-    private JTerminalNode objectData;
+    private FinalNode objectData;
     private String integralName;
 
-    public IntegralTypeNode(JTerminalNode terminalNode, String name){
+    public IntegralTypeNode(FinalNode terminalNode, String name){
         objectData = terminalNode;
         integralName = name;
     }
@@ -21,7 +21,7 @@ public class IntegralTypeNode extends NodeImpl {
         return integralName;
     }
 
-    public JTerminalNode getIntegralValue(){
+    public FinalNode getIntegralValue(){
         return null;
     }
 

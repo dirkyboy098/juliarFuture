@@ -37,6 +37,7 @@ public class Interpreter {
 
     public void execute( List<Node> instructions) {
         for (Node n : instructions) {
+
             if (n instanceof CompliationUnitNode){
                 evalCompliationUnit();
                 continue;
@@ -211,7 +212,7 @@ public class Interpreter {
                 PrimitiveNode p = (PrimitiveNode)rvalue;
                 if (p != null && canPrimitiveValueBeAssignedToVar(variableToAssignTo, p)){
                     ActivationFrame frame = activationFrameStack.peek();
-                    JTerminalNode variableNameTerminalNode = (JTerminalNode) variableToAssignTo.getInstructions().get(1).getInstructions().get(0);
+                    FinalNode variableNameTerminalNode = (FinalNode) variableToAssignTo.getInstructions().get(1).getInstructions().get(0);
                     String variableName = variableNameTerminalNode.dataString();
 
                     if (frame.variableSet.containsKey( variableName )) {
@@ -224,9 +225,14 @@ public class Interpreter {
         }
     }
 
+    private void evalReassignment(VariableReassignmentNode n){
+        List<Node> inst = n.getInstructions();
+
+    }
+
     private boolean canPrimitiveValueBeAssignedToVar(VariableDeclarationNode lvalue, PrimitiveNode rvalue){
-        JTerminalNode lvalueTerminal =  (JTerminalNode)lvalue.getInstructions().get(0).getInstructions().get(0);
-        JTerminalNode rvalueTerminal =  (JTerminalNode)rvalue.getInstructions().get(0);
+        FinalNode lvalueTerminal =  (FinalNode)lvalue.getInstructions().get(0).getInstructions().get(0);
+        FinalNode rvalueTerminal =  (FinalNode)rvalue.getInstructions().get(0);
 
         if (lvalueTerminal.dataString().equals( "int" )){
             int integerValue = Integer.parseInt(rvalueTerminal.dataString());
