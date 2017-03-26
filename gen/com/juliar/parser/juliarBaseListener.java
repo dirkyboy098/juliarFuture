@@ -1,4 +1,4 @@
-// Generated from /Users/don/Desktop/repos/juliarFuture/src/com/juliar/parser/juliar.g4 by ANTLR 4.6
+// Generated from D:/source/juliarFuture/src/com/juliar/parser\juliar.g4 by ANTLR 4.6
 package com.juliar.parser;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -83,6 +83,18 @@ public class juliarBaseListener implements juliarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAssignmentExpression(juliarParser.AssignmentExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterReassignmentExpression(juliarParser.ReassignmentExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitReassignmentExpression(juliarParser.ReassignmentExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

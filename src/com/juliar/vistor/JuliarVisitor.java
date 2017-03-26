@@ -468,12 +468,15 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         return node;
     }
 
+
+
     @Override
     public Node visitReassignmentExpression(juliarParser.ReassignmentExpressionContext ctx) {
         VariableReassignmentNode node = new VariableReassignmentNode();
         new IterateOverContext( ctx, this, node);
         return node;
     }
+    
 
     @Override
     public Node visitNumericTypes(juliarParser.NumericTypesContext ctx) {

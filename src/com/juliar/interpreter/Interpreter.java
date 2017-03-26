@@ -14,18 +14,11 @@ public class Interpreter {
     private Stack<ActivationFrame> activationFrameStack = new Stack<ActivationFrame>();
     private Stack<Node> returnValueStack = new Stack<>();
     private List<Node> inst;
-    private InstructionInvocation invocationList;
     private HashMap<String, Node> functionNodeMap;
     private HashMap<NodeType, evaluateInstruction> functionMap = new HashMap<NodeType, evaluateInstruction>();
 
-    public Interpreter(List<Node> instructions) {
-        inst = instructions;
-    }
-
-
     public Interpreter(InstructionInvocation invocation){
         try {
-            invocationList = invocation;
             inst = invocation.getInstructionList();
             functionNodeMap = invocation.getFunctionNodeMap();
 

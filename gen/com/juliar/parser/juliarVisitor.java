@@ -1,4 +1,4 @@
-// Generated from /Users/don/Desktop/repos/juliarFuture/src/com/juliar/parser/juliar.g4 by ANTLR 4.6
+// Generated from D:/source/juliarFuture/src/com/juliar/parser\juliar.g4 by ANTLR 4.6
 package com.juliar.parser;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -46,6 +46,12 @@ public interface juliarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAssignmentExpression(juliarParser.AssignmentExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link juliarParser#reassignmentExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitReassignmentExpression(juliarParser.ReassignmentExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link juliarParser#functionCall}.
 	 * @param ctx the parse tree

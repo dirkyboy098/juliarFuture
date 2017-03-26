@@ -1,4 +1,4 @@
-// Generated from /Users/don/Desktop/repos/juliarFuture/src/com/juliar/parser/juliar.g4 by ANTLR 4.6
+// Generated from D:/source/juliarFuture/src/com/juliar/parser\juliar.g4 by ANTLR 4.6
 package com.juliar.parser;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -67,6 +67,16 @@ public interface juliarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAssignmentExpression(juliarParser.AssignmentExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link juliarParser#reassignmentExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterReassignmentExpression(juliarParser.ReassignmentExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link juliarParser#reassignmentExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitReassignmentExpression(juliarParser.ReassignmentExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link juliarParser#functionCall}.
 	 * @param ctx the parse tree
