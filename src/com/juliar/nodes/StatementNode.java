@@ -8,4 +8,9 @@ import java.util.List;
  */
 public class StatementNode extends NodeImpl {
     public List<Node> statements = new ArrayList<>();
+
+    @Override
+    public NodeType getType() {
+        return NodeType.StatementType;
+    }
 }

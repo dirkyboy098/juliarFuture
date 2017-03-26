@@ -17,4 +17,9 @@ public class VariableNode extends NodeImpl {
     public void setIntegralTypeNode(IntegralTypeNode typeNode){
         integralTypeNode = typeNode;
     }
+
+    @Override
+    public NodeType getType() {
+        return NodeType.VariableType;
+    }
 }

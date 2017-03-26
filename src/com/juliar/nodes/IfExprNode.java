@@ -6,5 +6,9 @@ package com.juliar.nodes;
 public class IfExprNode extends NodeImpl {
     public BinaryNode booleanExpression;
 
+    @Override
+    public NodeType getType() {
+        return NodeType.IfExprType;
+    }
 
 }

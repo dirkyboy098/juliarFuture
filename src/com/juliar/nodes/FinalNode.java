@@ -77,4 +77,9 @@ public class FinalNode extends NodeImpl{
 
         return IntegralType.jobject;
     }
+
+    @Override
+    public NodeType getType() {
+        return NodeType.FinalType;
+    }
 }

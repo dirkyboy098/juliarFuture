@@ -8,4 +8,9 @@ import java.util.List;
  */
 public class CompliationUnitNode extends NodeImpl  {
     public List<Node> statementNodes = new ArrayList<>();
+
+    @Override
+    public NodeType getType() {
+        return NodeType.CompliationUnitType;
+    }
  }

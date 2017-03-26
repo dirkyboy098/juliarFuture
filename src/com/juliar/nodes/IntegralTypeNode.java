@@ -25,4 +25,9 @@ public class IntegralTypeNode extends NodeImpl {
         return null;
     }
 
+    @Override
+    public NodeType getType() {
+        return NodeType.IntegralTypeType;
+    }
+
 }

@@ -36,4 +36,9 @@ public class FunctionDeclNode extends NodeImpl implements IContextInfo {
     public String getFunctionName(){
         return functionName;
     }
+
+    @Override
+    public NodeType getType() {
+        return NodeType.FunctionDeclType;
+    }
 }

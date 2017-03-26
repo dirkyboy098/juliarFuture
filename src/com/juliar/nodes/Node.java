@@ -14,4 +14,6 @@ public interface Node {
     void AddInst(Stack<Node> contextStack, Node instruction);
 
     List<Node> getInstructions();
+
+    NodeType getType();
 }

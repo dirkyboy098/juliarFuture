@@ -45,4 +45,9 @@ public class ReturnValueNode extends NodeImpl {
     public List<Node> getInstructions() {
         return super.getInstructions();
     }
+
+    @Override
+    public NodeType getType() {
+        return NodeType.ReturnValueType;
+    }
 }

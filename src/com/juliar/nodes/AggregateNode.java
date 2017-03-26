@@ -36,5 +36,8 @@ public class AggregateNode extends NodeImpl {
         return objectData;
     }
 
-
+    @Override
+    public NodeType getType() {
+        return NodeType.AggregateType;
+    }
 }

@@ -19,4 +19,9 @@ public class AssignmentNode extends NodeImpl implements IContextInfo {
     public void AddInst(Node instruction) {
         super.AddInst( instruction );
     }
+
+    @Override
+    public NodeType getType() {
+        return NodeType.AssignmentType;
+    }
 }

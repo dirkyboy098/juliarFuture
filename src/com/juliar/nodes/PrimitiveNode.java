@@ -30,4 +30,9 @@ public class PrimitiveNode extends NodeImpl {
     public IntegralType getArgumentType(){
         return primitiveArgument.getIntegralType();
     }
+
+    @Override
+    public NodeType getType() {
+        return NodeType.PrimitiveType;
+    }
 }

@@ -16,17 +16,30 @@ public class Interpreter {
     private List<Node> inst;
     private InstructionInvocation invocationList;
     private HashMap<String, Node> functionNodeMap;
-    private HashMap<Node, HashMap<String, Node>> functionMap = new HashMap<Node, HashMap<String, Node>>();
+    private HashMap<NodeType, evaluateInstruction> functionMap = new HashMap<NodeType, evaluateInstruction>();
 
     public Interpreter(List<Node> instructions) {
         inst = instructions;
     }
+
 
     public Interpreter(InstructionInvocation invocation){
         try {
             invocationList = invocation;
             inst = invocation.getInstructionList();
             functionNodeMap = invocation.getFunctionNodeMap();
+
+            functionMap.put(NodeType.CompliationUnitType, (n -> evalCompliationUnit() ));
+            functionMap.put(NodeType.VariableReassignmentType, (n -> evalReassignment(n) ));
+            functionMap.put(NodeType.FunctionaCallType, (n -> evalFunctionCall(n)));
+            functionMap.put(NodeType.FunctionDeclType, (n -> evalFunctionDecl(n)));
+            functionMap.put(NodeType.ReturnValueType, (n-> evalReassignment(n)));
+            functionMap.put(NodeType.PrimitiveType, (n-> evalPrimitives(n, null)));
+            //functionMap.put(NodeType.VariableDeclarationType, (n-> eval(n)));
+            functionMap.put(NodeType.VariableType, (n-> evalActivationFrame(n)));
+            functionMap.put(NodeType.AssignmentType, (n-> evalActivationFrame(n)));
+            functionMap.put(NodeType.BinaryType, (n-> evalBinaryNode(n)));
+            functionMap.put(NodeType.StatementType, (n-> evalStatement(n)));
 
             execute(inst);
         }
@@ -37,48 +50,20 @@ public class Interpreter {
 
     public void execute( List<Node> instructions) {
         for (Node n : instructions) {
+            functionMap.get( n.getType()).evaluate(n);
 
-            if (n instanceof CompliationUnitNode){
-                evalCompliationUnit();
-                continue;
-            }
-            if (n instanceof FunctionCallNode){
-                evalFunctionCall((FunctionCallNode) n);
-                continue;
-            }
-            if (n instanceof FunctionDeclNode){
-                evalFunctionDecl((FunctionDeclNode) n);
-            }
-            if ( n instanceof ReturnValueNode){
-                evalReturn((ReturnValueNode) n);
-                continue;
-            }
-            if (n instanceof PrimitiveNode) {
-                //evalPrimitives((PrimitiveNode) n);
-                continue;
-            }
-            if (n instanceof VariableNode){
-                evalActivationFrame(n);
-                continue;
-            }
             if (n instanceof VariableDeclarationNode){
                 continue;
-            }
-            if (n instanceof AssignmentNode) {
-                evalAssignment((AssignmentNode) n);
-            }
-            if (n instanceof BinaryNode) {
-                evalBinaryNode( n );
-                continue;
-            }
-            if (n instanceof StatementNode){
-                evalStatement((StatementNode)n);
             }
         }
     }
 
-    private void evalStatement( StatementNode n){
+    private void evalStatement( Node n){
         execute( n.getInstructions() );
+    }
+
+    private void evalReassignment( Node n){
+
     }
 
     private void evalActivationFrame(Node n) {
@@ -109,16 +94,14 @@ public class Interpreter {
             }
         }
     }
-
-    private void evalFunctionDecl(FunctionDeclNode n){
-        if (n.getFunctionName().toLowerCase() == "import"){
-
+    private void evalFunctionDecl(Node n){
+        if (((FunctionDeclNode)n).getFunctionName().toLowerCase() == "import"){
         }
     }
 
-    private void evalFunctionCall(FunctionCallNode n) {
-        FunctionCallNode functionCallNode = n;
-        String functionToCall = n.functionName();
+    private void evalFunctionCall(Node n) {
+        FunctionCallNode functionCallNode = (FunctionCallNode)n;
+        String functionToCall = functionCallNode.functionName();
 
         // main should only be called from the compliationUnit
         if (functionCallNode.equals( "main")){
@@ -140,8 +123,8 @@ public class Interpreter {
         return;
     }
 
-    private void evalPrimitives(PrimitiveNode n, PrimitiveNode argument) {
-        String functionName = n.getPrimitiveName();
+    private void evalPrimitives(Node n, PrimitiveNode argument) {
+        String functionName = ((PrimitiveNode)n).getPrimitiveName();
         String argumentName = argument.getPrimitiveName();
 
         if (functionName.equals("printLine")) {
@@ -231,10 +214,6 @@ public class Interpreter {
         }
     }
 
-    private void evalReassignment(VariableReassignmentNode n){
-        List<Node> inst = n.getInstructions();
-
-    }
 
     private boolean canPrimitiveValueBeAssignedToVar(VariableDeclarationNode lvalue, PrimitiveNode rvalue){
         FinalNode lvalueTerminal =  (FinalNode)lvalue.getInstructions().get(0).getInstructions().get(0);
@@ -331,6 +310,16 @@ public class Interpreter {
 
     interface IntegerMath {
         int operation(int a, int b);
+    }
+
+    interface evaluateInstruction{
+        void evaluate(Node n);
+    }
+
+    class evaluateExpression implements evaluateInstruction{
+        @Override
+        public void evaluate(Node n) {
+        }
     }
 
 }

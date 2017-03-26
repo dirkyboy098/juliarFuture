@@ -7,4 +7,9 @@ public class LineNode extends NodeImpl {
     public String lastersik;
     public BinaryNode binaryNode;
     public String rastersisk;
+
+    @Override
+    public NodeType getType() {
+        return NodeType.LineNodeType;
+    }
 }

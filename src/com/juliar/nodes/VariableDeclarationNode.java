@@ -8,4 +8,9 @@ public class VariableDeclarationNode extends NodeImpl {
 
     public VariableDeclarationNode(){
     }
+
+    @Override
+    public NodeType getType() {
+        return NodeType.VariableDeclarationType;
+    }
 }
