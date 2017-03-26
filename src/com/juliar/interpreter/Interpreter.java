@@ -210,7 +210,7 @@ public class Interpreter {
         // | zero             | one       | two
         // | variableDecl     | EqualSign | Primitive
         // | int variableName | =         | 3
-        
+
         if (instructions.get(equalSignIndex ) instanceof EqualSignNode ){
             Object rvalue = instructions.get( primtiveIndex );
             if (rvalue instanceof PrimitiveNode){
