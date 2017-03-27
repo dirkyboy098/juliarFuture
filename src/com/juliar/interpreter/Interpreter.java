@@ -22,17 +22,18 @@ public class Interpreter {
             inst = invocation.getInstructionList();
             functionNodeMap = invocation.getFunctionNodeMap();
 
-            functionMap.put(NodeType.CompliationUnitType, (n -> evalCompliationUnit() ));
-            functionMap.put(NodeType.VariableReassignmentType, (n -> evalReassignment(n) ));
-            functionMap.put(NodeType.FunctionaCallType, (n -> evalFunctionCall(n)));
-            functionMap.put(NodeType.FunctionDeclType, (n -> evalFunctionDecl(n)));
-            functionMap.put(NodeType.ReturnValueType, (n-> evalReassignment(n)));
-            functionMap.put(NodeType.PrimitiveType, (n-> evalPrimitives(n, null)));
+            functionMap.put(NodeType.CompliationUnitType        , (n -> evalCompliationUnit()   ));
+            functionMap.put(NodeType.VariableReassignmentType   , (n -> evalReassignment(n)     ));
+            functionMap.put(NodeType.FunctionaCallType          , (n -> evalFunctionCall(n)     ));
+            functionMap.put(NodeType.FunctionDeclType           , (n -> evalFunctionDecl(n)     ));
+            functionMap.put(NodeType.ReturnValueType            , (n-> evalReassignment(n)      ));
+            functionMap.put(NodeType.PrimitiveType              , (n-> evalPrimitives(n, null)  ));
             //functionMap.put(NodeType.VariableDeclarationType, (n-> eval(n)));
-            functionMap.put(NodeType.VariableType, (n-> evalActivationFrame(n)));
-            functionMap.put(NodeType.AssignmentType, (n-> evalActivationFrame(n)));
-            functionMap.put(NodeType.BinaryType, (n-> evalBinaryNode(n)));
-            functionMap.put(NodeType.StatementType, (n-> evalStatement(n)));
+            functionMap.put(NodeType.VariableType               , (n-> evalActivationFrame(n)   ));
+            functionMap.put(NodeType.AssignmentType             , (n-> evalActivationFrame(n)   ));
+            functionMap.put(NodeType.BinaryType                 , (n-> evalBinaryNode(n)        ));
+            functionMap.put(NodeType.StatementType              , (n-> evalStatement(n)         ));
+            functionMap.put(NodeType.AssignmentType             , (n-> evalAssignment(n)        ));
 
             execute(inst);
         }
@@ -53,10 +54,6 @@ public class Interpreter {
 
     private void evalStatement( Node n){
         execute( n.getInstructions() );
-    }
-
-    private void evalReassignment( Node n){
-
     }
 
     private void evalActivationFrame(Node n) {
@@ -176,8 +173,14 @@ public class Interpreter {
         */
     }
 
-    private void evalAssignment(AssignmentNode n) {
-        List<Node> instructions = n.getInstructions();
+    private void evalReassignment( Node n){
+        Reas
+
+    }
+
+    private void evalAssignment(Node n) {
+        AssignmentNode assignmentNode = (AssignmentNode)n;
+        List<Node> instructions = assignmentNode.getInstructions();
 
         final int varDeclIndex = 0;
         final int equalSignIndex = 1;
