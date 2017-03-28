@@ -151,7 +151,7 @@ public class JuliarCompiler {
 				
 				if (errors.ErrorList().size() > 0){
 					for (String error : errors.ErrorList()){
-						//out.println( error );
+						System.out.println( error );
 					}
 					
 					return errors.ErrorList();

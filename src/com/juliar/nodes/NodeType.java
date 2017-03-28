@@ -9,6 +9,7 @@ public enum NodeType {
     BinaryType,
     CompliationUnitType,
     EqualSignType,
+    ExpressionType,
     FinalType,
     FunctionaCallType,
     FunctionDeclType,

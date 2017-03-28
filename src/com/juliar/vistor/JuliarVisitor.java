@@ -435,6 +435,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
 
 
+
     @Override
     public Node visitReassignmentExpression(juliarParser.ReassignmentExpressionContext ctx) {
         VariableReassignmentNode node = new VariableReassignmentNode();
@@ -460,10 +461,14 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         return new EqualSignNode();
     }
 
+
     @Override
     public Node visitExpression(juliarParser.ExpressionContext ctx) {
-        return super.visitExpression(ctx);
+        ExpressionNode node = new ExpressionNode();
+        new IterateOverContext(ctx, this , node);
+        return node;
     }
+
 
     @Override
     public Node visitVariabledeclartion(juliarParser.VariabledeclartionContext ctx) {

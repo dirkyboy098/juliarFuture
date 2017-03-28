@@ -22,19 +22,24 @@ public class Interpreter {
             inst = invocation.getInstructionList();
             functionNodeMap = invocation.getFunctionNodeMap();
 
-            functionMap.put(NodeType.CompliationUnitType        , (n -> evalCompliationUnit()   ));
-            functionMap.put(NodeType.VariableReassignmentType   , (n -> evalReassignment(n)     ));
-            functionMap.put(NodeType.FunctionaCallType          , (n -> evalFunctionCall(n)     ));
-            functionMap.put(NodeType.FunctionDeclType           , (n -> evalFunctionDecl(n)     ));
-            functionMap.put(NodeType.ReturnValueType            , (n-> evalReassignment(n)      ));
-            functionMap.put(NodeType.PrimitiveType              , (n-> evalPrimitives(n, null)  ));
+            functionMap.put(NodeType.CompliationUnitType        , ((n, activationFrame ) -> evalCompliationUnit()   ));
+
+            functionMap.put(NodeType.VariableReassignmentType   , ( (n, activationFrame )-> EvaluateAssignments.evalReassignment(n, activationFrame ) ));
+            functionMap.put(NodeType.AssignmentType             , ( (n, activationFrame )-> EvaluateAssignments.evalAssignment(n, activationFrame )  ));
+
+            functionMap.put(NodeType.FunctionaCallType          , ((n, activationFrame ) -> evalFunctionCall(n)     ));
+            functionMap.put(NodeType.FunctionDeclType           , ((n, activationFrame ) -> evalFunctionDecl(n)     ));
+
+            functionMap.put(NodeType.PrimitiveType              , ((n, activationFrame )-> EvaluatePrimitives.evalPrimitives(n, activationFrame)  ));
+            functionMap.put(NodeType.VariableType               , ((n, activationFrame )-> evalActivationFrame(n)   ));
+            functionMap.put(NodeType.BinaryType                 , ((n, activationFrame )-> evalBinaryNode(n)        ));
+            functionMap.put(NodeType.StatementType              , ((n, activationFrame )-> evalStatement(n)         ));
+
+            functionMap.put(NodeType.ExpressionType             , ((n, activationFrame )-> evalStatement(n)        ));
+            functionMap.put(NodeType.FinalType                  , ((n, activationFrame )-> evalFinal(n)             ));
+
             //functionMap.put(NodeType.VariableDeclarationType, (n-> eval(n)));
-            functionMap.put(NodeType.VariableType               , (n-> evalActivationFrame(n)   ));
-            functionMap.put(NodeType.AssignmentType             , (n-> evalActivationFrame(n)   ));
-            functionMap.put(NodeType.BinaryType                 , (n-> evalBinaryNode(n)        ));
-            functionMap.put(NodeType.StatementType              , (n-> evalStatement(n)         ));
-            functionMap.put(NodeType.AssignmentType             , (n-> evalAssignment(n)        ));
-            functionMap.put(NodeType.FinalType                  , (n-> evalFinal(n)             ));
+            //functionMap.put(NodeType.ReturnValueType            , (n-> evalReassignment(n)      ));
 
             execute(inst);
         }
@@ -47,7 +52,7 @@ public class Interpreter {
         for (Node n : instructions) {
             Evaluate evaluate = functionMap.get( n.getType());
             if (evaluate!= null){
-                evaluate.evaluate( n );
+                evaluate.evaluate( n , activationFrameStack.empty() ? null :  activationFrameStack.peek());
             }
             else{
                 evalNull( n );
@@ -125,129 +130,6 @@ public class Interpreter {
         return;
     }
 
-    private void evalPrimitives(Node n, PrimitiveNode argument) {
-        String functionName = ((PrimitiveNode)n).getPrimitiveName();
-        String argumentName = argument.getPrimitiveName();
-
-        if (functionName.equals("printLine")) {
-            com.juliar.pal.Primitives.sys_print_line(argumentName);
-        }
-        /*
-        if (functionName.equals("printInt")) {
-            ActivationFrame frame = activationFrameStack.peek();
-            if ( frame.variableSet.containsKey(argument)) {
-                VariableNode variableNode = (VariableNode) frame.variableSet.get(argumentName);
-                String variableValue = variableNode.integralTypeNode.getIntegralValue();
-                int intValue = Integer.decode(variableValue).intValue();
-                com.juliar.pal.Primitives.sys_print_int(intValue);
-            }
-            else {
-                throw new RuntimeException("variable not found");
-            }
-
-        }
-        if (functionName.equals("printFloat")) {
-            ActivationFrame frame = activationFrameStack.peek();
-            if ( frame.variableSet.containsKey(argumentName)) {
-                VariableNode variableNode = (VariableNode) frame.variableSet.get(argumentName);
-                String variableValue = variableNode.integralTypeNode.getIntegralValue();
-                float floatValue = Float.parseFloat(variableValue);
-                com.juliar.pal.Primitives.sys_print_float(floatValue);
-            }
-            else{
-                throw new RuntimeException("variable not found");
-            }
-        }
-        if (functionName.equals("printDouble")) {
-            ActivationFrame frame = activationFrameStack.peek();
-            if ( frame.variableSet.containsKey(argumentName)) {
-                VariableNode variableNode = (VariableNode) frame.variableSet.get(argumentName);
-                String variableValue = variableNode.integralTypeNode.getIntegralValue();
-                double doubleValue = Double.parseDouble(variableValue);
-                com.juliar.pal.Primitives.sys_print_double(doubleValue);
-            }
-            else{
-                throw new RuntimeException("variable not found");
-            }
-        }
-        if (functionName.equals("printLong")) {
-            ActivationFrame frame = activationFrameStack.peek();
-            if ( frame.variableSet.containsKey(argumentName)) {
-                VariableNode variableNode = (VariableNode) frame.variableSet.get(argumentName);
-                String variableValue = variableNode.integralTypeNode.getIntegralValue();
-                long longValue = Long.parseLong(variableValue);
-                com.juliar.pal.Primitives.sys_print_long(longValue);
-            }
-            else{
-                throw new RuntimeException("variable not found");
-            }
-        }
-        */
-    }
-
-    private void evalReassignment( Node n){
-       if ( n != null){
-           VariableReassignmentNode node = (VariableReassignmentNode)n;
-
-           VariableNode variableNode = (VariableNode)node.getInstructions().get(0);
-           Node rValue = node.getInstructions().get(2);
-
-           String variableName = variableNode.variableName;
-
-           ActivationFrame frame = activationFrameStack.peek();
-           if (frame.variableSet.containsKey( variableName )) {
-               frame.variableSet.remove( variableName );
-           }
-
-           FinalNode variableNameTerminalNode = (FinalNode) node.getInstructions().get(2).getInstructions().get(0);
-           frame.variableSet.put( variableName, variableNameTerminalNode );
-       }
-    }
-
-    private void evalAssignment(Node n) {
-        AssignmentNode assignmentNode = (AssignmentNode)n;
-        List<Node> instructions = assignmentNode.getInstructions();
-
-        final int varDeclIndex = 0;
-        final int equalSignIndex = 1;
-        final int primtiveIndex = 2;
-        VariableDeclarationNode variableToAssignTo =  (VariableDeclarationNode)instructions.get(  varDeclIndex );
-
-        // | zero             | one       | two
-        // | variableDecl     | EqualSign | Primitive
-        // | int variableName | =         | 3
-
-        if (instructions.get(equalSignIndex ) instanceof EqualSignNode ){
-            Object rvalue = instructions.get( primtiveIndex );
-            if (rvalue instanceof PrimitiveNode){
-                PrimitiveNode p = (PrimitiveNode)rvalue;
-                if (p != null && canPrimitiveValueBeAssignedToVar(variableToAssignTo, p)){
-                    ActivationFrame frame = activationFrameStack.peek();
-                    FinalNode variableNameTerminalNode = (FinalNode) variableToAssignTo.getInstructions().get(1).getInstructions().get(0);
-                    String variableName = variableNameTerminalNode.dataString();
-
-                    if (frame.variableSet.containsKey( variableName )) {
-                        frame.variableSet.remove(variableName);
-                    }
-
-                    frame.variableSet.put( variableName, variableNameTerminalNode );
-                }
-            }
-        }
-    }
-
-
-    private boolean canPrimitiveValueBeAssignedToVar(VariableDeclarationNode lvalue, PrimitiveNode rvalue){
-        FinalNode lvalueTerminal =  (FinalNode)lvalue.getInstructions().get(0).getInstructions().get(0);
-        FinalNode rvalueTerminal =  (FinalNode)rvalue.getInstructions().get(0);
-
-        if (lvalueTerminal.dataString().equals( "int" )){
-            int integerValue = Integer.parseInt(rvalueTerminal.dataString());
-            return true;
-        }
-
-        return false;
-    }
 
     private void AggregateNode(Node n){
         List<IntegralTypeNode> integralTypeNodes = ((AggregateNode)n).data();
@@ -335,6 +217,6 @@ public class Interpreter {
     }
 
     interface Evaluate {
-        void evaluate(Node n);
+        void evaluate(Node n, ActivationFrame frame);
     }
 }

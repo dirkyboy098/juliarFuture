@@ -1,3 +1,3 @@
 function main() = {
-     printLine( 3 );
+     printLine( "this is a string" );
 }
