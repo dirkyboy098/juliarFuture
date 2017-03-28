@@ -12,6 +12,10 @@ public class IntegralTypeNode extends NodeImpl {
         integralName = name;
     }
 
+    public IntegralTypeNode(){
+
+    }
+
     public IntegralType getIntegralType()
     {
         return objectData.getIntegralType();

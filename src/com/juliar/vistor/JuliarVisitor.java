@@ -62,19 +62,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
     @Override
     public Node visitStatement(juliarParser.StatementContext ctx) {
         StatementNode node = new StatementNode();
-        /*
-        for (ParseTree t : ctx.children){
-            if (t instanceof juliarParser.EndLineContext){
-                continue;
-            }
-
-            currentLineNumber = ctx.start.getLine();
-            t.accept(this);
-        }
-        */
-
         new IterateOverContext(ctx, this, node);
-
         return node;
     }
 
@@ -83,10 +71,9 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
     @Override
     public Node visitEndLine(juliarParser.EndLineContext ctx) {
-        for(ParseTree t : ctx.children){
-            t.accept(this);
-        }
-        return null;
+        FinalNode finalNode = new FinalNode();
+        new IterateOverContext(ctx, this, finalNode);
+        return finalNode;
     }
 
 
@@ -366,44 +353,22 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
     @Override
     public Node visitTypes(juliarParser.TypesContext ctx) {
-        //IntegralTypeNode integralTypeNode = new IntegralTypeNode();
-        IterateOverContext context = new IterateOverContext(){
-            @Override
-            public void action(Node node) {
-                if (node instanceof FinalNode) {
-                    IntegralType integralType = ((FinalNode)node).getIntegralType();
-                    int x = 2;
-                }
-            }
-        };
-   //     context.iterateOverChildren( ctx.primitiveTypes(), this, );
-   //     IntegralTypeNode itn = new IntegralTypeNode(null);
-        return null;
+        IntegralTypeNode integralTypeNode = new IntegralTypeNode();
+
+        IterateOverContext context = new IterateOverContext();
+        context.iterateOverChildren( ctx.primitiveTypes(), this, integralTypeNode );
+
+        return integralTypeNode;
     }
 
 
 
     @Override
     public Node visitPrimitives(juliarParser.PrimitivesContext ctx) {
-        if (ctx != null) {
-
-            FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
-
-            PrimitiveNode primitiveNode = new PrimitiveNode();
-
-            IterateOverContext context = new IterateOverContext() {
-                @Override
-                public void action(Node pt) {
-                    primitiveNode.AddInst(pt);
-                }
-            };
-
-      //      context.iterateOverChildren( ctx, this );
-
-            functionDeclNode.AddInst( primitiveNode );
-        }
-
-        return null;
+        PrimitiveNode primitiveNode = new PrimitiveNode();
+        IterateOverContext context = new IterateOverContext();
+        context.iterateOverChildren(ctx, this, primitiveNode);
+        return primitiveNode;
     }
 
 

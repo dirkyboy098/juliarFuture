@@ -18,6 +18,10 @@ public class FinalNode extends NodeImpl{
 
     }
 
+    public FinalNode(){
+
+    }
+
     public String dataString(){
         return dataString.getText();
     }

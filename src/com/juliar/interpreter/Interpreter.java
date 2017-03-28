@@ -34,6 +34,7 @@ public class Interpreter {
             functionMap.put(NodeType.BinaryType                 , (n-> evalBinaryNode(n)        ));
             functionMap.put(NodeType.StatementType              , (n-> evalStatement(n)         ));
             functionMap.put(NodeType.AssignmentType             , (n-> evalAssignment(n)        ));
+            functionMap.put(NodeType.FinalType                  , (n-> evalFinal(n)             ));
 
             execute(inst);
         }
@@ -44,21 +45,15 @@ public class Interpreter {
 
     public void execute( List<Node> instructions) {
         for (Node n : instructions) {
-            functionMap.get( n.getType()).evaluate(n);
-
-            if (n instanceof VariableDeclarationNode){
-                continue;
+            Evaluate evaluate = functionMap.get( n.getType());
+            if (evaluate!= null){
+                evaluate.evaluate( n );
             }
+            else{
+                evalNull( n );
+            }
+            continue;
         }
-    }
-
-    private void evalStatement( Node n){
-        execute( n.getInstructions() );
-    }
-
-    private void evalActivationFrame(Node n) {
-        ActivationFrame frame = activationFrameStack.peek();
-        frame.variableSet.put (((VariableNode)n).variableName, n);
     }
 
     private void evalCompliationUnit() {
@@ -72,6 +67,23 @@ public class Interpreter {
                 break;
             }
         }
+    }
+
+    private void evalStatement( Node n){
+        execute( n.getInstructions() );
+    }
+
+    private void evalActivationFrame(Node n) {
+        ActivationFrame frame = activationFrameStack.peek();
+        frame.variableSet.put (((VariableNode)n).variableName, n);
+    }
+
+    private void evalNull(Node n){
+        System.out.println( "Node is null");
+    }
+
+    private void evalFinal( Node n){
+
     }
 
     private void evalReturn(ReturnValueNode n) {
@@ -174,8 +186,22 @@ public class Interpreter {
     }
 
     private void evalReassignment( Node n){
-        Reas
+       if ( n != null){
+           VariableReassignmentNode node = (VariableReassignmentNode)n;
 
+           VariableNode variableNode = (VariableNode)node.getInstructions().get(0);
+           Node rValue = node.getInstructions().get(2);
+
+           String variableName = variableNode.variableName;
+
+           ActivationFrame frame = activationFrameStack.peek();
+           if (frame.variableSet.containsKey( variableName )) {
+               frame.variableSet.remove( variableName );
+           }
+
+           FinalNode variableNameTerminalNode = (FinalNode) node.getInstructions().get(2).getInstructions().get(0);
+           frame.variableSet.put( variableName, variableNameTerminalNode );
+       }
     }
 
     private void evalAssignment(Node n) {

@@ -9,7 +9,7 @@ compileUnit
 	;
 
 statement
-    : (expression) endLine
+    : (expression)
 	;
 
 endLine
@@ -21,13 +21,13 @@ semiColon
     ;
 
 expression
-    : variabledeclartion
-    | assignmentExpression
-    | reassignmentExpression
-    | booleanExpression
-    | primitives
-    | functionCall
-    | returnValue
+    : variabledeclartion endLine
+    | assignmentExpression endLine
+    | reassignmentExpression endLine
+    | booleanExpression endLine
+    | primitives endLine
+    | functionCall endLine
+    | returnValue endLine
     ;
 
 assignmentExpression
@@ -83,9 +83,8 @@ booleanExpression
 
 
 primitives
-    : 'fileOpen' '(' STRING ')'
-    | 'printLine' '(' types | variable')'
-    | 'print' '(' types | variable')'
+    : 'printLine' '(' types ')'
+    | 'printLine' '(' variable ')'
     ;
 
 
