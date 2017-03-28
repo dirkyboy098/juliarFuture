@@ -487,16 +487,18 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
         VariableNode variableNode = new VariableNode(variableName, null);
 
-        // Iterator<Node> nodeIterator = funcContextStack.iterator();
         Object[] funcStackArray =  funcContextStack.toArray();
-        int i = funcStackArray.length;
 
-        Node node = (Node)funcStackArray[i - 1];
+        if (funcStackArray.length > 0) {
+            int i = funcStackArray.length;
 
-        if (node instanceof VariableDeclarationNode) {
-           symbolTable.AddLevel(callStack.peek(), variableName, SymbolTypeEnum.variableDecl);
+            Node node = (Node) funcStackArray[i - 1];
+
+            if (node instanceof VariableDeclarationNode) {
+                symbolTable.AddLevel(callStack.peek(), variableName, SymbolTypeEnum.variableDecl);
+            }
+            new IterateOverContext(ctx, this, variableNode);
         }
-        new IterateOverContext(ctx, this, variableNode);
 
         return variableNode;
     }
