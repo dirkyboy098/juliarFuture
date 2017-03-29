@@ -46,7 +46,7 @@ public class EvaluatePrimitives {
                 finalNode = (FinalNode) argumentNode.getInstructions().get(0);
             }
 
-            assert finalNode != null;
+            assert finalNode != null : "the finalNode was null";
             com.juliar.pal.Primitives.sys_print_line(finalNode.dataString());
         }
     }

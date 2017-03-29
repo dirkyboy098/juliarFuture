@@ -48,16 +48,16 @@ public class Interpreter {
     }
 
     public List<Node> execute( List<Node> instructions) {
-        for (Node n : instructions) {
-            Evaluate evaluate = functionMap.get( n.getType());
+        for (Node Node : instructions) {
+            Evaluate evaluate = functionMap.get( Node.getType());
             if (evaluate!= null){
-                List<Node>  ints = evaluate.evaluate( n , activationFrameStack.empty() ? null :  activationFrameStack.peek());
+                List<Node>  ints = evaluate.evaluate( Node , activationFrameStack.empty() ? null :  activationFrameStack.peek());
                 if (ints != null) {
                     execute(ints);
                 }
             }
             else{
-                evalNull( n );
+                evalNull( Node );
             }
             continue;
         }
@@ -82,28 +82,28 @@ public class Interpreter {
         return null;
     }
 
-    private List<Node> evalStatement( Node n){
-        execute( n.getInstructions() );
+    private List<Node> evalStatement( Node node){
+        execute( node.getInstructions() );
         return null;
     }
 
-    private List<Node> evalActivationFrame(Node n) {
+    private List<Node> evalActivationFrame(Node node) {
         ActivationFrame frame = activationFrameStack.peek();
-        frame.variableSet.put (((VariableNode)n).variableName, n);
+        frame.variableSet.put (((VariableNode)node).variableName, node);
         return null;
     }
 
-    private List<Node> evalNull(Node n){
+    private List<Node> evalNull(Node Node){
         return null;
     }
 
 
-    private List<Node> evalFinal( Node n){
+    private List<Node> evalFinal( Node Node){
         return null;
     }
 
-    private List<Node> evalReturn(Node n, ActivationFrame frame) {
-        ReturnValueNode node = (ReturnValueNode)n;
+    private List<Node> evalReturn(Node Node, ActivationFrame frame) {
+        ReturnValueNode node = (ReturnValueNode)Node;
         if (node.getSymbolTypeEnum() == SymbolTypeEnum.variableRef) {
             if (frame.variableSet.containsKey(node.typeName())) {
                 Node variableNode = frame.variableSet.get(node.typeName());
@@ -113,14 +113,14 @@ public class Interpreter {
         return null;
     }
 
-    private List<Node> evalFunctionDecl(Node n){
-        if (((FunctionDeclNode)n).getFunctionName().toLowerCase() == "import"){
+    private List<Node> evalFunctionDecl(Node Node){
+        if (((FunctionDeclNode)Node).getFunctionName().toLowerCase() == "import"){
         }
         return null;
     }
 
-    private List<Node> evalFunctionCall(Node n) {
-        FunctionCallNode functionCallNode = (FunctionCallNode)n;
+    private List<Node> evalFunctionCall(Node Node) {
+        FunctionCallNode functionCallNode = (FunctionCallNode)Node;
         String functionToCall = functionCallNode.functionName();
 
         // main should only be called from the compliationUnit
@@ -146,8 +146,8 @@ public class Interpreter {
     }
 
 
-    private List<Node> AggregateNode(Node n){
-        List<IntegralTypeNode> integralTypeNodes = ((AggregateNode)n).data();
+    private List<Node> AggregateNode(Node Node){
+        List<IntegralTypeNode> integralTypeNodes = ((AggregateNode)Node).data();
         int addCount = integralTypeNodes.size() - 1;
         //TODO Different Primitive Types //add
         for(IntegralTypeNode integralTypeNode : integralTypeNodes) {
@@ -159,8 +159,8 @@ public class Interpreter {
         return null;
     }
 
-    private List<Node> binaryNode( String variableName, Node n){
-        evalBinaryNode( n );
+    private List<Node> binaryNode( String variableName, Node Node){
+        evalBinaryNode( Node );
         ActivationFrame frame = activationFrameStack.peek();
         VariableNode v = (VariableNode) frame.variableSet.get( variableName );
 
@@ -168,8 +168,8 @@ public class Interpreter {
         return null;
     }
 
-    private List<Node> evalBinaryNode(Node n) {
-        BinaryNode bn = (BinaryNode) n;
+    private List<Node> evalBinaryNode(Node Node) {
+        BinaryNode bn = (BinaryNode) Node;
         String operation = bn.operation().name();
 
         Object ol = bn.left();
@@ -236,6 +236,6 @@ public class Interpreter {
     }
 
     interface Evaluate {
-        List<Node> evaluate(Node n, ActivationFrame frame);
+        List<Node> evaluate(Node Node, ActivationFrame frame);
     }
 }
