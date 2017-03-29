@@ -1,3 +1,6 @@
 function main() = {
-     printLine( "this is a string" );
+    int x = 3;
+    printLine("about to print variable x");
+    printLine( x );
+    printLine("printed the value of variable 'x'");
 }

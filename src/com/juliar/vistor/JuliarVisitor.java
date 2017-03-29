@@ -1,5 +1,4 @@
 package com.juliar.vistor;
-
 import com.juliar.ImportsInterface;
 import com.juliar.codegenerator.InstructionInvocation;
 import com.juliar.controlflow.ControlFlowAdjacencyList;
@@ -13,13 +12,11 @@ import com.juliar.symbolTable.SymbolTypeEnum;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
-
 
 /**
  * Created by donreamey on 10/21/16.
@@ -65,9 +62,6 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         new IterateOverContext(ctx, this, node);
         return node;
     }
-
-
-
 
     @Override
     public Node visitEndLine(juliarParser.EndLineContext ctx) {
@@ -163,24 +157,6 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
     @Override
     public Node visitFunctionCall(juliarParser.FunctionCallContext ctx) {
-        /*
-        Node parent = funcContextStack.peek();
-        String caller = null;
-
-        if (parent instanceof  FunctionDeclNode) {
-            caller = ((FunctionDeclNode) parent).getFunctionName();
-        }
-
-        if (parent instanceof  AssignmentNode){
-            caller = "assignment";//((AssignmentNode) parent).getVariableNode().variableName;
-        }
-
-        String callee = ctx.funcName().ID().getText();
-        cfa.addNode( caller, callee);
-
-        FunctionCallNode node = new FunctionCallNode( callee );
-        node.AddInst(funcContextStack , node);
-        */
         FunctionCallNode node = new FunctionCallNode();
         new IterateOverContext(ctx, this, node);
 
@@ -219,7 +195,6 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         }
         return null;*/
         return null;
-
     }
 
     @Override
@@ -276,7 +251,6 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
             }
         }
 
-        //return super.visitAdd(ctx);
         return null;
     }
     @Override
@@ -312,7 +286,6 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
             }
         }
 
-        //return super.visitAdd(ctx);
         return null;
     }
 
@@ -420,21 +393,10 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
     @Override
     public Node visitAssignmentExpression(juliarParser.AssignmentExpressionContext ctx) {
-        //String operator = ctx.equalsign().getText();
         AssignmentNode node = new AssignmentNode(null);
-
-        IterateOverContext context = new IterateOverContext();
-
-        context.iterateOverChildren( ctx, this, node);
-
-        //funcContextStack.pop();
-        //node.AddInst(funcContextStack, node);
-
+        IterateOverContext context = new IterateOverContext(ctx, this, node);
         return node;
     }
-
-
-
 
     @Override
     public Node visitReassignmentExpression(juliarParser.ReassignmentExpressionContext ctx) {
@@ -442,7 +404,6 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         new IterateOverContext( ctx, this, node);
         return node;
     }
-
 
     @Override
     public Node visitNumericTypes(juliarParser.NumericTypesContext ctx) {
@@ -523,11 +484,6 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
         return null;
     }
-
-
-
-
-
 
     class IterateOverContext {
         public String name;

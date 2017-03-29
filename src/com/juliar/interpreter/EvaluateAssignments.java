@@ -44,8 +44,8 @@ public class EvaluateAssignments {
         if (instructions.get(equalSignIndex ) instanceof EqualSignNode ){
             Object rvalue = instructions.get( primtiveIndex );
             if (rvalue instanceof PrimitiveNode){
-                PrimitiveNode p = (PrimitiveNode)rvalue;
-                if (p != null && canPrimitiveValueBeAssignedToVar(variableToAssignTo, p)){
+                PrimitiveNode primitiveNode = (PrimitiveNode)rvalue;
+                if (primitiveNode != null && canPrimitiveValueBeAssignedToVar(variableToAssignTo, primitiveNode)){
                     ActivationFrame frame = activationFrame;
                     FinalNode variableNameTerminalNode = (FinalNode) variableToAssignTo.getInstructions().get(1).getInstructions().get(0);
                     String variableName = variableNameTerminalNode.dataString();
@@ -54,7 +54,7 @@ public class EvaluateAssignments {
                         frame.variableSet.remove(variableName);
                     }
 
-                    frame.variableSet.put( variableName, variableNameTerminalNode );
+                    frame.variableSet.put( variableName, primitiveNode );
                 }
             }
         }
