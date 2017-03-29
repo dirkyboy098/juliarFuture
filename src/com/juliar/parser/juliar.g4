@@ -61,6 +61,7 @@ funcName
 
 returnValue
     : 'return'
+    | 'return' types
     | 'return' (variable)
     | 'return' (functionCall)
     ;

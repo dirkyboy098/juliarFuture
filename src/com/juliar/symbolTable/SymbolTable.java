@@ -98,14 +98,14 @@ public class SymbolTable {
 
     private void dumpSymbolTable(SymbolTableNode node, String space){
         if (node != null) {
-            System.out.print( space + node.levelName );
+            //System.out.print( space + node.levelName );
             for( SymbolTableNode n : node.children){
                 space += "\t";
                 dumpSymbolTable( n ,space);
             }
 
             space = "";
-            System.out.println();
+            System.err.println();
         }
     }
 

@@ -2,6 +2,7 @@ package com.juliar.interpreter;
 
 import com.juliar.nodes.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ import java.util.List;
  */
 public class EvaluateAssignments {
 
-    static public void evalReassignment( Node n, ActivationFrame activationFrame){
+    static public List<Node> evalReassignment( Node n, ActivationFrame activationFrame){
         if ( n != null){
             VariableReassignmentNode node = (VariableReassignmentNode)n;
 
@@ -26,9 +27,11 @@ public class EvaluateAssignments {
             FinalNode variableNameTerminalNode = (FinalNode) node.getInstructions().get(2).getInstructions().get(0);
             frame.variableSet.put( variableName, variableNameTerminalNode );
         }
+
+        return null;
     }
 
-    static public void evalAssignment(Node n, ActivationFrame activationFrame) {
+    static public List<Node> evalAssignment(Node n, ActivationFrame activationFrame) {
         AssignmentNode assignmentNode = (AssignmentNode)n;
         List<Node> instructions = assignmentNode.getInstructions();
 
@@ -43,6 +46,11 @@ public class EvaluateAssignments {
 
         if (instructions.get(equalSignIndex ) instanceof EqualSignNode ){
             Object rvalue = instructions.get( primtiveIndex );
+            if (rvalue instanceof FunctionCallNode){
+                List<Node> functionList = new ArrayList<Node>();
+                functionList.add( (FunctionCallNode)rvalue );
+                return functionList;
+            }
             if (rvalue instanceof PrimitiveNode){
                 PrimitiveNode primitiveNode = (PrimitiveNode)rvalue;
                 if (primitiveNode != null && canPrimitiveValueBeAssignedToVar(variableToAssignTo, primitiveNode)){
@@ -58,6 +66,8 @@ public class EvaluateAssignments {
                 }
             }
         }
+
+        return null;
     }
 
 

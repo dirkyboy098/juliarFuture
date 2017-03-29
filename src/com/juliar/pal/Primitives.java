@@ -20,7 +20,6 @@ public class Primitives {
         try {
             int read = 1024;
             int N = 1024 * read;
-            System.out.println("Reading file " + path);
             char[] buffer = new char[N];
             String text = "";
 

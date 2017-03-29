@@ -51,7 +51,8 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
         instructionList.add(node);
         cfa.walkGraph();
-        symbolTable.dumpSymbolTable();
+
+        //symbolTable.dumpSymbolTable();
 
         return node;
     }
@@ -62,6 +63,8 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         new IterateOverContext(ctx, this, node);
         return node;
     }
+
+
 
     @Override
     public Node visitEndLine(juliarParser.EndLineContext ctx) {
@@ -471,23 +474,14 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
     @Override
     public Node visitReturnValue(juliarParser.ReturnValueContext ctx) {
-        ReturnValueNode valueNode = null;
+        ReturnValueNode node = new ReturnValueNode();
 
-        if (ctx.variable() != null) {
-            valueNode = new ReturnValueNode( SymbolTypeEnum.variableRef, ctx.variable().getText());
-        }
-        else if(ctx.functionCall() != null) {
-            valueNode = new ReturnValueNode(SymbolTypeEnum.functionCall, ctx.functionCall().getText());
-        }
+        new IterateOverContext(ctx, this, node);
 
-        funcContextStack.peek().AddInst( valueNode );
-
-        return null;
+        return node;
     }
 
     class IterateOverContext {
-        public String name;
-        public Node data;
 
         public IterateOverContext(){
         }

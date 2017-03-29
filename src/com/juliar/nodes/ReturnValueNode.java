@@ -17,6 +17,10 @@ public class ReturnValueNode extends NodeImpl {
         typeName = name;
     }
 
+    public ReturnValueNode(){
+
+    }
+
 
     public SymbolTypeEnum getSymbolTypeEnum(){
         return symbolTypeEnum;

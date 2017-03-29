@@ -22,21 +22,20 @@ public class Interpreter {
             inst = invocation.getInstructionList();
             functionNodeMap = invocation.getFunctionNodeMap();
 
-            functionMap.put(NodeType.CompliationUnitType        , ((n, activationFrame ) -> evalCompliationUnit()   ));
+            functionMap.put(NodeType.CompliationUnitType        , ((n, activationFrame ) -> evalCompliationUnit()  ));
 
-            functionMap.put(NodeType.VariableReassignmentType   , ( (n, activationFrame )-> EvaluateAssignments.evalReassignment(n, activationFrame ) ));
-            functionMap.put(NodeType.AssignmentType             , ( (n, activationFrame )-> EvaluateAssignments.evalAssignment(n, activationFrame )  ));
-
-            functionMap.put(NodeType.FunctionaCallType          , ((n, activationFrame ) -> evalFunctionCall(n)     ));
-            functionMap.put(NodeType.FunctionDeclType           , ((n, activationFrame ) -> evalFunctionDecl(n)     ));
-
+            functionMap.put(NodeType.VariableReassignmentType   , ((n, activationFrame )-> EvaluateAssignments.evalReassignment(n, activationFrame ) ));
+            functionMap.put(NodeType.AssignmentType             , ((n, activationFrame )-> EvaluateAssignments.evalAssignment(n, activationFrame )  ));
             functionMap.put(NodeType.PrimitiveType              , ((n, activationFrame )-> EvaluatePrimitives.evalPrimitives(n, activationFrame)  ));
+
+            functionMap.put(NodeType.FunctionaCallType          , ((n, activationFrame )-> evalFunctionCall(n)     ));
+            functionMap.put(NodeType.FunctionDeclType           , ((n, activationFrame )-> evalFunctionDecl(n)     ));
             functionMap.put(NodeType.VariableType               , ((n, activationFrame )-> evalActivationFrame(n)   ));
             functionMap.put(NodeType.BinaryType                 , ((n, activationFrame )-> evalBinaryNode(n)        ));
             functionMap.put(NodeType.StatementType              , ((n, activationFrame )-> evalStatement(n)         ));
-
             functionMap.put(NodeType.ExpressionType             , ((n, activationFrame )-> evalStatement(n)        ));
             functionMap.put(NodeType.FinalType                  , ((n, activationFrame )-> evalFinal(n)             ));
+            functionMap.put(NodeType.ReturnValueType            , ((n, activationFrame )-> evalReturn(n, activationFrame)             ));
 
             //functionMap.put(NodeType.VariableDeclarationType, (n-> eval(n)));
             //functionMap.put(NodeType.ReturnValueType            , (n-> evalReassignment(n)      ));
@@ -48,76 +47,92 @@ public class Interpreter {
         }
     }
 
-    public void execute( List<Node> instructions) {
+    public List<Node> execute( List<Node> instructions) {
         for (Node n : instructions) {
             Evaluate evaluate = functionMap.get( n.getType());
             if (evaluate!= null){
-                evaluate.evaluate( n , activationFrameStack.empty() ? null :  activationFrameStack.peek());
+                List<Node>  ints = evaluate.evaluate( n , activationFrameStack.empty() ? null :  activationFrameStack.peek());
+                if (ints != null) {
+                    execute(ints);
+                }
             }
             else{
                 evalNull( n );
             }
             continue;
         }
+
+        return null;
     }
 
-    private void evalCompliationUnit() {
+    private List<Node> evalCompliationUnit() {
         for(Map.Entry<String, Node> entry : functionNodeMap.entrySet()) {
             if (entry.getKey().toString().equals("main")) {
 
-                activationFrameStack.push( new ActivationFrame() );
+                ActivationFrame frame = new ActivationFrame();
+                frame.frameName = "main";
+                activationFrameStack.push( frame );
                 execute( entry.getValue().getInstructions() );
                 activationFrameStack.pop();
 
                 break;
             }
         }
+
+        return null;
     }
 
-    private void evalStatement( Node n){
+    private List<Node> evalStatement( Node n){
         execute( n.getInstructions() );
+        return null;
     }
 
-    private void evalActivationFrame(Node n) {
+    private List<Node> evalActivationFrame(Node n) {
         ActivationFrame frame = activationFrameStack.peek();
         frame.variableSet.put (((VariableNode)n).variableName, n);
+        return null;
     }
 
-    private void evalNull(Node n){
-        System.out.println( "Node is null");
+    private List<Node> evalNull(Node n){
+        return null;
     }
 
-    private void evalFinal( Node n){
 
+    private List<Node> evalFinal( Node n){
+        return null;
     }
 
-    private void evalReturn(ReturnValueNode n) {
-        ReturnValueNode node = n;
+    private List<Node> evalReturn(Node n, ActivationFrame frame) {
+        ReturnValueNode node = (ReturnValueNode)n;
         if (node.getSymbolTypeEnum() == SymbolTypeEnum.variableRef) {
-            ActivationFrame frame =  activationFrameStack.peek();
             if (frame.variableSet.containsKey(node.typeName())) {
                 Node variableNode = frame.variableSet.get(node.typeName());
                 returnValueStack.push( variableNode );
             }
         }
-    }
-    private void evalFunctionDecl(Node n){
-        if (((FunctionDeclNode)n).getFunctionName().toLowerCase() == "import"){
-        }
+        return null;
     }
 
-    private void evalFunctionCall(Node n) {
+    private List<Node> evalFunctionDecl(Node n){
+        if (((FunctionDeclNode)n).getFunctionName().toLowerCase() == "import"){
+        }
+        return null;
+    }
+
+    private List<Node> evalFunctionCall(Node n) {
         FunctionCallNode functionCallNode = (FunctionCallNode)n;
         String functionToCall = functionCallNode.functionName();
 
         // main should only be called from the compliationUnit
         if (functionCallNode.equals( "main")){
-            return;
+            return null;
         }
 
         for(Map.Entry<String, Node> entry : functionNodeMap.entrySet()){
             if (entry.getKey().toString().equals( functionToCall )) {
-                activationFrameStack.push( new ActivationFrame());
+                ActivationFrame frame = new ActivationFrame();
+                frame.frameName = functionToCall;
+                activationFrameStack.push( frame );
                 execute(entry.getValue().getInstructions());
                 activationFrameStack.pop();
                 break;
@@ -127,11 +142,11 @@ public class Interpreter {
             }
         }
 
-        return;
+        return null;
     }
 
 
-    private void AggregateNode(Node n){
+    private List<Node> AggregateNode(Node n){
         List<IntegralTypeNode> integralTypeNodes = ((AggregateNode)n).data();
         int addCount = integralTypeNodes.size() - 1;
         //TODO Different Primitive Types //add
@@ -141,17 +156,19 @@ public class Interpreter {
         for(int i =0;i<addCount;i++){
             binaryOperation( (a,b) -> a+b); //check
         }
+        return null;
     }
 
-    private void binaryNode( String variableName, Node n){
+    private List<Node> binaryNode( String variableName, Node n){
         evalBinaryNode( n );
         ActivationFrame frame = activationFrameStack.peek();
         VariableNode v = (VariableNode) frame.variableSet.get( variableName );
 
         v.setIntegralTypeNode( (IntegralTypeNode)frame.operandStack.pop() );
+        return null;
     }
 
-    private void evalBinaryNode(Node n) {
+    private List<Node> evalBinaryNode(Node n) {
         BinaryNode bn = (BinaryNode) n;
         String operation = bn.operation().name();
 
@@ -190,9 +207,10 @@ public class Interpreter {
             default:
                 assert true;
         }
+        return null;
     }
 
-    private void binaryOperation( IntegerMath integerMath) {
+    private List<Node> binaryOperation( IntegerMath integerMath) {
         ActivationFrame frame = activationFrameStack.peek();
      //   String data1 = ((IntegralTypeNode) frame.operandStack.pop()).getIntegralValue();
       //  int v1 = Integer.decode(data1).intValue();
@@ -205,6 +223,7 @@ public class Interpreter {
 
         //TODO - NEED to FIX THIS.
         //frame.operandStack.push(new IntegralTypeNode(sum, IntegralType.jinteger));
+        return null;
     }
 
     private void integralTypeNode(IntegralTypeNode itn) {
@@ -217,6 +236,6 @@ public class Interpreter {
     }
 
     interface Evaluate {
-        void evaluate(Node n, ActivationFrame frame);
+        List<Node> evaluate(Node n, ActivationFrame frame);
     }
 }

@@ -1,6 +1,19 @@
 function main() = {
+    int x = test();
+    printLine(x);
+}
+
+
+function test() = {
+    printLine("test method");
+    return 3;
+}
+
+
+
+function testPrimitives() = {
+    int x = 400;
     fileOpen ("test.jrl");
-    int x = 3;
     printLine("about to print variable x");
     printLine( x );
     printLine("printed the value of variable 'x'");

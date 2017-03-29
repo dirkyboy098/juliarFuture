@@ -1,19 +1,21 @@
 package com.juliar.interpreter;
 
 import com.juliar.nodes.*;
-import sun.jvm.hotspot.utilities.Assert;
+
+import java.util.List;
 
 /**
  * Created by donreamey on 3/28/17.
  */
 public class EvaluatePrimitives {
-    static public void evalPrimitives(Node n, ActivationFrame activationFrame) {
+    static public List<Node> evalPrimitives(Node n, ActivationFrame activationFrame) {
         String functionName = ((FinalNode)n.getInstructions().get(0)).dataString();
         Node argumentNode = n.getInstructions().get(2);
 
         printLine(activationFrame, functionName, argumentNode);
 
         fileOpen(functionName, argumentNode);
+        return null;
     }
 
     private static void fileOpen(String functionName, Node argumentNode) {
