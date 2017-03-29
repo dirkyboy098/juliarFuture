@@ -85,6 +85,8 @@ booleanExpression
 primitives
     : 'printLine' '(' types ')'
     | 'printLine' '(' variable ')'
+    | 'fileOpen' '(' STRING ')'
+    | 'fileOpen' '(' variable ')'
     ;
 
 

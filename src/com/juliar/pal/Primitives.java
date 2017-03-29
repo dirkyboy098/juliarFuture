@@ -16,6 +16,7 @@ import com.juliar.errors.LogMessage;
  */
 public class Primitives {
     public static String sys_file_open(String path) {
+        path = stripQuotes( path );
         try {
             int read = 1024;
             int N = 1024 * read;

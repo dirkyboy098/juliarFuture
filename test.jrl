@@ -1,4 +1,5 @@
 function main() = {
+    fileOpen ("test.jrl");
     int x = 3;
     printLine("about to print variable x");
     printLine( x );
