@@ -11,8 +11,6 @@ src/com/juliar/parser/juliarParser.java
 
 src/com/juliar/parser/juliarVisitor.java
 
-*.xml
-
 .idea/workspace.xml
 
 .idea/workspace.xml
@@ -20,6 +18,10 @@ src/com/juliar/parser/juliarVisitor.java
 .idea/workspace.xml
 
 *.class
+
+.idea/*.xml
+
+.idea/.idea/*
 
 JuliarCompiler.jar
 
