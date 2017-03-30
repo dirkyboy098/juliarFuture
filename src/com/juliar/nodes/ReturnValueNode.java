@@ -21,11 +21,6 @@ public class ReturnValueNode extends NodeImpl {
 
     }
 
-
-    public SymbolTypeEnum getSymbolTypeEnum(){
-        return symbolTypeEnum;
-    }
-
     public String typeName(){
         return typeName;
     }

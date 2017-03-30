@@ -13,4 +13,5 @@ public class ActivationFrame {
     public HashMap<String, Node> variableSet = new HashMap<String , Node>();
     public Stack<Node> parameterStack = new Stack<Node>();
     public Stack<Node> operandStack = new Stack<Node>();
+    public Node returnNode;
 }

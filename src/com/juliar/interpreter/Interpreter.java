@@ -104,7 +104,16 @@ public class Interpreter {
 
     private List<Node> evalReturn(Node Node, ActivationFrame frame) {
         ReturnValueNode node = (ReturnValueNode)Node;
-        if (node.getSymbolTypeEnum() == SymbolTypeEnum.variableRef) {
+        if ( node.getType() == NodeType.ReturnValueType && node.getInstructions().get(0) instanceof FinalNode) {
+
+            assert ((FinalNode) node.getInstructions().get(0)).dataString().equals( "return" ) : "Node does not have a return statement";
+
+            Node rValue = node.getInstructions().get( 1 );
+            if ( rValue instanceof IntegralTypeNode ){
+                frame.returnNode = rValue;
+                return null;
+            }
+
             if (frame.variableSet.containsKey(node.typeName())) {
                 Node variableNode = frame.variableSet.get(node.typeName());
                 returnValueStack.push( variableNode );
