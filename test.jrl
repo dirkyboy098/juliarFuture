@@ -5,10 +5,17 @@ function main() = {
 
 
 function test() = {
+    int t = foo();
+    printLine(t);
     printLine("test method");
-    return 3;
+    return "this is a return string from test method";
 }
 
+
+function foo() = {
+    int x = 2345;
+    return x;
+}
 
 
 function testPrimitives() = {

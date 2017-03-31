@@ -9,6 +9,13 @@ import java.util.List;
  * Created by donreamey on 3/28/17.
  */
 public class EvaluateAssignments {
+    private static Interpreter interpreterCallback = null;
+
+    static public void Create(Interpreter interpreter){
+        if (interpreterCallback == null) {
+            interpreterCallback = interpreter;
+        }
+    }
 
     static public List<Node> evalReassignment( Node n, ActivationFrame activationFrame){
         if ( n != null){
@@ -49,7 +56,15 @@ public class EvaluateAssignments {
             if (rvalue instanceof FunctionCallNode){
                 List<Node> functionList = new ArrayList<Node>();
                 functionList.add( (FunctionCallNode)rvalue );
-                return functionList;
+                interpreterCallback.execute(functionList);
+                if (activationFrame.returnNode != null){
+                    VariableNode variableNode = (VariableNode)variableToAssignTo.getInstructions().get(1);
+                    if (activationFrame.variableSet.containsKey( variableNode.variableName )){
+                        activationFrame.variableSet.remove( variableNode.variableName);
+                    }
+
+                    activationFrame.variableSet.put( variableNode.variableName, activationFrame.returnNode);
+                }
             }
             if (rvalue instanceof PrimitiveNode){
                 PrimitiveNode primitiveNode = (PrimitiveNode)rvalue;

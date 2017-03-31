@@ -40,6 +40,9 @@ public class EvaluatePrimitives {
                     PrimitiveNode primitiveNode = (PrimitiveNode) variable;
                     finalNode = (FinalNode) primitiveNode.getInstructions().get(0);
                 }
+                else if (variable instanceof IntegralTypeNode){
+                    finalNode = (FinalNode)  ((IntegralTypeNode) variable).getInstructions().get(0);
+                }
             }
 
             if (argumentNode instanceof IntegralTypeNode) {

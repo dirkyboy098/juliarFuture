@@ -19,6 +19,7 @@ public class Interpreter {
 
     public Interpreter(InstructionInvocation invocation){
         try {
+            EvaluateAssignments.Create(this);
             inst = invocation.getInstructionList();
             functionNodeMap = invocation.getFunctionNodeMap();
 
@@ -108,10 +109,17 @@ public class Interpreter {
 
             assert ((FinalNode) node.getInstructions().get(0)).dataString().equals( "return" ) : "Node does not have a return statement";
 
+            ActivationFrame currentFrame = activationFrameStack.pop();
+            ActivationFrame caller = activationFrameStack.peek() != null ? activationFrameStack.pop() : null;
+
             Node rValue = node.getInstructions().get( 1 );
-            if ( rValue instanceof IntegralTypeNode ){
-                frame.returnNode = rValue;
-                return null;
+            if (caller != null) {
+                if (rValue instanceof IntegralTypeNode || rValue instanceof VariableNode) {
+                    caller.returnNode = rValue;
+                    activationFrameStack.push(caller);
+                    activationFrameStack.push(currentFrame);
+                    return null;
+                }
             }
 
             if (frame.variableSet.containsKey(node.typeName())) {
