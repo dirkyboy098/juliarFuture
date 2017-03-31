@@ -114,12 +114,17 @@ public class Interpreter {
 
             Node rValue = node.getInstructions().get( 1 );
             if (caller != null) {
-                if (rValue instanceof IntegralTypeNode || rValue instanceof VariableNode) {
-                    caller.returnNode = rValue;
-                    activationFrameStack.push(caller);
-                    activationFrameStack.push(currentFrame);
-                    return null;
+                if (rValue instanceof VariableNode && frame.variableSet.containsKey( ((VariableNode) rValue).variableName )) {
+                    caller.returnNode = frame.variableSet.get( ((VariableNode) rValue).variableName);
                 }
+                if (rValue instanceof IntegralTypeNode ) {
+                    caller.returnNode = rValue;
+                }
+
+                activationFrameStack.push(caller);
+                activationFrameStack.push(currentFrame);
+
+                return null;
             }
 
             if (frame.variableSet.containsKey(node.typeName())) {
