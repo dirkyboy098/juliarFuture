@@ -8,7 +8,8 @@ function test() = {
     int t = foo();
     printLine(t);
     printLine("test method");
-    return "this is a return string from test method";
+    //return "this is a return string from test method";
+    return t;
 }
 
 

@@ -129,7 +129,8 @@ public class JuliarCompiler {
 			// This will parse a single line to validate the syntax
 			if (isRepl) {
 				juliarParser.CompileUnitContext context = parser.compileUnit();
-				System.out.println(context.toStringTree(parser));
+
+				//System.out.println(context.toStringTree(parser));
 
 				JuliarVisitor v = new JuliarVisitor(new ImportsInterface() {
 					@Override
@@ -147,7 +148,8 @@ public class JuliarCompiler {
 				// then calls the code generator.
 
 				juliarParser.CompileUnitContext context = parser.compileUnit();
-				System.out.println(context.toStringTree(parser));
+
+				//System.out.println(context.toStringTree(parser));
 				
 				if (errors.ErrorList().size() > 0){
 					for (String error : errors.ErrorList()){

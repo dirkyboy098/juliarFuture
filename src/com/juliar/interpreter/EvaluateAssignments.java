@@ -53,6 +53,7 @@ public class EvaluateAssignments {
 
         if (instructions.get(equalSignIndex ) instanceof EqualSignNode ){
             Object rvalue = instructions.get( primtiveIndex );
+
             if (rvalue instanceof FunctionCallNode){
                 List<Node> functionList = new ArrayList<Node>();
                 functionList.add( (FunctionCallNode)rvalue );
@@ -66,6 +67,7 @@ public class EvaluateAssignments {
                     activationFrame.variableSet.put( variableNode.variableName, activationFrame.returnNode);
                 }
             }
+
             if (rvalue instanceof PrimitiveNode){
                 PrimitiveNode primitiveNode = (PrimitiveNode)rvalue;
                 if (primitiveNode != null && canPrimitiveValueBeAssignedToVar(variableToAssignTo, primitiveNode)){
