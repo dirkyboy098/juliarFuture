@@ -381,6 +381,14 @@ public class Visitor extends juliarBaseVisitor<Node>
         return node;
     }
 
+
+    @Override
+    public Node visitIfExpr(juliarParser.IfExprContext ctx) {
+        IfExprNode node = new IfExprNode();
+        new IterateOverContext( ctx, this, node);
+        return node;
+    }
+
     @Override
     public Node visitNumericTypes(juliarParser.NumericTypesContext ctx) {
         return super.visitNumericTypes(ctx);

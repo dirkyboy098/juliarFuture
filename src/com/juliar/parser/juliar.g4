@@ -25,6 +25,7 @@ expression
     | assignmentExpression endLine
     | reassignmentExpression endLine
     | booleanExpression endLine
+    | ifExpr
     | primitives endLine
     | functionCall endLine
     | returnValue endLine
@@ -78,7 +79,8 @@ rightParen
 
 
 booleanExpression
-    : variable (comparisonOperator) variable
+    : BOOLEAN
+    | variable (comparisonOperator) variable
     | variable (comparisonOperator) primitiveTypes
     | variable (comparisonOperator) command
     | command (comparisonOperator) command
@@ -223,11 +225,16 @@ keywords
     | 'boolean'
     ;
 
-/*
-ifExpr
-    : 'if' '(' booleanExpression ')' '{' (statement)* '}'
+ifKeyWord
+    : 'if'
     ;
 
+ifExpr
+    : ifKeyWord '(' booleanExpression ')' '{' (statement)* '}'
+    ;
+
+
+/*
 nifExpr
 	: 'nif' '(' booleanExpression ')' '{' (statement)* '}'
 	;

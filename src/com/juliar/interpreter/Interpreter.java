@@ -4,6 +4,7 @@ import com.juliar.codegenerator.InstructionInvocation;
 import com.juliar.errors.LogMessage;
 import com.juliar.nodes.*;
 import com.juliar.symbolTable.SymbolTypeEnum;
+import javafx.beans.binding.BooleanExpression;
 
 import java.util.*;
 
@@ -39,6 +40,7 @@ public class Interpreter {
             functionMap.put(NodeType.ReturnValueType            , ((n, activationFrame )-> evalReturn(n, activationFrame)             ));
             functionMap.put(NodeType.BooleanType                , ((n, activationFrame )-> evalBooleanNode(n, activationFrame)    ));
             functionMap.put(NodeType.BooleanOperatorType        , ((n, activationFrame )-> evalBooleanOperator(n, activationFrame)    ));
+            functionMap.put(NodeType.IfExprType                 , ((n, activationFrame )-> evalIfStatement(n, activationFrame)    ));
 
             //functionMap.put(NodeType.VariableDeclarationType, (n-> eval(n)));
             //functionMap.put(NodeType.ReturnValueType            , (n-> evalReassignment(n)      ));
@@ -133,6 +135,40 @@ public class Interpreter {
                 returnValueStack.push( variableNode );
             }
         }
+        return null;
+    }
+
+    private List<Node> evalIfStatement(Node node, ActivationFrame frame){
+        List<Node> instructionList = node.getInstructions();
+        int size = instructionList.size();
+
+        BooleanNode booleanNode = null;
+        List<Node> trueExpressions = new ArrayList<>();
+
+        for(int i=0; i<size; i++){
+            Node current = instructionList.get(i);
+
+            if (current instanceof BooleanNode){
+                booleanNode = (BooleanNode)current;
+                continue;
+            }
+
+            if(current instanceof StatementNode){
+                trueExpressions.add( current );
+                continue;
+            }
+        }
+
+        if (booleanNode != null && booleanNode.getInstructions().size() == 1){
+            FinalNode finalNode = (FinalNode)booleanNode.getInstructions().get(0);
+            if (finalNode.getIntegralType() == IntegralType.jboolean){
+                Boolean bool = Boolean.parseBoolean(finalNode.dataString());
+                if (bool){
+                    return trueExpressions;
+                }
+            }
+        }
+
         return null;
     }
 
