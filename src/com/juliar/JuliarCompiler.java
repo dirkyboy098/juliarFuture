@@ -1,26 +1,21 @@
 package com.juliar;
 
 import com.fastcgi.FCGIInterface;
-import com.juliar.gui.Gui;
 import com.juliar.errors.ErrorListener;
 import com.juliar.errors.LogMessage;
 import com.juliar.interpreter.Interpreter;
 import com.juliar.parser.juliarLexer;
 import com.juliar.parser.juliarParser;
 import com.juliar.symbolTable.SymbolTable;
-import com.juliar.vistor.JuliarVisitor;
+import com.juliar.vistor.Visitor;
 import com.juliar.jpm.JPM;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class JuliarCompiler {
@@ -131,7 +126,7 @@ public class JuliarCompiler {
 				juliarParser.CompileUnitContext context = parser.compileUnit();
 				System.out.println(context.toStringTree(parser));
 
-				JuliarVisitor v = new JuliarVisitor(new ImportsInterface() {
+				Visitor v = new Visitor(new ImportsInterface() {
 					@Override
 					public void createTempCallback(String imports, int linesToSkip) {
 
@@ -157,7 +152,7 @@ public class JuliarCompiler {
 					return errors.ErrorList();
 				}
 
-				JuliarVisitor visitor = new JuliarVisitor(new ImportsInterface() {
+				Visitor visitor = new Visitor(new ImportsInterface() {
 					@Override
 					public void createTempCallback(String imports, int linesToSkip) {
 

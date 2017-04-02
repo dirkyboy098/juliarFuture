@@ -14,16 +14,29 @@ public class FinalNode extends NodeImpl{
 
     public FinalNode(TerminalNode data){
         dataString = data;
-        object = data;
-
     }
 
     public FinalNode(){
 
     }
 
-    public String dataString(){
-        return dataString.getText();
+    public void setDataString(Object data){
+        object = data;
+    }
+
+    public String dataString() {
+        if (dataString != null) {
+            return dataString.getText();
+        }
+        return null;
+    }
+
+    public Object dataObject(){
+        if (object != null){
+            return object;
+        }
+
+        return null;
     }
 
 

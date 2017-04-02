@@ -35,6 +35,7 @@ assignmentExpression
 	| variabledeclartion equalsign variable
 	| variabledeclartion equalsign functionCall
 	| variabledeclartion equalsign primitiveTypes
+	| variabledeclartion equalsign booleanExpression
     ;
 
 reassignmentExpression
@@ -78,6 +79,7 @@ rightParen
 
 booleanExpression
     : variable (comparisonOperator) variable
+    | variable (comparisonOperator) primitiveTypes
     | variable (comparisonOperator) command
     | command (comparisonOperator) command
     ;
@@ -218,6 +220,7 @@ keywords
     | 'double'
     | 'long'
     | 'object'
+    | 'boolean'
     ;
 
 /*

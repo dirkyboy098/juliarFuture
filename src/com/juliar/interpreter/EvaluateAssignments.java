@@ -56,15 +56,10 @@ public class EvaluateAssignments {
             if (rvalue instanceof FunctionCallNode){
                 List<Node> functionList = new ArrayList<Node>();
                 functionList.add( (FunctionCallNode)rvalue );
-                interpreterCallback.execute(functionList);
-                if (activationFrame.returnNode != null){
-                    VariableNode variableNode = (VariableNode)variableToAssignTo.getInstructions().get(1);
-                    if (activationFrame.variableSet.containsKey( variableNode.variableName )){
-                        activationFrame.variableSet.remove( variableNode.variableName);
-                    }
 
-                    activationFrame.variableSet.put( variableNode.variableName, activationFrame.returnNode);
-                }
+                interpreterCallback.execute(functionList);
+
+                assignReturnValueToVariable(activationFrame, variableToAssignTo);
             }
             if (rvalue instanceof PrimitiveNode){
                 PrimitiveNode primitiveNode = (PrimitiveNode)rvalue;
@@ -80,11 +75,30 @@ public class EvaluateAssignments {
                     frame.variableSet.put( variableName, primitiveNode );
                 }
             }
+            if (rvalue instanceof  BooleanNode){
+                BooleanNode booleanNode = (BooleanNode)rvalue;
+                List<Node> slotList = new ArrayList<>();
+                slotList.add( booleanNode );
+
+                interpreterCallback.execute( slotList );
+
+                assignReturnValueToVariable(activationFrame, variableToAssignTo);
+            }
         }
 
         return null;
     }
 
+    private static void assignReturnValueToVariable(ActivationFrame activationFrame, VariableDeclarationNode variableToAssignTo) {
+        if (activationFrame.returnNode != null){
+            VariableNode variableNode = (VariableNode)variableToAssignTo.getInstructions().get(1);
+            if (activationFrame.variableSet.containsKey( variableNode.variableName )){
+                activationFrame.variableSet.remove( variableNode.variableName);
+            }
+
+            activationFrame.variableSet.put( variableNode.variableName, activationFrame.returnNode);
+        }
+    }
 
 
     static private boolean canPrimitiveValueBeAssignedToVar(VariableDeclarationNode lvalue, PrimitiveNode rvalue){

@@ -37,6 +37,8 @@ public class Interpreter {
             functionMap.put(NodeType.ExpressionType             , ((n, activationFrame )-> evalStatement(n)        ));
             functionMap.put(NodeType.FinalType                  , ((n, activationFrame )-> evalFinal(n)             ));
             functionMap.put(NodeType.ReturnValueType            , ((n, activationFrame )-> evalReturn(n, activationFrame)             ));
+            functionMap.put(NodeType.BooleanType                , ((n, activationFrame )-> evalBooleanNode(n, activationFrame)    ));
+            functionMap.put(NodeType.BooleanOperatorType        , ((n, activationFrame )-> evalBooleanOperator(n, activationFrame)    ));
 
             //functionMap.put(NodeType.VariableDeclarationType, (n-> eval(n)));
             //functionMap.put(NodeType.ReturnValueType            , (n-> evalReassignment(n)      ));
@@ -98,7 +100,6 @@ public class Interpreter {
         return null;
     }
 
-
     private List<Node> evalFinal( Node Node){
         return null;
     }
@@ -138,6 +139,44 @@ public class Interpreter {
     private List<Node> evalFunctionDecl(Node Node){
         if (((FunctionDeclNode)Node).getFunctionName().toLowerCase() == "import"){
         }
+        return null;
+    }
+
+    private List<Node> evalBooleanNode(Node node, ActivationFrame frame){
+        String variableName = ((VariableNode)node.getInstructions().get(0)).variableName;
+        Node lvalue =  frame.variableSet.get( variableName );
+
+        BooleanOperatorNode booleanOperatorNode = (BooleanOperatorNode)node.getInstructions().get(1);
+
+        Node rvalue = node.getInstructions().get(2);
+
+        if (booleanOperatorNode.getInstructions().get(0) instanceof EqualEqualSignNode){
+            boolean isEqualEqual =  ((FinalNode)lvalue.getInstructions().get(0)).dataString().equals( ((FinalNode)rvalue.getInstructions().get(0)).dataString() );
+            FinalNode finalNode = new FinalNode();
+            finalNode.setDataString( isEqualEqual );
+
+            BooleanNode booleanNode = new BooleanNode();
+            booleanNode.AddInst(finalNode);
+
+            frame.returnNode = booleanNode;
+        }
+        return null;
+    }
+
+    private boolean isEqual(Node left, Node right){
+        return left == right;
+    }
+
+    private boolean isLessThan(Node left, Node right){
+        return false; //left < right;
+    }
+
+    private boolean isGreaterThan(Node left, Node right){
+        return false;
+    }
+
+    private List<Node> evalBooleanOperator(Node node, ActivationFrame frame){
+
         return null;
     }
 
