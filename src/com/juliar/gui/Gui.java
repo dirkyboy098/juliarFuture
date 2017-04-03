@@ -16,15 +16,13 @@ import java.io.IOException;
 public class Gui extends Application {
 
     @Override
-    public void start(Stage primaryStage){
+    public void start(Stage stage){
         try {
-            Controller controller = new Controller(primaryStage);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("juliar.fxml"));
-            loader.setController(controller);
-            Parent root = loader.load();
-            primaryStage.setTitle("Juliar.Future");
-            primaryStage.setScene(new Scene(root, 600, 400));
-            primaryStage.show();
+            loader.setControllerFactory(t -> new Controller(new Model()));
+            stage.setScene(new Scene(loader.load()));
+            stage.setTitle("Juliar.Future FIDE");
+            stage.show();
         }
         catch(Exception e){
             Alert alert = new Alert(Alert.AlertType.ERROR);

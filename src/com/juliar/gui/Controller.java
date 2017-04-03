@@ -1,9 +1,11 @@
 package com.juliar.gui;
 
-import com.juliar.JuliarCompiler;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextArea;
+import javafx.stage.FileChooser;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
@@ -12,104 +14,60 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.Arrays;
 
 /**
  * Created by AndreiM on 3/18/2017.
  */
-public class Controller implements Initializable {
-    @FXML
-    public MenuItem menu_exit;
-    @FXML
-    public MenuItem about;
+public class Controller {
 
     @FXML
-    public TextField compileInputField;
-    @FXML
-    public Button compileInputBtn;
-    @FXML
-    public TextField compileOutputField;
-    @FXML
-    public Button compileOutputBtn;
-    @FXML
-    public Button compile;
+    private TextArea areaText;
 
-    @FXML
-    public TextField interpretInputField;
-    @FXML
-    public Button interpretInputBtn;
-    @FXML
-    public Button interpret;
+    private TextFile currentTextFile;
 
-    @FXML
-    public TextField port;
-    @FXML
-    public Button runFCGI;
+    private Model model;
 
-
-    private Stage stage;
-    public Controller(Stage stage)
-    {
-        this.stage = stage;
+    public Controller(Model model) {
+        this.model = model;
     }
 
-    @Override // This method is called by the FXMLLoader when initialization is complete
-    public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-        // initialize your logic here: all @FXML variables will have been injected
-       compile.setOnAction((event) -> {
-           String[] args = {compileInputField.getText(),compileOutputField.getText()};
-           JuliarCompiler.main(args);
-        });
-       interpret.setOnAction((event) -> {
-           String[] args = {interpretInputField.getText()};
-           JuliarCompiler.main(args);
-       });
-       runFCGI.setOnAction((event) -> {
-           int myPort = Integer.parseInt(port.getText());
-           String[] args = {"-DFCGI="+myPort};
-           JuliarCompiler.main(args);
-           Alert alert = new Alert(Alert.AlertType.INFORMATION);
-           alert.setTitle("Juliar.Future");
-           alert.setHeaderText("FastCGI is running!");
-           alert.setContentText("FastCGI is running!");
-           alert.showAndWait();
-       });
-        menu_exit.setOnAction((event) -> {
-            Platform.exit();
-            System.exit(0);
-        });
+    @FXML
+    private void onSave() {
+        TextFile textFile = new TextFile(currentTextFile.getFile(), Arrays.asList(areaText.getText().split("\n")));
+        model.save(textFile);
+    }
 
-        about.setOnAction((event) -> {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("About Juliar.Future");
-            alert.setHeaderText("Juliar.Future");
-            alert.setContentText("Juliar - Copyright (C) 2017");
-            alert.showAndWait();
-        });
+    @FXML
+    private void onLoad() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File("./"));
+        File file = fileChooser.showOpenDialog(null);
+        if (file != null) {
+            IOResult<TextFile> io = model.load(file.toPath());
 
-        compileInputBtn.setOnAction((event) -> {
-            FileChooser fileChooser = new FileChooser();
-            File file = fileChooser.showOpenDialog(stage);
-            if (file != null) {
-                compileInputField.setText(file.getAbsolutePath());
+            if (io.isOk() && io.hasData()) {
+                currentTextFile = io.getData();
+
+                areaText.clear();
+                currentTextFile.getContent().forEach(line -> areaText.appendText(line + "\n"));
+            } else {
+                System.out.println("Failed");
             }
-        });
+        }
+    }
 
-        compileOutputBtn.setOnAction((event) -> {
-            FileChooser fileChooser = new FileChooser();
-            File file = fileChooser.showOpenDialog(stage);
-            if (file != null) {
-                compileOutputField.setText(file.getAbsolutePath());
-            }
-        });
+    @FXML
+    private void onExit() {
+        model.close();
+    }
 
-        interpretInputBtn.setOnAction((event) -> {
-            FileChooser fileChooser = new FileChooser();
-            File file = fileChooser.showOpenDialog(stage);
-            if (file != null) {
-                interpretInputField.setText(file.getAbsolutePath());
-            }
-        });
+    @FXML
+    private void onAbout() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("About Juliar.Future");
+        alert.setTitle("Juliar.Future");
+        alert.setContentText("Juliar - Copyright (C) 2017");
+        alert.show();
     }
 }
