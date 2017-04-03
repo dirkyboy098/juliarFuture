@@ -10,6 +10,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TabPane.TabClosingPolicy;
+import javafx.scene.control.Tab;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -24,6 +27,9 @@ public class Controller {
     @FXML
     private TextArea areaText;
 
+    @FXML
+    private TabPane tabPane;
+
     private TextFile currentTextFile;
 
     private Model model;
@@ -32,10 +38,32 @@ public class Controller {
         this.model = model;
     }
 
+    /*@FXML
+    public void tabPane.setOnCloseRequest(new EventHandler<Event>(){
+        @Override void handle(Event e){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("TEST");
+            alert.setTitle("TEST");
+            alert.setContentText("TEST");
+            alert.show();
+        }
+    });*/
+
     @FXML
     private void onSave() {
         TextFile textFile = new TextFile(currentTextFile.getFile(), Arrays.asList(areaText.getText().split("\n")));
         model.save(textFile);
+    }
+
+    @FXML
+    private void onSaveAs() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save File");
+        File file =  fileChooser.showSaveDialog(null);
+        if (file != null) {
+            TextFile textFile = new TextFile(file.toPath(), Arrays.asList(areaText.getText().split("\n")));
+            model.save(textFile);
+        }
     }
 
     @FXML
@@ -60,6 +88,14 @@ public class Controller {
     @FXML
     private void onExit() {
         model.close();
+    }
+
+    @FXML
+    private void onNew(){
+        Tab tab = new Tab("Tab " + (tabPane.getTabs().size() + 1));
+        tabPane.getTabs().add(tab);
+        tabPane.getSelectionModel().select(tab);
+        tabPane.setTabClosingPolicy(TabClosingPolicy.ALL_TABS);
     }
 
     @FXML

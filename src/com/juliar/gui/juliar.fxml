@@ -3,34 +3,38 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="600.0" prefWidth="800.0"
-            xmlns="http://javafx.com/javafx/8.0.65"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.juliar.gui.Controller">
-
-    <top>
-        <MenuBar BorderPane.alignment="CENTER">
-            <Menu text="File">
-                <MenuItem text="Save" onAction="#onSave" />
-                <MenuItem text="Load" onAction="#onLoad" />
-                <MenuItem text="Exit" onAction="#onExit" />
-            </Menu>
-
-            <Menu text="Help">
-                <MenuItem text="About" onAction="#onAbout" />
-            </Menu>
-        </MenuBar>
-    </top>
-
-    <bottom>
-        <HBox prefHeight="63.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
-    </bottom>
-
-    <center>
-        <TextArea fx:id="areaText" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-    </center>
-</BorderPane>
+<VBox prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.juliar.gui.Controller">
+   <children>
+      <AnchorPane prefHeight="0.0" prefWidth="600.0">
+             <MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                 <Menu text="File">
+                     <MenuItem onAction="#onNew" text="New" />
+                     <MenuItem onAction="#onSave" text="Save" />
+                     <MenuItem onAction="#onSaveAs" text="Save As..." />
+                     <MenuItem onAction="#onLoad" text="Load" />
+                     <MenuItem onAction="#onExit" text="Exit" />
+                 </Menu>
+                 <Menu text="Help">
+                     <MenuItem onAction="#onAbout" text="About" />
+                 </Menu>
+             </MenuBar>
+      </AnchorPane>
+      <TabPane fx:id="tabPane" maxWidth="Infinity" VBox.vgrow="ALWAYS" prefHeight="549.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Untitled">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                         <TextArea fx:id="areaText" prefHeight="438.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</VBox>

@@ -21,7 +21,7 @@ public class Gui extends Application {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("juliar.fxml"));
             loader.setControllerFactory(t -> new Controller(new Model()));
             stage.setScene(new Scene(loader.load()));
-            stage.setTitle("Juliar.Future FIDE");
+            stage.setTitle("Juliar.Future");
             stage.show();
         }
         catch(Exception e){
