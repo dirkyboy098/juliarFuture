@@ -64,15 +64,12 @@ public class Visitor extends juliarBaseVisitor<Node>
         return node;
     }
 
-
-
     @Override
     public Node visitEndLine(juliarParser.EndLineContext ctx) {
         FinalNode finalNode = new FinalNode();
         new IterateOverContext(ctx, this, finalNode);
         return finalNode;
     }
-
 
     //TODO need to refactor and combine vistAdd and visitSubtract
     @Override
@@ -265,7 +262,6 @@ public class Visitor extends juliarBaseVisitor<Node>
         return null;
     }
 
-
     @Override
     public Node visitMultiply(juliarParser.MultiplyContext ctx) {
 
@@ -299,7 +295,6 @@ public class Visitor extends juliarBaseVisitor<Node>
         return null;
     }
 
-
     @Override
     public Node visitTypes(juliarParser.TypesContext ctx) {
         IntegralTypeNode integralTypeNode = new IntegralTypeNode();
@@ -310,8 +305,6 @@ public class Visitor extends juliarBaseVisitor<Node>
         return integralTypeNode;
     }
 
-
-
     @Override
     public Node visitPrimitives(juliarParser.PrimitivesContext ctx) {
         PrimitiveNode primitiveNode = new PrimitiveNode();
@@ -319,7 +312,6 @@ public class Visitor extends juliarBaseVisitor<Node>
         context.iterateOverChildren(ctx, this, primitiveNode);
         return primitiveNode;
     }
-
 
     @Override
     public Node visitTerminal(TerminalNode node) {
@@ -381,7 +373,6 @@ public class Visitor extends juliarBaseVisitor<Node>
         return node;
     }
 
-
     @Override
     public Node visitIfExpr(juliarParser.IfExprContext ctx) {
         IfExprNode node = new IfExprNode();
@@ -419,7 +410,6 @@ public class Visitor extends juliarBaseVisitor<Node>
         new IterateOverContext(ctx, this , node);
         return node;
     }
-
 
     @Override
     public Node visitVariabledeclartion(juliarParser.VariabledeclartionContext ctx) {

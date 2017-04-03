@@ -19,8 +19,9 @@ import java.util.List;
 
 
 public class JuliarCompiler {
-	
+	public boolean isDebugMode = false;
     private ErrorListener errors;
+
 	
     public static void main(String[] args) {
 		/*
@@ -29,7 +30,7 @@ public class JuliarCompiler {
 			return;
 		}*/
 		try {
-			fastCGI();
+			//fastCGI();
 			//checkAddArgs(args);
 
 			if (startupInstructions(args)) {
@@ -124,7 +125,9 @@ public class JuliarCompiler {
 			// This will parse a single line to validate the syntax
 			if (isRepl) {
 				juliarParser.CompileUnitContext context = parser.compileUnit();
-				System.out.println(context.toStringTree(parser));
+				if (isDebugMode) {
+					System.out.println(context.toStringTree(parser));
+				}
 
 				Visitor v = new Visitor(new ImportsInterface() {
 					@Override
@@ -142,7 +145,9 @@ public class JuliarCompiler {
 				// then calls the code generator.
 
 				juliarParser.CompileUnitContext context = parser.compileUnit();
-				System.out.println(context.toStringTree(parser));
+				if (isDebugMode) {
+					System.out.println(context.toStringTree(parser));
+				}
 				
 				if (errors.ErrorList().size() > 0){
 					for (String error : errors.ErrorList()){
