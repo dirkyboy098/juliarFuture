@@ -1,31 +1,27 @@
 package com.juliar;
 
 import com.fastcgi.FCGIInterface;
-import com.juliar.gui.Gui;
 import com.juliar.errors.ErrorListener;
 import com.juliar.errors.LogMessage;
 import com.juliar.interpreter.Interpreter;
 import com.juliar.parser.juliarLexer;
 import com.juliar.parser.juliarParser;
 import com.juliar.symbolTable.SymbolTable;
-import com.juliar.vistor.JuliarVisitor;
+import com.juliar.vistor.Visitor;
 import com.juliar.jpm.JPM;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class JuliarCompiler {
-	
+	public boolean isDebugMode = false;
     private ErrorListener errors;
+
 	
     public static void main(String[] args) {
 		/*
@@ -34,7 +30,7 @@ public class JuliarCompiler {
 			return;
 		}*/
 		try {
-			fastCGI();
+			//fastCGI();
 			//checkAddArgs(args);
 
 			if (startupInstructions(args)) {
@@ -129,10 +125,10 @@ public class JuliarCompiler {
 			// This will parse a single line to validate the syntax
 			if (isRepl) {
 				juliarParser.CompileUnitContext context = parser.compileUnit();
-
-				//System.out.println(context.toStringTree(parser));
-
-				JuliarVisitor v = new JuliarVisitor(new ImportsInterface() {
+				if (isDebugMode) {
+					System.out.println(context.toStringTree(parser));
+				}
+				Visitor v = new Visitor(new ImportsInterface() {
 					@Override
 					public void createTempCallback(String imports, int linesToSkip) {
 
@@ -148,9 +144,9 @@ public class JuliarCompiler {
 				// then calls the code generator.
 
 				juliarParser.CompileUnitContext context = parser.compileUnit();
-
-				//System.out.println(context.toStringTree(parser));
-				
+				if (isDebugMode) {
+					System.out.println(context.toStringTree(parser));
+				}
 				if (errors.ErrorList().size() > 0){
 					for (String error : errors.ErrorList()){
 						System.out.println( error );
@@ -159,7 +155,7 @@ public class JuliarCompiler {
 					return errors.ErrorList();
 				}
 
-				JuliarVisitor visitor = new JuliarVisitor(new ImportsInterface() {
+				Visitor visitor = new Visitor(new ImportsInterface() {
 					@Override
 					public void createTempCallback(String imports, int linesToSkip) {
 

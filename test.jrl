@@ -1,15 +1,33 @@
 function main() = {
-    int x = test();
-    printLine(x);
+    test();
+    printLine("calling an if statement with true");
+
+    if (true){
+        printLine("this is an if statement");
+        int z = 3;
+        int y = 4;
+        printLine(y);
+    }
+
+    printLine(y);
+
+    printLine("calling an if statement with false");
+
+    if (false){
+        int x = test();
+        boolean b = x == 3;
+        printLine(b);
+    }
 }
 
 
 function test() = {
+    printLine("function test");
     int t = foo();
     printLine(t);
     printLine("test method");
-    //return "this is a return string from test method";
-    return t;
+    printLine("end function test");
+    return 3;
 }
 
 

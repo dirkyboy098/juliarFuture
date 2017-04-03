@@ -1,6 +1,7 @@
 package com.juliar.interpreter;
 
 import com.juliar.nodes.*;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.List;
 
@@ -40,8 +41,13 @@ public class EvaluatePrimitives {
                     PrimitiveNode primitiveNode = (PrimitiveNode) variable;
                     finalNode = (FinalNode) primitiveNode.getInstructions().get(0);
                 }
-                else if (variable instanceof IntegralTypeNode){
-                    finalNode = (FinalNode)  ((IntegralTypeNode) variable).getInstructions().get(0);
+
+                if (variable instanceof IntegralTypeNode) {
+                    finalNode = (FinalNode) ((IntegralTypeNode) variable).getInstructions().get(0);
+                }
+
+                if (variable instanceof BooleanNode){
+                    finalNode = (FinalNode) ((BooleanNode) variable).getInstructions().get(0);
                 }
             }
 
@@ -50,7 +56,12 @@ public class EvaluatePrimitives {
             }
 
             assert finalNode != null : "the finalNode was null";
-            com.juliar.pal.Primitives.sys_print_line(finalNode.dataString());
+            if (finalNode.dataString() != null ) {
+                com.juliar.pal.Primitives.sys_print_line(finalNode.dataString());
+            }
+            else if (finalNode.dataObject() != null){
+                com.juliar.pal.Primitives.sys_print_line(finalNode.dataObject().toString());
+            }
         }
     }
 

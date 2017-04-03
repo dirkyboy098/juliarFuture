@@ -4,6 +4,7 @@ import com.juliar.codegenerator.InstructionInvocation;
 import com.juliar.errors.LogMessage;
 import com.juliar.nodes.*;
 import com.juliar.symbolTable.SymbolTypeEnum;
+import javafx.beans.binding.BooleanExpression;
 
 import java.util.*;
 
@@ -37,6 +38,9 @@ public class Interpreter {
             functionMap.put(NodeType.ExpressionType             , ((n, activationFrame )-> evalStatement(n)        ));
             functionMap.put(NodeType.FinalType                  , ((n, activationFrame )-> evalFinal(n)             ));
             functionMap.put(NodeType.ReturnValueType            , ((n, activationFrame )-> evalReturn(n, activationFrame)             ));
+            functionMap.put(NodeType.BooleanType                , ((n, activationFrame )-> evalBooleanNode(n, activationFrame)    ));
+            functionMap.put(NodeType.BooleanOperatorType        , ((n, activationFrame )-> evalBooleanOperator(n, activationFrame)    ));
+            functionMap.put(NodeType.IfExprType                 , ((n, activationFrame )-> evalIfStatement(n, activationFrame)    ));
 
             //functionMap.put(NodeType.VariableDeclarationType, (n-> eval(n)));
             //functionMap.put(NodeType.ReturnValueType            , (n-> evalReassignment(n)      ));
@@ -98,7 +102,6 @@ public class Interpreter {
         return null;
     }
 
-
     private List<Node> evalFinal( Node Node){
         return null;
     }
@@ -135,9 +138,81 @@ public class Interpreter {
         return null;
     }
 
+    private List<Node> evalIfStatement(Node node, ActivationFrame frame){
+        List<Node> instructionList = node.getInstructions();
+        int size = instructionList.size();
+
+        BooleanNode booleanNode = null;
+        List<Node> trueExpressions = new ArrayList<>();
+
+        for(int i=0; i<size; i++){
+            Node current = instructionList.get(i);
+
+            if (current instanceof BooleanNode){
+                booleanNode = (BooleanNode)current;
+                continue;
+            }
+
+            if(current instanceof StatementNode){
+                trueExpressions.add( current );
+                continue;
+            }
+        }
+
+        if (booleanNode != null && booleanNode.getInstructions().size() == 1){
+            FinalNode finalNode = (FinalNode)booleanNode.getInstructions().get(0);
+            if (finalNode.getIntegralType() == IntegralType.jboolean){
+                Boolean bool = Boolean.parseBoolean(finalNode.dataString());
+                if (bool){
+                    return trueExpressions;
+                }
+            }
+        }
+
+        return null;
+    }
+
     private List<Node> evalFunctionDecl(Node Node){
         if (((FunctionDeclNode)Node).getFunctionName().toLowerCase() == "import"){
         }
+        return null;
+    }
+
+    private List<Node> evalBooleanNode(Node node, ActivationFrame frame){
+        String variableName = ((VariableNode)node.getInstructions().get(0)).variableName;
+        Node lvalue =  frame.variableSet.get( variableName );
+
+        BooleanOperatorNode booleanOperatorNode = (BooleanOperatorNode)node.getInstructions().get(1);
+
+        Node rvalue = node.getInstructions().get(2);
+
+        if (booleanOperatorNode.getInstructions().get(0) instanceof EqualEqualSignNode){
+            boolean isEqualEqual =  ((FinalNode)lvalue.getInstructions().get(0)).dataString().equals( ((FinalNode)rvalue.getInstructions().get(0)).dataString() );
+            FinalNode finalNode = new FinalNode();
+            finalNode.setDataString( isEqualEqual );
+
+            BooleanNode booleanNode = new BooleanNode();
+            booleanNode.AddInst(finalNode);
+
+            frame.returnNode = booleanNode;
+        }
+        return null;
+    }
+
+    private boolean isEqual(Node left, Node right){
+        return left == right;
+    }
+
+    private boolean isLessThan(Node left, Node right){
+        return false; //left < right;
+    }
+
+    private boolean isGreaterThan(Node left, Node right){
+        return false;
+    }
+
+    private List<Node> evalBooleanOperator(Node node, ActivationFrame frame){
+
         return null;
     }
 

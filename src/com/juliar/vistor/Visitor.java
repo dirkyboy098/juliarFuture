@@ -21,7 +21,7 @@ import java.util.*;
 /**
  * Created by donreamey on 10/21/16.
  */
-public class JuliarVisitor extends juliarBaseVisitor<Node>
+public class Visitor extends juliarBaseVisitor<Node>
 {
     private List<Node> instructionList = new ArrayList<>();
     private HashMap<String, Node> functionNodeMap = new HashMap<String, Node>();
@@ -37,7 +37,7 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         return new InstructionInvocation(instructionList, functionNodeMap);
     }
 
-    public JuliarVisitor(ImportsInterface cb, boolean skip){
+    public Visitor(ImportsInterface cb, boolean skip){
         importsInterfaceCallback = cb;
         skimImports = skip;
     }
@@ -64,15 +64,12 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         return node;
     }
 
-
-
     @Override
     public Node visitEndLine(juliarParser.EndLineContext ctx) {
         FinalNode finalNode = new FinalNode();
         new IterateOverContext(ctx, this, finalNode);
         return finalNode;
     }
-
 
     //TODO need to refactor and combine vistAdd and visitSubtract
     @Override
@@ -168,36 +165,9 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
 
     @Override
     public Node visitEqualequal(juliarParser.EqualequalContext ctx){
-        //ifeq or if_acmpeq
-        /*String text = ctx.().getText();
-        if (text.equals("add") || text.equals("+")){
-            if (ctx.types().size() == 2) {
-                BinaryNode node = new BinaryNode();
-                try {
-                    FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
-                    functionDeclNode.AddInst(node.MakeNode(
-                            Operation.add,
-                            ctx.types(0).accept(this),
-                            ctx.types(1).accept(this)));
-                }catch( Exception ex){
-                    new PrintError(ex.getMessage(),ex);
-                }
-            }
-
-            if (ctx.types().size() > 2){
-                List<IntegralTypeNode> getIntegralValue = new ArrayList<>();
-
-                for ( int i = 0; i< ctx.types().size(); i++) {
-                    getIntegralValue.add((IntegralTypeNode) ctx.types(i).accept(this));
-                }
-                AggregateNode aggregateNode = new AggregateNode(Operation.add, getIntegralValue);
-
-                FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
-                functionDeclNode.AddInst( aggregateNode );
-            }
-        }
-        return null;*/
-        return null;
+        EqualEqualSignNode node = new EqualEqualSignNode();
+        new IterateOverContext(ctx, this, node);
+        return node;
     }
 
     @Override
@@ -292,7 +262,6 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         return null;
     }
 
-
     @Override
     public Node visitMultiply(juliarParser.MultiplyContext ctx) {
 
@@ -326,7 +295,6 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         return null;
     }
 
-
     @Override
     public Node visitTypes(juliarParser.TypesContext ctx) {
         IntegralTypeNode integralTypeNode = new IntegralTypeNode();
@@ -337,8 +305,6 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         return integralTypeNode;
     }
 
-
-
     @Override
     public Node visitPrimitives(juliarParser.PrimitivesContext ctx) {
         PrimitiveNode primitiveNode = new PrimitiveNode();
@@ -346,7 +312,6 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         context.iterateOverChildren(ctx, this, primitiveNode);
         return primitiveNode;
     }
-
 
     @Override
     public Node visitTerminal(TerminalNode node) {
@@ -409,6 +374,13 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
     }
 
     @Override
+    public Node visitIfExpr(juliarParser.IfExprContext ctx) {
+        IfExprNode node = new IfExprNode();
+        new IterateOverContext( ctx, this, node);
+        return node;
+    }
+
+    @Override
     public Node visitNumericTypes(juliarParser.NumericTypesContext ctx) {
         return super.visitNumericTypes(ctx);
     }
@@ -425,6 +397,12 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         return new EqualSignNode();
     }
 
+    @Override
+    public Node visitComparisonOperator(juliarParser.ComparisonOperatorContext ctx) {
+        BooleanOperatorNode booleanOperatorNode = new BooleanOperatorNode();
+        new IterateOverContext(ctx, this, booleanOperatorNode);
+        return booleanOperatorNode;
+    }
 
     @Override
     public Node visitExpression(juliarParser.ExpressionContext ctx) {
@@ -432,7 +410,6 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         new IterateOverContext(ctx, this , node);
         return node;
     }
-
 
     @Override
     public Node visitVariabledeclartion(juliarParser.VariabledeclartionContext ctx) {
@@ -448,6 +425,21 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         new IterateOverContext(ctx, this, keywordNode);
 
         return keywordNode;
+    }
+
+    @Override
+    public Node visitBooleanExpression(juliarParser.BooleanExpressionContext ctx) {
+        BooleanNode node = new BooleanNode();
+        IterateOverContext iterateOverContext =  new IterateOverContext( ){
+            @Override
+            public void action(Node node) {
+                super.action(node);
+            }
+        };
+
+        iterateOverContext.iterateOverChildren(ctx, this, node);
+
+        return node;
     }
 
     @Override
@@ -486,16 +478,17 @@ public class JuliarVisitor extends juliarBaseVisitor<Node>
         public IterateOverContext(){
         }
 
-        public IterateOverContext(ParserRuleContext ctx, JuliarVisitor visitor, Node parent){
+        public IterateOverContext(ParserRuleContext ctx, Visitor visitor, Node parent){
             this();
             iterateOverChildren( ctx, visitor, parent);
         }
 
-        public void iterateOverChildren(ParserRuleContext ctx, JuliarVisitor visitor, Node parent) {
+        public void iterateOverChildren(ParserRuleContext ctx, Visitor visitor, Node parent) {
             funcContextStack.push( parent );
             for (Iterator<ParseTree> pt = ctx.children.iterator(); pt.hasNext(); ) {
                 ParseTree parseTree = pt.next();
                 Node node = parseTree.accept( visitor );
+
                 if (node != null) {
                     action(node);
                     parent.AddInst( node );
