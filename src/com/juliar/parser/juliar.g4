@@ -47,7 +47,7 @@ reassignmentExpression
 
 
 functionCall
-    : funcName '()'
+    : funcName (leftParen)(rightParen)
     | funcName (leftParen) variable (',' variable)? (rightParen)
     ;
 
