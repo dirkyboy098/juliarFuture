@@ -5,8 +5,8 @@ import com.juliar.controlflow.ControlFlowAdjacencyList;
 import com.juliar.errors.LogMessage;
 import com.juliar.nodes.*;
 import com.juliar.pal.Primitives;
-import com.juliar.parser.juliarBaseVisitor;
-import com.juliar.parser.juliarParser;
+import com.juliar.parser.JuliarBaseVisitor;
+import com.juliar.parser.JuliarParser;
 import com.juliar.symbolTable.SymbolTable;
 import com.juliar.symbolTable.SymbolTypeEnum;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -21,7 +21,7 @@ import java.util.*;
 /**
  * Created by donreamey on 10/21/16.
  */
-public class Visitor extends juliarBaseVisitor<Node>
+public class Visitor extends JuliarBaseVisitor<Node>
 {
     private List<Node> instructionList = new ArrayList<>();
     private HashMap<String, Node> functionNodeMap = new HashMap<String, Node>();
@@ -43,7 +43,7 @@ public class Visitor extends juliarBaseVisitor<Node>
     }
 
     @Override
-    public Node visitCompileUnit(juliarParser.CompileUnitContext ctx) {
+    public Node visitCompileUnit(JuliarParser.CompileUnitContext ctx) {
 
         CompliationUnitNode node = new CompliationUnitNode();
 
@@ -58,14 +58,14 @@ public class Visitor extends juliarBaseVisitor<Node>
     }
 
     @Override
-    public Node visitStatement(juliarParser.StatementContext ctx) {
+    public Node visitStatement(JuliarParser.StatementContext ctx) {
         StatementNode node = new StatementNode();
         new IterateOverContext(ctx, this, node);
         return node;
     }
 
     @Override
-    public Node visitEndLine(juliarParser.EndLineContext ctx) {
+    public Node visitEndLine(JuliarParser.EndLineContext ctx) {
         FinalNode finalNode = new FinalNode();
         new IterateOverContext(ctx, this, finalNode);
         return finalNode;
@@ -73,7 +73,7 @@ public class Visitor extends juliarBaseVisitor<Node>
 
     //TODO need to refactor and combine vistAdd and visitSubtract
     @Override
-    public Node visitAdd(juliarParser.AddContext ctx) {
+    public Node visitAdd(JuliarParser.AddContext ctx) {
 
         String text = ctx.summation().getText();
         if (text.equals("add") || text.equals("+")){
@@ -106,7 +106,7 @@ public class Visitor extends juliarBaseVisitor<Node>
     }
 
     @Override
-    public Node visitSubtract(juliarParser.SubtractContext ctx) {
+    public Node visitSubtract(JuliarParser.SubtractContext ctx) {
         String text = ctx.subtraction().getText();
         if (text.equals("subtract") || text.equals("-")){
             if (ctx.types().size() == 2) {
@@ -139,7 +139,7 @@ public class Visitor extends juliarBaseVisitor<Node>
     }
 
     @Override
-    public Node visitFunctionDeclaration(juliarParser.FunctionDeclarationContext ctx) {
+    public Node visitFunctionDeclaration(JuliarParser.FunctionDeclarationContext ctx) {
         String funcName = ctx.funcName().getText();
         FunctionDeclNode functionDeclNode = new FunctionDeclNode(funcName, new ArrayList<Node>());
 
@@ -156,7 +156,7 @@ public class Visitor extends juliarBaseVisitor<Node>
     }
 
     @Override
-    public Node visitFunctionCall(juliarParser.FunctionCallContext ctx) {
+    public Node visitFunctionCall(JuliarParser.FunctionCallContext ctx) {
         FunctionCallNode node = new FunctionCallNode();
         new IterateOverContext(ctx, this, node);
 
@@ -164,39 +164,39 @@ public class Visitor extends juliarBaseVisitor<Node>
     }
 
     @Override
-    public Node visitEqualequal(juliarParser.EqualequalContext ctx){
+    public Node visitEqualequal(JuliarParser.EqualequalContext ctx){
         EqualEqualSignNode node = new EqualEqualSignNode();
         new IterateOverContext(ctx, this, node);
         return node;
     }
 
     @Override
-    public Node visitLessthan(juliarParser.LessthanContext ctx){
+    public Node visitLessthan(JuliarParser.LessthanContext ctx){
         //if_icmplt
         return null;
     }
     @Override
-    public Node visitGreaterthan(juliarParser.GreaterthanContext ctx){
+    public Node visitGreaterthan(JuliarParser.GreaterthanContext ctx){
         //if_icmpgt
         return null;
     }
     @Override
-    public Node visitLessthanorequalto(juliarParser.LessthanorequaltoContext ctx){
+    public Node visitLessthanorequalto(JuliarParser.LessthanorequaltoContext ctx){
 
         //if_icmple
         return null;
     }
     @Override
-    public Node visitGreaterthanorequalto(juliarParser.GreaterthanorequaltoContext ctx){
+    public Node visitGreaterthanorequalto(JuliarParser.GreaterthanorequaltoContext ctx){
         //if_icmpge
         return null;
     }
     @Override
-    public Node visitThreeway(juliarParser.ThreewayContext ctx){
+    public Node visitThreeway(JuliarParser.ThreewayContext ctx){
         return null;
     }
 
-    public Node visitModulo(juliarParser.ModuloContext ctx) {
+    public Node visitModulo(JuliarParser.ModuloContext ctx) {
 
         String text = ctx.moduli().getText();
         if (text.equals("modulo") || text.equals("%")){
@@ -227,7 +227,7 @@ public class Visitor extends juliarBaseVisitor<Node>
         return null;
     }
     @Override
-    public Node visitDivide(juliarParser.DivideContext ctx) {
+    public Node visitDivide(JuliarParser.DivideContext ctx) {
 
         String text = ctx.division().getText();
         if (text.equals("divide") || text.equals("/")){
@@ -263,7 +263,7 @@ public class Visitor extends juliarBaseVisitor<Node>
     }
 
     @Override
-    public Node visitMultiply(juliarParser.MultiplyContext ctx) {
+    public Node visitMultiply(JuliarParser.MultiplyContext ctx) {
 
         String text = ctx.multiplication().getText();
         if (text.equals("multiply") || text.equals("*")){
@@ -296,7 +296,7 @@ public class Visitor extends juliarBaseVisitor<Node>
     }
 
     @Override
-    public Node visitTypes(juliarParser.TypesContext ctx) {
+    public Node visitTypes(JuliarParser.TypesContext ctx) {
         IntegralTypeNode integralTypeNode = new IntegralTypeNode();
 
         IterateOverContext context = new IterateOverContext();
@@ -306,7 +306,7 @@ public class Visitor extends juliarBaseVisitor<Node>
     }
 
     @Override
-    public Node visitPrimitives(juliarParser.PrimitivesContext ctx) {
+    public Node visitPrimitives(JuliarParser.PrimitivesContext ctx) {
         PrimitiveNode primitiveNode = new PrimitiveNode();
         IterateOverContext context = new IterateOverContext();
         context.iterateOverChildren(ctx, this, primitiveNode);
@@ -360,66 +360,66 @@ public class Visitor extends juliarBaseVisitor<Node>
     private StringBuilder importBuffer = new StringBuilder();
 
     @Override
-    public Node visitAssignmentExpression(juliarParser.AssignmentExpressionContext ctx) {
+    public Node visitAssignmentExpression(JuliarParser.AssignmentExpressionContext ctx) {
         AssignmentNode node = new AssignmentNode(null);
         IterateOverContext context = new IterateOverContext(ctx, this, node);
         return node;
     }
 
     @Override
-    public Node visitReassignmentExpression(juliarParser.ReassignmentExpressionContext ctx) {
+    public Node visitReassignmentExpression(JuliarParser.ReassignmentExpressionContext ctx) {
         VariableReassignmentNode node = new VariableReassignmentNode();
         new IterateOverContext( ctx, this, node);
         return node;
     }
 
     @Override
-    public Node visitIfExpr(juliarParser.IfExprContext ctx) {
+    public Node visitIfExpr(JuliarParser.IfExprContext ctx) {
         IfExprNode node = new IfExprNode();
         new IterateOverContext( ctx, this, node);
         return node;
     }
 
     @Override
-    public Node visitNumericTypes(juliarParser.NumericTypesContext ctx) {
+    public Node visitNumericTypes(JuliarParser.NumericTypesContext ctx) {
         return super.visitNumericTypes(ctx);
     }
 
     @Override
-    public Node visitPrimitiveTypes(juliarParser.PrimitiveTypesContext ctx) {
+    public Node visitPrimitiveTypes(JuliarParser.PrimitiveTypesContext ctx) {
         PrimitiveNode node = new PrimitiveNode();
         new IterateOverContext(ctx, this, node);
         return node;
     }
 
     @Override
-    public Node visitEqualsign(juliarParser.EqualsignContext ctx) {
+    public Node visitEqualsign(JuliarParser.EqualsignContext ctx) {
         return new EqualSignNode();
     }
 
     @Override
-    public Node visitComparisonOperator(juliarParser.ComparisonOperatorContext ctx) {
+    public Node visitComparisonOperator(JuliarParser.ComparisonOperatorContext ctx) {
         BooleanOperatorNode booleanOperatorNode = new BooleanOperatorNode();
         new IterateOverContext(ctx, this, booleanOperatorNode);
         return booleanOperatorNode;
     }
 
     @Override
-    public Node visitExpression(juliarParser.ExpressionContext ctx) {
+    public Node visitExpression(JuliarParser.ExpressionContext ctx) {
         ExpressionNode node = new ExpressionNode();
         new IterateOverContext(ctx, this , node);
         return node;
     }
 
     @Override
-    public Node visitVariabledeclartion(juliarParser.VariabledeclartionContext ctx) {
+    public Node visitVariabledeclartion(JuliarParser.VariabledeclartionContext ctx) {
         VariableDeclarationNode variableDeclarationNode = new VariableDeclarationNode();
         new IterateOverContext(ctx, this , variableDeclarationNode);
         return variableDeclarationNode;
     }
 
     @Override
-    public Node visitKeywords(juliarParser.KeywordsContext ctx) {
+    public Node visitKeywords(JuliarParser.KeywordsContext ctx) {
 
         KeywordNode keywordNode = new KeywordNode();
         new IterateOverContext(ctx, this, keywordNode);
@@ -428,7 +428,7 @@ public class Visitor extends juliarBaseVisitor<Node>
     }
 
     @Override
-    public Node visitBooleanExpression(juliarParser.BooleanExpressionContext ctx) {
+    public Node visitBooleanExpression(JuliarParser.BooleanExpressionContext ctx) {
         BooleanNode node = new BooleanNode();
         IterateOverContext iterateOverContext =  new IterateOverContext( ){
             @Override
@@ -443,7 +443,7 @@ public class Visitor extends juliarBaseVisitor<Node>
     }
 
     @Override
-    public Node visitVariable(juliarParser.VariableContext ctx) {
+    public Node visitVariable(JuliarParser.VariableContext ctx) {
         String variableName = ctx.ID().getText();
 
         VariableNode variableNode = new VariableNode(variableName, null);
@@ -465,7 +465,7 @@ public class Visitor extends juliarBaseVisitor<Node>
     }
 
     @Override
-    public Node visitReturnValue(juliarParser.ReturnValueContext ctx) {
+    public Node visitReturnValue(JuliarParser.ReturnValueContext ctx) {
         ReturnValueNode node = new ReturnValueNode();
 
         new IterateOverContext(ctx, this, node);

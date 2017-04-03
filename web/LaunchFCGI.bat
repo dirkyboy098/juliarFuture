@@ -9,7 +9,7 @@ if not exist JuliarCompiler.jar (
     timeout /t 15
     Exit 2
 )
-start cmd.exe /C java -jar -DFCGI_PORT=9000 JuliarCompiler.jar
+start cmd.exe /C java -DFCGI_PORT=9000 -jar JuliarCompiler.jar
 cd C:\nginx\
 start nginx.exe
 cd %mycurrdir%

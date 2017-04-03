@@ -4,11 +4,12 @@ import com.fastcgi.FCGIInterface;
 import com.juliar.errors.ErrorListener;
 import com.juliar.errors.LogMessage;
 import com.juliar.interpreter.Interpreter;
-import com.juliar.parser.juliarLexer;
-import com.juliar.parser.juliarParser;
+import com.juliar.parser.JuliarLexer;
+import com.juliar.parser.JuliarParser;
 import com.juliar.symbolTable.SymbolTable;
 import com.juliar.vistor.Visitor;
 import com.juliar.jpm.JPM;
+import com.juliar.gui.Gui;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
@@ -24,23 +25,29 @@ public class JuliarCompiler {
 
 	
     public static void main(String[] args) {
-		/*
     	if(System.console() == null) {
 			new Thread(() -> javafx.application.Application.launch(Gui.class)).start();
 			return;
-		}*/
+		}
 		try {
-			//fastCGI();
-			//checkAddArgs(args);
+			fastCGI();
+			String[] unparsed_args = parseFlags(args);
 
-			if (startupInstructions(args)) {
+			if (startupInstructions(unparsed_args)) {
 				return;
 			}
 
-			String fileName = args[0];
-			String outputPath = args[1];
-			Boolean compileFlag = args[2].equals("true") ? true : false;
-			Boolean replFlag = args[3].equals("true") ? true : false;
+			Boolean compileFlag = false;
+			String fileName = unparsed_args[0];
+			String outputPath = "/";
+			if(unparsed_args.length > 1){
+				outputPath = unparsed_args[1];
+				compileFlag = true;
+			}
+
+			//Boolean compileFlag = args[2].equals("true") ? true : false;
+			//Boolean replFlag = args[3].equals("true") ? true : false;
+			Boolean replFlag = false;
 
 			JuliarCompiler compiler = new JuliarCompiler();
 
@@ -54,7 +61,7 @@ public class JuliarCompiler {
 	private static boolean startupInstructions(String[] args) {
 		LogMessage.message("Juliar Compiler - Copyright (C) 2017");
 
-		if(args.length != 4){
+		if(args.length != 1 && args.length != 2){
             LogMessage.message("Usage: java -jar JuliarCompiler.jar <source file> <output path> <fcgi port>");
             LogMessage.message("Path to Juliar source file");
             LogMessage.message("Path to output directory if compiled.");
@@ -65,11 +72,28 @@ public class JuliarCompiler {
 		return false;
 	}
 
-	private static void checkAddArgs(String[] args) {
+	private static String[] parseFlags(String[] args) {
+		String[] params = new String[2];
+		ArrayList<String> unparsed = new ArrayList<String>();
 		for(int i=0; i < args.length; i++) {
-            if(args[i].startsWith("-DFCGI_PORT=")) fastCGI();
-            else if(args[i].equals("-selfupdate")) new JPM();
+			if(args[i].startsWith("-")){
+				 params = args[i].split("-");
+				 switch(params[0]){
+					 case "-selfupdate":
+					 	new JPM();
+					 	break;
+					 case "-verbose":
+						System.out.println("verbose is on");
+					 	break;
+					 default:
+					 	break;
+				 }
+			}
+			else{
+				unparsed.add(args[i]);
+			}
         }
+        return unparsed.toArray(new String[0]);
 	}
 
 	private static void fastCGI() {
@@ -77,9 +101,11 @@ public class JuliarCompiler {
 		int count = 0;
 		FCGIInterface intf = new FCGIInterface();
 		while (intf.FCGIaccept() >= 0) {
-				String DOCUMENT_ROOT = System.getProperty("DOCUMENT_ROOT");
-				String SCRIPT_NAME = System.getProperty("SCRIPT_NAME");
-                String QUERY_STRING = System.getProperty("QUERY_STRING"); //PARAMETERS
+				String method = System.getProperty("REQUEST_METHOD");
+				if (method != null) {
+					String DOCUMENT_ROOT = System.getProperty("DOCUMENT_ROOT");
+					String SCRIPT_NAME = System.getProperty("SCRIPT_NAME");
+					String QUERY_STRING = System.getProperty("QUERY_STRING"); //PARAMETERS
                 /*Map<String, String> query_pairs = new LinkedHashMap<String, String>();
                 String[] pairs = QUERY_STRING.split("&");
                 for(String pair: pairs){
@@ -90,14 +116,15 @@ public class JuliarCompiler {
                         e.printStackTrace();
                     }
                 }*/
-				System.out.println("Content-type: text/html\r\n\r\n");
+					System.out.println("Content-type: text/html\r\n\r\n");
 
-				System.out.println("<html>");
-				if (SCRIPT_NAME == "/" || SCRIPT_NAME == "") SCRIPT_NAME = "index.jrl";
-				JuliarCompiler compiler2 = new JuliarCompiler();
-				compiler2.compile(DOCUMENT_ROOT + SCRIPT_NAME, "", false, false);
-				System.out.println("</html>");
-				SymbolTable.DeleteSymbolTable();
+					System.out.println("<html>");
+					if (SCRIPT_NAME == "/" || SCRIPT_NAME == "") SCRIPT_NAME = "index.jrl";
+					JuliarCompiler compiler2 = new JuliarCompiler();
+					compiler2.compile(DOCUMENT_ROOT + SCRIPT_NAME, "", false, false);
+					System.out.println("</html>");
+					SymbolTable.DeleteSymbolTable();
+				}
         }
 	}
 
@@ -116,7 +143,7 @@ public class JuliarCompiler {
 
 	public List<String> compile(InputStream b, String outputfile, boolean compilerFlag, boolean isRepl) {
         try {
-			juliarParser parser = parse( b );
+			JuliarParser parser = parse( b );
 			
 			errors = new ErrorListener();
 			parser.addErrorListener(errors);
@@ -124,7 +151,7 @@ public class JuliarCompiler {
 			// call parse statement.
 			// This will parse a single line to validate the syntax
 			if (isRepl) {
-				juliarParser.CompileUnitContext context = parser.compileUnit();
+				JuliarParser.CompileUnitContext context = parser.compileUnit();
 				if (isDebugMode) {
 					System.out.println(context.toStringTree(parser));
 				}
@@ -143,7 +170,7 @@ public class JuliarCompiler {
 				// to parse a complete program
 				// then calls the code generator.
 
-				juliarParser.CompileUnitContext context = parser.compileUnit();
+				JuliarParser.CompileUnitContext context = parser.compileUnit();
 				if (isDebugMode) {
 					System.out.println(context.toStringTree(parser));
 				}
@@ -185,14 +212,14 @@ public class JuliarCompiler {
 	
 	
 	
-	private juliarParser parse(InputStream b) throws Exception {
-        juliarParser parser = null;
+	private JuliarParser parse(InputStream b) throws Exception {
+        JuliarParser parser = null;
 
         ANTLRInputStream s = new ANTLRInputStream(b);
 
-        juliarLexer lexer = new juliarLexer(s);
+        JuliarLexer lexer = new JuliarLexer(s);
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
-        parser = new juliarParser(tokenStream);
+        parser = new JuliarParser(tokenStream);
 
         parser.removeErrorListeners();
 
