@@ -14,6 +14,7 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -151,67 +152,74 @@ public class JuliarCompiler {
 			// call parse statement.
 			// This will parse a single line to validate the syntax
 			if (isRepl) {
-				JuliarParser.CompileUnitContext context = parser.compileUnit();
-				if (isDebugMode) {
-					System.out.println(context.toStringTree(parser));
-				}
-				Visitor v = new Visitor(new ImportsInterface() {
-					@Override
-					public void createTempCallback(String imports, int linesToSkip) {
-
-					}
-				}, true);
-
-				v.visit(context);
-				Interpreter i = new Interpreter(v.instructions());
+				executeCommandLineRepl(parser);
 			}
 			else {
-				// Calls the parse CompileUnit method
-				// to parse a complete program
-				// then calls the code generator.
-
-				JuliarParser.CompileUnitContext context = parser.compileUnit();
-				if (isDebugMode) {
-					System.out.println(context.toStringTree(parser));
-				}
-				if (errors.ErrorList().size() > 0){
-					for (String error : errors.ErrorList()){
-						System.out.println( error );
-					}
-					
+				if (excuteCompiler(outputfile, compilerFlag, parser)) {
 					return errors.ErrorList();
 				}
 
-				Visitor visitor = new Visitor(new ImportsInterface() {
-					@Override
-					public void createTempCallback(String imports, int linesToSkip) {
-
-					}
-				}, true);
-				visitor.visit(context);
-
-				if(!compilerFlag){
-					Interpreter i = new Interpreter(visitor.instructions());
-				}
-				else {
-					com.juliar.codegenerator.CodeGenerator generator = new com.juliar.codegenerator.CodeGenerator();
-					generator.Generate(visitor.instructions(),outputfile);
-					Interpreter i = new Interpreter(visitor.instructions());
-				}
 			}
-			
-			//return errors.ErrorList();
-			
-			
 			} catch (Exception ex) {
 			new LogMessage(ex.getMessage(),ex);
 		}
 		
         return new ArrayList<>();
 	}
-	
-	
-	
+
+	/*
+	Will execute the compiler or the interpreter.
+	 */
+	private boolean excuteCompiler(String outputfile, boolean compilerFlag, JuliarParser parser) throws IOException {
+		// Calls the parse CompileUnit method
+		// to parse a complete program
+		// then calls the code generator.
+
+		JuliarParser.CompileUnitContext context = parser.compileUnit();
+		if (isDebugMode) {
+            System.out.println(context.toStringTree(parser));
+        }
+		if (errors.ErrorList().size() > 0){
+            for (String error : errors.ErrorList()){
+                System.out.println( error );
+            }
+
+			return true;
+        }
+
+		Visitor visitor = new Visitor((imports, linesToSkip) -> {}, true);
+		visitor.visit(context);
+
+		if(compilerFlag){
+            com.juliar.codegenerator.CodeGenerator generator = new com.juliar.codegenerator.CodeGenerator();
+            generator.Generate(visitor.instructions(),outputfile);
+        }
+
+        new Interpreter(visitor.instructions());
+
+		return false;
+	}
+
+	/*
+	Runs the REPL engine from the command line.
+	 */
+	private void executeCommandLineRepl(JuliarParser parser) {
+		JuliarParser.CompileUnitContext context = parser.compileUnit();
+		if (isDebugMode) {
+            System.out.println(context.toStringTree(parser));
+        }
+		Visitor v = new Visitor(new ImportsInterface() {
+            @Override
+            public void createTempCallback(String imports, int linesToSkip) {
+
+            }
+        }, true);
+
+		v.visit(context);
+		Interpreter i = new Interpreter(v.instructions());
+	}
+
+
 	private JuliarParser parse(InputStream b) throws Exception {
         JuliarParser parser = null;
 
