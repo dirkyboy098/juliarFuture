@@ -10,31 +10,38 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.juliar.gui.Controller">
-   <children>
       <AnchorPane prefHeight="0.0" prefWidth="600.0">
              <MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                  <Menu text="File">
                      <MenuItem onAction="#onNew" text="New" />
+				<MenuItem onAction="#onLoad" text="Load" />
                      <MenuItem onAction="#onSave" text="Save" />
                      <MenuItem onAction="#onSaveAs" text="Save As..." />
-                     <MenuItem onAction="#onLoad" text="Load" />
+                     
                      <MenuItem onAction="#onExit" text="Exit" />
+                 </Menu>
+                 <Menu text="Edit">
+                     <MenuItem text="Undo" />
+                     <MenuItem text="Redo" />
+                 </Menu>
+                 <Menu text="Run">
+                     <MenuItem onAction="#onRunInterpreter" text="Run Interpreter" />
+                     <MenuItem disable="true" onAction="#onCompileAndRun" text="Compile Program" />
+                     <MenuItem onAction="#onRunFCGI" text="Run FastCGI" />
                  </Menu>
                  <Menu text="Help">
                      <MenuItem onAction="#onAbout" text="About" />
                  </Menu>
              </MenuBar>
       </AnchorPane>
-      <TabPane fx:id="tabPane" maxWidth="Infinity" VBox.vgrow="ALWAYS" prefHeight="549.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
-        <tabs>
+      <TabPane fx:id="tabPane" maxWidth="Infinity" prefHeight="549.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
           <Tab text="Untitled">
-            <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                          <TextArea fx:id="areaText" prefHeight="438.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                 </AnchorPane>
-            </content>
           </Tab>
-        </tabs>
       </TabPane>
-   </children>
+      <AnchorPane prefHeight="206.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0">
+          <TextArea fx:id="areaOutText" editable="false" layoutX="45.0" layoutY="-55.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      </AnchorPane>
 </VBox>

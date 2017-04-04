@@ -26,13 +26,12 @@ public class JuliarCompiler {
 
 	
     public static void main(String[] args) {
+		fastCGI();
     	if(System.console() == null) {
 			new Thread(() -> javafx.application.Application.launch(Gui.class)).start();
 			return;
 		}
 		try {
-
-			fastCGI();
 			String[] unparsed_args = parseFlags(args);
 
 			if (startupInstructions(unparsed_args)) {
