@@ -71,38 +71,13 @@ public class Visitor extends JuliarBaseVisitor<Node>
         return finalNode;
     }
 
+
     //TODO need to refactor and combine vistAdd and visitSubtract
     @Override
     public Node visitAdd(JuliarParser.AddContext ctx) {
-
-        String text = ctx.summation().getText();
-        if (text.equals("add") || text.equals("+")){
-            if (ctx.types().size() == 2) {
-                BinaryNode node = new BinaryNode();
-                try {
-                    FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
-                    functionDeclNode.AddInst(node.MakeNode(
-                            Operation.add,
-                            ctx.types(0).accept(this),
-                            ctx.types(1).accept(this)));
-                }catch( Exception ex){
-                    new LogMessage(ex.getMessage(),ex);
-                }
-            }
-
-            if (ctx.types().size() > 2){
-                List<IntegralTypeNode> data = new ArrayList<>();
-
-                for ( int i = 0; i< ctx.types().size(); i++) {
-                    data.add((IntegralTypeNode) ctx.types(i).accept(this));
-                }
-                AggregateNode aggregateNode = new AggregateNode(Operation.add, data);
-
-                FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
-                functionDeclNode.AddInst( aggregateNode );
-            }
-        }
-        return null;
+        AggregateNode node = new AggregateNode();
+        new IterateOverContext( ctx, this , node);
+        return node;
     }
 
     @Override

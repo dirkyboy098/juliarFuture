@@ -31,12 +31,13 @@ public class Interpreter {
             functionMap.put(NodeType.AssignmentType             , ((n, activationFrame )-> EvaluateAssignments.evalAssignment(n, activationFrame )  ));
             functionMap.put(NodeType.PrimitiveType              , ((n, activationFrame )-> EvaluatePrimitives.evalPrimitives(n, activationFrame)  ));
 
-            functionMap.put(NodeType.FunctionaCallType          , ((n, activationFrame )-> evalFunctionCall(n)     ));
-            functionMap.put(NodeType.FunctionDeclType           , ((n, activationFrame )-> evalFunctionDecl(n)     ));
+            functionMap.put(NodeType.AggregateType              , ((n, activationFrame )-> evaluateAggregate(n)     ));
+            functionMap.put(NodeType.FunctionaCallType          , ((n, activationFrame )-> evalFunctionCall(n)      ));
+            functionMap.put(NodeType.FunctionDeclType           , ((n, activationFrame )-> evalFunctionDecl(n)      ));
             functionMap.put(NodeType.VariableType               , ((n, activationFrame )-> evalActivationFrame(n)   ));
             functionMap.put(NodeType.BinaryType                 , ((n, activationFrame )-> evalBinaryNode(n)        ));
             functionMap.put(NodeType.StatementType              , ((n, activationFrame )-> evalStatement(n)         ));
-            functionMap.put(NodeType.ExpressionType             , ((n, activationFrame )-> evalStatement(n)        ));
+            functionMap.put(NodeType.ExpressionType             , ((n, activationFrame )-> evalStatement(n)         ));
             functionMap.put(NodeType.FinalType                  , ((n, activationFrame )-> evalFinal(n)             ));
             functionMap.put(NodeType.ReturnValueType            , ((n, activationFrame )-> evalReturn(n, activationFrame)             ));
             functionMap.put(NodeType.BooleanType                , ((n, activationFrame )-> evalBooleanNode(n, activationFrame)    ));
@@ -266,6 +267,9 @@ public class Interpreter {
         return null;
     }
 
+    private List<Node> evaluateAggregate(Node node){
+        return null;
+    }
     private List<Node> evalBinaryNode(Node Node) {
         BinaryNode bn = (BinaryNode) Node;
         String operation = bn.operation().name();

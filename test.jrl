@@ -32,7 +32,7 @@ function test() = {
 
 
 function foo() = {
-    int x = 2345;
+    int x = + 1 2;
     return x;
 }
 
