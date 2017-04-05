@@ -13,7 +13,7 @@ import java.util.*;
  * Created by donreamey on 1/8/17.
  */
 public class Interpreter {
-    private Stack<ActivationFrame> activationFrameStack = new Stack<ActivationFrame>();
+    private static Stack<ActivationFrame> activationFrameStack = new Stack<ActivationFrame>();
     private Stack<Node> returnValueStack = new Stack<>();
     private List<Node> inst;
     private HashMap<String, Node> functionNodeMap;
