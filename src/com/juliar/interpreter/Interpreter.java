@@ -3,6 +3,7 @@ package com.juliar.interpreter;
 import com.juliar.codegenerator.InstructionInvocation;
 import com.juliar.errors.LogMessage;
 import com.juliar.nodes.*;
+import com.juliar.symbolTable.SymbolTable;
 import com.juliar.symbolTable.SymbolTypeEnum;
 import javafx.beans.binding.BooleanExpression;
 

@@ -8,4 +8,5 @@ public enum SymbolTypeEnum {
     functionDecl,
     variableDecl,
     variableRef,
+    localScope,
 }

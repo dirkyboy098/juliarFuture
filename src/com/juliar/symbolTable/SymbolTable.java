@@ -60,6 +60,13 @@ public class SymbolTable {
         return findLevel(root, levelName);
     }
 
+    public boolean doesSymbolExistAtScope( String child, String parent){
+        SymbolTableNode childNode = findLevel( child );
+        SymbolTableNode parentNode = findLevel( parent );
+
+        return doesSymbolExistAtScope( parentNode, childNode );
+    }
+
     private void AddLevel(String current){
         if (root == null){
             root = new SymbolTableNode();
