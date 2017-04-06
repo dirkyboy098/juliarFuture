@@ -31,7 +31,11 @@ public class Interpreter {
             functionMap.put(NodeType.AssignmentType             , ((n, activationFrame )-> EvaluateAssignments.evalAssignment(n, activationFrame )  ));
             functionMap.put(NodeType.PrimitiveType              , ((n, activationFrame )-> EvaluatePrimitives.evalPrimitives(n, activationFrame)  ));
 
-            functionMap.put(NodeType.AggregateType              , ((n, activationFrame )-> evaluateAggregate(n)     ));
+            functionMap.put(NodeType.AddType                    , ((n, activationFrame )-> evalAdd(n)     ));
+            functionMap.put(NodeType.AggregateType              , ((n, activationFrame )-> evaluateAggregate(n, activationFrame)      ));
+            functionMap.put(NodeType.CommandType                , ((n, activationFrame )-> evalCommand(n)      ));
+            functionMap.put(NodeType.SummationType              , ((n, activationFrame )-> evalSummation(n)     ));
+
             functionMap.put(NodeType.FunctionaCallType          , ((n, activationFrame )-> evalFunctionCall(n)      ));
             functionMap.put(NodeType.FunctionDeclType           , ((n, activationFrame )-> evalFunctionDecl(n)      ));
             functionMap.put(NodeType.VariableType               , ((n, activationFrame )-> evalActivationFrame(n)   ));
@@ -99,6 +103,22 @@ public class Interpreter {
         frame.variableSet.put (((VariableNode)node).variableName, node);
         return null;
     }
+
+
+    private List<Node> evalSummation(Node node){
+        return null;
+    }
+
+    private List<Node> evalCommand(Node node) {
+        List<Node> slotList = new ArrayList<>();
+        slotList.add( node.getInstructions().get(0) );
+        return slotList;
+    }
+
+    private List<Node> evalAdd(Node node){
+        return null;
+    }
+
 
     private List<Node> evalNull(Node Node){
         return null;
@@ -267,9 +287,26 @@ public class Interpreter {
         return null;
     }
 
-    private List<Node> evaluateAggregate(Node node){
+    private List<Node> evaluateAggregate(Node node, ActivationFrame frame){
+        SummationType summationType = (SummationType)node.getInstructions().get(0);
+        List<Node> list = node.getInstructions();
+
+        int size = list.size();
+        int sum = 0;
+
+        for (int i = 1; i < size; i ++){
+            String value = ((FinalNode)list.get(i).getInstructions().get(0)).dataString();
+            sum += Integer.parseInt( value );
+        }
+
+        FinalNode returnNode = new FinalNode();
+        returnNode.setDataString( sum );
+        frame.returnNode = returnNode;
+
         return null;
     }
+
+
     private List<Node> evalBinaryNode(Node Node) {
         BinaryNode bn = (BinaryNode) Node;
         String operation = bn.operation().name();

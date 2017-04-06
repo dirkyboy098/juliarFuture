@@ -75,9 +75,12 @@ public class Visitor extends JuliarBaseVisitor<Node>
     //TODO need to refactor and combine vistAdd and visitSubtract
     @Override
     public Node visitAdd(JuliarParser.AddContext ctx) {
-        AggregateNode node = new AggregateNode();
-        new IterateOverContext( ctx, this , node);
-        return node;
+        return iterateWrapper(ctx, this , new AggregateNode());
+    }
+
+    @Override
+    public Node visitSummation(JuliarParser.SummationContext ctx) {
+        return iterateWrapper( ctx, this, new SummationType());
     }
 
     @Override
@@ -418,6 +421,13 @@ public class Visitor extends JuliarBaseVisitor<Node>
     }
 
     @Override
+    public Node visitCommand(JuliarParser.CommandContext ctx) {
+        CommandNode commandNode = new CommandNode();
+        new IterateOverContext(ctx, this , commandNode);
+        return commandNode;
+    }
+
+    @Override
     public Node visitVariable(JuliarParser.VariableContext ctx) {
         String variableName = ctx.ID().getText();
 
@@ -448,6 +458,12 @@ public class Visitor extends JuliarBaseVisitor<Node>
         return node;
     }
 
+    private Node iterateWrapper(ParserRuleContext ctx, Visitor visitor, Node parent){
+        IterateOverContext it = new IterateOverContext();
+        it.iterateOverChildren(ctx, visitor, parent);
+        return parent;
+    }
+
     class IterateOverContext {
 
         public IterateOverContext(){
@@ -457,6 +473,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
             this();
             iterateOverChildren( ctx, visitor, parent);
         }
+
 
         public void iterateOverChildren(ParserRuleContext ctx, Visitor visitor, Node parent) {
             funcContextStack.push( parent );
