@@ -49,6 +49,10 @@ public class EvaluatePrimitives {
                 if (variable instanceof BooleanNode){
                     finalNode = (FinalNode) ((BooleanNode) variable).getInstructions().get(0);
                 }
+
+                if (variable instanceof FinalNode){
+                    finalNode = (FinalNode)variable;
+                }
             }
 
             if (argumentNode instanceof IntegralTypeNode) {

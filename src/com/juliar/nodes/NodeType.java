@@ -4,12 +4,14 @@ package com.juliar.nodes;
  * Created by don on 3/25/17.
  */
 public enum NodeType {
+    AddType,
     AggregateType,
     AssignmentType,
     BinaryType,
     BooleanType,
     BooleanOperatorType,
     CompliationUnitType,
+    CommandType,
     EqualEqualType,
     EqualSignType,
     ExpressionType,
@@ -25,6 +27,7 @@ public enum NodeType {
     ReturnValueType,
     RvalueType,
     StatementType,
+    SummationType,
     VariableDeclarationType,
     VariableType,
     VariableReassignmentType,

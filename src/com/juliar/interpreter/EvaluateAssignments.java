@@ -47,6 +47,8 @@ public class EvaluateAssignments {
         final int primtiveIndex = 2;
         VariableDeclarationNode variableToAssignTo =  (VariableDeclarationNode)instructions.get(  varDeclIndex );
 
+        FinalNode variableNameTerminalNode = (FinalNode) variableToAssignTo.getInstructions().get(1).getInstructions().get(0);
+
         // | zero             | one       | two
         // | variableDecl     | EqualSign | Primitive
         // | int variableName | =         | 3
@@ -67,7 +69,7 @@ public class EvaluateAssignments {
                 PrimitiveNode primitiveNode = (PrimitiveNode)rvalue;
                 if (primitiveNode != null && canPrimitiveValueBeAssignedToVar(variableToAssignTo, primitiveNode)){
                     ActivationFrame frame = activationFrame;
-                    FinalNode variableNameTerminalNode = (FinalNode) variableToAssignTo.getInstructions().get(1).getInstructions().get(0);
+                    variableNameTerminalNode = (FinalNode) variableToAssignTo.getInstructions().get(1).getInstructions().get(0);
                     String variableName = variableNameTerminalNode.dataString();
 
                     if (frame.variableSet.containsKey( variableName )) {
@@ -85,6 +87,25 @@ public class EvaluateAssignments {
                 interpreterCallback.execute( slotList );
 
                 assignReturnValueToVariable(activationFrame, variableToAssignTo);
+            }
+
+            if (rvalue instanceof CommandNode)
+            {
+                List<Node> slotList = new ArrayList<>();
+                slotList.add( (CommandNode)rvalue );
+                interpreterCallback.execute( slotList );
+
+                ActivationFrame frame = activationFrame;
+                variableNameTerminalNode = (FinalNode) variableToAssignTo.getInstructions().get(1).getInstructions().get(0);
+
+                String variableName = variableNameTerminalNode.dataString();
+
+                if (frame.variableSet.containsKey( variableName )) {
+                    frame.variableSet.remove(variableName);
+                }
+
+                frame.variableSet.put( variableName, frame.returnNode );
+                frame.returnNode = null;
             }
         }
 
