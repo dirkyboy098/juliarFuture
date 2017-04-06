@@ -52,3 +52,15 @@ hs_err_pid19144.log
 .idea/.idea/modules.xml
 .idea/.idea/misc.xml
 .idea/.idea/compiler.xml
+
+out/.idea/compiler.xml
+
+out/.idea/copyright/profiles_settings.xml
+
+out/.idea/misc.xml
+
+out/.idea/modules.xml
+
+out/.idea/workspace.xml
+
+out/com/juliar/gui/juliar.fxml
