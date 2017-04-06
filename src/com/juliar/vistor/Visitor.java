@@ -71,7 +71,6 @@ public class Visitor extends JuliarBaseVisitor<Node>
         return finalNode;
     }
 
-
     //TODO need to refactor and combine vistAdd and visitSubtract
     @Override
     public Node visitAdd(JuliarParser.AddContext ctx) {
@@ -154,21 +153,25 @@ public class Visitor extends JuliarBaseVisitor<Node>
         return null;
     }
     @Override
+
     public Node visitGreaterthan(JuliarParser.GreaterthanContext ctx){
         //if_icmpgt
         return null;
     }
     @Override
+
     public Node visitLessthanorequalto(JuliarParser.LessthanorequaltoContext ctx){
 
         //if_icmple
         return null;
     }
     @Override
+
     public Node visitGreaterthanorequalto(JuliarParser.GreaterthanorequaltoContext ctx){
         //if_icmpge
         return null;
     }
+
     @Override
     public Node visitThreeway(JuliarParser.ThreewayContext ctx){
         return null;
@@ -204,6 +207,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
         return null;
     }
+
     @Override
     public Node visitDivide(JuliarParser.DivideContext ctx) {
 
@@ -315,28 +319,6 @@ public class Visitor extends JuliarBaseVisitor<Node>
         return new FinalNode(node);
     }
 
-    private void cacheImports( String fileName){
-        StringBuilder builder = new StringBuilder();
-
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(Primitives.stripQuotes( fileName ) ))){
-            String line = bufferedReader.readLine();
-            while ( line != null ){
-                builder.append( line );
-                line = bufferedReader.readLine();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        importBuffer.append( builder );
-        skimImports = true;
-        importsInterfaceCallback.createTempCallback( importBuffer.toString(), this.currentLineNumber);
-    }
-
-    private StringBuilder importBuffer = new StringBuilder();
-
     @Override
     public Node visitAssignmentExpression(JuliarParser.AssignmentExpressionContext ctx) {
         AssignmentNode node = new AssignmentNode(null);
@@ -434,6 +416,19 @@ public class Visitor extends JuliarBaseVisitor<Node>
         VariableNode variableNode = new VariableNode(variableName, null);
 
         Object[] funcStackArray =  funcContextStack.toArray();
+        int length = funcStackArray.length - 1;
+        Boolean isStatement = false;
+        Boolean isVariableDecl = false;
+
+        for (int i = length; i>0; i--){
+            if (funcStackArray[i] instanceof VariableDeclarationNode && isStatement == false){
+                return variableNode;
+            }
+
+            if (funcStackArray[i] instanceof StatementNode && isVariableDecl == false){
+                //symbolTable.doesSymbolExistAtScope(variableName, funcStackArray[i])
+            }
+        }
 
         if (funcStackArray.length > 0) {
             int i = funcStackArray.length;
@@ -463,6 +458,28 @@ public class Visitor extends JuliarBaseVisitor<Node>
         it.iterateOverChildren(ctx, visitor, parent);
         return parent;
     }
+
+    private void cacheImports( String fileName){
+        StringBuilder builder = new StringBuilder();
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(Primitives.stripQuotes( fileName ) ))){
+            String line = bufferedReader.readLine();
+            while ( line != null ){
+                builder.append( line );
+                line = bufferedReader.readLine();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        importBuffer.append( builder );
+        skimImports = true;
+        importsInterfaceCallback.createTempCallback( importBuffer.toString(), this.currentLineNumber);
+    }
+
+    private StringBuilder importBuffer = new StringBuilder();
 
     class IterateOverContext {
 
