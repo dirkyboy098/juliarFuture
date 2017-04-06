@@ -9,9 +9,12 @@ public class TextFile {
 
     private final List<String> content;
 
+    private String name;
+
     public TextFile(Path file, List<String> content) {
         this.file = file;
         this.content = content;
+        this.name = file.getFileName().toString();
     }
 
     public Path getFile() {
@@ -21,4 +24,6 @@ public class TextFile {
     public List<String> getContent() {
         return content;
     }
+
+    public String getName() { return name; }
 }

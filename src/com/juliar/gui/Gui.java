@@ -22,6 +22,7 @@ public class Gui extends Application {
             loader.setControllerFactory(t -> new Controller(new Model()));
             stage.setScene(new Scene(loader.load()));
             stage.setTitle("Juliar.Future");
+            //stage.getIcons().add(new Image("/JuliarFuture.png"));
             stage.show();
         }
         catch(Exception e){
@@ -32,6 +33,16 @@ public class Gui extends Application {
             alert.showAndWait();
         }
     }
+
+    /*private EventHandler<WindowEvent> onCloseEvent() {
+        return (WindowEvent event) -> {
+            try {
+                closeAllTabs();
+            } catch (IOException ex) {
+
+            }
+        };
+    }*/
 
 
     public static void main(String[] args) {

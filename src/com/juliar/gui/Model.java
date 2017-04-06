@@ -10,7 +10,7 @@ public class Model {
 
     public void save(TextFile textFile) {
         try {
-            Files.write(textFile.getFile(), textFile.getContent(), StandardOpenOption.CREATE);
+            Files.write(textFile.getFile(), textFile.getContent());
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,18 +1,13 @@
 package com.juliar.gui;
 
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
-import javafx.scene.control.Tab;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -28,10 +23,6 @@ import java.lang.ProcessBuilder;
  * Created by AndreiM on 3/18/2017.
  */
 public class Controller {
-
-    @FXML
-    private TextArea areaText;
-
     @FXML
     private TextArea areaOutText;
 
@@ -59,7 +50,11 @@ public class Controller {
 
     @FXML
     private void onSave() {
-        TextFile textFile = new TextFile(currentTextFile.getFile(), Arrays.asList(areaText.getText().split("\n")));
+        if(currentTextFile == null) onSaveAs();
+        Tab tab = tabPane.getSelectionModel().getSelectedItem();
+        TextArea tabContent = (TextArea) tab.getContent();
+
+        TextFile textFile = new TextFile(currentTextFile.getFile(), Arrays.asList(tabContent.getText().split("\n")));
         model.save(textFile);
     }
 
@@ -69,8 +64,15 @@ public class Controller {
         fileChooser.setTitle("Save File");
         File file =  fileChooser.showSaveDialog(null);
         if (file != null) {
-            TextFile textFile = new TextFile(file.toPath(), Arrays.asList(areaText.getText().split("\n")));
+
+            Tab tab = tabPane.getSelectionModel().getSelectedItem();
+            TextArea tabContent = (TextArea) tab.getContent();
+
+            TextFile textFile = new TextFile(file.toPath(), Arrays.asList(tabContent.getText().split("\n")));
             model.save(textFile);
+            tabPane.getSelectionModel().getSelectedItem().setText(textFile.getName());
+            currentTextFile = textFile;
+
         }
     }
 
@@ -86,20 +88,24 @@ public class Controller {
         System.setOut(ps);
         // Print some output: goes to your special stream
         JuliarCompiler compiler = new JuliarCompiler();
-        InputStream is = new ByteArrayInputStream(areaText.getText().getBytes());
+
+        Tab tab = tabPane.getSelectionModel().getSelectedItem();
+        TextArea tabContent = (TextArea) tab.getContent();
+
+        InputStream is = new ByteArrayInputStream(tabContent.getText().getBytes());
         compiler.compile(is, "/", false, false);
 
         System.out.flush();
         System.setOut(old);
         areaOutText.clear();
         areaOutText.appendText(baos.toString());
-        //com.juliar.symbolTable.SymbolTable.DeleteSymbolTable();
+        com.juliar.symbolTable.SymbolTable.DeleteSymbolTable();
     }
 
     @FXML
     private void onCompileAndRun(){
 
-        // Create a stream to hold the output
+        /*// Create a stream to hold the output
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
         // IMPORTANT: Save the old System.out!
@@ -115,7 +121,7 @@ public class Controller {
         System.setOut(old);
         areaOutText.clear();
         areaOutText.appendText(baos.toString());
-        //com.juliar.symbolTable.SymbolTable.DeleteSymbolTable();
+        com.juliar.symbolTable.SymbolTable.DeleteSymbolTable();*/
     }
 
     @FXML
@@ -156,8 +162,13 @@ public class Controller {
             if (io.isOk() && io.hasData()) {
                 currentTextFile = io.getData();
 
-                areaText.clear();
-                currentTextFile.getContent().forEach(line -> areaText.appendText(line + "\n"));
+                Tab tab = new Tab("Untitled (" + (tabPane.getTabs().size() + 1)+")");
+                tabPane.getTabs().add(tab);
+                tabPane.getSelectionModel().select(tab);
+                TextArea loadedTextArea = new TextArea();
+                tab.setContent(loadedTextArea);
+                tab.setText(file.toPath().getFileName().toString());
+                currentTextFile.getContent().forEach(line -> loadedTextArea.appendText(line + "\n"));
             } else {
                 System.out.println("Failed");
             }
@@ -171,10 +182,14 @@ public class Controller {
 
     @FXML
     private void onNew(){
-        Tab tab = new Tab("Tab " + (tabPane.getTabs().size() + 1));
+        tabPane.forEach((tab))
+
+        Tab tab = new Tab("Untitled (" + (tabPane.getTabs().size() + 1)+")");
         tabPane.getTabs().add(tab);
         tabPane.getSelectionModel().select(tab);
-        tabPane.setTabClosingPolicy(TabClosingPolicy.ALL_TABS);
+        TextArea loadedTextArea = new TextArea();
+        tab.setContent(loadedTextArea);
+        currentTextFile = null;
     }
 
     @FXML

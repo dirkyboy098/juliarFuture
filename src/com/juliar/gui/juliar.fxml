@@ -17,7 +17,6 @@
 				<MenuItem onAction="#onLoad" text="Load" />
                      <MenuItem onAction="#onSave" text="Save" />
                      <MenuItem onAction="#onSaveAs" text="Save As..." />
-                     
                      <MenuItem onAction="#onExit" text="Exit" />
                  </Menu>
                  <Menu text="Edit">
@@ -34,11 +33,9 @@
                  </Menu>
              </MenuBar>
       </AnchorPane>
-      <TabPane fx:id="tabPane" maxWidth="Infinity" prefHeight="549.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
-          <Tab text="Untitled">
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
-                         <TextArea fx:id="areaText" prefHeight="438.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                </AnchorPane>
+      <TabPane fx:id="tabPane" maxWidth="Infinity" prefHeight="549.0" prefWidth="800.0" tabClosingPolicy="ALL_TABS" VBox.vgrow="ALWAYS">
+          <Tab text="CHANGE LOG">
+              <TextArea text="- Tabs are now semi working &#10;- Tabs now have names" prefHeight="438.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
           </Tab>
       </TabPane>
       <AnchorPane prefHeight="206.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0">
