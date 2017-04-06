@@ -4,6 +4,7 @@ import com.juliar.nodes.Node;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Created by donreamey on 1/9/17.
@@ -25,19 +26,28 @@ import java.util.List;
  *    - foo2
  */
 public class SymbolTable {
-    //private
-    /*
+    private List<Node> scopeList = new ArrayList<>();
     private static SymbolTable symbolTable;
-    private SymbolTableNode root;
 
     static public SymbolTable CreateSymbolTable(){
         if (symbolTable == null){
             symbolTable = new SymbolTable();
-            symbolTable.AddLevel("global");
         }
         return symbolTable;
     }
 
+    public void AddLevel(Node level){
+        scopeList.add( level );
+    }
+
+    public void AddChildToLevel(Node parent, Node child){
+        if (scopeList.contains( parent )){
+            int index = scopeList.indexOf( parent );
+            scopeList.get(index);
+        }
+
+    }
+/*
     static public void DeleteSymbolTable(){
         symbolTable = null;
     }

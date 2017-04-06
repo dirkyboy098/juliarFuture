@@ -27,7 +27,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
     private HashMap<String, Node> functionNodeMap = new HashMap<String, Node>();
     private Stack<Node> funcContextStack = new Stack<Node>();
     private Queue<String> callStack = new ArrayDeque<>();
-    //private SymbolTable symbolTable = SymbolTable.CreateSymbolTable();
+    private SymbolTable symbolTable = SymbolTable.CreateSymbolTable();
     private ControlFlowAdjacencyList cfa = new ControlFlowAdjacencyList();
     private ImportsInterface importsInterfaceCallback;
     private boolean skimImports = false;
@@ -49,6 +49,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
         try {
             new IterateOverContext(ctx, this, node);
 
+            symbolTable.AddLevel( node );
             instructionList.add(node);
             cfa.walkGraph();
 
@@ -124,6 +125,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
         FunctionDeclNode functionDeclNode = new FunctionDeclNode(funcName, new ArrayList<Node>());
 
         callStack.add( funcName );
+        symbolTable.AddLevel( functionDeclNode );
         //symbolTable.AddLevel( functionDeclNode.getNodeName(), funcName, SymbolTypeEnum.functionDecl);
 
         new IterateOverContext(ctx, this, functionDeclNode);
@@ -339,6 +341,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
     @Override
     public Node visitIfExpr(JuliarParser.IfExprContext ctx) {
         IfExprNode node = new IfExprNode();
+        symbolTable.AddLevel( node );
         new IterateOverContext( ctx, this, node);
         return node;
     }

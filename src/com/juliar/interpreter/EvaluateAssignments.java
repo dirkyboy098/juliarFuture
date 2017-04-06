@@ -129,7 +129,13 @@ public class EvaluateAssignments {
         FinalNode rvalueTerminal =  (FinalNode)rvalue.getInstructions().get(0);
 
         if (lvalueTerminal.dataString().equals( "int" )){
-            int integerValue = Integer.parseInt(rvalueTerminal.dataString());
+            try {
+                Integer.parseInt(rvalueTerminal.dataString());
+            }
+            catch(NumberFormatException nfe){
+                return false;
+            }
+
             return true;
         }
 
