@@ -93,7 +93,7 @@ public class Controller {
         System.setOut(old);
         areaOutText.clear();
         areaOutText.appendText(baos.toString());
-        com.juliar.symbolTable.SymbolTable.DeleteSymbolTable();
+        //com.juliar.symbolTable.SymbolTable.DeleteSymbolTable();
     }
 
     @FXML
@@ -115,7 +115,7 @@ public class Controller {
         System.setOut(old);
         areaOutText.clear();
         areaOutText.appendText(baos.toString());
-        com.juliar.symbolTable.SymbolTable.DeleteSymbolTable();
+        //com.juliar.symbolTable.SymbolTable.DeleteSymbolTable();
     }
 
     @FXML

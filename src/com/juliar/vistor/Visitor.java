@@ -27,7 +27,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
     private HashMap<String, Node> functionNodeMap = new HashMap<String, Node>();
     private Stack<Node> funcContextStack = new Stack<Node>();
     private Queue<String> callStack = new ArrayDeque<>();
-    private SymbolTable symbolTable = SymbolTable.CreateSymbolTable();
+    //private SymbolTable symbolTable = SymbolTable.CreateSymbolTable();
     private ControlFlowAdjacencyList cfa = new ControlFlowAdjacencyList();
     private ImportsInterface importsInterfaceCallback;
     private boolean skimImports = false;
@@ -46,14 +46,17 @@ public class Visitor extends JuliarBaseVisitor<Node>
     public Node visitCompileUnit(JuliarParser.CompileUnitContext ctx) {
 
         CompliationUnitNode node = new CompliationUnitNode();
+        try {
+            new IterateOverContext(ctx, this, node);
 
-        new IterateOverContext(ctx, this, node);
+            instructionList.add(node);
+            cfa.walkGraph();
 
-        instructionList.add(node);
-        cfa.walkGraph();
-
-        //symbolTable.dumpSymbolTable();
-
+            //symbolTable.dumpSymbolTable();
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
         return node;
     }
 
@@ -121,7 +124,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
         FunctionDeclNode functionDeclNode = new FunctionDeclNode(funcName, new ArrayList<Node>());
 
         callStack.add( funcName );
-        symbolTable.AddLevel( callStack.peek(), funcName, SymbolTypeEnum.functionDecl);
+        //symbolTable.AddLevel( functionDeclNode.getNodeName(), funcName, SymbolTypeEnum.functionDecl);
 
         new IterateOverContext(ctx, this, functionDeclNode);
 
@@ -419,29 +422,45 @@ public class Visitor extends JuliarBaseVisitor<Node>
         int length = funcStackArray.length - 1;
         Boolean isStatement = false;
         Boolean isVariableDecl = false;
+        int index = length;
+        SymbolTypeEnum symbolTypeEnum = null;
 
-        for (int i = length; i>0; i--){
-            if (funcStackArray[i] instanceof VariableDeclarationNode && isStatement == false){
-                return variableNode;
+        Node variableDeclarationParent = null;
+        for (; index >0; index--){
+            if (funcStackArray[index] instanceof VariableDeclarationNode){
+                variableDeclarationParent = (VariableDeclarationNode) funcStackArray[ index ];
+                // We are creating the variable and adding it to the symbol table.
+                // This will automatically throw an exception if creating a symbol with
+                // same name at same scope.
+                symbolTypeEnum = SymbolTypeEnum.variableDecl;
+                continue;
             }
 
-            if (funcStackArray[i] instanceof StatementNode && isVariableDecl == false){
-                //symbolTable.doesSymbolExistAtScope(variableName, funcStackArray[i])
+            if ( funcStackArray[index] instanceof PrimitiveNode && isVariableDecl == false){
+                continue;
+            }
+
+            if ( funcStackArray[index] instanceof IfExprNode){
+                symbolTypeEnum = SymbolTypeEnum.variableRef;
+                break;
+            }
+
+            if (funcStackArray[index] instanceof FunctionDeclNode){
+                symbolTypeEnum = SymbolTypeEnum.variableRef;
+                break;
             }
         }
 
-        if (funcStackArray.length > 0) {
-            int i = funcStackArray.length;
-
-            Node node = (Node) funcStackArray[i - 1];
-
-            if (node instanceof VariableDeclarationNode) {
-                symbolTable.AddLevel(callStack.peek(), variableName, SymbolTypeEnum.variableDecl);
-            }
-            new IterateOverContext(ctx, this, variableNode);
+        if (symbolTypeEnum == SymbolTypeEnum.variableDecl ) {
+            //symbolTable.AddLevel( variableDeclarationParent.getNodeName(), variableName, symbolTypeEnum);
         }
-
-        return variableNode;
+        /*
+        else if (!symbolTable.doesSymbolExistAtScope( ((Node) funcStackArray[index]).getNodeName(), variableName ) ){
+            //symbolTable.AddLevel( ((Node) funcStackArray[index]).getNodeName(), variableName, symbolTypeEnum);
+            assert true : "something is wrong";
+        }
+        */
+        return iterateWrapper(ctx, this, variableNode);
     }
 
     @Override

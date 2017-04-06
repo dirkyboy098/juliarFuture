@@ -124,7 +124,7 @@ public class JuliarCompiler {
 					JuliarCompiler compiler2 = new JuliarCompiler();
 					compiler2.compile(DOCUMENT_ROOT + SCRIPT_NAME, "", false, false);
 					System.out.println("</html>");
-					SymbolTable.DeleteSymbolTable();
+					//SymbolTable.DeleteSymbolTable();
 				}
         }
 	}

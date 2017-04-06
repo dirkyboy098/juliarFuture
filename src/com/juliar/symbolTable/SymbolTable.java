@@ -1,5 +1,7 @@
 package com.juliar.symbolTable;
 
+import com.juliar.nodes.Node;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,8 @@ import java.util.List;
  *    - foo2
  */
 public class SymbolTable {
+    //private
+    /*
     private static SymbolTable symbolTable;
     private SymbolTableNode root;
 
@@ -60,7 +64,7 @@ public class SymbolTable {
         return findLevel(root, levelName);
     }
 
-    public boolean doesSymbolExistAtScope( String child, String parent){
+    public boolean doesSymbolExistAtScope( String parent, String child ){
         SymbolTableNode childNode = findLevel( child );
         SymbolTableNode parentNode = findLevel( parent );
 
@@ -115,12 +119,5 @@ public class SymbolTable {
             System.err.println();
         }
     }
-
-}
-
-class SymbolTableNode{
-    public String levelName;
-    public SymbolTypeEnum symbolTypeEnum;
-    public SymbolTableNode parent;
-    public List<SymbolTableNode> children = new ArrayList<>();
+    */
 }
