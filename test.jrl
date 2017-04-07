@@ -26,7 +26,6 @@ function main() = {
 
 }
 
-
 function test() = {
     printLine("function test");
     int t = foo();
@@ -51,4 +50,3 @@ function testPrimitives() = {
     printLine( x );
     printLine("printed the value of variable 'x'");
 }
-

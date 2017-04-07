@@ -2,9 +2,7 @@ package com.juliar.symbolTable;
 
 import com.juliar.nodes.Node;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Created by donreamey on 1/9/17.
@@ -26,108 +24,45 @@ import java.util.Stack;
  *    - foo2
  */
 public class SymbolTable {
-    private List<Node> scopeList = new ArrayList<>();
+    private List<SymbolTableNode> scopeList = new ArrayList<>();
     private static SymbolTable symbolTable;
 
-    static public SymbolTable CreateSymbolTable(){
-        if (symbolTable == null){
+    static public SymbolTable CreateSymbolTable() {
+        if (symbolTable == null) {
             symbolTable = new SymbolTable();
         }
         return symbolTable;
     }
 
-    public void AddLevel(Node level){
-        scopeList.add( level );
+    public void AddLevel(Node level) {
+        SymbolTableNode node = new SymbolTableNode();
+        node.levelNode = level;
+        scopeList.add(node);
     }
 
-    public void AddChildToLevel(Node parent, Node child){
-        if (scopeList.contains( parent )){
-            int index = scopeList.indexOf( parent );
-            scopeList.get(index);
+    public void AddChildToLevel(Node parent, Node child) {
+
+        /*
+        Optional<SymbolTableNode> parentLevelNode = scopeList.stream().filter(f -> f.levelNode.getNodeName().equals(parent.getNodeName())).findFirst();
+
+        if (parentLevelNode.get() == Optional.empty()){
+
         }
 
-    }
-/*
-    static public void DeleteSymbolTable(){
-        symbolTable = null;
-    }
-
-    public void AddLevel(String parent, String current, SymbolTypeEnum symbolType){
-        SymbolTableNode parentNode = findLevel(parent);
-        SymbolTableNode childNode = findLevel( current );
-
-        if (parentNode.levelName != childNode.levelName){
-
-            if (!doesSymbolExistAtScope(parentNode, childNode)) {
-                childNode.parent = parentNode;
-                parentNode.children.add(childNode);
+        if (parentLevelNode != null) {
+            SymbolTableNode parentLevel = parentLevelNode.get();
+            if ( parentLevel.children.stream().filter( c -> c.getNodeName().equals( child.getNodeName() )).count() == 0){
+                parentLevel.children.add( child );
             }
-
-        } else {
-            if (!doesSymbolExistAtScope(root, childNode)) {
-                root.children.add(childNode);
+            else {
+                throw new RuntimeException("identifier " + child.getNodeName() + " already exist");
             }
         }
+        */
     }
 
-    public SymbolTableNode findLevel(String levelName){
-        return findLevel(root, levelName);
+    class SymbolTableNode {
+        public Node levelNode;
+        public List<Node> children = new ArrayList<>();
     }
-
-    public boolean doesSymbolExistAtScope( String parent, String child ){
-        SymbolTableNode childNode = findLevel( child );
-        SymbolTableNode parentNode = findLevel( parent );
-
-        return doesSymbolExistAtScope( parentNode, childNode );
-    }
-
-    private void AddLevel(String current){
-        if (root == null){
-            root = new SymbolTableNode();
-        }
-        root.levelName = current;
-    }
-
-    private boolean doesSymbolExistAtScope(SymbolTableNode parent, SymbolTableNode childNode) {
-        long count = parent.children
-                .stream()
-                .filter( f -> f.levelName.equals( childNode.levelName )).count();
-
-        if ( count > 0){
-            throw new RuntimeException("identifier " + childNode.levelName + " already exist");
-        }
-
-        return false;
-    }
-
-    private SymbolTableNode findLevel(SymbolTableNode node, String levelName){
-        if (node.levelName == levelName){
-            return node;
-        }
-        for(SymbolTableNode n : node.children){
-            return findLevel( n, levelName);
-        }
-
-        SymbolTableNode newNode = new SymbolTableNode();
-        newNode.levelName = levelName;
-        return newNode;
-    }
-
-    public void dumpSymbolTable(){
-        dumpSymbolTable(root , "");
-    }
-
-    private void dumpSymbolTable(SymbolTableNode node, String space){
-        if (node != null) {
-            //System.out.print( space + node.levelName );
-            for( SymbolTableNode n : node.children){
-                space += "\t";
-                dumpSymbolTable( n ,space);
-            }
-
-            space = "";
-            System.err.println();
-        }
-    }
-    */
 }

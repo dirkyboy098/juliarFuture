@@ -341,9 +341,22 @@ public class Visitor extends JuliarBaseVisitor<Node>
     @Override
     public Node visitIfExpr(JuliarParser.IfExprContext ctx) {
         IfExprNode node = new IfExprNode();
-        symbolTable.AddLevel( node );
-        new IterateOverContext( ctx, this, node);
+        Node parent = findFirstNestingNode();
+        symbolTable.AddChildToLevel( parent,  node );
+        iterateWrapper( ctx, this, node);
         return node;
+    }
+
+    private Node findFirstNestingNode() {
+        Object object[] = funcContextStack.toArray();
+        int index = object.length - 1;
+        Node parent = null;
+        for (; index >0; index--) {
+            if(object[index] instanceof FunctionDeclNode || object[index] instanceof IfExprNode){
+                parent = (Node)object[index];
+            }
+        }
+        return parent;
     }
 
     @Override
@@ -444,7 +457,9 @@ public class Visitor extends JuliarBaseVisitor<Node>
             }
 
             if ( funcStackArray[index] instanceof IfExprNode){
-                symbolTypeEnum = SymbolTypeEnum.variableRef;
+                if ( symbolTypeEnum != null && symbolTypeEnum == SymbolTypeEnum.variableDecl){
+                    symbolTable.AddChildToLevel( (Node)funcStackArray[ index ] , variableNode);
+                }
                 break;
             }
 
