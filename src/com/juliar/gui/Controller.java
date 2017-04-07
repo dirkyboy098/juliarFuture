@@ -1,6 +1,5 @@
 package com.juliar.gui;
 
-import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -99,7 +98,6 @@ public class Controller {
         System.setOut(old);
         areaOutText.clear();
         areaOutText.appendText(baos.toString());
-        com.juliar.symbolTable.SymbolTable.DeleteSymbolTable();
     }
 
     @FXML
@@ -182,7 +180,7 @@ public class Controller {
 
     @FXML
     private void onNew(){
-        tabPane.forEach((tab))
+        //tabPane.forEach((tab))
 
         Tab tab = new Tab("Untitled (" + (tabPane.getTabs().size() + 1)+")");
         tabPane.getTabs().add(tab);
