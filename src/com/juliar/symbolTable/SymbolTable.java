@@ -25,7 +25,9 @@ import java.util.*;
  */
 public class SymbolTable {
     private List<SymbolTableNode> scopeList = new ArrayList<>();
+    private int scopeIndex = 0;
     private static SymbolTable symbolTable;
+
 
     static public SymbolTable CreateSymbolTable() {
         if (symbolTable == null) {
@@ -34,15 +36,24 @@ public class SymbolTable {
         return symbolTable;
     }
 
-    public void AddLevel(Node level) {
+    public void addLevel(Node level) {
         SymbolTableNode node = new SymbolTableNode();
         node.levelNode = level;
         scopeList.add(node);
+        scopeIndex++;
     }
 
-    public void AddChildToLevel(Node parent, Node child) {
+    public void addChild(Node child){
+        SymbolTableNode parent = scopeList.get( scopeIndex );
+        parent.children.add( child );
+    }
 
-        /*
+   /*  public void AddChildToLevel(Node parent, Node child) {
+        if( parent != null){
+
+        }
+
+
         Optional<SymbolTableNode> parentLevelNode = scopeList.stream().filter(f -> f.levelNode.getNodeName().equals(parent.getNodeName())).findFirst();
 
         if (parentLevelNode.get() == Optional.empty()){
@@ -58,8 +69,8 @@ public class SymbolTable {
                 throw new RuntimeException("identifier " + child.getNodeName() + " already exist");
             }
         }
-        */
-    }
+
+    }*/
 
     class SymbolTableNode {
         public Node levelNode;

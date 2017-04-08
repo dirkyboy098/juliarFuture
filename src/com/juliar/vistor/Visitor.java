@@ -27,6 +27,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
     private HashMap<String, Node> functionNodeMap = new HashMap<String, Node>();
     private Stack<Node> funcContextStack = new Stack<Node>();
     private Queue<String> callStack = new ArrayDeque<>();
+
     private SymbolTable symbolTable = SymbolTable.CreateSymbolTable();
     private ControlFlowAdjacencyList cfa = new ControlFlowAdjacencyList();
     private ImportsInterface importsInterfaceCallback;
@@ -49,7 +50,8 @@ public class Visitor extends JuliarBaseVisitor<Node>
         try {
             new IterateOverContext(ctx, this, node);
 
-            symbolTable.AddLevel( node );
+            symbolTable.addLevel( node );
+
             instructionList.add(node);
             cfa.walkGraph();
 
@@ -125,8 +127,8 @@ public class Visitor extends JuliarBaseVisitor<Node>
         FunctionDeclNode functionDeclNode = new FunctionDeclNode(funcName, new ArrayList<Node>());
 
         callStack.add( funcName );
-        symbolTable.AddLevel( functionDeclNode );
-        //symbolTable.AddLevel( functionDeclNode.getNodeName(), funcName, SymbolTypeEnum.functionDecl);
+        symbolTable.addLevel( functionDeclNode );
+        //symbolTable.addLevel( functionDeclNode.getNodeName(), funcName, SymbolTypeEnum.functionDecl);
 
         new IterateOverContext(ctx, this, functionDeclNode);
 
@@ -342,7 +344,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
     public Node visitIfExpr(JuliarParser.IfExprContext ctx) {
         IfExprNode node = new IfExprNode();
         Node parent = findFirstNestingNode();
-        symbolTable.AddChildToLevel( parent,  node );
+        symbolTable.addLevel( parent );
         iterateWrapper( ctx, this, node);
         return node;
     }
@@ -458,7 +460,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
             if ( funcStackArray[index] instanceof IfExprNode){
                 if ( symbolTypeEnum != null && symbolTypeEnum == SymbolTypeEnum.variableDecl){
-                    symbolTable.AddChildToLevel( (Node)funcStackArray[ index ] , variableNode);
+                    symbolTable.addChild( variableNode );
                 }
                 break;
             }
@@ -470,11 +472,11 @@ public class Visitor extends JuliarBaseVisitor<Node>
         }
 
         if (symbolTypeEnum == SymbolTypeEnum.variableDecl ) {
-            //symbolTable.AddLevel( variableDeclarationParent.getNodeName(), variableName, symbolTypeEnum);
+            //symbolTable.addLevel( variableDeclarationParent.getNodeName(), variableName, symbolTypeEnum);
         }
         /*
         else if (!symbolTable.doesSymbolExistAtScope( ((Node) funcStackArray[index]).getNodeName(), variableName ) ){
-            //symbolTable.AddLevel( ((Node) funcStackArray[index]).getNodeName(), variableName, symbolTypeEnum);
+            //symbolTable.addLevel( ((Node) funcStackArray[index]).getNodeName(), variableName, symbolTypeEnum);
             assert true : "something is wrong";
         }
         */
