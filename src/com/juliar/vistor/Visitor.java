@@ -30,7 +30,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
     private Stack<Node> funcContextStack = new Stack<Node>();
     private Stack<String> callStack = new Stack<>();
 
-    private SymbolTable symbolTable = SymbolTable.CreateSymbolTable();
+    private SymbolTable symbolTable = SymbolTable.createSymbolTable();
     private ControlFlowAdjacencyList cfa = new ControlFlowAdjacencyList();
     private ImportsInterface importsInterfaceCallback;
     private boolean skimImports = false;

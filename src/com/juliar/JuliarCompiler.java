@@ -144,6 +144,7 @@ public class JuliarCompiler {
 
 	public List<String> compile(InputStream b, String outputfile, boolean compilerFlag, boolean isRepl) {
         try {
+			SymbolTable.clearSymbolTable();
 			JuliarParser parser = parse( b );
 			
 			errors = new ErrorListener();

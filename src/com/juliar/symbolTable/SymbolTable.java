@@ -30,11 +30,17 @@ public class SymbolTable {
     private static SymbolTable symbolTable;
     private static Stack<String> currentScope = new Stack<>();
 
-    static public SymbolTable CreateSymbolTable() {
+    static public SymbolTable createSymbolTable() {
         if (symbolTable == null) {
             symbolTable = new SymbolTable();
         }
         return symbolTable;
+    }
+
+    static public void clearSymbolTable(){
+        currentScope.empty();
+        symbolTable = null;
+        symbolTable = null;
     }
 
     public void addLevel(String level) {
