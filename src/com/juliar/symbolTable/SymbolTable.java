@@ -2,6 +2,7 @@ package com.juliar.symbolTable;
 
 import com.juliar.nodes.Node;
 import com.juliar.nodes.NodeType;
+import com.juliar.nodes.VariableNode;
 
 import java.util.*;
 
@@ -26,11 +27,8 @@ import java.util.*;
  */
 public class SymbolTable {
     private HashMap< String, SymbolTableNode> scopeHash = new HashMap<>();
-    private List<SymbolTableNode> scopeList = new ArrayList<>();
-    private int scopeIndex = 0;
     private static SymbolTable symbolTable;
     private static Stack<String> currentScope = new Stack<>();
-
 
     static public SymbolTable CreateSymbolTable() {
         if (symbolTable == null) {
@@ -55,34 +53,25 @@ public class SymbolTable {
         currentScope.pop();
     }
 
-
-    public void addChild(Node child){
-        scopeHash.get( currentScope.peek() ).children.add( child );
+    public void addChild(Node child) {
+        if (child instanceof VariableNode) {
+            SymbolTableNode node = scopeHash.get(currentScope.peek());
+            if (node.children.stream().filter(f -> ((VariableNode) f).variableName.equals(((VariableNode) child).variableName)).count() > 0) {
+                throw new RuntimeException("identifier " + ((VariableNode) child).variableName + " already exist");
+            }
+        }
+        scopeHash.get(currentScope.peek()).children.add(child);
     }
 
-   /*  public void AddChildToLevel(Node parent, Node child) {
-        if( parent != null){
+    public boolean doesChildExistAtScope(Node child){
+        boolean variableCount = scopeHash.get( currentScope.peek() )
+                .children.stream()
+                .filter( f -> f instanceof VariableNode)
+                .filter( t -> ((VariableNode)t).variableName.equals( ((VariableNode)child).variableName)).count() == 1;
 
-        }
+        return variableCount;
+    }
 
-
-        Optional<SymbolTableNode> parentLevelNode = scopeList.stream().filter(f -> f.levelNode.getNodeName().equals(parent.getNodeName())).findFirst();
-
-        if (parentLevelNode.get() == Optional.empty()){
-
-        }
-
-        if (parentLevelNode != null) {
-            SymbolTableNode parentLevel = parentLevelNode.get();
-            if ( parentLevel.children.stream().filter( c -> c.getNodeName().equals( child.getNodeName() )).count() == 0){
-                parentLevel.children.add( child );
-            }
-            else {
-                throw new RuntimeException("identifier " + child.getNodeName() + " already exist");
-            }
-        }
-
-    }*/
 
     class SymbolTableNode {
         public String levelNode;

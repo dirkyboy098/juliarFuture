@@ -14,8 +14,6 @@ function main() = {
         printLine(y);
     }
 
-    printLine(y);
-
     printLine("calling an if statement with false");
 
     if (false){

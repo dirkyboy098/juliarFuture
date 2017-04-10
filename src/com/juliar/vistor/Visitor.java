@@ -457,50 +457,29 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
         VariableNode variableNode = new VariableNode(variableName, null);
 
-        Object[] funcStackArray =  funcContextStack.toArray();
+        Object[] funcStackArray = funcContextStack.toArray();
         int length = funcStackArray.length - 1;
-        Boolean isStatement = false;
-        Boolean isVariableDecl = false;
         int index = length;
         SymbolTypeEnum symbolTypeEnum = null;
 
         Node variableDeclarationParent = null;
-        for (; index >0; index--){
-            if (funcStackArray[index] instanceof VariableDeclarationNode){
-                variableDeclarationParent = (VariableDeclarationNode) funcStackArray[ index ];
+        for (; index > 0; index--) {
+            if (funcStackArray[index] instanceof VariableDeclarationNode) {
+                variableDeclarationParent = (VariableDeclarationNode) funcStackArray[index];
                 // We are creating the variable and adding it to the symbol table.
                 // This will automatically throw an exception if creating a symbol with
                 // same name at same scope.
                 symbolTypeEnum = SymbolTypeEnum.variableDecl;
-                continue;
-            }
-
-            if ( funcStackArray[index] instanceof PrimitiveNode && isVariableDecl == false){
-                continue;
-            }
-
-            if ( funcStackArray[index] instanceof IfExprNode){
-                if ( symbolTypeEnum != null && symbolTypeEnum == SymbolTypeEnum.variableDecl){
-                    symbolTable.addChild( variableNode );
-                }
+                symbolTable.addChild(variableNode);
                 break;
             }
 
-            if (funcStackArray[index] instanceof FunctionDeclNode){
-                symbolTypeEnum = SymbolTypeEnum.variableRef;
-                break;
+            if( !symbolTable.doesChildExistAtScope( variableNode ) ){
+                throw new RuntimeException( "The variable " + variableName +" is not declared at the scope");
             }
+            break;
         }
 
-        if (symbolTypeEnum == SymbolTypeEnum.variableDecl ) {
-            //symbolTable.addLevel( variableDeclarationParent.getNodeName(), variableName, symbolTypeEnum);
-        }
-        /*
-        else if (!symbolTable.doesSymbolExistAtScope( ((Node) funcStackArray[index]).getNodeName(), variableName ) ){
-            //symbolTable.addLevel( ((Node) funcStackArray[index]).getNodeName(), variableName, symbolTypeEnum);
-            assert true : "something is wrong";
-        }
-        */
         return iterateWrapper(ctx, this, variableNode);
     }
 
