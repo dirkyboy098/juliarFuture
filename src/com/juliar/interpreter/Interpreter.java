@@ -256,9 +256,6 @@ public class Interpreter {
                 activationFrameStack.pop();
                 break;
             }
-            else{
-                // Should throw runtime exception if function can't be found
-            }
         }
 
         return null;

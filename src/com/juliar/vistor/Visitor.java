@@ -8,6 +8,7 @@ import com.juliar.pal.Primitives;
 import com.juliar.parser.JuliarBaseVisitor;
 import com.juliar.parser.JuliarParser;
 import com.juliar.symbolTable.SymbolTable;
+import com.juliar.symbolTable.SymbolTableClosure;
 import com.juliar.symbolTable.SymbolTypeEnum;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -30,11 +31,12 @@ public class Visitor extends JuliarBaseVisitor<Node>
     private Stack<Node> funcContextStack = new Stack<Node>();
     private Stack<String> callStack = new Stack<>();
 
-    private SymbolTable symbolTable = SymbolTable.createSymbolTable();
+    private SymbolTable symbolTable = SymbolTable.createSymbolTable( this );
     private ControlFlowAdjacencyList cfa = new ControlFlowAdjacencyList();
     private ImportsInterface importsInterfaceCallback;
     private boolean skimImports = false;
     private int currentLineNumber = 0;
+    private List<String> errorList = new ArrayList<>();
 
     public InstructionInvocation instructions(){
         return new InstructionInvocation(instructionList, functionNodeMap);
@@ -147,7 +149,6 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
         callStack.push( funcName );
         symbolTable.addLevel( funcName + "_" +functionDeclCount++ );
-        //symbolTable.addLevel( functionDeclNode.getNodeName(), funcName, SymbolTypeEnum.functionDecl);
 
         new IterateOverContext(ctx, this, functionDeclNode);
 
@@ -332,54 +333,33 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
             }
         }
-
-        FinalNode terminalNode = new FinalNode(node);
-
-        IterateOverContext context = new IterateOverContext() {
-            @Override
-            public void action(Node pt) {
-                terminalNode.AddInst(pt);
-            }
-        };
-
-        //context.iterateOverChildren( node, this );
         return new FinalNode(node);
     }
 
     @Override
     public Node visitAssignmentExpression(JuliarParser.AssignmentExpressionContext ctx) {
         AssignmentNode node = new AssignmentNode(null);
-        IterateOverContext context = new IterateOverContext(ctx, this, node);
+        iterateWrapper(ctx, this, node);
         return node;
     }
 
     @Override
     public Node visitReassignmentExpression(JuliarParser.ReassignmentExpressionContext ctx) {
         VariableReassignmentNode node = new VariableReassignmentNode();
-        new IterateOverContext( ctx, this, node);
+        iterateWrapper(ctx, this, node);
         return node;
     }
 
     @Override
     public Node visitIfExpr(JuliarParser.IfExprContext ctx) {
         IfExprNode node = new IfExprNode();
-        Node parent = findFirstNestingNode();
         symbolTable.addLevel( "if" + "_" + ifDeclCount++ );
-        iterateWrapper( ctx, this, node);
-        symbolTable.popScope();
-        return node;
-    }
 
-    private Node findFirstNestingNode() {
-        Object object[] = funcContextStack.toArray();
-        int index = object.length - 1;
-        Node parent = null;
-        for (; index >0; index--) {
-            if(object[index] instanceof FunctionDeclNode || object[index] instanceof IfExprNode){
-                parent = (Node)object[index];
-            }
-        }
-        return parent;
+        iterateWrapper( ctx, this, node);
+
+        symbolTable.popScope();
+
+        return node;
     }
 
     @Override
@@ -422,7 +402,6 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
     @Override
     public Node visitKeywords(JuliarParser.KeywordsContext ctx) {
-
         KeywordNode keywordNode = new KeywordNode();
         new IterateOverContext(ctx, this, keywordNode);
 
@@ -462,20 +441,17 @@ public class Visitor extends JuliarBaseVisitor<Node>
         int index = length;
         SymbolTypeEnum symbolTypeEnum = null;
 
-        Node variableDeclarationParent = null;
         for (; index > 0; index--) {
             if (funcStackArray[index] instanceof VariableDeclarationNode) {
-                variableDeclarationParent = (VariableDeclarationNode) funcStackArray[index];
                 // We are creating the variable and adding it to the symbol table.
                 // This will automatically throw an exception if creating a symbol with
                 // same name at same scope.
-                symbolTypeEnum = SymbolTypeEnum.variableDecl;
                 symbolTable.addChild(variableNode);
                 break;
             }
 
             if( !symbolTable.doesChildExistAtScope( variableNode ) ){
-                throw new RuntimeException( "The variable " + variableName +" is not declared at the scope");
+                addError( "The variable " + variableName +" is not declared at the scope" );
             }
             break;
         }
@@ -490,6 +466,14 @@ public class Visitor extends JuliarBaseVisitor<Node>
         new IterateOverContext(ctx, this, node);
 
         return node;
+    }
+
+    public void addError(String error ){
+        errorList.add( error );
+    }
+
+    public List<String> getErrorList(){
+        return errorList;
     }
 
     private Node iterateWrapper(ParserRuleContext ctx, Visitor visitor, Node parent){
@@ -546,7 +530,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
         }
 
         /*
-         this method will be overriden in implementation.
+         this method will be overridden in implementation.
          */
         public void action(Node node){
         /*

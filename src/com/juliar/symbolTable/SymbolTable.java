@@ -3,6 +3,7 @@ package com.juliar.symbolTable;
 import com.juliar.nodes.Node;
 import com.juliar.nodes.NodeType;
 import com.juliar.nodes.VariableNode;
+import com.juliar.vistor.Visitor;
 
 import java.util.*;
 
@@ -29,10 +30,11 @@ public class SymbolTable {
     private HashMap< String, SymbolTableNode> scopeHash = new HashMap<>();
     private static SymbolTable symbolTable;
     private static Stack<String> currentScope = new Stack<>();
+    private Visitor visitor;
 
-    static public SymbolTable createSymbolTable() {
+    static public SymbolTable createSymbolTable(Visitor v) {
         if (symbolTable == null) {
-            symbolTable = new SymbolTable();
+            symbolTable = new SymbolTable( v );
         }
         return symbolTable;
     }
@@ -43,12 +45,20 @@ public class SymbolTable {
         symbolTable = null;
     }
 
+    private SymbolTable(){
+    }
+
+    private SymbolTable( Visitor v){
+        this();
+        visitor = v;
+    }
+
     public void addLevel(String level) {
         SymbolTableNode node = new SymbolTableNode();
         node.levelNode = level;
 
         if (scopeHash.containsKey(level)) {
-            throw new RuntimeException("identifier " + level + " already exist");
+            visitor.addError( "identifier " + level + " already exist" );
         } else {
             currentScope.push(level);
             scopeHash.put(level, node);
@@ -62,20 +72,19 @@ public class SymbolTable {
     public void addChild(Node child) {
         if (child instanceof VariableNode) {
             SymbolTableNode node = scopeHash.get(currentScope.peek());
-            if (node.children.stream().filter(f -> ((VariableNode) f).variableName.equals(((VariableNode) child).variableName)).count() > 0) {
-                throw new RuntimeException("identifier " + ((VariableNode) child).variableName + " already exist");
-            }
+            if (node.children.stream()
+                    .filter(f -> ((VariableNode) f).variableName.equals(((VariableNode) child).variableName)).count() > 0) {
+                visitor.addError( "identifier " + ((VariableNode) child).variableName + " already exist" );
+             }
         }
         scopeHash.get(currentScope.peek()).children.add(child);
     }
 
     public boolean doesChildExistAtScope(Node child){
-        boolean variableCount = scopeHash.get( currentScope.peek() )
+        return scopeHash.get( currentScope.peek() )
                 .children.stream()
                 .filter( f -> f instanceof VariableNode)
                 .filter( t -> ((VariableNode)t).variableName.equals( ((VariableNode)child).variableName)).count() == 1;
-
-        return variableCount;
     }
 
 

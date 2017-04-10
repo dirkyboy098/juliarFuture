@@ -19,12 +19,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class JuliarCompiler {
 	public boolean isDebugMode = false;
     private ErrorListener errors;
 
-	
     public static void main(String[] args) {
 		fastCGI();
     	if(System.console() == null) {
@@ -46,12 +44,8 @@ public class JuliarCompiler {
 				compileFlag = true;
 			}
 
-			//Boolean compileFlag = args[2].equals("true") ? true : false;
-			//Boolean replFlag = args[3].equals("true") ? true : false;
 			Boolean replFlag = false;
-
 			JuliarCompiler compiler = new JuliarCompiler();
-
 			compiler.compile(fileName, outputPath, compileFlag, replFlag);
 
 		} catch (Exception ex) {
@@ -74,7 +68,7 @@ public class JuliarCompiler {
 	}
 
 	private static String[] parseFlags(String[] args) {
-		String[] params = new String[2];
+		String[] params;
 		ArrayList<String> unparsed = new ArrayList<String>();
 		for(int i=0; i < args.length; i++) {
 			if(args[i].startsWith("-")){
@@ -98,37 +92,26 @@ public class JuliarCompiler {
 	}
 
 	private static void fastCGI() {
-		int status =0;
-		int count = 0;
-		FCGIInterface intf = new FCGIInterface();
-		while (intf.FCGIaccept() >= 0) {
-				String method = System.getProperty("REQUEST_METHOD");
-				if (method != null) {
-					String DOCUMENT_ROOT = System.getProperty("DOCUMENT_ROOT");
-					String SCRIPT_NAME = System.getProperty("SCRIPT_NAME");
-					String QUERY_STRING = System.getProperty("QUERY_STRING"); //PARAMETERS
-                /*Map<String, String> query_pairs = new LinkedHashMap<String, String>();
-                String[] pairs = QUERY_STRING.split("&");
-                for(String pair: pairs){
-                    int idx = pair.indexOf('=');
-                    try {
-                        query_pairs.put(URLDecoder.decode(pair.substring(0, idx), "UTF-8"), URLDecoder.decode(pair.substring(idx + 1), "UTF-8"));
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-                }*/
-					System.out.println("Content-type: text/html\r\n\r\n");
+		FCGIInterface fastCGIInterface = new FCGIInterface();
+		while (fastCGIInterface.FCGIaccept() >= 0) {
+			String method = System.getProperty("REQUEST_METHOD");
 
-					System.out.println("<html>");
-					if (SCRIPT_NAME == "/" || SCRIPT_NAME == "") SCRIPT_NAME = "index.jrl";
-					JuliarCompiler compiler2 = new JuliarCompiler();
-					compiler2.compile(DOCUMENT_ROOT + SCRIPT_NAME, "", false, false);
-					System.out.println("</html>");
-					//SymbolTable.DeleteSymbolTable();
+			if (method != null) {
+				String DOCUMENT_ROOT = System.getProperty("DOCUMENT_ROOT");
+				String SCRIPT_NAME = System.getProperty("SCRIPT_NAME");
+				System.out.println("Content-type: text/html\r\n\r\n");
+				System.out.println("<html>");
+
+				if (SCRIPT_NAME == "/" || SCRIPT_NAME == "") {
+					SCRIPT_NAME = "index.jrl";
 				}
-        }
-	}
 
+				JuliarCompiler compiler = new JuliarCompiler();
+				compiler.compile(DOCUMENT_ROOT + SCRIPT_NAME, "", false, false);
+				System.out.println("</html>");
+			}
+		}
+	}
 
 	public List<String> compile(String source, String outputPath, boolean compilerFlag, boolean isRepl) {
         try {
@@ -180,16 +163,22 @@ public class JuliarCompiler {
 		if (isDebugMode) {
             System.out.println(context.toStringTree(parser));
         }
-		if (errors.ErrorList().size() > 0){
-            for (String error : errors.ErrorList()){
-                System.out.println( error );
-            }
 
-			return true;
-        }
 
 		Visitor visitor = new Visitor((imports, linesToSkip) -> {}, true);
 		visitor.visit(context);
+
+		if (errors.ErrorList().size() > 0 || visitor.getErrorList().size() > 0){
+			for (String error : errors.ErrorList()){
+				System.out.println( error );
+			}
+
+			for (String error : visitor.getErrorList()){
+				System.out.println( error );
+			}
+
+			return true;
+		}
 
 		if(compilerFlag){
             com.juliar.codegenerator.CodeGenerator generator = new com.juliar.codegenerator.CodeGenerator();
