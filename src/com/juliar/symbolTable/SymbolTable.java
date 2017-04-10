@@ -1,6 +1,7 @@
 package com.juliar.symbolTable;
 
 import com.juliar.nodes.Node;
+import com.juliar.nodes.NodeType;
 
 import java.util.*;
 
@@ -24,9 +25,11 @@ import java.util.*;
  *    - foo2
  */
 public class SymbolTable {
+    private HashMap< String, SymbolTableNode> scopeHash = new HashMap<>();
     private List<SymbolTableNode> scopeList = new ArrayList<>();
     private int scopeIndex = 0;
     private static SymbolTable symbolTable;
+    private static Stack<String> currentScope = new Stack<>();
 
 
     static public SymbolTable CreateSymbolTable() {
@@ -36,16 +39,25 @@ public class SymbolTable {
         return symbolTable;
     }
 
-    public void addLevel(Node level) {
+    public void addLevel(String level) {
         SymbolTableNode node = new SymbolTableNode();
         node.levelNode = level;
-        scopeList.add(node);
-        scopeIndex++;
+
+        if (scopeHash.containsKey(level)) {
+            throw new RuntimeException("identifier " + level + " already exist");
+        } else {
+            currentScope.push(level);
+            scopeHash.put(level, node);
+        }
     }
 
+    public void popScope(){
+        currentScope.pop();
+    }
+
+
     public void addChild(Node child){
-        SymbolTableNode parent = scopeList.get( scopeIndex );
-        parent.children.add( child );
+        scopeHash.get( currentScope.peek() ).children.add( child );
     }
 
    /*  public void AddChildToLevel(Node parent, Node child) {
@@ -73,7 +85,7 @@ public class SymbolTable {
     }*/
 
     class SymbolTableNode {
-        public Node levelNode;
+        public String levelNode;
         public List<Node> children = new ArrayList<>();
     }
 }

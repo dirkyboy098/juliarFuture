@@ -23,10 +23,12 @@ import java.util.*;
  */
 public class Visitor extends JuliarBaseVisitor<Node>
 {
+    private static int functionDeclCount = 0;
+    private static int ifDeclCount = 0;
     private List<Node> instructionList = new ArrayList<>();
     private HashMap<String, Node> functionNodeMap = new HashMap<String, Node>();
     private Stack<Node> funcContextStack = new Stack<Node>();
-    private Queue<String> callStack = new ArrayDeque<>();
+    private Stack<String> callStack = new Stack<>();
 
     private SymbolTable symbolTable = SymbolTable.CreateSymbolTable();
     private ControlFlowAdjacencyList cfa = new ControlFlowAdjacencyList();
@@ -48,11 +50,14 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
         CompliationUnitNode node = new CompliationUnitNode();
         try {
+            callStack.push ( node.getNodeName() );
+            symbolTable.addLevel( node.getNodeName() );
+
             new IterateOverContext(ctx, this, node);
 
-            symbolTable.addLevel( node );
-
             instructionList.add(node);
+
+            popScope( node.getType() );
             cfa.walkGraph();
 
             //symbolTable.dumpSymbolTable();
@@ -61,6 +66,20 @@ public class Visitor extends JuliarBaseVisitor<Node>
             System.out.println(ex.getMessage());
         }
         return node;
+    }
+
+    private void popScope(NodeType nodeType){
+            switch ( nodeType) {
+                case FunctionDeclType:
+                    functionDeclCount--;
+                    break;
+                case IfExprType:
+                    ifDeclCount--;
+                default:
+                    return;
+            }
+
+        symbolTable.popScope();
     }
 
     @Override
@@ -126,13 +145,14 @@ public class Visitor extends JuliarBaseVisitor<Node>
         String funcName = ctx.funcName().getText();
         FunctionDeclNode functionDeclNode = new FunctionDeclNode(funcName, new ArrayList<Node>());
 
-        callStack.add( funcName );
-        symbolTable.addLevel( functionDeclNode );
+        callStack.push( funcName );
+        symbolTable.addLevel( funcName + "_" +functionDeclCount++ );
         //symbolTable.addLevel( functionDeclNode.getNodeName(), funcName, SymbolTypeEnum.functionDecl);
 
         new IterateOverContext(ctx, this, functionDeclNode);
 
-        callStack.remove();
+        callStack.pop();
+        popScope( functionDeclNode.getType() );
 
         functionNodeMap.put(funcName, functionDeclNode);
 
@@ -344,8 +364,9 @@ public class Visitor extends JuliarBaseVisitor<Node>
     public Node visitIfExpr(JuliarParser.IfExprContext ctx) {
         IfExprNode node = new IfExprNode();
         Node parent = findFirstNestingNode();
-        symbolTable.addLevel( parent );
+        symbolTable.addLevel( "if" + "_" + ifDeclCount++ );
         iterateWrapper( ctx, this, node);
+        symbolTable.popScope();
         return node;
     }
 

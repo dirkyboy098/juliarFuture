@@ -13,4 +13,9 @@ public class CompliationUnitNode extends NodeImpl  {
     public NodeType getType() {
         return NodeType.CompliationUnitType;
     }
- }
+
+    @Override
+    public String getNodeName() {
+        return "CompliationUnitNode";
+    }
+}
