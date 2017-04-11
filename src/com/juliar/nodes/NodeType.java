@@ -31,4 +31,5 @@ public enum NodeType {
     VariableDeclarationType,
     VariableType,
     VariableReassignmentType,
+    WhileExpressionType,
 }

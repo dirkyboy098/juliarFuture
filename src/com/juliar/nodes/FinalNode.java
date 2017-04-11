@@ -25,9 +25,14 @@ public class FinalNode extends NodeImpl{
     }
 
     public String dataString() {
+        if ( object != null && dataString == null){
+            return object.toString();
+        }
+
         if (dataString != null) {
             return dataString.getText();
         }
+
         return null;
     }
 

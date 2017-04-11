@@ -26,6 +26,7 @@ expression
     | reassignmentExpression endLine
     | booleanExpression endLine
     | ifExpr
+    | whileExpression
     | primitives endLine
     | functionCall endLine
     | returnValue endLine
@@ -234,6 +235,14 @@ ifExpr
     : ifKeyWord '(' booleanExpression ')' '{' (statement)* '}'
     ;
 
+
+whileKeyWord
+    : 'while'
+    ;
+
+whileExpression
+    : whileKeyWord '(' booleanExpression ')' '{' (statement)* '}'
+    ;
 
 /*
 nifExpr

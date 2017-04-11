@@ -60,11 +60,8 @@ public class EvaluatePrimitives {
             }
 
             assert finalNode != null : "the finalNode was null";
-            if (finalNode.dataString() != null ) {
+            if (finalNode.dataString() != null) {
                 com.juliar.pal.Primitives.sys_print_line(finalNode.dataString());
-            }
-            else if (finalNode.dataObject() != null){
-                com.juliar.pal.Primitives.sys_print_line(finalNode.dataObject().toString());
             }
         }
     }

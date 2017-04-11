@@ -468,6 +468,13 @@ public class Visitor extends JuliarBaseVisitor<Node>
         return node;
     }
 
+    @Override
+    public Node visitWhileExpression(JuliarParser.WhileExpressionContext ctx) {
+        WhileExprNode whileExprNode = new WhileExprNode();
+        iterateWrapper( ctx, this, whileExprNode);
+        return whileExprNode;
+    }
+
     public void addError(String error ){
         errorList.add( error );
     }

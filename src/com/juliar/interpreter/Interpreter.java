@@ -47,6 +47,7 @@ public class Interpreter {
             functionMap.put(NodeType.BooleanType                , ((n, activationFrame )-> evalBooleanNode(n, activationFrame)    ));
             functionMap.put(NodeType.BooleanOperatorType        , ((n, activationFrame )-> evalBooleanOperator(n, activationFrame)    ));
             functionMap.put(NodeType.IfExprType                 , ((n, activationFrame )-> evalIfStatement(n, activationFrame)    ));
+            functionMap.put(NodeType.WhileExpressionType        , ((n, activationFrame )-> evalWhileExpression(n, activationFrame)));
 
             //functionMap.put(NodeType.VariableDeclarationType, (n-> eval(n)));
             //functionMap.put(NodeType.ReturnValueType            , (n-> evalReassignment(n)      ));
@@ -104,7 +105,6 @@ public class Interpreter {
         return null;
     }
 
-
     private List<Node> evalSummation(Node node){
         return null;
     }
@@ -157,6 +157,47 @@ public class Interpreter {
                 returnValueStack.push( variableNode );
             }
         }
+        return null;
+    }
+
+    private List<Node> evalWhileExpression(Node node, ActivationFrame frame){
+        List<Node> instructionList = node.getInstructions();
+        int size = instructionList.size();
+
+        BooleanNode booleanNode = null;
+        List<Node> trueExpressions = new ArrayList<>();
+
+        for(int i=0; i<size; i++){
+            Node current = instructionList.get(i);
+
+            if (current instanceof BooleanNode){
+                booleanNode = (BooleanNode)current;
+                continue;
+            }
+
+            if(current instanceof StatementNode){
+                trueExpressions.add( current );
+                continue;
+            }
+        }
+
+        evalBooleanNode( booleanNode, frame);
+
+        Node boolEvalResult = null;
+        if (frame.returnNode != null) {
+            boolEvalResult = frame.returnNode;
+
+            FinalNode finalNode = (FinalNode)boolEvalResult.getInstructions().get(0);
+
+
+            Boolean executeTrue = Boolean.parseBoolean( finalNode.dataString() );
+
+            if (executeTrue) {
+                trueExpressions.add(node);
+                execute ( trueExpressions );
+            }
+        }
+
         return null;
     }
 
