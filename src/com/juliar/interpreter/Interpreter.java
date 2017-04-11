@@ -160,41 +160,55 @@ public class Interpreter {
         return null;
     }
 
-    private List<Node> evalWhileExpression(Node node, ActivationFrame frame){
+    private List<Node> evalWhileExpression(Node node, ActivationFrame frame) {
         List<Node> instructionList = node.getInstructions();
         int size = instructionList.size();
 
         BooleanNode booleanNode = null;
         List<Node> trueExpressions = new ArrayList<>();
 
-        for(int i=0; i<size; i++){
+        for (int i = 0; i < size; i++) {
             Node current = instructionList.get(i);
 
-            if (current instanceof BooleanNode){
-                booleanNode = (BooleanNode)current;
+            if (current instanceof BooleanNode) {
+                booleanNode = (BooleanNode) current;
                 continue;
             }
 
-            if(current instanceof StatementNode){
-                trueExpressions.add( current );
+            if (current instanceof StatementNode) {
+                trueExpressions.add(current);
                 continue;
             }
         }
 
-        evalBooleanNode( booleanNode, frame);
+        evalBooleanNode(booleanNode, frame);
 
         Node boolEvalResult = null;
         if (frame.returnNode != null) {
             boolEvalResult = frame.returnNode;
 
-            FinalNode finalNode = (FinalNode)boolEvalResult.getInstructions().get(0);
-
-
-            Boolean executeTrue = Boolean.parseBoolean( finalNode.dataString() );
+            FinalNode finalNode = (FinalNode) boolEvalResult.getInstructions().get(0);
+            Boolean executeTrue = Boolean.parseBoolean(finalNode.dataString());
 
             if (executeTrue) {
-                trueExpressions.add(node);
-                execute ( trueExpressions );
+                for (; ; ) {
+                    for (int expressionCount = 0; expressionCount < trueExpressions.size(); expressionCount++) {
+                        List<Node> currentExpressionInWhileBody = new ArrayList<>();
+                        currentExpressionInWhileBody.add(trueExpressions.get(expressionCount));
+                        execute(currentExpressionInWhileBody);
+                    }
+
+                    //NEED to revaluate the expression here!
+
+                    boolEvalResult = frame.returnNode;
+                    finalNode = (FinalNode) boolEvalResult.getInstructions().get(0);
+                    executeTrue = Boolean.parseBoolean(finalNode.dataString());
+
+                    if (executeTrue) {
+                        continue;
+                    }
+                    break;
+                }
             }
         }
 
