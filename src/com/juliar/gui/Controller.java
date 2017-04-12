@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.scene.control.Tab;
 
 import java.io.File;
 import java.util.Arrays;
