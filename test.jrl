@@ -24,13 +24,10 @@ function main() = {
 
     int x1 = 4;
 
-    while ( x1 == 4 ){
-        printLine("while");
+    while ( x1 == 3 ){
+        printLine("while loop");
         x1 = 3;
     }
-
-
-
 }
 
 function test() = {
