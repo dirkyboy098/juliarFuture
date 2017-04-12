@@ -164,22 +164,8 @@ public class Interpreter {
         List<Node> instructionList = node.getInstructions();
         int size = instructionList.size();
 
-        BooleanNode booleanNode = null;
         List<Node> trueExpressions = new ArrayList<>();
-
-        for (int i = 0; i < size; i++) {
-            Node current = instructionList.get(i);
-
-            if (current instanceof BooleanNode) {
-                booleanNode = (BooleanNode) current;
-                continue;
-            }
-
-            if (current instanceof StatementNode) {
-                trueExpressions.add(current);
-                continue;
-            }
-        }
+        BooleanNode booleanNode = getBooleanExpressionNode(instructionList, size, trueExpressions);
 
         evalBooleanNode(booleanNode, frame);
 
@@ -198,8 +184,8 @@ public class Interpreter {
                         execute(currentExpressionInWhileBody);
                     }
 
-                    //NEED to revaluate the expression here!
-
+                    // re-evaluate the loop condtion
+                    evalBooleanNode(booleanNode, frame);
                     boolEvalResult = frame.returnNode;
                     finalNode = (FinalNode) boolEvalResult.getInstructions().get(0);
                     executeTrue = Boolean.parseBoolean(finalNode.dataString());
@@ -215,26 +201,31 @@ public class Interpreter {
         return null;
     }
 
+    private BooleanNode getBooleanExpressionNode(List<Node> instructionList, int size,List<Node> trueExpressions) {
+        BooleanNode booleanNode = null;
+        for (int i = 0; i < size; i++) {
+            Node current = instructionList.get(i);
+
+            if (current instanceof BooleanNode) {
+                booleanNode = (BooleanNode) current;
+                continue;
+            }
+
+            if (current instanceof StatementNode) {
+                trueExpressions.add(current);
+                continue;
+            }
+        }
+        return booleanNode;
+    }
+
     private List<Node> evalIfStatement(Node node, ActivationFrame frame){
         List<Node> instructionList = node.getInstructions();
         int size = instructionList.size();
 
-        BooleanNode booleanNode = null;
+
         List<Node> trueExpressions = new ArrayList<>();
-
-        for(int i=0; i<size; i++){
-            Node current = instructionList.get(i);
-
-            if (current instanceof BooleanNode){
-                booleanNode = (BooleanNode)current;
-                continue;
-            }
-
-            if(current instanceof StatementNode){
-                trueExpressions.add( current );
-                continue;
-            }
-        }
+        BooleanNode booleanNode = getBooleanExpressionNode(instructionList, size, trueExpressions);
 
         if (booleanNode != null && booleanNode.getInstructions().size() == 1){
             FinalNode finalNode = (FinalNode)booleanNode.getInstructions().get(0);
@@ -263,8 +254,32 @@ public class Interpreter {
 
         Node rvalue = node.getInstructions().get(2);
 
-        if (booleanOperatorNode.getInstructions().get(0) instanceof EqualEqualSignNode){
-            boolean isEqualEqual =  ((FinalNode)lvalue.getInstructions().get(0)).dataString().equals( ((FinalNode)rvalue.getInstructions().get(0)).dataString() );
+        if (booleanOperatorNode.getInstructions().get(0) instanceof EqualEqualSignNode) {
+            boolean isEqualEqual;
+
+            // This is ugly code. Need to find a better way to
+            // handle these cases.
+            // Multiple ifs will only cause confusion.
+            FinalNode updatedLvalue = null;
+            FinalNode updatedRvalue = null;
+            if (lvalue instanceof PrimitiveNode) {
+                updatedLvalue = (FinalNode) lvalue.getInstructions().get(0);
+            }
+
+            if (rvalue instanceof PrimitiveNode) {
+                updatedRvalue = (FinalNode)rvalue.getInstructions().get(0);
+            }
+
+            if (updatedLvalue != null ){
+                lvalue = updatedLvalue;
+            }
+
+            if (updatedRvalue != null) {
+                rvalue = updatedRvalue;
+            }
+
+            isEqualEqual = ((FinalNode)lvalue).dataString().equals( ((FinalNode)rvalue).dataString());
+
             FinalNode finalNode = new FinalNode();
             finalNode.setDataString( isEqualEqual );
 

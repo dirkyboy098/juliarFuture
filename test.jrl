@@ -21,14 +21,14 @@ function main() = {
         boolean b = x == 3;
         printLine(b);
     }
-/*
+
     int x1 = 4;
 
     while ( x1 == 4 ){
         printLine("while");
         x1 = 3;
     }
-*/
+
 
 
 }
