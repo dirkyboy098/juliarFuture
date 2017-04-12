@@ -272,26 +272,58 @@ arrowsign    /*Not Sure yet...it may conflict with comparison. Possibly <- would
     :'<='
     ;
 
+
+
 /*
  * Lexer Rules
  */
 
-NULL: 'null';
-BOOLEAN: 'true'|'false';
-INT: [0-9]+ ;
-FLOAT : ('0'..'9')+ '.' ('0'..'9')*;
-DOUBLE : ('0'..'9')+ '.' ('0'..'9')*;
-LONG : ('0'..'9')+ '.' ('0'..'9')*;
-ESC_CHARS: '\\' ('\"'|'\\'|'/'|'b'|'f'|'n'|'r'|'t')
-		| '\\' 'u' [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F]
-		;
-STRING:  '"' ( ESC_CHARS | ~('\\'|'"') )* '"'
-		|'\'' ( ESC_CHARS  | ~('\\'|'\'') )* '\''
-		|'`' (ESC_CHARS | ~('\\'| '`') )* '`'  
-        ;
-ID : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_'| '-' )*;
-WS : [ \t\r\n]+ -> skip ;
+NULL
+    :'null'
+    ;
 
+BOOLEAN
+    : 'true'
+    |'false'
+    ;
 
-COMMENT : '/*' (COMMENT|.)*? '*/' -> channel(HIDDEN) ;
-LINE_COMMENT  : '//' .*? '\n' -> channel(HIDDEN) ;
+INT
+    : [0-9]+
+    ;
+
+FLOAT
+    : ('0'..'9')+ '.' ('0'..'9')*
+    ;
+
+DOUBLE
+    : ('0'..'9')+ '.' ('0'..'9')*
+    ;
+
+LONG
+    : ('0'..'9')+ '.' ('0'..'9')*
+    ;
+
+ESC_CHARS
+    : '\\' ('\"'|'\\'|'/'|'b'|'f'|'n'|'r'|'t')
+    | '\\' 'u' [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F]
+    ;
+
+STRING
+    :  '"' ( ESC_CHARS | ~('\\'|'"') )* '"' |'\'' ( ESC_CHARS  | ~('\\'|'\'') )* '\''  |'`' (ESC_CHARS | ~('\\'| '`') )* '`'
+    ;
+
+ID
+    : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_'| '-' )*
+    ;
+
+WS
+    : [ \t\r\n]+ -> skip
+    ;
+
+COMMENT
+    : '/*' (COMMENT|.)*? '*/' -> channel(HIDDEN)
+    ;
+
+LINE_COMMENT
+    : '//' .*? '\n' -> channel(HIDDEN)
+    ;

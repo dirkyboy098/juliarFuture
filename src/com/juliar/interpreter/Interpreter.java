@@ -177,7 +177,7 @@ public class Interpreter {
             Boolean executeTrue = Boolean.parseBoolean(finalNode.dataString());
 
             if (executeTrue) {
-                for (; ; ) {
+                for ( ; ; ) {
                     for (int expressionCount = 0; expressionCount < trueExpressions.size(); expressionCount++) {
                         List<Node> currentExpressionInWhileBody = new ArrayList<>();
                         currentExpressionInWhileBody.add(trueExpressions.get(expressionCount));
@@ -188,7 +188,9 @@ public class Interpreter {
                     evalBooleanNode(booleanNode, frame);
                     boolEvalResult = frame.returnNode;
                     finalNode = (FinalNode) boolEvalResult.getInstructions().get(0);
-                    executeTrue = Boolean.parseBoolean(finalNode.dataString());
+
+                    //assert finalNode.dataString().equalsIgnoreCase( "true ") || finalNode.dataString().equalsIgnoreCase( "false" ) : "A boolean value was not returned";
+                    executeTrue = Boolean.parseBoolean( finalNode.dataString() );
 
                     if (executeTrue) {
                         continue;
@@ -354,27 +356,45 @@ public class Interpreter {
         return null;
     }
 
-    private List<Node> evaluateAggregate(Node node, ActivationFrame frame){
-        SummationType summationType = (SummationType)node.getInstructions().get(0);
+    private List<Node> evaluateAggregate(Node node, ActivationFrame frame) {
+        SummationType summationType = (SummationType) node.getInstructions().get(0);
         List<Node> list = node.getInstructions();
-
-        if (node.getInstructions().get(1) instanceof  VariableNode){
-
-        }
 
         int size = list.size();
         int sum = 0;
 
-        for (int i = 1; i < size; i ++){
-            String value = ((FinalNode)list.get(i).getInstructions().get(0)).dataString();
-            sum += Integer.parseInt( value );
+        List<VariableNode> listOfVariableNodes = new ArrayList<>();
+
+        for (int i = 1; i < size; i++) {
+            if (node.getInstructions().get(i) instanceof VariableNode) {
+                listOfVariableNodes.add((VariableNode) node.getInstructions().get(i));
+            }
+            else {
+                String value = ((FinalNode) list.get(i).getInstructions().get(0)).dataString();
+                sum += Integer.parseInt(value);
+            }
+        }
+
+        if (listOfVariableNodes.size() > 0) {
+            sum += aggregateVariable( listOfVariableNodes , frame);
         }
 
         FinalNode returnNode = new FinalNode();
-        returnNode.setDataString( sum );
+        returnNode.setDataString(sum);
         frame.returnNode = returnNode;
 
         return null;
+    }
+
+    private int aggregateVariable(List<VariableNode> variableNodeList, ActivationFrame frame){
+        int sum = 0;
+        for (int i = 0; i<variableNodeList.size(); i++){
+            PrimitiveNode primitiveNode = (PrimitiveNode)frame.variableSet.get( variableNodeList.get(i).variableName );
+            FinalNode finalNode = (FinalNode)primitiveNode.getInstructions().get(0);
+            sum += Integer.parseInt( finalNode.dataString());
+        }
+
+        return sum;
     }
 
 

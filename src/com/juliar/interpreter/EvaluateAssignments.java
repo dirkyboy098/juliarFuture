@@ -25,21 +25,19 @@ public class EvaluateAssignments {
             Node rValue = node.getInstructions().get(2);
 
             String variableName = variableNode.variableName;
+            Node rValueType = node.getInstructions().get(2).getInstructions().get(0);
 
             ActivationFrame frame = activationFrame;
-            if (frame.variableSet.containsKey( variableName )) {
+            if (frame.variableSet.containsKey( variableName ) && rValueType instanceof  FinalNode) {
                 frame.variableSet.remove( variableName );
-            }
-
-            Node rValueType = node.getInstructions().get(2).getInstructions().get(0);
-            if ( rValueType instanceof FinalNode) {
                 FinalNode variableNameTerminalNode = (FinalNode) node.getInstructions().get(2).getInstructions().get(0);
                 frame.variableSet.put(variableName, variableNameTerminalNode);
             }
-            else {
-                List<Node> sss = new ArrayList<>();
-                sss.add( rValueType );
-               interpreterCallback.execute( sss );
+            else if (rValue instanceof CommandNode){
+                List<Node> instructions = new ArrayList<>();
+                instructions.add( rValueType );
+                interpreterCallback.execute( instructions );
+                frame.variableSet.put (variableName, frame.returnNode);
             }
         }
 
