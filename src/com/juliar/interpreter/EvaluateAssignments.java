@@ -31,8 +31,16 @@ public class EvaluateAssignments {
                 frame.variableSet.remove( variableName );
             }
 
-            FinalNode variableNameTerminalNode = (FinalNode) node.getInstructions().get(2).getInstructions().get(0);
-            frame.variableSet.put( variableName, variableNameTerminalNode );
+            Node rValueType = node.getInstructions().get(2).getInstructions().get(0);
+            if ( rValueType instanceof FinalNode) {
+                FinalNode variableNameTerminalNode = (FinalNode) node.getInstructions().get(2).getInstructions().get(0);
+                frame.variableSet.put(variableName, variableNameTerminalNode);
+            }
+            else {
+                List<Node> sss = new ArrayList<>();
+                sss.add( rValueType );
+               interpreterCallback.execute( sss );
+            }
         }
 
         return null;

@@ -44,6 +44,7 @@ reassignmentExpression
     : variable equalsign variable
 	| variable equalsign functionCall
 	| variable equalsign primitiveTypes
+	| variable equalsign command
     ;
 
 
@@ -130,6 +131,7 @@ variabledeclartion
 add
     : summation types (types)*
     | summation types types
+    | summation variable (types)*
     ;
 	
 summation

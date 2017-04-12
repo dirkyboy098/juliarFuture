@@ -358,6 +358,10 @@ public class Interpreter {
         SummationType summationType = (SummationType)node.getInstructions().get(0);
         List<Node> list = node.getInstructions();
 
+        if (node.getInstructions().get(1) instanceof  VariableNode){
+
+        }
+
         int size = list.size();
         int sum = 0;
 
