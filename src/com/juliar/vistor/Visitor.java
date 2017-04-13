@@ -339,13 +339,31 @@ public class Visitor extends JuliarBaseVisitor<Node>
     @Override
     public Node visitAssignmentExpression(JuliarParser.AssignmentExpressionContext ctx) {
         AssignmentNode node = new AssignmentNode(null);
-        iterateWrapper(ctx, this, node);
+
+        IterateOverContext iterateOverContext = new IterateOverContext(){
+            @Override
+            public void action(Node parent, Node child) {
+                IntegralType integralType = null;
+                if ( parent instanceof AssignmentNode && parent.getInstructions().size() >= 2 && parent.getInstructions().get(0) instanceof VariableDeclarationNode){
+                    VariableNode variableNode = (VariableNode)parent.getInstructions().get(0).getInstructions().get(1);
+                    integralType = variableNode.getIntegralType();
+                }
+                if (child instanceof PrimitiveNode && integralType != null){
+                    PrimitiveNode primitiveNode = (PrimitiveNode)child;
+                    primitiveNode.setVariableTypeByIntegralType( integralType );
+                }
+            }
+        };
+
+        iterateOverContext.iterateOverChildren(ctx, this, node);
         return node;
     }
 
     @Override
     public Node visitReassignmentExpression(JuliarParser.ReassignmentExpressionContext ctx) {
         VariableReassignmentNode node = new VariableReassignmentNode();
+
+        //TODO see if the node is in tye Symboltable and if it can be accessed. The original node with the type.
         iterateWrapper(ctx, this, node);
         return node;
     }
@@ -396,7 +414,12 @@ public class Visitor extends JuliarBaseVisitor<Node>
     @Override
     public Node visitVariabledeclartion(JuliarParser.VariabledeclartionContext ctx) {
         VariableDeclarationNode variableDeclarationNode = new VariableDeclarationNode();
+
         new IterateOverContext(ctx, this , variableDeclarationNode);
+
+        VariableNode variableNode  = (VariableNode)variableDeclarationNode.getInstructions().get(1);
+        variableNode.setVariableType( ctx.children.get(0).getText() );
+
         return variableDeclarationNode;
     }
 
@@ -529,6 +552,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
                 Node node = parseTree.accept( visitor );
 
                 if (node != null) {
+                    action(parent, node);
                     action(node);
                     parent.AddInst( node );
                 }
@@ -540,6 +564,12 @@ public class Visitor extends JuliarBaseVisitor<Node>
          this method will be overridden in implementation.
          */
         public void action(Node node){
+        /*
+        empty body
+        */
+        }
+
+        public void action(Node parent, Node child){
         /*
         empty body
         */

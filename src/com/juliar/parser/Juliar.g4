@@ -227,6 +227,8 @@ keywords
     | 'long'
     | 'object'
     | 'boolean'
+    | 'string'
+    | 'class'
     ;
 
 ifKeyWord

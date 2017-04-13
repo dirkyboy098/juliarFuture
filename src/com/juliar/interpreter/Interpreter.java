@@ -18,6 +18,7 @@ public class Interpreter {
     private List<Node> inst;
     private HashMap<String, Node> functionNodeMap;
     private HashMap<NodeType, Evaluate> functionMap = new HashMap<NodeType, Evaluate>();
+    private final static String mainFunctionName = "main";
 
     public Interpreter(InstructionInvocation invocation){
         try {
@@ -79,10 +80,10 @@ public class Interpreter {
 
     private List<Node> evalCompliationUnit() {
         for(Map.Entry<String, Node> entry : functionNodeMap.entrySet()) {
-            if (entry.getKey().toString().equals("main")) {
+            if (entry.getKey().toString().equals( mainFunctionName )) {
 
                 ActivationFrame frame = new ActivationFrame();
-                frame.frameName = "main";
+                frame.frameName = mainFunctionName;
                 activationFrameStack.push( frame );
                 execute( entry.getValue().getInstructions() );
                 activationFrameStack.pop();
@@ -306,7 +307,6 @@ public class Interpreter {
     }
 
     private List<Node> evalBooleanOperator(Node node, ActivationFrame frame){
-
         return null;
     }
 
@@ -315,7 +315,7 @@ public class Interpreter {
         String functionToCall = functionCallNode.functionName();
 
         // main should only be called from the compliationUnit
-        if (functionCallNode.equals( "main")){
+        if (functionCallNode.equals(  mainFunctionName )){
             return null;
         }
 

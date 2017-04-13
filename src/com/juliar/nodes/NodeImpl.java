@@ -5,12 +5,15 @@ import java.util.List;
 import java.util.Stack;
 import java.util.UUID;
 
+import static com.juliar.nodes.IntegralType.*;
+
 /**
  * Created by Don on 1/13/2017.
  */
 public abstract class NodeImpl implements Node {
     protected List<Node> instructions = new ArrayList<>();
     protected String nodeName;
+    private IntegralType integralType;
 
     public NodeImpl(){
         setNodeName();
@@ -45,5 +48,40 @@ public abstract class NodeImpl implements Node {
     @Override
     public String getNodeName(){
         return nodeName;
+    }
+
+
+    public IntegralType getIntegralType(){
+        return integralType;
+    }
+
+    public void setVariableTypeByIntegralType( IntegralType type){
+        integralType = type;
+    }
+
+    public void setVariableType(String variableType){
+        switch (variableType) {
+            case "int":
+                integralType = jinteger;
+                break;
+            case "double":
+                integralType = jdouble;
+                break;
+            case "float":
+                integralType = jfloat;
+                break;
+            case "long":
+                integralType = jlong;
+                break;
+            case "string":
+                integralType = jstring;
+                break;
+            case "object":
+                integralType = jobject;
+                break;
+            case "boolean":
+                integralType = jboolean;
+                break;
+        }
     }
 }

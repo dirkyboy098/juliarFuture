@@ -1,5 +1,6 @@
 package com.juliar.nodes;
 
+import static com.juliar.nodes.IntegralType.*;
 /**
  * Created by Don on 1/15/2017.
  */

@@ -5,6 +5,8 @@ import com.juliar.nodes.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.juliar.nodes.IntegralType.*;
+
 /**
  * Created by donreamey on 3/28/17.
  */
@@ -130,21 +132,37 @@ public class EvaluateAssignments {
     }
 
 
-    static private boolean canPrimitiveValueBeAssignedToVar(VariableDeclarationNode lvalue, PrimitiveNode rvalue){
-        FinalNode lvalueTerminal =  (FinalNode)lvalue.getInstructions().get(0).getInstructions().get(0);
-        FinalNode rvalueTerminal =  (FinalNode)rvalue.getInstructions().get(0);
+    static private boolean canPrimitiveValueBeAssignedToVar(VariableDeclarationNode lvalue, PrimitiveNode rvalue) {
+        FinalNode rvalueTerminal = (FinalNode) rvalue.getInstructions().get(0);
+        VariableNode variableNode = (VariableNode) lvalue.getInstructions().get(1);
+        String data = rvalueTerminal.dataString();
 
-        if (lvalueTerminal.dataString().equals( "int" )){
-            try {
-                Integer.parseInt(rvalueTerminal.dataString());
+        try {
+            switch (variableNode.getIntegralType()) {
+                case jinteger:
+                    Integer.parseInt(data);
+                    return true;
+                case jdouble:
+                    Double.parseDouble(data);
+                    return true;
+                case jfloat:
+                    Float.parseFloat(data);
+                    return true;
+                case jlong:
+                    Long.parseLong(data);
+                    return true;
+                case jstring:
+                    return true;
+                case jobject:
+                    return false;
+                case jboolean:
+                    Boolean.parseBoolean(data);
+                    return true;
+                default:
+                    return false;
             }
-            catch(NumberFormatException nfe){
-                return false;
-            }
-
-            return true;
+        } catch (NumberFormatException nfe) {
+            return false;
         }
-
-        return false;
     }
 }
