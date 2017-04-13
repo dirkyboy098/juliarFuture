@@ -365,6 +365,10 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
         //TODO see if the node is in tye Symboltable and if it can be accessed. The original node with the type.
         iterateWrapper(ctx, this, node);
+        if (symbolTable.doesChildExistAtScope( node.getInstructions().get(1))){
+            VariableNode variableNode = (VariableNode)symbolTable.getNode( node.getInstructions().get(1) );
+            node.setVariableTypeByIntegralType( variableNode.getIntegralType() );
+        }
         return node;
     }
 

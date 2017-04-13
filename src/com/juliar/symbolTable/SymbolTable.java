@@ -80,6 +80,18 @@ public class SymbolTable {
         scopeHash.get(currentScope.peek()).children.add(child);
     }
 
+    public Node getNode(Node child){
+        if (child instanceof VariableNode){
+            SymbolTableNode node = scopeHash.get(currentScope.peek());
+            if (node.children.stream()
+                    .filter(f -> ((VariableNode) f).variableName.equals(((VariableNode) child).variableName)).count() == 1) {
+                Node variable =  (Node)node.children.stream().filter(f -> ((VariableNode) f).variableName.equals(((VariableNode) child).variableName));
+                return variable;
+            }
+        }
+        return null;
+    }
+
     public boolean doesChildExistAtScope(Node child){
         return scopeHash.get( currentScope.peek() )
                 .children.stream()
