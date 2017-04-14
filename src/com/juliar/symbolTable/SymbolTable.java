@@ -85,8 +85,12 @@ public class SymbolTable {
             SymbolTableNode node = scopeHash.get(currentScope.peek());
             if (node.children.stream()
                     .filter(f -> ((VariableNode) f).variableName.equals(((VariableNode) child).variableName)).count() == 1) {
-                Node variable =  (Node)node.children.stream().filter(f -> ((VariableNode) f).variableName.equals(((VariableNode) child).variableName));
-                return variable;
+
+                return node.children
+                        .stream()
+                        .filter(f -> ((VariableNode) f).variableName.equals(((VariableNode) child).variableName))
+                        .findFirst().get();
+
             }
         }
         return null;

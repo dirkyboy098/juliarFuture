@@ -31,9 +31,17 @@ public class EvaluateAssignments {
 
             ActivationFrame frame = activationFrame;
             if (frame.variableSet.containsKey( variableName ) && rValueType instanceof  FinalNode) {
+                Node variableFromFrame = frame.variableSet.get( variableName );
+                IntegralType integralType = variableFromFrame.getIntegralType();
+
+                if (integralType != variableNode.getIntegralType()){
+                    throw new RuntimeException("Cannot assign "+ variableNode.getIntegralType().toString() +" to "+integralType.toString());
+                }
+
                 frame.variableSet.remove( variableName );
                 FinalNode variableNameTerminalNode = (FinalNode) node.getInstructions().get(2).getInstructions().get(0);
-                frame.variableSet.put(variableName, variableNameTerminalNode);
+                variableNameTerminalNode.setVariableTypeByIntegralType( integralType );
+                frame.variableSet.put(variableName, variableNameTerminalNode );
             }
             else if (rValue instanceof CommandNode){
                 List<Node> instructions = new ArrayList<>();

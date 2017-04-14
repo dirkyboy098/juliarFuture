@@ -50,15 +50,17 @@ public abstract class NodeImpl implements Node {
         return nodeName;
     }
 
-
+    @Override
     public IntegralType getIntegralType(){
         return integralType;
     }
 
+    @Override
     public void setVariableTypeByIntegralType( IntegralType type){
         integralType = type;
     }
 
+    @Override
     public void setVariableType(String variableType){
         switch (variableType) {
             case "int":
