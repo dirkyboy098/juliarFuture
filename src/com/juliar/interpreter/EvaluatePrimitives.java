@@ -12,16 +12,29 @@ import java.util.List;
 public class EvaluatePrimitives {
     static public List<Node> evalPrimitives(Node n, ActivationFrame activationFrame) {
         String functionName = ((FinalNode)n.getInstructions().get(0)).dataString();
-        Node argumentNode = n.getInstructions().get(2);
-
-        printLine(activationFrame, functionName, argumentNode);
-        String data = fileOpen(functionName, argumentNode);
-
         FinalNode finalNode = new FinalNode();
-        finalNode.setDataString( data );
-        finalNode.setVariableTypeByIntegralType( IntegralType.jstring );
 
-        activationFrame.returnNode = finalNode;
+        if (functionName.equals(  "printLine" )){
+            printLine( activationFrame , functionName, n.getInstructions().get(2));
+        }
+
+        if (functionName.equals("fileOpen")) {
+            String data = fileOpen(functionName, n.getInstructions().get(2));
+
+            finalNode.setDataString(data);
+            finalNode.setVariableTypeByIntegralType(IntegralType.jstring);
+
+            activationFrame.returnNode = finalNode;
+        }
+
+        if (functionName.equals( "availableMemory")){
+            long value = availableMemory();
+            finalNode.setDataString( value );
+            finalNode.setVariableTypeByIntegralType( IntegralType.jlong);
+            activationFrame.returnNode = finalNode;
+        }
+
+
         return new ArrayList<>();
     }
 
@@ -34,6 +47,10 @@ public class EvaluatePrimitives {
         }
 
         return "";
+    }
+
+    private static long availableMemory(){
+        return com.juliar.pal.Primitives.sys_available_memory();
     }
 
     private static void printLine(ActivationFrame activationFrame, String functionName, Node argumentNode) {

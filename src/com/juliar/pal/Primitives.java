@@ -79,10 +79,12 @@ public class Primitives {
         return s;
     }
 
-    public static void sys_available_memory() {
+    public static long sys_available_memory() {
         Runtime rt = Runtime.getRuntime();
         long total = rt.totalMemory();
         long free = rt.freeMemory();
-        System.out.print(total - free);
+        long freeMemory = total- free;
+
+        return freeMemory;
     }
 }

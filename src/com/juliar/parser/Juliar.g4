@@ -95,6 +95,7 @@ primitives
     | 'printLine' '(' variable ')'
     | 'fileOpen' '(' STRING ')'
     | 'fileOpen' '(' variable ')'
+    | 'availableMemory' '()'
     ;
 
 

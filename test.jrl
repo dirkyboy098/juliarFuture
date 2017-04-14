@@ -1,4 +1,6 @@
 function main() = {
+    int x = availableMemory();
+    printLine(x);
     string file = fileOpen("./test.jrl");
     parse(file);
 }
