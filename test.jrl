@@ -2,11 +2,17 @@ function main() = {
     string x1 = 4;
     x1 = "asdfasd";
 
-    string file = fileOpen("/Users/don/Desktop/repos/juliarFuture/test.jrl");
+    string file = fileOpen("./test.jrl");
 
     printLine(file);
 
-    file = fileOpen("/Users/don/Desktop/repos/juliarFuture/src/com/juliar/interpreter/Interpreter.java");
+    file = fileOpen("./src/com/juliar/interpreter/Interpreter.java");
 
    printLine(file);
+}
+
+
+
+function parse(string s) = {
+
 }
