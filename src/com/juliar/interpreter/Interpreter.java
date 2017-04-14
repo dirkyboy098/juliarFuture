@@ -310,8 +310,8 @@ public class Interpreter {
         return new ArrayList<>();
     }
 
-    private List<Node> evalFunctionCall(Node Node) {
-        FunctionCallNode functionCallNode = (FunctionCallNode)Node;
+    private List<Node> evalFunctionCall(Node node) {
+        FunctionCallNode functionCallNode = (FunctionCallNode)node;
         String functionToCall = functionCallNode.functionName();
 
         // main should only be called from the compliationUnit
@@ -319,15 +319,48 @@ public class Interpreter {
             return new ArrayList<>();
         }
 
-        for(Map.Entry<String, Node> entry : functionNodeMap.entrySet()){
-            if (entry.getKey().toString().equals( functionToCall )) {
-                ActivationFrame frame = new ActivationFrame();
-                frame.frameName = functionToCall;
-                activationFrameStack.push( frame );
-                execute(entry.getValue().getInstructions());
-                activationFrameStack.pop();
-                break;
+        FunctionDeclNode functionDeclNode = (FunctionDeclNode)functionNodeMap.get( functionToCall );
+        if (functionDeclNode != null) {
+            ActivationFrame frame = new ActivationFrame();
+            frame.frameName = functionToCall;
+
+            List<VariableNode> sourceVariables = new ArrayList<>();
+            List<VariableDeclarationNode> targetVariables = new ArrayList<>();
+
+            for (Node v : node.getInstructions()) {
+                if (v instanceof VariableNode) {
+                    sourceVariables.add( (VariableNode)v );
+                }
             }
+
+            for(Node v : functionDeclNode.getInstructions()){
+                if (v instanceof VariableDeclarationNode){
+                    targetVariables.add( (VariableDeclarationNode)v );
+                }
+            }
+
+            if (sourceVariables.size() != targetVariables.size()){
+                throw new RuntimeException("Source and target variable count do not match");
+            }
+
+            // since the function that is getting called can reference the variable using the
+            // formal parameters of the function this code will match the calling functions data
+            // with the target calling functions variable name.
+            for (int i = 0; i < sourceVariables.size(); i++){
+                VariableNode variableNode = (VariableNode)targetVariables.get(0).getInstructions().get(1);
+                if (variableNode.integralTypeNode == sourceVariables.get(i).integralTypeNode) {
+                    frame.variableSet.put(variableNode.variableName, activationFrameStack.peek().variableSet.get(sourceVariables.get(i).variableName));
+                }
+                else {
+                    throw new RuntimeException( "data types are not the same");
+                }
+            }
+
+
+
+            activationFrameStack.push(frame);
+            execute(functionDeclNode.getInstructions());
+            activationFrameStack.pop();
         }
 
         return new ArrayList<>();

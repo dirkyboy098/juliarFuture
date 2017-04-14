@@ -1,18 +1,10 @@
 function main() = {
-    string x1 = 4;
-    x1 = "asdfasd";
-
     string file = fileOpen("./test.jrl");
-
-    printLine(file);
-
-    file = fileOpen("./src/com/juliar/interpreter/Interpreter.java");
-
-   printLine(file);
+    parse(file);
 }
 
 
-
 function parse(string s) = {
-
+    printLine(" ========== Print value of variable passed in from main funciton ============");
+    printLine(s);
 }
