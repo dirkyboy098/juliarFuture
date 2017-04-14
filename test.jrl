@@ -1,4 +1,8 @@
 function main() = {
     string x1 = 4;
     x1 = "asdfasd";
+
+    string file = fileOpen("/Users/don/Desktop/repos/juliarFuture/test.jrl");
+
+    printLine(file);
 }

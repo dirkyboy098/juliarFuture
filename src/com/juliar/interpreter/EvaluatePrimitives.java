@@ -14,19 +14,25 @@ public class EvaluatePrimitives {
         Node argumentNode = n.getInstructions().get(2);
 
         printLine(activationFrame, functionName, argumentNode);
+        String data = fileOpen(functionName, argumentNode);
 
-        fileOpen(functionName, argumentNode);
+        FinalNode finalNode = new FinalNode();
+        finalNode.setDataString( data );
+        finalNode.setVariableTypeByIntegralType( IntegralType.jstring );
+
+        activationFrame.returnNode = finalNode;
         return null;
     }
 
-    private static void fileOpen(String functionName, Node argumentNode) {
+    private static String fileOpen(String functionName, Node argumentNode) {
         if (functionName.equals( "fileOpen")){
             if (argumentNode instanceof FinalNode) {
                 FinalNode finalNode = (FinalNode) argumentNode;
-                com.juliar.pal.Primitives.sys_file_open(finalNode.dataString());
-                return;
+                return com.juliar.pal.Primitives.sys_file_open(finalNode.dataString());
             }
         }
+
+        return "";
     }
 
     private static void printLine(ActivationFrame activationFrame, String functionName, Node argumentNode) {
