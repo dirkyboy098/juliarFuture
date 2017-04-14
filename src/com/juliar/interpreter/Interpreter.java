@@ -97,17 +97,17 @@ public class Interpreter {
 
     private List<Node> evalStatement( Node node){
         execute( node.getInstructions() );
-        return null;
+        return new ArrayList<>();
     }
 
     private List<Node> evalActivationFrame(Node node) {
         ActivationFrame frame = activationFrameStack.peek();
         frame.variableSet.put (((VariableNode)node).variableName, node);
-        return null;
+        return new ArrayList<>();
     }
 
     private List<Node> evalSummation(Node node){
-        return null;
+        return new ArrayList<>();
     }
 
     private List<Node> evalCommand(Node node) {
@@ -117,16 +117,16 @@ public class Interpreter {
     }
 
     private List<Node> evalAdd(Node node){
-        return null;
+        return new ArrayList<>();
     }
 
 
     private List<Node> evalNull(Node Node){
-        return null;
+        return new ArrayList<>();
     }
 
     private List<Node> evalFinal( Node Node){
-        return null;
+        return new ArrayList<>();
     }
 
     private List<Node> evalReturn(Node Node, ActivationFrame frame) {
@@ -150,7 +150,7 @@ public class Interpreter {
                 activationFrameStack.push(caller);
                 activationFrameStack.push(currentFrame);
 
-                return null;
+                return new ArrayList<>();
             }
 
             if (frame.variableSet.containsKey(node.typeName())) {
@@ -158,7 +158,7 @@ public class Interpreter {
                 returnValueStack.push( variableNode );
             }
         }
-        return null;
+        return new ArrayList<>();
     }
 
     private List<Node> evalWhileExpression(Node node, ActivationFrame frame) {
@@ -201,7 +201,7 @@ public class Interpreter {
             }
         }
 
-        return null;
+        return new ArrayList<>();
     }
 
     private BooleanNode getBooleanExpressionNode(List<Node> instructionList, int size,List<Node> trueExpressions) {
@@ -240,13 +240,13 @@ public class Interpreter {
             }
         }
 
-        return null;
+        return new ArrayList<>();
     }
 
     private List<Node> evalFunctionDecl(Node Node){
         if (((FunctionDeclNode)Node).getFunctionName().toLowerCase() == "import"){
         }
-        return null;
+        return new ArrayList<>();
     }
 
     private List<Node> evalBooleanNode(Node node, ActivationFrame frame){
@@ -291,7 +291,7 @@ public class Interpreter {
 
             frame.returnNode = booleanNode;
         }
-        return null;
+        return new ArrayList<>();
     }
 
     private boolean isEqual(Node left, Node right){
@@ -307,7 +307,7 @@ public class Interpreter {
     }
 
     private List<Node> evalBooleanOperator(Node node, ActivationFrame frame){
-        return null;
+        return new ArrayList<>();
     }
 
     private List<Node> evalFunctionCall(Node Node) {
@@ -316,7 +316,7 @@ public class Interpreter {
 
         // main should only be called from the compliationUnit
         if (functionCallNode.equals(  mainFunctionName )){
-            return null;
+            return new ArrayList<>();
         }
 
         for(Map.Entry<String, Node> entry : functionNodeMap.entrySet()){
@@ -330,7 +330,7 @@ public class Interpreter {
             }
         }
 
-        return null;
+        return new ArrayList<>();
     }
 
 
@@ -344,7 +344,7 @@ public class Interpreter {
         for(int i =0;i<addCount;i++){
             binaryOperation( (a,b) -> a+b); //check
         }
-        return null;
+        return new ArrayList<>();
     }
 
     private List<Node> binaryNode( String variableName, Node Node){
@@ -353,7 +353,7 @@ public class Interpreter {
         VariableNode v = (VariableNode) frame.variableSet.get( variableName );
 
         v.setIntegralTypeNode( (IntegralTypeNode)frame.operandStack.pop() );
-        return null;
+        return new ArrayList<>();
     }
 
     private List<Node> evaluateAggregate(Node node, ActivationFrame frame) {
@@ -383,7 +383,7 @@ public class Interpreter {
         returnNode.setDataString(sum);
         frame.returnNode = returnNode;
 
-        return null;
+        return new ArrayList<>();
     }
 
     private int aggregateVariable(List<VariableNode> variableNodeList, ActivationFrame frame){
@@ -437,7 +437,7 @@ public class Interpreter {
             default:
                 assert true;
         }
-        return null;
+        return new ArrayList<>();
     }
 
     private List<Node> binaryOperation( IntegerMath integerMath) {
@@ -453,7 +453,7 @@ public class Interpreter {
 
         //TODO - NEED to FIX THIS.
         //frame.operandStack.push(new IntegralTypeNode(sum, IntegralType.jinteger));
-        return null;
+        return new ArrayList<>();
     }
 
     private void integralTypeNode(IntegralTypeNode itn) {

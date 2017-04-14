@@ -3,6 +3,7 @@ package com.juliar.interpreter;
 import com.juliar.nodes.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ public class EvaluatePrimitives {
         finalNode.setVariableTypeByIntegralType( IntegralType.jstring );
 
         activationFrame.returnNode = finalNode;
-        return null;
+        return new ArrayList<>();
     }
 
     private static String fileOpen(String functionName, Node argumentNode) {

@@ -51,7 +51,7 @@ public class EvaluateAssignments {
             }
         }
 
-        return null;
+        return new ArrayList<>();
     }
 
     static public List<Node> evalAssignment(Node n, ActivationFrame activationFrame) {
@@ -125,7 +125,7 @@ public class EvaluateAssignments {
             }
         }
 
-        return null;
+        return new ArrayList<>();
     }
 
     private static void assignReturnValueToVariable(ActivationFrame activationFrame, VariableDeclarationNode variableToAssignTo) {

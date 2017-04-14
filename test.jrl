@@ -5,4 +5,8 @@ function main() = {
     string file = fileOpen("/Users/don/Desktop/repos/juliarFuture/test.jrl");
 
     printLine(file);
+
+    file = fileOpen("/Users/don/Desktop/repos/juliarFuture/src/com/juliar/interpreter/Interpreter.java");
+
+   printLine(file);
 }
