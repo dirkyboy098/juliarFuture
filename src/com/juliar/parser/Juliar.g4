@@ -5,8 +5,13 @@ grammar Juliar;
  */
 
 compileUnit
-	: (functionDeclaration)*
-	;
+	: classifications*
+    ;
+
+classifications
+    : functionDeclaration
+    | userDefinedType
+    ;
 
 statement
     : (expression)
@@ -95,6 +100,8 @@ primitives
     | 'printLine' '(' variable ')'
     | 'fileOpen' '(' STRING ')'
     | 'fileOpen' '(' variable ')'
+    | 'print' '(' variable ')'
+    | 'print' '(' (variable | types ) ')'
     | 'availableMemory' '()'
     ;
 
@@ -121,6 +128,18 @@ command
     */
     ;
 
+userDefinedType
+    : userDefinedTypeKeyWord userDefinedTypeName equalsign '{' (statement)* (functionDeclaration)* '}'
+    ;
+
+userDefinedTypeKeyWord
+    : 'class'
+    ;
+
+userDefinedTypeName
+    : ID
+    ;
+
 variable
     : ID
     ;
@@ -134,7 +153,7 @@ add
     | summation types types
     | summation variable (types)*
     ;
-	
+
 summation
     : '+'
     | 'add'

@@ -26,12 +26,6 @@ public class TestByteCode extends TestCase {
         //int i = returnInt();
     }
 
-    public void testReturnInt(){
-        int i = 32;
-        int y = 43;
-        Primitives.sys_print_int( i + y );
-        //return y;
-    }
 
     private String returnString(){
         return "foo";

@@ -362,6 +362,20 @@ public class Interpreter {
             execute(functionDeclNode.getInstructions());
             activationFrameStack.pop();
         }
+        else {
+            FinalNode primitiveArg = new FinalNode();
+            primitiveArg.setDataString( functionToCall );
+            PrimitiveNode primitiveNode = new PrimitiveNode();
+            primitiveNode.AddInst(primitiveArg);
+
+            for(Node primArgs : node.getInstructions()){
+                if (primArgs instanceof VariableNode || primArgs instanceof IntegralTypeNode){
+                    primitiveNode.AddInst( primArgs );
+                }
+            }
+
+            return EvaluatePrimitives.evalPrimitives(primitiveNode, activationFrameStack.peek());
+        }
 
         return new ArrayList<>();
     }

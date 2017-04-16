@@ -1,12 +1,36 @@
+class fileReader = {
+    int i = 0;
+    function fileReader(string s) = {
+        fileOpen(s);
+    }
+
+    function fileWrite(string y) = {
+    }
+
+    function getByte() = {
+        string i = "this is a string";
+        __getByteFromString(i);
+    }
+}
+
+
+class fileObject = {
+
+}
+
 function main() = {
     int x = availableMemory();
+    print("avilable memory = ");
     printLine(x);
     string file = fileOpen("./test.jrl");
-    parse(file);
+    //parse(file);
+    foo(x);
+    string y = __getByteFromString(file);
+    printLine(y);
+}
+
+function foo(int s)={
+
 }
 
 
-function parse(string s) = {
-    printLine(" ========== Print value of variable passed in from main funciton ============");
-    printLine(s);
-}

@@ -59,11 +59,6 @@ public class Primitives {
 
     }
 
-    public static void sys_print_int(int integer){ System.out.println(integer);}
-    public static void sys_print_float(float floater){ System.out.println(floater);}
-    public static void sys_print_double(double doubler){ System.out.println(doubler);}
-    public static void sys_print_long(long longer){ System.out.println(longer);}
-
     public static void sys_print(String string) {
         System.out.print(stripQuotes(string));
         System.out.flush();
@@ -87,4 +82,10 @@ public class Primitives {
 
         return freeMemory;
     }
+
+    public static char[] sys_get_byte_from_string(String s){
+        return s.toCharArray();
+    }
+
+    //public static
 }
