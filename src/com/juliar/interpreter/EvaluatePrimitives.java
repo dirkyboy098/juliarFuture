@@ -19,7 +19,7 @@ public class EvaluatePrimitives {
                 printLine(activationFrame, functionName, n.getInstructions().get(2));
                 break;
             case "__getByteFromString":
-                getByteFromString(activationFrame, n.getInstructions().get(1));
+                getByteFromString(activationFrame, n.getInstructions().get(1) , n.getInstructions().get(2) );
                 break;
             case "printLine":
                 printLine(activationFrame, functionName, n.getInstructions().get(2));
@@ -56,14 +56,32 @@ public class EvaluatePrimitives {
         return com.juliar.pal.Primitives.sys_available_memory();
     }
 
-    private static void getByteFromString(ActivationFrame activationFrame, Node argumentNode){
+    private static void getByteFromString(ActivationFrame activationFrame, Node argumentNode, Node index){
         Object variable = activationFrame.variableSet.get( ((VariableNode)argumentNode).variableName);
+
 
         if (variable instanceof FinalNode){
             char[] array = com.juliar.pal.Primitives.sys_get_byte_from_string( ((FinalNode)variable).dataString() );
 
             FinalNode finalNode = new FinalNode();
-            finalNode.setDataString( array[0] );
+
+            Object argTwo = activationFrame.variableSet.get( ((VariableNode)index).variableName);
+
+            FinalNode argumentTwo = null;
+
+            if (argTwo instanceof PrimitiveNode) {
+                argumentTwo = (FinalNode) activationFrame.variableSet.get(((VariableNode) index).variableName).getInstructions().get(0);
+            }
+            else if (argTwo instanceof FinalNode){
+                argumentTwo = (FinalNode) activationFrame.variableSet.get(((VariableNode) index).variableName);
+            }
+
+            int parsedIndex = Integer.parseInt( argumentTwo.dataString() );
+
+            if (parsedIndex > array.length){
+                throw new RuntimeException("index out of bounds");
+            }
+            finalNode.setDataString( array[ parsedIndex ] );
             activationFrame.returnNode = finalNode;
         }
     }
