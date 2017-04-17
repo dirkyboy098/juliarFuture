@@ -151,7 +151,7 @@ variabledeclartion
 add
     : summation types (types)*
     | summation types types
-    | summation variable (types)*
+    | summation variable (types)+
     ;
 
 summation

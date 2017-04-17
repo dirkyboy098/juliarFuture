@@ -61,7 +61,6 @@ public class Primitives {
 
     public static void sys_print(String string) {
         System.out.print(stripQuotes(string));
-        System.out.flush();
     }
 
     public static String stripQuotes( String s){

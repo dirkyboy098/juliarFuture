@@ -75,7 +75,7 @@ public class Interpreter {
             continue;
         }
 
-        return null;
+        return new ArrayList<>();
     }
 
     private List<Node> evalCompliationUnit() {
@@ -249,48 +249,75 @@ public class Interpreter {
         return new ArrayList<>();
     }
 
-    private List<Node> evalBooleanNode(Node node, ActivationFrame frame){
-        String variableName = ((VariableNode)node.getInstructions().get(0)).variableName;
-        Node lvalue =  frame.variableSet.get( variableName );
+    private List<Node> evalBooleanNode(Node node, ActivationFrame frame) throws RuntimeException{
+        Node variableType  = node.getInstructions().get(0);
 
-        BooleanOperatorNode booleanOperatorNode = (BooleanOperatorNode)node.getInstructions().get(1);
+        try {
+            Node lvalue = null;
+            if (variableType instanceof VariableNode) {
+                String variableName = ((VariableNode) node.getInstructions().get(0)).variableName;
+                lvalue = frame.variableSet.get(variableName);
 
-        Node rvalue = node.getInstructions().get(2);
+            } else {
+                lvalue = variableType;
+            }
 
-        if (booleanOperatorNode.getInstructions().get(0) instanceof EqualEqualSignNode) {
+            BooleanOperatorNode booleanOperatorNode = null;
             boolean isEqualEqual;
-
+            Node rvalue = null;
             // This is ugly code. Need to find a better way to
             // handle these cases.
             // Multiple ifs will only cause confusion.
             FinalNode updatedLvalue = null;
-            FinalNode updatedRvalue = null;
-            if (lvalue instanceof PrimitiveNode) {
-                updatedLvalue = (FinalNode) lvalue.getInstructions().get(0);
+
+            if (node.getInstructions().size() == 1) {
+                //lvalue must be a single boolean expression
+                if (lvalue instanceof FinalNode) {
+                    BooleanNode booleanNode = new BooleanNode();
+                    booleanNode.AddInst(lvalue);
+                    frame.returnNode = booleanNode;
+                    return new ArrayList<>();
+                }
+
+                if (lvalue instanceof PrimitiveNode) {
+                    updatedLvalue = (FinalNode) lvalue.getInstructions().get(0);
+                }
+
+            } else if (node.getInstructions().size() > 1) {
+                booleanOperatorNode = (BooleanOperatorNode) node.getInstructions().get(1);
+                if (booleanOperatorNode.getInstructions().get(0) instanceof EqualEqualSignNode) {
+                    //isEqualEqual;
+                }
+                rvalue = node.getInstructions().get(2);
+                FinalNode updatedRvalue = null;
+                if (rvalue != null && rvalue instanceof PrimitiveNode) {
+                    updatedRvalue = (FinalNode) rvalue.getInstructions().get(0);
+                }
+
+                if (updatedLvalue != null) {
+                    lvalue = updatedLvalue;
+                }
+
+                if (updatedRvalue != null) {
+                    rvalue = updatedRvalue;
+                }
+
+                isEqualEqual = ((FinalNode) lvalue).dataString().equals(((FinalNode) rvalue).dataString());
+                //else if (booleanOperatorNode.getInstructions().get(0) instanceof  )
+                FinalNode finalNode = new FinalNode();
+                finalNode.setDataString(isEqualEqual);
+
+                BooleanNode booleanNode = new BooleanNode();
+                booleanNode.AddInst(finalNode);
+
+                frame.returnNode = booleanNode;
+                return new ArrayList<>();
             }
-
-            if (rvalue instanceof PrimitiveNode) {
-                updatedRvalue = (FinalNode)rvalue.getInstructions().get(0);
-            }
-
-            if (updatedLvalue != null ){
-                lvalue = updatedLvalue;
-            }
-
-            if (updatedRvalue != null) {
-                rvalue = updatedRvalue;
-            }
-
-            isEqualEqual = ((FinalNode)lvalue).dataString().equals( ((FinalNode)rvalue).dataString());
-
-            FinalNode finalNode = new FinalNode();
-            finalNode.setDataString( isEqualEqual );
-
-            BooleanNode booleanNode = new BooleanNode();
-            booleanNode.AddInst(finalNode);
-
-            frame.returnNode = booleanNode;
         }
+        catch( Exception ex){
+            throw new RuntimeException(ex.getMessage());
+        }
+
         return new ArrayList<>();
     }
 
@@ -436,9 +463,24 @@ public class Interpreter {
     private int aggregateVariable(List<VariableNode> variableNodeList, ActivationFrame frame){
         int sum = 0;
         for (int i = 0; i<variableNodeList.size(); i++){
-            PrimitiveNode primitiveNode = (PrimitiveNode)frame.variableSet.get( variableNodeList.get(i).variableName );
-            FinalNode finalNode = (FinalNode)primitiveNode.getInstructions().get(0);
-            sum += Integer.parseInt( finalNode.dataString());
+
+            Node v = frame.variableSet.get( variableNodeList.get(i).variableName);
+            FinalNode finalNode = null;
+
+            if (v instanceof FinalNode){
+                if (v.getInstructions().size() == 0 ){
+                    finalNode = (FinalNode)v;
+                }
+            }
+
+            if (v instanceof PrimitiveNode) {
+                PrimitiveNode primitiveNode = (PrimitiveNode) v;
+                finalNode = (FinalNode)primitiveNode.getInstructions().get(0);
+            }
+
+            if (finalNode != null) {
+                sum += Integer.parseInt(finalNode.dataString());
+            }
         }
 
         return sum;

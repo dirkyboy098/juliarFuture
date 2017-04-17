@@ -21,19 +21,25 @@ class fileObject = {
 }
 
 function main() = {
+    int index = 0;
+    /*
+    while( true ){
+        index = + index 1;
+    }
+    */
     int x = availableMemory();
     print("avilable memory = ");
     printLine(x);
     string file = fileOpen("./test.jrl");
     //parse(file);
     foo(x);
-    int index = 0;
+
     int boo = 0;
-    // while ( boo == 0){
+     while ( true ){
         string y = __getByteFromString(file, index);
-        printLine(y);
-        // index = + index 1;
-    //}
+        print(y);
+        index = + index 1;
+    }
 }
 
 function foo(int s)={
