@@ -337,6 +337,11 @@ public class Visitor extends JuliarBaseVisitor<Node>
     }
 
     @Override
+    public Node visitBreakKeyWord(JuliarParser.BreakKeyWordContext ctx) {
+        return iterateWrapper( ctx, this, new BreakExprNode());
+    }
+
+    @Override
     public Node visitAssignmentExpression(JuliarParser.AssignmentExpressionContext ctx) {
         AssignmentNode node = new AssignmentNode(null);
 

@@ -30,6 +30,7 @@ expression
     | assignmentExpression endLine
     | reassignmentExpression endLine
     | booleanExpression endLine
+    | breakKeyWord endLine
     | ifExpr
     | whileExpression
     | primitives endLine
@@ -115,17 +116,6 @@ command
 	| multiply
 	| divide
 	| modulo
-    /*
-    | ifExpr
-	| nifExpr
-    | absolute
-	| acos
-	| acosh
-	| absolute
-    | acos
-    | acosh
-    | subtract
-    */
     ;
 
 userDefinedType
@@ -251,12 +241,16 @@ keywords
     | 'class'
     ;
 
+breakKeyWord
+    : 'break'
+    ;
+
 ifKeyWord
     : 'if'
     ;
 
 ifExpr
-    : ifKeyWord '(' booleanExpression ')' '{' (statement)* '}'
+    : ifKeyWord '(' booleanExpression ')' '{' ( statement )* '}'
     ;
 
 
@@ -265,36 +259,13 @@ whileKeyWord
     ;
 
 whileExpression
-    : whileKeyWord '(' booleanExpression ')' '{' (statement)* '}'
+    : whileKeyWord '(' booleanExpression ')' '{' ( statement)* '}'
     ;
-
-/*
-nifExpr
-	: 'nif' '(' booleanExpression ')' '{' (statement)* '}'
-	;
-
-absolute
-    : 'absolute' types (types)*
-    | 'absolute' types types
-    ;
-
-acos
-    : 'acos' types (types)*
-    | 'acos' types types
-    ;
-
-acosh
-    : 'acosh' types (types)*
-    | 'acosh' types types
-    ;
-*/
 
 
 arrowsign    /*Not Sure yet...it may conflict with comparison. Possibly <- would be better? */
     :'<='
     ;
-
-
 
 /*
  * Lexer Rules

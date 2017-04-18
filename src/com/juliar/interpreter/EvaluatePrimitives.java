@@ -56,33 +56,35 @@ public class EvaluatePrimitives {
         return com.juliar.pal.Primitives.sys_available_memory();
     }
 
-    private static void getByteFromString(ActivationFrame activationFrame, Node argumentNode, Node index){
-        Object variable = activationFrame.variableSet.get( ((VariableNode)argumentNode).variableName);
+    private static void getByteFromString(ActivationFrame activationFrame, Node argumentNode, Node index) {
+        String variableName = ((VariableNode) argumentNode).variableName;
+        Object variable = activationFrame.variableSet.get( variableName );
 
-
-        if (variable instanceof FinalNode){
-            char[] array = com.juliar.pal.Primitives.sys_get_byte_from_string( ((FinalNode)variable).dataString() );
+        if (variable instanceof FinalNode) {
+            char[] array = com.juliar.pal.Primitives.sys_get_byte_from_string(((FinalNode) variable).dataString());
 
             FinalNode finalNode = new FinalNode();
 
-            Object argTwo = activationFrame.variableSet.get( ((VariableNode)index).variableName);
+            String argTwoVariableName = ((VariableNode)index).variableName;
+            Object argTwo = activationFrame.variableSet.get( argTwoVariableName );
 
             FinalNode argumentTwo = null;
 
             if (argTwo instanceof PrimitiveNode) {
-                argumentTwo = (FinalNode) activationFrame.variableSet.get(((VariableNode) index).variableName).getInstructions().get(0);
-            }
-            else if (argTwo instanceof FinalNode){
-                argumentTwo = (FinalNode) activationFrame.variableSet.get(((VariableNode) index).variableName);
+                argumentTwo = (FinalNode) activationFrame.variableSet.get( argTwoVariableName ).getInstructions().get(0);
+            } else if (argTwo instanceof FinalNode) {
+                argumentTwo = (FinalNode) activationFrame.variableSet.get( argTwoVariableName );
             }
 
-            int parsedIndex = Integer.parseInt( argumentTwo.dataString() );
+            int parsedIndex = Integer.parseInt(argumentTwo.dataString());
 
-            if (parsedIndex > array.length){
-                throw new RuntimeException("index out of bounds");
+            if (parsedIndex > array.length) {
+                throw new RuntimeException("\r\nJuliar runtime exception - Index out of bounds accessing variable - '"+ variableName +"'");
             }
-            finalNode.setDataString( array[ parsedIndex ] );
-            activationFrame.returnNode = finalNode;
+            if (parsedIndex < array.length) {
+                finalNode.setDataString(array[parsedIndex]);
+                activationFrame.returnNode = finalNode;
+            }
         }
     }
 

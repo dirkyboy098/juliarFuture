@@ -39,7 +39,8 @@ function main() = {
         string y = __getByteFromString(file, index);
         print(y);
         index = + index 1;
-    }
+        //break;
+     }
 }
 
 function foo(int s)={

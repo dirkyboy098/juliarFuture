@@ -31,6 +31,7 @@ public class Interpreter {
             functionMap.put(NodeType.VariableReassignmentType   , ((n, activationFrame )-> EvaluateAssignments.evalReassignment(n, activationFrame ) ));
             functionMap.put(NodeType.AssignmentType             , ((n, activationFrame )-> EvaluateAssignments.evalAssignment(n, activationFrame )  ));
             functionMap.put(NodeType.PrimitiveType              , ((n, activationFrame )-> EvaluatePrimitives.evalPrimitives(n, activationFrame)  ));
+            functionMap.put(NodeType.BreakType                  , ((n, activationFrame )-> evaluateBreak(n) ));
 
             functionMap.put(NodeType.AddType                    , ((n, activationFrame )-> evalAdd(n)     ));
             functionMap.put(NodeType.AggregateType              , ((n, activationFrame )-> evaluateAggregate(n, activationFrame)      ));
@@ -65,7 +66,7 @@ public class Interpreter {
             Evaluate evaluate = functionMap.get( Node.getType());
             if (evaluate!= null){
                 List<Node>  ints = evaluate.evaluate( Node , activationFrameStack.empty() ? null :  activationFrameStack.peek());
-                if (ints != null) {
+                if (ints != null && !ints.isEmpty()) {
                     execute(ints);
                 }
             }
@@ -92,7 +93,7 @@ public class Interpreter {
             }
         }
 
-        return null;
+        return new ArrayList<>();
     }
 
     private List<Node> evalStatement( Node node){
@@ -116,10 +117,13 @@ public class Interpreter {
         return slotList;
     }
 
-    private List<Node> evalAdd(Node node){
+    private List<Node> evaluateBreak(Node node){
         return new ArrayList<>();
     }
 
+    private List<Node> evalAdd(Node node){
+        return new ArrayList<>();
+    }
 
     private List<Node> evalNull(Node Node){
         return new ArrayList<>();
@@ -178,11 +182,23 @@ public class Interpreter {
             Boolean executeTrue = Boolean.parseBoolean(finalNode.dataString());
 
             if (executeTrue) {
+                Boolean breakStatement = false;
                 for ( ; ; ) {
                     for (int expressionCount = 0; expressionCount < trueExpressions.size(); expressionCount++) {
                         List<Node> currentExpressionInWhileBody = new ArrayList<>();
-                        currentExpressionInWhileBody.add(trueExpressions.get(expressionCount));
+                        Node currentNode = trueExpressions.get(expressionCount);
+                        currentExpressionInWhileBody.add( currentNode );
+
+                        if (currentNode instanceof StatementNode && currentNode.getInstructions().get(0).getInstructions().get(0) instanceof BreakExprNode){
+                            breakStatement = true;
+                            break;
+                        }
+
                         execute(currentExpressionInWhileBody);
+                    }
+
+                    if (breakStatement) {
+                        break;
                     }
 
                     // re-evaluate the loop condtion

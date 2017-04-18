@@ -10,6 +10,7 @@ public enum NodeType {
     BinaryType,
     BooleanType,
     BooleanOperatorType,
+    BreakType,
     CompliationUnitType,
     CommandType,
     EqualEqualType,
