@@ -26,6 +26,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
 {
     private static int functionDeclCount = 0;
     private static int ifDeclCount = 0;
+    private static int whileDeclCount = 0;
     private List<Node> instructionList = new ArrayList<>();
     private HashMap<String, Node> functionNodeMap = new HashMap<String, Node>();
     private Stack<Node> funcContextStack = new Stack<Node>();
@@ -77,6 +78,8 @@ public class Visitor extends JuliarBaseVisitor<Node>
                     break;
                 case IfExprType:
                     ifDeclCount--;
+                case WhileExpressionType:
+                    whileDeclCount--;
                 default:
                     return;
             }
@@ -502,8 +505,12 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
     @Override
     public Node visitWhileExpression(JuliarParser.WhileExpressionContext ctx) {
+        symbolTable.addLevel( "while" + "_" + whileDeclCount++ );
+
         WhileExprNode whileExprNode = new WhileExprNode();
         iterateWrapper( ctx, this, whileExprNode);
+
+        symbolTable.popScope();
         return whileExprNode;
     }
 

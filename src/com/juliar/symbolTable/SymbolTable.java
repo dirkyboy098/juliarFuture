@@ -81,26 +81,65 @@ public class SymbolTable {
     }
 
     public Node getNode(Node child){
+        Node returnNode = null;
+
         if (child instanceof VariableNode){
-            SymbolTableNode node = scopeHash.get(currentScope.peek());
-            if (node.children.stream()
-                    .filter(f -> ((VariableNode) f).variableName.equals(((VariableNode) child).variableName)).count() == 1) {
 
-                return node.children
-                        .stream()
-                        .filter(f -> ((VariableNode) f).variableName.equals(((VariableNode) child).variableName))
-                        .findFirst().get();
+            Stack<String> tempScope = new Stack<>();
+            tempScope.push( currentScope.pop() );
 
+            while ( !currentScope.empty() ) {
+                SymbolTableNode node = scopeHash.get(currentScope.peek());
+                if (node.children.stream()
+                        .filter(f -> ((VariableNode) f).variableName.equals(((VariableNode) child).variableName)).count() == 1) {
+
+                    returnNode = node.children
+                            .stream()
+                            .filter(f -> ((VariableNode) f).variableName.equals(((VariableNode) child).variableName))
+                            .findFirst().get();
+
+                    if ( returnNode != null){
+                        break;
+                    }
+               }
+
+               while (!tempScope.empty()){
+                    currentScope.push (tempScope.pop());
+               }
             }
         }
-        return null;
+
+        if (returnNode == null){
+            throw new RuntimeException( "unable to find variable -" + ((VariableNode)child).variableName + "in scope for reassignment");
+        }
+
+        return returnNode;
     }
 
     public boolean doesChildExistAtScope(Node child){
-        return scopeHash.get( currentScope.peek() )
-                .children.stream()
-                .filter( f -> f instanceof VariableNode)
-                .filter( t -> ((VariableNode)t).variableName.equals( ((VariableNode)child).variableName)).count() == 1;
+        Stack<String> tempScope = new Stack<>();
+        tempScope.push ( currentScope.pop() );
+        boolean doesExist = false;
+
+        while ( !currentScope.empty() ) {
+            doesExist = scopeHash.get(tempScope.peek())
+                    .children.stream()
+                    .filter(f -> f instanceof VariableNode)
+                    .filter(t -> ((VariableNode) t).variableName.equals(((VariableNode) child).variableName)).count() == 1;
+
+            if ( doesExist ){
+                break;
+            }
+
+            tempScope.push ( currentScope.pop() );
+        }
+
+
+        while(!tempScope.empty()){
+            currentScope.push ( tempScope.pop());
+        }
+
+        return doesExist;
     }
 
 
