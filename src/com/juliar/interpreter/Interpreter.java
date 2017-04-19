@@ -254,6 +254,8 @@ public class Interpreter {
                     return trueExpressions;
                 }
             }
+        } else if ( booleanNode != null && booleanNode.getInstructions().size() > 0){
+            evalBooleanNode( booleanNode, frame);
         }
 
         return new ArrayList<>();
