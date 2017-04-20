@@ -23,12 +23,15 @@ to find out how you can contribute to the project.
 ## Intro
 Juliar.Future is the latest iteration of Juliar Programming Language. The compiler is built on top of Java, so wherever Java can be run, the compiler works as it should.
 Download
-https://www.juliar.org/JuliarCompiler.jar
+https://www.juliar.org/downloads.php
 
 The download should automatically begin.
 
 ## Modes
-JuliarCompiler.jar works in 3 modes. It can be compiled, interpreted, and ran through FastCGI web services.
+JuliarCompiler.jar works in 4 modes. It can be compiled, interpreted, and ran through FastCGI web services, and ran through an editor.
+
+## Editor Mode
+Instead of using terminal, you can run a built-in editor by double clicking on `JuliarFuture.jar` file. This provides a convenient and easy way to edit, build, interpret, and compile Juliar files. It is currently the recommended way for people starting with the programming language.
 
 ## Compile
 JuliarCompiler.jar works on all platforms that have Java installed. So it is system independent!

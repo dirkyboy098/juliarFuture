@@ -10,8 +10,8 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.juliar.gui.Controller">
-      <AnchorPane prefHeight="0.0" prefWidth="600.0">
-             <MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="background" prefHeight="0.0" prefWidth="600.0" >
+             <MenuBar fx:id="menu" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                  <Menu text="File">
                      <MenuItem onAction="#onNew" text="New" />
 				<MenuItem onAction="#onLoad" text="Load" />

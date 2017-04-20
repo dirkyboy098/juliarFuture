@@ -19,6 +19,9 @@ cd %JULIARPATH%\temp
 for /f %%f in ('dir /b %JULIARPATH%\jars') do jar xf %JULIARPATH%\jars\%%f
 xcopy /e /v %JULIARPATH%\out %JULIARPATH%\temp
 copy %JULIARPATH%\src\com\juliar\gui\juliar.fxml %JULIARPATH%\temp\com\juliar\gui\juliar.fxml
+copy %JULIARPATH%\src\com\juliar\gui\juliar.css %JULIARPATH%\temp\com\juliar\gui\juliar.css
+copy %JULIARPATH%\src\com\juliar\gui\juliarFutureIcon.png %JULIARPATH%\temp\com\juliar\gui\juliarFutureIcon.png
+copy %JULIARPATH%\src\com\juliar\gui\Montserrat-Regular.ttf %JULIARPATH%\temp\com\juliar\gui\Montserrat-Regular.ttf
 jar cvfm JuliarCompiler.jar manifest.txt com org javax antlr icons properties templates
 copy %JULIARPATH%\temp\JuliarCompiler.jar  %JULIARPATH%\JuliarCompiler.jar
 
