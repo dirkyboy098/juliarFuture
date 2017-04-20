@@ -9,6 +9,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -20,9 +22,18 @@ public class Gui extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("juliar.fxml"));
             loader.setControllerFactory(t -> new Controller(new Model()));
-            stage.setScene(new Scene(loader.load()));
             stage.setTitle("Juliar.Future");
-            //stage.getIcons().add(new Image("/JuliarFuture.png"));
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("juliarFutureIcon.png")));
+            Font.loadFont(
+                    getClass().getResource("Montserrat-Regular.ttf").toExternalForm(),
+                    14
+            );
+
+            Scene scene = new Scene(loader.load());
+            scene.getStylesheets().add(getClass().getResource("juliar.css").toExternalForm());
+            stage.setScene(scene);
+
+
             stage.show();
         }
         catch(Exception e){

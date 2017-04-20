@@ -1,0 +1,31 @@
+#background {
+    -fx-font-family: "Montserrat-Regular";
+    -fx-font-size: 14;
+    -fx-background-color: #232733;
+    -fx-border-radius: 10;
+}
+
+
+#menu {
+   -fx-font-family: "Montserrat-Regular";
+   -fx-font-size: 12;
+   -fx-effect: dropshadow( one-pass-box , black , 8 , 0.0 , 2 , 0 );
+   -fx-text-fill: white;
+   -fx-background-color: #232733;
+}
+bv
+#tabPane:active{
+   -fx-font-family: "Montserrat-Regular";
+   -fx-font-size: 14;
+   -fx-background-color: #232733;
+   -fx-text-fill: white;
+
+}
+
+
+#tabPane {
+   -fx-font-family: "Montserrat-Regular";
+   -fx-font-size: 14;
+   -fx-background-color: #232733;
+   -fx-text-fill: #7e7e7e;
+}
