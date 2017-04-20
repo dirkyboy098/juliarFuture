@@ -455,6 +455,8 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
         iterateOverContext.iterateOverChildren(ctx, this, node);
 
+        node.determineBooleanComparisionType();
+
         return node;
     }
 

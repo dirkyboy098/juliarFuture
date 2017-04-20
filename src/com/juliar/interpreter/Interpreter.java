@@ -320,6 +320,8 @@ public class Interpreter {
                     rvalue = updatedRvalue;
                 }
 
+
+
                 isEqualEqual = ((FinalNode) lvalue).dataString().equals(((FinalNode) rvalue).dataString());
                 //else if (booleanOperatorNode.getInstructions().get(0) instanceof  )
                 FinalNode finalNode = new FinalNode();
