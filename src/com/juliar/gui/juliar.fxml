@@ -9,33 +9,34 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.juliar.gui.Controller">
+<VBox fx:id="vbox" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.juliar.gui.Controller">
       <AnchorPane fx:id="background" prefHeight="0.0" prefWidth="600.0" >
-             <MenuBar fx:id="menu" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                 <Menu text="File">
-                     <MenuItem onAction="#onNew" text="New" />
-				<MenuItem onAction="#onLoad" text="Load" />
-                     <MenuItem onAction="#onSave" text="Save" />
-                     <MenuItem onAction="#onSaveAs" text="Save As..." />
-                     <MenuItem onAction="#onExit" text="Exit" />
+             <MenuBar fx:id="menubar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                 <Menu styleClass="menu" text="File">
+                     <MenuItem styleClass="menuitem" onAction="#onNew" text="New" />
+				    <MenuItem styleClass="menuitem" onAction="#onLoad" text="Load" />
+                     <MenuItem styleClass="menuitem" onAction="#onSave" text="Save" />
+                     <MenuItem styleClass="menuitem" onAction="#onSaveAs" text="Save As..." />
+                     <MenuItem styleClass="menuitem" onAction="#onExit" text="Exit" />
                  </Menu>
-                 <Menu text="Edit">
-                     <MenuItem text="Undo" />
-                     <MenuItem text="Redo" />
+                 <Menu styleClass="menu" text="Edit">
+                     <MenuItem styleClass="menuitem" text="Undo" />
+                     <MenuItem styleClass="menuitem" text="Redo" />
                  </Menu>
-                 <Menu text="Run">
-                     <MenuItem onAction="#onRunInterpreter" text="Run Interpreter" />
-                     <MenuItem disable="true" onAction="#onCompileAndRun" text="Compile Program" />
-                     <MenuItem onAction="#onRunFCGI" text="Run FastCGI" />
+                 <Menu styleClass="menu" text="Run">
+                     <MenuItem styleClass="menuitem" onAction="#onRunInterpreter" text="Run Interpreter" />
+                     <MenuItem styleClass="menuitem" disable="true" onAction="#onCompileAndRun" text="Compile Program" />
+                     <MenuItem styleClass="menuitem" onAction="#onRunFCGI" text="Run FastCGI" />
                  </Menu>
-                 <Menu text="Help">
-                     <MenuItem onAction="#onAbout" text="About" />
+                 <Menu styleClass="menu" text="Help">
+                     <MenuItem styleClass="menuitem" onAction="#onAbout" text="About" />
+                     <MenuItem styleClass="menuitem" onAction="#onRefresh" text="Refresh" />
                  </Menu>
              </MenuBar>
       </AnchorPane>
-      <TabPane fx:id="tabPane" maxWidth="Infinity" prefHeight="549.0" prefWidth="800.0" tabClosingPolicy="ALL_TABS" VBox.vgrow="ALWAYS">
-          <Tab text="CHANGE LOG">
-              <TextArea text="- Tabs are now semi working &#10;- Tabs now have names" prefHeight="438.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <TabPane styleClass="tabpane" fx:id="tabPane" maxWidth="Infinity" prefHeight="549.0" prefWidth="800.0" tabClosingPolicy="ALL_TABS" VBox.vgrow="ALWAYS">
+          <Tab styleClass="tab" text="CHANGE LOG">
+              <TextArea styleClass="textarea" text="- Tabs are now semi working &#10;- Tabs now have names" prefHeight="438.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
           </Tab>
       </TabPane>
       <AnchorPane prefHeight="206.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0">

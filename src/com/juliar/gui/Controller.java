@@ -104,23 +104,15 @@ public class Controller {
     @FXML
     private void onCompileAndRun(){
 
-        /*// Create a stream to hold the output
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(baos);
-        // IMPORTANT: Save the old System.out!
-        PrintStream old = System.out;
-        // Tell Java to use your special stream
-        System.setOut(ps);
-        // Print some output: goes to your special stream
-        JuliarCompiler compiler = new JuliarCompiler();
-        InputStream is = new ByteArrayInputStream(areaText.getText().getBytes());
-        compiler.compile(is, "/", false, false);
+        /*TODO */
+    }
 
-        System.out.flush();
-        System.setOut(old);
-        areaOutText.clear();
-        areaOutText.appendText(baos.toString());
-        com.juliar.symbolTable.SymbolTable.DeleteSymbolTable();*/
+    @FXML
+    private void onRefresh(){
+        File jarPath=new File(Gui.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+        String propertiesPath=jarPath.getParentFile().getAbsolutePath();
+        tabPane.getScene().getStylesheets().clear();
+        tabPane.getScene().getStylesheets().add("file:///" + propertiesPath.replace("\\", "/") +"/juliar.css");
     }
 
     @FXML
@@ -162,9 +154,11 @@ public class Controller {
                 currentTextFile = io.getData();
 
                 Tab tab = new Tab("Untitled (" + (tabPane.getTabs().size() + 1)+")");
+                tab.getStyleClass().add("tab");
                 tabPane.getTabs().add(tab);
                 tabPane.getSelectionModel().select(tab);
                 TextArea loadedTextArea = new TextArea();
+                loadedTextArea.getStyleClass().add("textarea");
                 tab.setContent(loadedTextArea);
                 tab.setText(file.toPath().getFileName().toString());
                 currentTextFile.getContent().forEach(line -> loadedTextArea.appendText(line + "\n"));
@@ -184,9 +178,11 @@ public class Controller {
         //tabPane.forEach((tab))
 
         Tab tab = new Tab("Untitled (" + (tabPane.getTabs().size() + 1)+")");
+        tab.getStyleClass().add("tab");
         tabPane.getTabs().add(tab);
         tabPane.getSelectionModel().select(tab);
         TextArea loadedTextArea = new TextArea();
+        loadedTextArea.getStyleClass().add("textarea");
         tab.setContent(loadedTextArea);
         currentTextFile = null;
     }

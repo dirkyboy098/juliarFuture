@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 
 public class Gui extends Application {
@@ -30,7 +31,10 @@ public class Gui extends Application {
             );
 
             Scene scene = new Scene(loader.load());
-            scene.getStylesheets().add(getClass().getResource("juliar.css").toExternalForm());
+            File jarPath=new File(Gui.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+            String propertiesPath=jarPath.getParentFile().getAbsolutePath();
+            scene.getStylesheets().add("file:///" + propertiesPath.replace("\\", "/") +"/juliar.css");
+            //scene.getStylesheets().add(getClass().getResource("juliar.css").toExternalForm());
             stage.setScene(scene);
 
 

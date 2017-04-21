@@ -23,7 +23,7 @@
 }
 
 
-#tabPane {
+.tab {
    -fx-font-family: "Montserrat-Regular";
    -fx-font-size: 14;
    -fx-background-color: #232733;
