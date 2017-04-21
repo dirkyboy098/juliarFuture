@@ -6,9 +6,9 @@ import javafx.scene.control.TextArea;
  * Created by AndreiM on 4/11/2017.
  */
 public class JRLTab {
-    private TextFile jrlTextFile;
+    public TextFile jrlTextFile;
 
-    private TextArea jrlOutput;
+    public TextArea jrlOutput;
 
     private boolean changed = false;
 

@@ -1,0 +1,99 @@
+#menubar {
+   -fx-font-family: "Montserrat-Regular";
+   -fx-background-color: #232733;
+   -fx-text-fill: orange;
+}
+
+.menu .label
+{
+	-fx-alignment: CENTER;
+    -fx-text-fill: #ffffff;
+	-fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,0,1 ); 
+}
+
+.menu:showing {
+	-fx-background-color: #000000;
+}
+
+.menuitem .label{
+	-fx-alignment: CENTER;
+    -fx-text-fill: #white;
+}
+
+.menuitem:showing .label{
+	-fx-alignment: CENTER;
+    -fx-text-fill: #353d4f;
+}
+
+.context-menu {
+    -fx-skin: "com.sun.javafx.scene.control.skin.ContextMenuSkin";
+    -fx-background-color: black;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 0 6 6 6, 0 5 5 5, 0 4 4 4;
+/*    -fx-padding: 0.666667em 0.083333em 0.666667em 0.083333em;  8 1 8 1 */
+    -fx-padding: 0.333333em 0.083333em 0.666667em 0.083333em; /* 4 1 8 1 */
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: #232733;
+}
+
+.tab-pane:top *.tab-header-area {
+	-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+	-fx-border-radius: 0;
+	-fx-background-radius: 0;
+    -fx-background-insets: 0, 0 0 1 0;
+ /* -fx-padding: 0.416667em 0.166667em 0.0em 0.833em; /* 5 2 0 10 */
+    -fx-padding: 0.416667em 0.166667em 0.0em 0.0em; /* overridden as 5 2 0 0 */
+}
+
+.tab {
+	-fx-font-family: "Montserrat-Regular";
+	-fx-font-size: 14;
+   -fx-background-color: #232733;
+}
+
+.tab:selected {
+	-fx-font-family: "Montserrat-Regular";
+	-fx-font-size: 14;
+    -fx-background-color: #353d4f;
+}
+
+.tab .tab-label{
+	-fx-alignment: CENTER;
+	-fx-font-family: "Montserrat-Regular";
+   	-fx-text-fill: #7e7e7e;
+   -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,0,1 );
+}
+
+.tab:selected .tab-label{
+	-fx-alignment: CENTER;
+	-fx-font-family: "Montserrat-Regular";
+   	-fx-text-fill: #ffffff;
+   -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,0,1 );
+}
+
+
+.textarea{
+   -fx-font-family: "Montserrat-Regular";
+   -fx-font-size: 14;
+   -fx-control-inner-background: #353d4f;
+   -fx-text-fill: white;
+   -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,0,1 );
+}
+
+#areaOutText{
+	-fx-font-family: "Montserrat-Regular";
+   -fx-font-size: 14;
+   -fx-control-inner-background: #353d4f;
+   -fx-text-fill: #737f97;
+   -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,0,1 );
+	
+}
+
+
+
+
+
+
+
