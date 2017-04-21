@@ -13,7 +13,7 @@
    -fx-text-fill: white;
    -fx-background-color: #232733;
 }
-bv
+
 #tabPane:active{
    -fx-font-family: "Montserrat-Regular";
    -fx-font-size: 14;
