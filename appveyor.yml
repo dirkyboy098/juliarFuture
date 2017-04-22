@@ -6,3 +6,12 @@ environment:
 
 build_script:
   - BuildEverything.bat
+
+test_script
+  - BuildEverything.bat
+
+cache:
+  - C:\Users\appveyor\.m2
+
+build:
+   verbosity: detailed

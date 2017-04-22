@@ -3,6 +3,9 @@ package com.juliar.gui;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
 import javafx.scene.control.Alert;
@@ -153,14 +156,12 @@ public class Controller {
             if (io.isOk() && io.hasData()) {
                 currentTextFile = io.getData();
 
-                Tab tab = new Tab("Untitled (" + (tabPane.getTabs().size() + 1)+")");
-                tab.getStyleClass().add("tab");
+                Tab tab = new Tab("● Untitled (" + (tabPane.getTabs().size() + 1)+")");
                 tabPane.getTabs().add(tab);
                 tabPane.getSelectionModel().select(tab);
                 TextArea loadedTextArea = new TextArea();
-                loadedTextArea.getStyleClass().add("textarea");
                 tab.setContent(loadedTextArea);
-                tab.setText(file.toPath().getFileName().toString());
+                tab.setText("● "+file.toPath().getFileName().toString());
                 currentTextFile.getContent().forEach(line -> loadedTextArea.appendText(line + "\n"));
             } else {
                 System.out.println("Failed");
@@ -175,14 +176,10 @@ public class Controller {
 
     @FXML
     private void onNew(){
-        //tabPane.forEach((tab))
-
-        Tab tab = new Tab("Untitled (" + (tabPane.getTabs().size() + 1)+")");
-        tab.getStyleClass().add("tab");
+        Tab tab = new Tab("● Untitled (" + (tabPane.getTabs().size() + 1)+")");
         tabPane.getTabs().add(tab);
         tabPane.getSelectionModel().select(tab);
         TextArea loadedTextArea = new TextArea();
-        loadedTextArea.getStyleClass().add("textarea");
         tab.setContent(loadedTextArea);
         currentTextFile = null;
     }
