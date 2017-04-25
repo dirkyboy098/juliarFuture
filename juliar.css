@@ -1,5 +1,5 @@
 .menu-bar{
-   -fx-font-family: "Montserrat-Regular";
+   -fx-font-family: "Montserrat";
    -fx-background-color: #232733;
    -fx-text-fill: orange;
 }
@@ -7,7 +7,7 @@
 .menu .label
 {
 	-fx-alignment: CENTER;
-    -fx-text-fill: #ffffff;
+    -fx-text-fill: white;
 	-fx-effect: dropshadow( gaussian , rgba(0,0,0,1.5) , 0,0,0,1 ); 
 }
 
@@ -17,7 +17,7 @@
 
 .menuitem .label{
 	-fx-alignment: CENTER;
-    -fx-text-fill: #white;
+    -fx-text-fill: white;
 }
 
 .menuitem:showing .label{
@@ -51,7 +51,7 @@
 
 
 .tab {
-	-fx-font-family: "Montserrat-Regular";
+	-fx-font-family: "Montserrat";
 	-fx-font-size: 14;
    -fx-background-color: #232733;
 	-fx-pref-width: 200px;
@@ -66,7 +66,7 @@
 }
 
 .tab:selected {
-	-fx-font-family: "Montserrat-Regular";
+	-fx-font-family: "Montserrat";
 	-fx-font-size: 14;
         -fx-background-color: #353d4f;
         -fx-border-color: #737f97;
@@ -76,7 +76,7 @@
 
 .tab .tab-label{
     -fx-pref-width: 180px;
-	-fx-font-family: "Montserrat-Regular";
+	-fx-font-family: "Montserrat";
    	-fx-text-fill: #7e7e7e;
    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,0,1 );
    -fx-focus-color: transparent;
@@ -84,7 +84,7 @@
 }
 
 .tab:selected .tab-label{
-	-fx-font-family: "Montserrat-Regular";
+	-fx-font-family: "Montserrat";
    	-fx-text-fill: #ffffff;
         -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,0,1 );
 }
@@ -92,7 +92,7 @@
 
 .text-area{
    -fx-control-inner-background: #353d4f;
-   -fx-font-family: "Montserrat-Regular";
+   -fx-font-family: "Montserrat";
    -fx-font-size: 14;
    -fx-background-insets: 0;
    -fx-padding: 0;
@@ -121,10 +121,3 @@
    -fx-border-width: 3px 0px 0px 0px;
    -fx-border-color: #262a38;
 }
-
-
-
-
-
-
-

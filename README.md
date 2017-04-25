@@ -11,6 +11,10 @@ Juliar.Future is a programming language that is compiled directly into Java byte
 The aim of Juliar is to combine functional languages such as lisp with imperative languages like Java,
 in order to optimize programming efficiency.
 
+### Comes with an elegant built-in IDE
+
+![JuliarFuture](https://cloud.githubusercontent.com/assets/11934545/25367056/773b66b6-2941-11e7-8498-0fc312c590f6.jpg)
+
 
 For more information, please check out our official website at [https://www.juliar.org](http://www.juliar.org)
 

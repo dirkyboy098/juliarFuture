@@ -115,7 +115,14 @@ public class Controller {
         File jarPath=new File(Gui.class.getProtectionDomain().getCodeSource().getLocation().getPath());
         String propertiesPath=jarPath.getParentFile().getAbsolutePath();
         tabPane.getScene().getStylesheets().clear();
-        tabPane.getScene().getStylesheets().add("file:///" + propertiesPath.replace("\\", "/") +"/juliar.css");
+        String fullpath = propertiesPath.replace("\\", "/") +"/juliar.css";
+        File f = new File(fullpath);
+        if(f.exists()){
+            tabPane.getScene().getStylesheets().add("file:///"+fullpath);
+        }
+        else {
+            tabPane.getScene().getStylesheets().add(getClass().getResource("juliar.css").toExternalForm());
+        }
     }
 
     @FXML

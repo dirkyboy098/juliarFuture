@@ -33,8 +33,15 @@ public class Gui extends Application {
             Scene scene = new Scene(loader.load());
             File jarPath=new File(Gui.class.getProtectionDomain().getCodeSource().getLocation().getPath());
             String propertiesPath=jarPath.getParentFile().getAbsolutePath();
-            scene.getStylesheets().add("file:///" + propertiesPath.replace("\\", "/") +"/juliar.css");
-            //scene.getStylesheets().add(getClass().getResource("juliar.css").toExternalForm());
+            //scene.getStylesheets().add("file:///" + propertiesPath.replace("\\", "/") +"/juliar.css");
+            String fullpath = propertiesPath.replace("\\", "/") +"/juliar.css";
+            File f = new File(fullpath);
+            if(f.exists()){
+                scene.getStylesheets().add("file:///"+fullpath);
+            }
+            else {
+                scene.getStylesheets().add(getClass().getResource("juliar.css").toExternalForm());
+            }
             stage.setScene(scene);
 
 
