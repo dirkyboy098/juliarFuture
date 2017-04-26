@@ -255,7 +255,25 @@ public class Interpreter {
                 }
             }
         } else if ( booleanNode != null && booleanNode.getInstructions().size() > 0){
+            Node currentValue = frame.returnNode;
+            frame.returnNode = null;
+            Boolean booleanResult = false;
             evalBooleanNode( booleanNode, frame);
+
+            if ( frame.returnNode != null && frame.returnNode instanceof BooleanNode ){
+                Node booleanEvalReturnNode = frame.returnNode;
+                FinalNode result = getFinalNodeFromAnyNode( booleanEvalReturnNode );
+                booleanResult =  Boolean.parseBoolean( result.dataString() );
+            }
+
+            frame.returnNode = currentValue;
+
+            if ( booleanResult ) {
+                List<Node> s = execute( trueExpressions );
+                if ( s == null){
+                    return s;
+                }
+            }
         }
 
         return new ArrayList<>();
@@ -320,9 +338,7 @@ public class Interpreter {
                     rvalue = updatedRvalue;
                 }
 
-
-
-                isEqualEqual = ((FinalNode) lvalue).dataString().equals(((FinalNode) rvalue).dataString());
+                isEqualEqual = getFinalNodeFromAnyNode( lvalue) .dataString().equals( getFinalNodeFromAnyNode(rvalue).dataString());
                 //else if (booleanOperatorNode.getInstructions().get(0) instanceof  )
                 FinalNode finalNode = new FinalNode();
                 finalNode.setDataString(isEqualEqual);
@@ -339,6 +355,18 @@ public class Interpreter {
         }
 
         return new ArrayList<>();
+    }
+
+    private FinalNode getFinalNodeFromAnyNode(Node node){
+        if ( node instanceof FinalNode){
+            return (FinalNode)node;
+        }
+
+        if (node.getInstructions().size() == 1){
+            return getFinalNodeFromAnyNode( node.getInstructions().get(0));
+        }
+
+        throw new RuntimeException( "not able to find a final node");
     }
 
     private boolean isEqual(Node left, Node right){
