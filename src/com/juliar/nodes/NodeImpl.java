@@ -42,7 +42,7 @@ public abstract class NodeImpl implements Node {
 
     @Override
     public void setNodeName(){
-        nodeName = this.toString() + UUID.randomUUID();
+        nodeName = this.toString();
     }
 
     @Override
