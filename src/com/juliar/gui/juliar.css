@@ -121,3 +121,62 @@
    -fx-border-width: 3px 0px 0px 0px;
    -fx-border-color: #262a38;
 }
+
+
+.code-area, .code-area .content{
+   -fx-background-color: #353d4f;
+   -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,0,1 );
+
+}
+
+
+.code-area  .paragraph-box .paragraph-text,.paragraph-text .text{
+   -fx-fill: white;
+   -fx-text-fill: white;
+   -fx-font-family: "Montserrat";
+   -fx-font-size: 14;
+   -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,0,1 );
+}
+
+.code-area .lineno, .lineno{
+   -fx-text-fill: #737f97;
+   -fx-font-size: 14;
+   -fx-background-color:#353d4f;
+   -fx-font-family: monospace;
+   -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,0,1 );
+   -fx-background-radius: 0;
+   -fx-box-border: none;
+ 
+}
+
+
+.code-area  .keyword {
+    -fx-fill: orange;
+    -fx-font-weight: bold;
+}
+.code-area  .semicolon {
+    -fx-font-weight: bold;
+}
+.code-area  .paren {
+    -fx-fill: firebrick;
+    -fx-font-weight: bold;
+}
+.code-area  .bracket {
+    -fx-fill: darkgreen;
+    -fx-font-weight: bold;
+}
+.code-area  .brace {
+    -fx-fill: teal;
+    -fx-font-weight: bold;
+}
+.code-area  .string {
+    -fx-fill: yellow;
+}
+
+.code-area  .comment {
+	-fx-fill: cadetblue;
+}
+
+/*.paragraph-box:has-caret {
+    -fx-background-color: #f2f9fc;
+}*/

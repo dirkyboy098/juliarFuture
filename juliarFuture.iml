@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" inherit-compiler-output="false">
+  <component name="NewModuleRootManager">
     <output url="file://$MODULE_DIR$/out" />
     <output-test url="file://$MODULE_DIR$/out" />
     <exclude-output />
@@ -63,10 +63,10 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/jars/fastcgi.jar!/" />
+          <root url="jar://$MODULE_DIR$/jars/richtextfx-fat-0.7-M5.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

@@ -5,7 +5,7 @@ set JULIARPATH=%cd%
 REM DO NOT MODIFY ANYTHING BELOW THIS COMMENT
 
 
-set CLASSPATH=%JULIARPATH%\jars\antlr-4.6-complete.jar;%JULIARPATH%\jars\nirerepl.jar;%JULIARPATH%\jars\asm-all-6.0_ALPHA.jar;%JULIARPATH%\jars\fastcgi.jar;%JULIARPATH%\out
+set CLASSPATH=%JULIARPATH%\jars\antlr-4.6-complete.jar;%JULIARPATH%\jars\nirerepl.jar;%JULIARPATH%\jars\asm-all-6.0_ALPHA.jar;%JULIARPATH%\jars\fastcgi.jar;%JULIARPATH%\jars\richtextfx-fat-0.7-M5.jar;%JULIARPATH%\out
 
 rmdir /s /q %JULIARPATH%\out
 mkdir %JULIARPATH%\out

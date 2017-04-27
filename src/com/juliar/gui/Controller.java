@@ -2,6 +2,7 @@ package com.juliar.gui;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -21,6 +22,16 @@ import com.juliar.JuliarCompiler;
 
 import java.io.*;
 import java.lang.ProcessBuilder;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.fxmisc.flowless.VirtualizedScrollPane;
+import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.LineNumberFactory;
+import org.fxmisc.richtext.model.StyleSpans;
+import org.fxmisc.richtext.model.StyleSpansBuilder;
 
 /**
  * Created by AndreiM on 3/18/2017.
@@ -93,9 +104,15 @@ public class Controller {
         JuliarCompiler compiler = new JuliarCompiler();
 
         Tab tab = tabPane.getSelectionModel().getSelectedItem();
-        TextArea tabContent = (TextArea) tab.getContent();
+        VirtualizedScrollPane vp = (VirtualizedScrollPane) tab.getContent();
+        CodeArea ca = (CodeArea) vp.getContent();
 
-        InputStream is = new ByteArrayInputStream(tabContent.getText().getBytes());
+        areaOutText.appendText(ca.getText());
+
+
+        //areaOutText.appendText(tabContent.getText());
+
+        InputStream is = new ByteArrayInputStream(ca.getText().getBytes());
         compiler.compile(is, "/", false, false);
 
         System.out.flush();
@@ -166,10 +183,22 @@ public class Controller {
                 Tab tab = new Tab("● Untitled (" + (tabPane.getTabs().size() + 1)+")");
                 tabPane.getTabs().add(tab);
                 tabPane.getSelectionModel().select(tab);
-                TextArea loadedTextArea = new TextArea();
-                tab.setContent(loadedTextArea);
+
+                CodeArea codeArea = new CodeArea();
+                codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
+
+                codeArea.richChanges()
+                        .filter(ch -> !ch.getInserted().equals(ch.getRemoved())) // XXX
+                        .subscribe(change -> {
+                            codeArea.setStyleSpans(0, computeHighlighting(codeArea.getText()));
+                        });
+                //codeArea.replaceText(0, 0, "");
+                //TextArea loadedTextArea = new TextArea();
+                //tab.setContent(loadedTextArea);
+                tab.setContent(new VirtualizedScrollPane<>(codeArea));
+
                 tab.setText("● "+file.toPath().getFileName().toString());
-                currentTextFile.getContent().forEach(line -> loadedTextArea.appendText(line + "\n"));
+                currentTextFile.getContent().forEach(line -> codeArea.appendText(line + "\n"));
             } else {
                 System.out.println("Failed");
             }
@@ -186,8 +215,19 @@ public class Controller {
         Tab tab = new Tab("● Untitled (" + (tabPane.getTabs().size() + 1)+")");
         tabPane.getTabs().add(tab);
         tabPane.getSelectionModel().select(tab);
-        TextArea loadedTextArea = new TextArea();
-        tab.setContent(loadedTextArea);
+
+        CodeArea codeArea = new CodeArea();
+        codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
+
+        codeArea.richChanges()
+                .filter(ch -> !ch.getInserted().equals(ch.getRemoved())) // XXX
+                .subscribe(change -> {
+                    codeArea.setStyleSpans(0, computeHighlighting(codeArea.getText()));
+                });
+        //codeArea.replaceText(0, 0, "");
+        //TextArea loadedTextArea = new TextArea();
+        //tab.setContent(loadedTextArea);
+        tab.setContent(new VirtualizedScrollPane<>(codeArea));
         currentTextFile = null;
     }
 
@@ -199,4 +239,52 @@ public class Controller {
         alert.setContentText("Juliar - Copyright (C) 2017");
         alert.show();
     }
+
+
+    private static final String[] KEYWORDS = new String[] {
+            "int", "float", "double", "string", "break",
+            "return", "while", "for", "if", "else", "function"
+    };
+
+    private static final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
+    private static final String PAREN_PATTERN = "\\(|\\)";
+    private static final String BRACE_PATTERN = "\\{|\\}";
+    private static final String BRACKET_PATTERN = "\\[|\\]";
+    private static final String SEMICOLON_PATTERN = "\\;";
+    private static final String STRING_PATTERN = "\"([^\"\\\\]|\\\\.)*\"";
+    private static final String COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
+
+    private static final Pattern PATTERN = Pattern.compile(
+            "(?<KEYWORD>" + KEYWORD_PATTERN + ")"
+                    + "|(?<PAREN>" + PAREN_PATTERN + ")"
+                    + "|(?<BRACE>" + BRACE_PATTERN + ")"
+                    + "|(?<BRACKET>" + BRACKET_PATTERN + ")"
+                    + "|(?<SEMICOLON>" + SEMICOLON_PATTERN + ")"
+                    + "|(?<STRING>" + STRING_PATTERN + ")"
+                    + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
+    );
+
+    private static StyleSpans<Collection<String>> computeHighlighting(String text) {
+        Matcher matcher = PATTERN.matcher(text);
+        int lastKwEnd = 0;
+        StyleSpansBuilder<Collection<String>> spansBuilder
+                = new StyleSpansBuilder<>();
+        while(matcher.find()) {
+            String styleClass =
+                    matcher.group("KEYWORD") != null ? "keyword" :
+                            matcher.group("PAREN") != null ? "paren" :
+                                    matcher.group("BRACE") != null ? "brace" :
+                                            matcher.group("BRACKET") != null ? "bracket" :
+                                                    matcher.group("SEMICOLON") != null ? "semicolon" :
+                                                            matcher.group("STRING") != null ? "string" :
+                                                                    matcher.group("COMMENT") != null ? "comment" :
+                                                                            null; /* never happens */ assert styleClass != null;
+            spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
+            spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());
+            lastKwEnd = matcher.end();
+        }
+        spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
+        return spansBuilder.create();
+    }
+
 }
