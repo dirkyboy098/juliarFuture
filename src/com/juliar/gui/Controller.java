@@ -242,8 +242,18 @@ public class Controller {
 
 
     private static final String[] KEYWORDS = new String[] {
-            "int", "float", "double", "string", "break",
-            "return", "while", "for", "if", "else", "function"
+            "break",
+            "class",
+            "double",
+            "else",
+            "float",
+            "for",
+            "function",
+            "int",
+            "if",
+            "return",
+            "string",
+            "while",
     };
 
     private static final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
