@@ -7,6 +7,10 @@ import com.juliar.symbolTable.SymbolTable;
 import com.juliar.symbolTable.SymbolTypeEnum;
 import javafx.beans.binding.BooleanExpression;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.*;
 
 /**
@@ -24,6 +28,19 @@ public class Interpreter {
         try {
             EvaluateAssignments.Create(this);
             inst = invocation.getInstructionList();
+
+            /*
+            FileOutputStream ostream = new FileOutputStream("t.tmp");
+            ObjectOutputStream p = new ObjectOutputStream(ostream);
+            p.writeObject( inst.get(0));
+            p.flush();
+            ostream.close();
+
+            FileInputStream istream = new FileInputStream("t.tmp");
+            ObjectInputStream s = new ObjectInputStream(istream);
+            Object object =  s.readObject();
+            */
+
             functionNodeMap = invocation.getFunctionNodeMap();
 
             functionMap.put(NodeType.CompliationUnitType        , ((n, activationFrame ) -> evalCompliationUnit()  ));

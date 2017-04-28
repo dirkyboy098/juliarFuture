@@ -3,14 +3,14 @@ package com.juliar.nodes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
-import java.util.UUID;
+import java.io.*;
 
 import static com.juliar.nodes.IntegralType.*;
 
 /**
  * Created by Don on 1/13/2017.
  */
-public abstract class NodeImpl implements Node {
+public abstract class NodeImpl implements Node , Serializable{
     protected List<Node> instructions = new ArrayList<>();
     protected String nodeName;
     private IntegralType integralType;

@@ -38,6 +38,7 @@ function main() = {
     foo(x);
 
     int boo = 0;
+    index = 0;
      while ( true ){
         string y = __getByteFromString(file, index);
         print(y);
