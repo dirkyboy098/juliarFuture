@@ -1,5 +1,7 @@
 package com.juliar.nodes;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.Stack;
 
@@ -27,5 +29,9 @@ public interface Node {
     void setVariableTypeByIntegralType( IntegralType type);
 
     void setVariableType(String variableType);
+
+    void writeNode( ObjectOutputStream stream);
+
+    NodeType readType( ObjectInputStream stream);
 
     }

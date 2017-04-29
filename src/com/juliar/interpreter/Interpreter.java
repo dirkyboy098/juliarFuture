@@ -29,18 +29,6 @@ public class Interpreter {
             EvaluateAssignments.Create(this);
             inst = invocation.getInstructionList();
 
-            /*
-            FileOutputStream ostream = new FileOutputStream("t.tmp");
-            ObjectOutputStream p = new ObjectOutputStream(ostream);
-            p.writeObject( inst.get(0));
-            p.flush();
-            ostream.close();
-
-            FileInputStream istream = new FileInputStream("t.tmp");
-            ObjectInputStream s = new ObjectInputStream(istream);
-            Object object =  s.readObject();
-            */
-
             functionNodeMap = invocation.getFunctionNodeMap();
 
             functionMap.put(NodeType.CompliationUnitType        , ((n, activationFrame ) -> evalCompliationUnit()  ));
@@ -74,7 +62,8 @@ public class Interpreter {
             execute(inst);
         }
         catch( Exception ex){
-            LogMessage.message( ex.getMessage() );
+            ex.printStackTrace();
+            //LogMessage.message( ex.printStackTrace() );
         }
     }
 

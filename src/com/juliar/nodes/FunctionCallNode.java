@@ -1,4 +1,6 @@
 package com.juliar.nodes;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.List;
 
 /**
@@ -23,5 +25,20 @@ public class FunctionCallNode extends NodeImpl {
     @Override
     public NodeType getType() {
         return NodeType.FunctionaCallType;
+    }
+
+    public void writeNode( ObjectOutputStream stream){
+        try {
+            int ordrinal = getType().ordinal();
+            stream.writeInt( ordrinal );
+            stream.writeChars( functionName() );
+
+            for (Node n : instructions) {
+                n.writeNode( stream );
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

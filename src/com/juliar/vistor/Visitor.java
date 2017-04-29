@@ -8,7 +8,6 @@ import com.juliar.pal.Primitives;
 import com.juliar.parser.JuliarBaseVisitor;
 import com.juliar.parser.JuliarParser;
 import com.juliar.symbolTable.SymbolTable;
-import com.juliar.symbolTable.SymbolTableClosure;
 import com.juliar.symbolTable.SymbolTypeEnum;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -41,6 +40,10 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
     public InstructionInvocation instructions(){
         return new InstructionInvocation(instructionList, functionNodeMap);
+    }
+
+    public List<Node> getInstructionList(){
+        return instructionList;
     }
 
     public Visitor(ImportsInterface cb, boolean skip){
@@ -471,7 +474,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
     public Node visitVariable(JuliarParser.VariableContext ctx) {
         String variableName = ctx.ID().getText();
 
-        VariableNode variableNode = new VariableNode(variableName, null);
+        VariableNode variableNode = new VariableNode(variableName);
 
         Object[] funcStackArray = funcContextStack.toArray();
         int length = funcStackArray.length - 1;

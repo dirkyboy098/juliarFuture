@@ -1,17 +1,17 @@
 package com.juliar.nodes;
 
-import static com.juliar.nodes.IntegralType.*;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
 /**
  * Created by Don on 1/15/2017.
  */
 public class VariableNode extends NodeImpl {
-    public String type;
     public String variableName;
     public IntegralTypeNode integralTypeNode;
 
 
-    public VariableNode(String vName, String vType){
-        type = vType;
+    public VariableNode(String vName){
         variableName = vName;
     }
 
@@ -23,4 +23,21 @@ public class VariableNode extends NodeImpl {
     public NodeType getType() {
         return NodeType.VariableType;
     }
+
+    public void writeNode( ObjectOutputStream stream){
+        try {
+            int ordrinal = getType().ordinal();
+            stream.writeInt( ordrinal );
+            stream.writeChars( variableName );
+
+            for (Node n : instructions) {
+                n.writeNode( stream );
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

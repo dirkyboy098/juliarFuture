@@ -2,6 +2,8 @@ package com.juliar.nodes;
 
 import com.juliar.symbolTable.SymbolTypeEnum;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.Stack;
 
@@ -48,5 +50,21 @@ public class ReturnValueNode extends NodeImpl {
     @Override
     public NodeType getType() {
         return NodeType.ReturnValueType;
+    }
+
+    public void writeNode( ObjectOutputStream stream){
+        try {
+            int ordrinal = getType().ordinal();
+            stream.writeInt( ordrinal );
+            stream.writeChars( typeName );
+            //stream.writeObject( this );
+
+            for (Node n : instructions) {
+                n.writeNode( stream );
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.juliar.nodes;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -40,5 +42,23 @@ public class FunctionDeclNode extends NodeImpl implements IContextInfo {
     @Override
     public NodeType getType() {
         return NodeType.FunctionDeclType;
+    }
+
+    @Override
+    public void writeNode(ObjectOutputStream stream) {
+        try {
+            stream.writeInt (getType().ordinal() );
+
+            if (functionName != null) {
+                stream.writeChars(functionName);
+            }
+
+            for (Node n : getInstructions()) {
+                n.writeNode(stream);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

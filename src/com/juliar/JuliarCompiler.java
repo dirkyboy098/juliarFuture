@@ -4,6 +4,7 @@ import com.fastcgi.FCGIInterface;
 import com.juliar.errors.ErrorListener;
 import com.juliar.errors.LogMessage;
 import com.juliar.interpreter.Interpreter;
+import com.juliar.interpreter.ReadWriteBinaryFile;
 import com.juliar.parser.JuliarLexer;
 import com.juliar.parser.JuliarParser;
 import com.juliar.symbolTable.SymbolTable;
@@ -22,6 +23,7 @@ import java.util.List;
 public class JuliarCompiler {
 	public boolean isDebugMode = false;
     private ErrorListener errors;
+    private String inputFileName;
 
     public static void main(String[] args) {
 		fastCGI();
@@ -115,6 +117,7 @@ public class JuliarCompiler {
 
 	public List<String> compile(String source, String outputPath, boolean compilerFlag, boolean isRepl) {
         try {
+        	inputFileName = source;
 			FileInputStream fileInputStream = new FileInputStream(source);
 			return compile(fileInputStream, outputPath, compilerFlag, isRepl);
         }
@@ -164,7 +167,6 @@ public class JuliarCompiler {
             System.out.println(context.toStringTree(parser));
         }
 
-
 		Visitor visitor = new Visitor((imports, linesToSkip) -> {}, true);
 		visitor.visit(context);
 
@@ -185,7 +187,12 @@ public class JuliarCompiler {
             generator.Generate(visitor.instructions(),outputfile);
         }
 
-        new Interpreter(visitor.instructions());
+        if ( isDebugMode ) {
+			ReadWriteBinaryFile readWriteBinaryFile = new ReadWriteBinaryFile();
+			readWriteBinaryFile.write(inputFileName, visitor.getInstructionList());
+		}
+
+		new Interpreter(visitor.instructions());
 
 		return false;
 	}

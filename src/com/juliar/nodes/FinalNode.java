@@ -3,6 +3,9 @@ package com.juliar.nodes;
 import com.juliar.pal.PrimitivesMap;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
 import static java.lang.Integer.getInteger;
 
 /**
@@ -25,6 +28,10 @@ public class FinalNode extends NodeImpl{
     }
 
     public String dataString() {
+        if ( object == null && dataString == null){
+            return "";
+        }
+
         if ( object != null && dataString == null){
             return object.toString();
         }
@@ -103,5 +110,14 @@ public class FinalNode extends NodeImpl{
     @Override
     public NodeType getType() {
         return NodeType.FinalType;
+    }
+
+    @Override
+    public void writeNode(ObjectOutputStream stream) {
+        try {
+            stream.writeChars( dataString() );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

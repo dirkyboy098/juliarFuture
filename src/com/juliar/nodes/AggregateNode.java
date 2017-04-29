@@ -1,5 +1,7 @@
 package com.juliar.nodes;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.List;
 
 /**
@@ -39,5 +41,28 @@ public class AggregateNode extends NodeImpl {
     @Override
     public NodeType getType() {
         return NodeType.AggregateType;
+    }
+
+    public void writeNode( ObjectOutputStream stream){
+        try {
+            int ordrinal = getType().ordinal();
+            stream.writeInt( ordrinal );
+
+            if (op != null) {
+                stream.writeInt( op.ordinal() );
+            }
+            if ( objectData != null ) {
+                for (IntegralTypeNode itn : objectData) {
+                    itn.writeNode(stream);
+                }
+            }
+
+            for (Node n : instructions) {
+                n.writeNode( stream );
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

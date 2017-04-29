@@ -1,5 +1,9 @@
 package com.juliar.nodes;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +11,6 @@ import java.util.List;
  * Created by donreamey on 10/21/16.
  */
 public class CompliationUnitNode extends NodeImpl  {
-    public List<Node> statementNodes = new ArrayList<>();
 
     @Override
     public NodeType getType() {
@@ -17,5 +20,16 @@ public class CompliationUnitNode extends NodeImpl  {
     @Override
     public String getNodeName() {
         return "CompliationUnitNode";
+    }
+
+    public NodeType readType(ObjectInputStream stream) {
+        byte b = 0;
+        while (true) {
+            NodeType t = super.readType(stream);
+            if (t != null){
+                readObject( stream , t);
+            }
+            return super.readType(stream);
+        }
     }
 }
