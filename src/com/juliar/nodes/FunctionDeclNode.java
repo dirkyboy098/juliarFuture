@@ -1,6 +1,7 @@
 package com.juliar.nodes;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,9 @@ import java.util.Stack;
  */
 public class FunctionDeclNode extends NodeImpl implements IContextInfo {
     private String functionName;
+
+    public FunctionDeclNode(){
+    }
 
 
     public FunctionDeclNode(String funcName, List<Node> inst){
@@ -50,6 +54,7 @@ public class FunctionDeclNode extends NodeImpl implements IContextInfo {
             stream.writeInt (getType().ordinal() );
 
             if (functionName != null) {
+                stream.writeInt( functionName.length() );
                 stream.writeChars(functionName);
             }
 
@@ -60,5 +65,21 @@ public class FunctionDeclNode extends NodeImpl implements IContextInfo {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Node readObject(ObjectInputStream stream) {
+        try{
+            int length = stream.readInt();
+            StringBuffer buffer = new StringBuffer();
+            for (int i = 0; i< length; i++){
+                buffer.append( stream.readChar() );
+            }
+        }
+        catch (IOException io){
+
+        }
+
+        return null;
     }
 }

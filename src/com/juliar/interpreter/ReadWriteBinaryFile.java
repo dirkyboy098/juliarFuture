@@ -1,11 +1,9 @@
 package com.juliar.interpreter;
 
+import com.juliar.nodes.CompliationUnitNode;
 import com.juliar.nodes.Node;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.List;
 
 /**
@@ -13,13 +11,14 @@ import java.util.List;
  */
 public class ReadWriteBinaryFile {
 
-    public void write(String inputFile, List<Node> instructions){
+    public void write(String inputFile, List<Node> instructions) {
+        String fileName = getLibiraryName(inputFile);
 
         FileOutputStream ostream = null;
         try {
-            ostream = new FileOutputStream("t.txt");
+            ostream = new FileOutputStream(fileName);
             ObjectOutputStream p = new ObjectOutputStream(ostream);
-            instructions.get(0).writeNode( p );
+            instructions.get(0).writeNode(p);
             p.flush();
             ostream.close();
         } catch (FileNotFoundException e) {
@@ -28,11 +27,39 @@ public class ReadWriteBinaryFile {
             e.printStackTrace();
         }
 
+    }
 
-            /*
-            FileInputStream istream = new FileInputStream("t.txt");
+    public void read(String inputFile) {
+        String libName = getLibiraryName( inputFile );
+
+        try (FileInputStream istream = new FileInputStream( libName )) {
             ObjectInputStream s = new ObjectInputStream(istream);
-            inst.get(0).readType( s );
-            */
+            CompliationUnitNode node = new CompliationUnitNode();
+            node.readObject( s );
+        }
+        catch (FileNotFoundException e){
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private String getLibiraryName(String inputFile) {
+        String fileName = inputFile;
+        char[] pathSeperator = new char[]{File.pathSeparatorChar};
+
+        if (fileName.contains(new String(pathSeperator))) {
+            int lastIndexOf = fileName.lastIndexOf(pathSeperator[0]);
+            fileName = fileName.substring(lastIndexOf);
+        }
+
+        int extensionIndex = fileName.lastIndexOf('.');
+        fileName = fileName.substring(0, extensionIndex);
+
+        if (fileName != null) {
+            fileName += ".lib";
+        }
+        return fileName;
     }
 }

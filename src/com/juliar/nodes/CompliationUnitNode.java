@@ -7,6 +7,8 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.juliar.nodes.NodeType.FunctionDeclType;
+
 /**
  * Created by donreamey on 10/21/16.
  */
@@ -22,14 +24,31 @@ public class CompliationUnitNode extends NodeImpl  {
         return "CompliationUnitNode";
     }
 
-    public NodeType readType(ObjectInputStream stream) {
-        byte b = 0;
-        while (true) {
-            NodeType t = super.readType(stream);
-            if (t != null){
-                readObject( stream , t);
+
+    @Override
+    public void writeNode(ObjectOutputStream stream) {
+        super.writeNode(stream);
+        //stream.write
+    }
+
+    @Override
+    public Node readObject (ObjectInputStream stream) {
+        try {
+            int type = stream.readInt();
+            NodeType t[] = NodeType.values();
+
+            int nextType = stream.readInt();
+
+            if ( nextType == FunctionDeclType.ordinal()) {
+                FunctionDeclNode functionDeclNode = new FunctionDeclNode();
+                functionDeclNode.readObject(stream);
             }
-            return super.readType(stream);
+
         }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

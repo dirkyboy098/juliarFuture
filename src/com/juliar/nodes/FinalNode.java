@@ -4,6 +4,7 @@ import com.juliar.pal.PrimitivesMap;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import static java.lang.Integer.getInteger;
@@ -115,9 +116,30 @@ public class FinalNode extends NodeImpl{
     @Override
     public void writeNode(ObjectOutputStream stream) {
         try {
+            stream.writeInt( getType().ordinal() );
+            stream.writeInt( dataString().length() );
             stream.writeChars( dataString() );
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Node readObject(ObjectInputStream stream) {
+        try {
+            int length = stream.readInt();
+            StringBuffer buffer = new StringBuffer();
+
+            for (int i = 0; i < length; i++) {
+                buffer.append(stream.readChar());
+            }
+
+            setDataString( buffer.toString() );
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

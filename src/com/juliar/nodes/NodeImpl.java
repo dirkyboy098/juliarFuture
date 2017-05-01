@@ -104,10 +104,19 @@ public abstract class NodeImpl implements Node , Serializable{
     }
 
 
-    public Node readObject (ObjectInputStream stream, NodeType type){
+    public Node readObject (ObjectInputStream stream){
         try {
+            int type = stream.readInt();
+            NodeType t[] = NodeType.values();
             Object loadedType = stream.readObject();
 
+            for ( NodeType nodeType : t) {
+                if ( nodeType.ordinal() == type){
+                    break;
+                }
+            }
+
+            /*
             switch (type){
                 case AddType:
                     return (AddNode)loadedType;
@@ -168,6 +177,7 @@ public abstract class NodeImpl implements Node , Serializable{
                 case WhileExpressionType:
                     return (WhileExprNode)loadedType;
             }
+            */
 
 
         } catch (IOException e) {

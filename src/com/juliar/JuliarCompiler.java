@@ -190,6 +190,7 @@ public class JuliarCompiler {
         if ( isDebugMode ) {
 			ReadWriteBinaryFile readWriteBinaryFile = new ReadWriteBinaryFile();
 			readWriteBinaryFile.write(inputFileName, visitor.getInstructionList());
+			readWriteBinaryFile.read( inputFileName );
 		}
 
 		new Interpreter(visitor.instructions());
