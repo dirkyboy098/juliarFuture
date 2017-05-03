@@ -43,7 +43,7 @@ public class Gui extends Application {
                 scene.getStylesheets().add(getClass().getResource("juliar.css").toExternalForm());
             }
             stage.setScene(scene);
-	    stage.setHeight(600);
+	        stage.setHeight(600);
             stage.setWidth(800);
 		
             stage.show();

@@ -13,8 +13,7 @@ in order to optimize programming efficiency.
 
 ### Comes with an elegant built-in IDE
 
-![JuliarFuture](https://cloud.githubusercontent.com/assets/11934545/25367056/773b66b6-2941-11e7-8498-0fc312c590f6.jpg)
-
+![JuliarFuture](https://cloud.githubusercontent.com/assets/11934545/25648443/fc6d1902-2f99-11e7-8096-cdbeb2c192cc.JPG)
 
 For more information, please check out our official website at [https://www.juliar.org](http://www.juliar.org)
 

@@ -131,8 +131,8 @@
 
 
 .code-area  .paragraph-box .paragraph-text,.paragraph-text .text{
-   -fx-fill: white;
-   -fx-text-fill: white;
+   -fx-fill: #FFF574;
+   -fx-text-fill: yellow;
    -fx-font-family: "Montserrat";
    -fx-font-size: 14;
    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,0,1 );
@@ -151,14 +151,14 @@
 
 
 .code-area  .keyword {
-    -fx-fill: orange;
+    -fx-fill: #FF707F;
     -fx-font-weight: bold;
 }
 .code-area  .semicolon {
     -fx-font-weight: bold;
 }
 .code-area  .paren {
-    -fx-fill: firebrick;
+    -fx-fill: white;
     -fx-font-weight: bold;
 }
 .code-area  .bracket {
@@ -166,17 +166,13 @@
     -fx-font-weight: bold;
 }
 .code-area  .brace {
-    -fx-fill: teal;
+    -fx-fill: white;
     -fx-font-weight: bold;
 }
 .code-area  .string {
-    -fx-fill: yellow;
+    -fx-fill: #A1FF39;
 }
 
 .code-area  .comment {
-	-fx-fill: cadetblue;
+	-fx-fill: #9B9B9B;
 }
-
-/*.paragraph-box:has-caret {
-    -fx-background-color: #f2f9fc;
-}*/
