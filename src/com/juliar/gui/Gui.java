@@ -5,10 +5,16 @@ package com.juliar.gui;
  */
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -45,8 +51,24 @@ public class Gui extends Application {
             stage.setScene(scene);
 	        stage.setHeight(600);
             stage.setWidth(800);
-		
+
+            final KeyCombination kb_plus = new KeyCodeCombination(KeyCode.PLUS, KeyCombination.ALT_DOWN);
+            final KeyCombination kb_minus = new KeyCodeCombination(KeyCode.MINUS, KeyCombination.ALT_DOWN);
+
             stage.show();
+
+            scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                public void handle(KeyEvent ke) {
+                    if (kb_plus.match(ke)) {
+                        final Node track = scene.lookup(".code-area");
+                        track.setStyle("-fx-font-size: 24");
+                    }
+                    else if(kb_minus.match(ke)){
+                        final Node track = scene.lookup(".code-area");
+                        track.setStyle("-fx-font-size: 10");
+                    }
+                }
+            });
         }
         catch(Exception e){
             Alert alert = new Alert(Alert.AlertType.ERROR);

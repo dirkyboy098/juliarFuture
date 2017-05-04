@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import javafx.scene.control.Tab;
 
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import com.juliar.JuliarCompiler;
@@ -107,9 +108,10 @@ public class Controller {
         VirtualizedScrollPane vp = (VirtualizedScrollPane) tab.getContent();
         CodeArea ca = (CodeArea) vp.getContent();
 
-        areaOutText.appendText(ca.getText());
-
-
+        //areaOutText.appendText(ca.getText());
+        areaOutText.clear();
+        areaOutText.appendText("Starting Interpreter at: " + LocalDateTime.now() + "\r\n");
+        long startTime = System.nanoTime();
         //areaOutText.appendText(tabContent.getText());
 
         InputStream is = new ByteArrayInputStream(ca.getText().getBytes());
@@ -117,8 +119,8 @@ public class Controller {
 
         System.out.flush();
         System.setOut(old);
-        areaOutText.clear();
         areaOutText.appendText(baos.toString());
+        areaOutText.appendText("\r\nCompleted execution in "+ ((System.nanoTime() - startTime)/1000000) + "ms");
     }
 
     @FXML
