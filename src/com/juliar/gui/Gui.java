@@ -5,11 +5,12 @@ package com.juliar.gui;
  */
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -18,9 +19,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-
 import java.io.File;
-import java.util.regex.Pattern;
 
 public class Gui extends Application {
 
@@ -39,7 +38,6 @@ public class Gui extends Application {
             Scene scene = new Scene(loader.load());
             File jarPath=new File(Gui.class.getProtectionDomain().getCodeSource().getLocation().getPath());
             String propertiesPath=jarPath.getParentFile().getAbsolutePath();
-            //scene.getStylesheets().add("file:///" + propertiesPath.replace("\\", "/") +"/juliar.css");
             String fullpath = propertiesPath.replace("\\", "/") +"/juliar.css";
             File f = new File(fullpath);
             if(f.exists()){
@@ -48,25 +46,37 @@ public class Gui extends Application {
             else {
                 scene.getStylesheets().add(getClass().getResource("juliar.css").toExternalForm());
             }
+
+            Controller myController = (Controller) loader.getController();
+            myController.setScene(scene);
+
             stage.setScene(scene);
 	        stage.setHeight(600);
             stage.setWidth(800);
-
-            final KeyCombination kb_plus = new KeyCodeCombination(KeyCode.PLUS, KeyCombination.ALT_DOWN);
-            final KeyCombination kb_minus = new KeyCodeCombination(KeyCode.MINUS, KeyCombination.ALT_DOWN);
-
             stage.show();
 
-            scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-                public void handle(KeyEvent ke) {
-                    if (kb_plus.match(ke)) {
-                        final Node track = scene.lookup(".code-area");
-                        track.setStyle("-fx-font-size: 24");
-                    }
-                    else if(kb_minus.match(ke)){
-                        final Node track = scene.lookup(".code-area");
-                        track.setStyle("-fx-font-size: 10");
-                    }
+
+
+            final KeyCombination kb_plus = new KeyCodeCombination(KeyCode.EQUALS, KeyCombination.CONTROL_DOWN);
+            final KeyCombination kb_minus = new KeyCodeCombination(KeyCode.MINUS, KeyCombination.CONTROL_DOWN);
+
+
+            StringProperty cssProp = new SimpleStringProperty("");
+            FXCSSUpdater updater = new FXCSSUpdater(scene);
+            updater.bindCss(cssProp);
+
+            scene.addEventFilter(KeyEvent.KEY_PRESSED, ke -> {
+                if (kb_plus.match(ke)) {
+                    TextArea track = (TextArea) scene.lookup("#areaOutText");
+                    double size = track.getFont().getSize() + 1;
+
+                    cssProp.set(".text-area,.code-area .lineno,.paragraph-text .text {-fx-font-size: "+size+"px;}");
+                }
+                else if(kb_minus.match(ke)){
+                    TextArea track = (TextArea) scene.lookup("#areaOutText");
+                    double size = track.getFont().getSize() - 1;
+
+                    cssProp.set(".text-area,.code-area .lineno,.paragraph-text .text {-fx-font-size: "+size+"px;}");
                 }
             });
         }

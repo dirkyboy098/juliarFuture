@@ -1,38 +1,30 @@
 package com.juliar.gui;
 
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.control.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
-
-import javafx.scene.control.Alert;
-import javafx.scene.control.TabPane.TabClosingPolicy;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import javafx.scene.control.Tab;
-
-import java.io.File;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-
 import com.juliar.JuliarCompiler;
-
-import java.io.*;
-import java.lang.ProcessBuilder;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
+import javafx.stage.FileChooser;
+import javafx.scene.Scene;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
+
+import java.io.*;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by AndreiM on 3/18/2017.
@@ -48,8 +40,48 @@ public class Controller {
 
     private Model model;
 
+    private Scene scene;
+
+    public void setScene(Scene scene) { this.scene = scene; }
+
     public Controller(Model model) {
         this.model = model;
+    }
+
+    @FXML
+    public void initialize() {
+        final KeyCombination kb_enter = new KeyCodeCombination(KeyCode.ENTER, KeyCombination.CONTROL_DOWN);
+        final KeyCombination kb_new = new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN);
+        final KeyCombination kb_load = new KeyCodeCombination(KeyCode.L, KeyCombination.CONTROL_DOWN);
+        final KeyCombination kb_save = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN);
+        final KeyCombination kb_reload = new KeyCodeCombination(KeyCode.R, KeyCombination.CONTROL_DOWN);
+        final KeyCombination kb_closetab = new KeyCodeCombination(KeyCode.W, KeyCombination.CONTROL_DOWN);
+
+        tabPane.getParent().addEventFilter(KeyEvent.KEY_PRESSED, ke -> {
+            if (kb_enter.match(ke)) {
+                this.interpret();
+            }
+            if (kb_new.match(ke)) {
+                this.newfile();
+            }
+            if (kb_load.match(ke)) {
+                this.loadfile();
+            }
+            if (kb_save.match(ke)) {
+                this.savefile();
+            }
+            if (kb_reload.match(ke)) {
+                this.reloadfile();
+            }
+            if (kb_closetab.match(ke)) {
+                this.closetab();
+            }
+        });
+
+    }
+
+    public void closetab(){
+        tabPane.getTabs().remove( tabPane.getSelectionModel().getSelectedIndex());
     }
 
     /*@FXML
@@ -63,14 +95,18 @@ public class Controller {
         }
     });*/
 
-    @FXML
-    private void onSave() {
+    public void savefile(){
         if(currentTextFile == null) onSaveAs();
         Tab tab = tabPane.getSelectionModel().getSelectedItem();
         TextArea tabContent = (TextArea) tab.getContent();
 
         TextFile textFile = new TextFile(currentTextFile.getFile(), Arrays.asList(tabContent.getText().split("\n")));
         model.save(textFile);
+    }
+
+    @FXML
+    private void onSave() {
+        this.savefile();
     }
 
     @FXML
@@ -91,9 +127,9 @@ public class Controller {
         }
     }
 
-    @FXML
-    private void onRunInterpreter(){
 
+
+    public void interpret(){
         // Create a stream to hold the output
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
@@ -124,24 +160,33 @@ public class Controller {
     }
 
     @FXML
+    private void onRunInterpreter(){
+        interpret();
+    }
+
+    @FXML
     private void onCompileAndRun(){
 
         /*TODO */
     }
 
-    @FXML
-    private void onRefresh(){
+    public void reloadfile(){
         File jarPath=new File(Gui.class.getProtectionDomain().getCodeSource().getLocation().getPath());
         String propertiesPath=jarPath.getParentFile().getAbsolutePath();
-        tabPane.getScene().getStylesheets().clear();
+        scene.getStylesheets().clear();
         String fullpath = propertiesPath.replace("\\", "/") +"/juliar.css";
         File f = new File(fullpath);
         if(f.exists()){
-            tabPane.getScene().getStylesheets().add("file:///"+fullpath);
+            scene.getStylesheets().add("file:///"+fullpath);
         }
         else {
-            tabPane.getScene().getStylesheets().add(getClass().getResource("juliar.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("juliar.css").toExternalForm());
         }
+    }
+
+    @FXML
+    private void onRefresh(){
+        this.reloadfile();
     }
 
     @FXML
@@ -171,8 +216,8 @@ public class Controller {
         }
     }
 
-    @FXML
-    private void onLoad() {
+
+    public void loadfile(){
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File("./"));
         File file = fileChooser.showOpenDialog(null);
@@ -182,7 +227,7 @@ public class Controller {
             if (io.isOk() && io.hasData()) {
                 currentTextFile = io.getData();
 
-                Tab tab = new Tab("● Untitled (" + (tabPane.getTabs().size() + 1)+")");
+                Tab tab = new Tab("● Untitled (" + (tabPane.getTabs().size() + 1) + ")");
                 tabPane.getTabs().add(tab);
                 tabPane.getSelectionModel().select(tab);
 
@@ -199,12 +244,16 @@ public class Controller {
                 //tab.setContent(loadedTextArea);
                 tab.setContent(new VirtualizedScrollPane<>(codeArea));
 
-                tab.setText("● "+file.toPath().getFileName().toString());
+                tab.setText("● " + file.toPath().getFileName().toString());
                 currentTextFile.getContent().forEach(line -> codeArea.appendText(line + "\n"));
             } else {
                 System.out.println("Failed");
             }
         }
+    }
+    @FXML
+    private void onLoad() {
+        this.loadfile();
     }
 
     @FXML
@@ -212,8 +261,7 @@ public class Controller {
         model.close();
     }
 
-    @FXML
-    private void onNew(){
+    public void newfile(){
         Tab tab = new Tab("● Untitled (" + (tabPane.getTabs().size() + 1)+")");
         tabPane.getTabs().add(tab);
         tabPane.getSelectionModel().select(tab);
@@ -226,11 +274,13 @@ public class Controller {
                 .subscribe(change -> {
                     codeArea.setStyleSpans(0, computeHighlighting(codeArea.getText()));
                 });
-        //codeArea.replaceText(0, 0, "");
-        //TextArea loadedTextArea = new TextArea();
-        //tab.setContent(loadedTextArea);
         tab.setContent(new VirtualizedScrollPane<>(codeArea));
         currentTextFile = null;
+    }
+
+    @FXML
+    private void onNew(){
+        this.newfile();
     }
 
     @FXML

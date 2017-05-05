@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import org.fxmisc.richtext.CodeArea?>
 <VBox prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.juliar.gui.Controller">
       <AnchorPane prefHeight="0.0" prefWidth="600.0">
              <MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -38,14 +39,14 @@
       </AnchorPane>
       <TabPane fx:id="tabPane" maxWidth="Infinity" prefHeight="549.0" prefWidth="800.0" tabClosingPolicy="ALL_TABS" VBox.vgrow="ALWAYS">
           <Tab text="CHANGE LOG">
-              <TextArea prefHeight="438.0" prefWidth="800.0" text="-Easy Compile button&#10;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+              <CodeArea text="-Control + to increase size of text&#10;-Control - to decrease size of text&#10;-Control + Enter - Compile" prefHeight="438.0" prefWidth="800.0"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
           </Tab>
       </TabPane>
       <StackPane>
 
       <AnchorPane prefHeight="206.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0">
           <TextArea fx:id="areaOutText" editable="false" layoutX="45.0" layoutY="-55.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-             <Button onAction="#onRunInterpreter" layoutX="659.0" layoutY="-12.0" text="▶" />
+             <Button onAction="#onRunInterpreter" layoutX="659.0" layoutY="-12.0" text="▶" AnchorPane.rightAnchor="50.0"/>
       </AnchorPane>
       </StackPane>
 </VBox>
