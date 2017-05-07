@@ -36,7 +36,7 @@ public class Interpreter {
             functionMap.put(NodeType.VariableReassignmentType   , ((n, activationFrame )-> EvaluateAssignments.evalReassignment(n, activationFrame ) ));
             functionMap.put(NodeType.AssignmentType             , ((n, activationFrame )-> EvaluateAssignments.evalAssignment(n, activationFrame )  ));
             functionMap.put(NodeType.PrimitiveType              , ((n, activationFrame )-> EvaluatePrimitives.evalPrimitives(n, activationFrame)  ));
-            functionMap.put(NodeType.BreakType                  , ((n, activationFrame )-> evaluateBreak(n) ));
+            functionMap.put(NodeType.BreakType                  , ((n, activationFrame )-> evaluateBreak(n , activationFrame) ));
 
             functionMap.put(NodeType.AddType                    , ((n, activationFrame )-> evalAdd(n)     ));
             functionMap.put(NodeType.AggregateType              , ((n, activationFrame )-> evaluateAggregate(n, activationFrame)      ));
@@ -123,7 +123,8 @@ public class Interpreter {
         return slotList;
     }
 
-    private List<Node> evaluateBreak(Node node){
+    private List<Node> evaluateBreak(Node node, ActivationFrame frame){
+        frame.returnNode = node;
         return new ArrayList<>();
     }
 
@@ -192,7 +193,7 @@ public class Interpreter {
                 for ( ; ; ) {
                     for (int expressionCount = 0; expressionCount < trueExpressions.size(); expressionCount++) {
                         List<Node> currentExpressionInWhileBody = new ArrayList<>();
-                        Node currentNode = trueExpressions.get(expressionCount);
+                        Node currentNode = trueExpressions.get( expressionCount );
                         currentExpressionInWhileBody.add( currentNode );
 
                         if (currentNode instanceof StatementNode && currentNode.getInstructions().get(0).getInstructions().get(0) instanceof BreakExprNode){
@@ -201,9 +202,15 @@ public class Interpreter {
                         }
 
                         execute(currentExpressionInWhileBody);
+
+                        if (frame.returnNode instanceof BreakExprNode){
+                            breakStatement = true;
+                            break;
+                        }
                     }
 
                     if (breakStatement) {
+                        frame.returnNode = null;
                         break;
                     }
 
@@ -272,15 +279,20 @@ public class Interpreter {
                 booleanResult =  Boolean.parseBoolean( result.dataString() );
             }
 
-            frame.returnNode = currentValue;
-
             // TODO - FINISH THIS
             if ( booleanResult ) {
                 List<Node> s = execute( trueExpressions );
-                if ( s == null){
-                    return s;
+                if ( frame.returnNode != null ){
+                    Node returnNode = frame.returnNode;
+                    if ( returnNode instanceof BreakExprNode){
+                        List<Node> returnList = new ArrayList<>();
+                        returnList.add( returnNode );
+                        return new ArrayList<>();
+                    }
                 }
             }
+
+            frame.returnNode = currentValue;
         }
 
         return new ArrayList<>();
