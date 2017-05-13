@@ -35,7 +35,6 @@ public class Visitor extends JuliarBaseVisitor<Node>
     private ControlFlowAdjacencyList cfa = new ControlFlowAdjacencyList();
     private ImportsInterface importsInterfaceCallback;
     private boolean skimImports = false;
-    private int currentLineNumber = 0;
     private List<String> errorList = new ArrayList<>();
 
     public InstructionInvocation instructions(){
@@ -378,7 +377,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
         iterateWrapper(ctx, this, node);
         if (symbolTable.doesChildExistAtScope( node.getInstructions().get(0))){
             VariableNode variableNode = (VariableNode)symbolTable.getNode( node.getInstructions().get(0) );
-            ((VariableNode) node.getInstructions().get(0)).setVariableTypeByIntegralType( variableNode.getIntegralType() );
+            node.getInstructions().get(0).setVariableTypeByIntegralType( variableNode.getIntegralType() );
         }
         return node;
     }
@@ -550,7 +549,8 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
         importBuffer.append( builder );
         skimImports = true;
-        importsInterfaceCallback.createTempCallback( importBuffer.toString(), this.currentLineNumber);
+        int currentLineNumber = 0;
+        importsInterfaceCallback.createTempCallback( importBuffer.toString(), currentLineNumber);
     }
 
     private StringBuilder importBuffer = new StringBuilder();

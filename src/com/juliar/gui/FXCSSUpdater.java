@@ -2,7 +2,6 @@ package com.juliar.gui;
 
 import javafx.application.Platform;
 import javafx.beans.property.StringProperty;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 import java.io.ByteArrayInputStream;

@@ -49,7 +49,6 @@ public class ControlFlowAdjacencyList {
     private void addNext(ControlFlowNode p, ControlFlowNode n){
         if (p.next == null){
             p.next = n;
-            return;
         }
         else if(p.next != n){
             addNext(p.next, n);

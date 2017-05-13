@@ -1,13 +1,12 @@
 package com.juliar.nodes;
 
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 import java.io.*;
 
 import static com.juliar.nodes.IntegralType.*;
-import static com.juliar.nodes.NodeType.*;
+
 /**
  * Created by Don on 1/13/2017.
  */

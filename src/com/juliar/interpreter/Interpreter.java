@@ -1,16 +1,8 @@
 package com.juliar.interpreter;
 
 import com.juliar.codegenerator.InstructionInvocation;
-import com.juliar.errors.LogMessage;
 import com.juliar.nodes.*;
-import com.juliar.symbolTable.SymbolTable;
-import com.juliar.symbolTable.SymbolTypeEnum;
-import javafx.beans.binding.BooleanExpression;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.*;
 
 /**
@@ -19,7 +11,6 @@ import java.util.*;
 public class Interpreter {
     private static Stack<ActivationFrame> activationFrameStack = new Stack<ActivationFrame>();
     private Stack<Node> returnValueStack = new Stack<>();
-    private List<Node> inst;
     private HashMap<String, Node> functionNodeMap;
     private HashMap<NodeType, Evaluate> functionMap = new HashMap<NodeType, Evaluate>();
     private final static String mainFunctionName = "main";
@@ -27,7 +18,7 @@ public class Interpreter {
     public Interpreter(InstructionInvocation invocation){
         try {
             EvaluateAssignments.Create(this);
-            inst = invocation.getInstructionList();
+            List<Node> inst = invocation.getInstructionList();
 
             functionNodeMap = invocation.getFunctionNodeMap();
 
@@ -79,7 +70,6 @@ public class Interpreter {
             else{
                 evalNull( Node );
             }
-            continue;
         }
 
         return new ArrayList<>();
@@ -245,7 +235,6 @@ public class Interpreter {
 
             if (current instanceof StatementNode) {
                 trueExpressions.add(current);
-                continue;
             }
         }
         return booleanNode;

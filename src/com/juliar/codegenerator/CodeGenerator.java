@@ -10,7 +10,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.jar.Attributes;
@@ -25,17 +24,14 @@ import static org.objectweb.asm.Opcodes.*;
  * Created by donreamey on 10/22/16.
  */
 public class CodeGenerator {
-    private boolean debug = true;
-    private List<Node> inst;
-    private InstructionInvocation invocationList;
-    private HashMap<String, Node> functionNodeMap;
+    private boolean debug;
 
+    public CodeGenerator() {
+        debug = true;
+    }
 
     public void Generate(InstructionInvocation invocation, String outputfile) throws IOException {
-        invocationList = invocation;
-        inst = invocation.getInstructionList();
-        functionNodeMap = invocation.getFunctionNodeMap();
-
+        List<Node> inst = invocation.getInstructionList();
         Generate(inst,outputfile);
     }
 

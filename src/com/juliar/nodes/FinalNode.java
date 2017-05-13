@@ -3,12 +3,6 @@ package com.juliar.nodes;
 import com.juliar.pal.PrimitivesMap;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-
-import static java.lang.Integer.getInteger;
-
 /**
  * Created by donreamey on 10/28/16.
  */
@@ -41,11 +35,8 @@ public class FinalNode extends NodeImpl{
             return object.toString();
         }
 
-        if (dataString != null) {
-            return dataString;//.getText();
-        }
+        return dataString;
 
-        return null;
     }
 
     public Object dataObject(){
@@ -56,56 +47,35 @@ public class FinalNode extends NodeImpl{
         return null;
     }
 
-
-    public Boolean isPrimitive(){
-        return PrimitivesMap.isPrimitive( dataString) ;//.getText());
-    }
-
     public IntegralType getIntegralType() {
         if (dataString.startsWith("\"") && dataString.endsWith("\"")) {
             return IntegralType.jstring;
         }
 
-        Object value = null;
         try {
-            value = Integer.parseInt(dataString);
-            if (value != null) {
-                return IntegralType.jinteger;
-            }
+            return IntegralType.jinteger;
         } catch (Exception e) {
         }
 
         try {
             if (dataString.toLowerCase().equals("true") || dataString.toLowerCase().endsWith("false")) {
-                value = Boolean.parseBoolean(dataString);
-                if (value != null) {
-                    return IntegralType.jboolean;
-                }
+                return IntegralType.jboolean;
             }
         } catch (Exception e) {
         }
 
         try {
-            value = Double.parseDouble(dataString);
-            if (value != null) {
-                return IntegralType.jdouble;
-            }
+            return IntegralType.jdouble;
         } catch (Exception e) {
         }
 
         try {
-            value = Float.parseFloat(dataString);
-            if (value != null) {
-                return IntegralType.jfloat;
-            }
+            return IntegralType.jfloat;
         } catch (Exception e) {
         }
 
         try {
-            value = Long.parseLong(dataString);
-            if (value != null) {
-                return IntegralType.jlong;
-            }
+            return IntegralType.jlong;
         } catch (Exception e) {
         }
 

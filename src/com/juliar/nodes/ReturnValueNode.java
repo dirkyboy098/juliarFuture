@@ -2,8 +2,6 @@ package com.juliar.nodes;
 
 import com.juliar.symbolTable.SymbolTypeEnum;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.Stack;
 
@@ -12,10 +10,9 @@ import java.util.Stack;
  */
 public class ReturnValueNode extends NodeImpl {
     private String typeName;
-    private SymbolTypeEnum symbolTypeEnum;
 
     public ReturnValueNode(SymbolTypeEnum typeEnum, String name){
-        symbolTypeEnum = typeEnum;
+        SymbolTypeEnum symbolTypeEnum = typeEnum;
         typeName = name;
     }
 
@@ -51,5 +48,5 @@ public class ReturnValueNode extends NodeImpl {
     public NodeType getType() {
         return NodeType.ReturnValueType;
     }
-    
+
 }

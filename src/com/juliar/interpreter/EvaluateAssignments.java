@@ -83,7 +83,7 @@ public class EvaluateAssignments {
 
             if (rvalue instanceof PrimitiveNode){
                 PrimitiveNode primitiveNode = (PrimitiveNode)rvalue;
-                if (primitiveNode != null && canPrimitiveValueBeAssignedToVar(variableToAssignTo, primitiveNode)){
+                if (canPrimitiveValueBeAssignedToVar(variableToAssignTo, primitiveNode)){
                     ActivationFrame frame = activationFrame;
                     variableNameTerminalNode = (FinalNode) variableToAssignTo.getInstructions().get(1).getInstructions().get(0);
                     String variableName = variableNameTerminalNode.dataString();

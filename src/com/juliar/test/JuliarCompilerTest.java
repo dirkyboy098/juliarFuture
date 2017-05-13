@@ -1,6 +1,5 @@
 package com.juliar.test;
 
-import com.juliar.LoaderLinker.*;
 import com.juliar.JuliarCompiler;
 import com.juliar.codegenerator.InstructionInvocation;
 import com.juliar.interpreter.Interpreter;

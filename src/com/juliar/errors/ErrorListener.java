@@ -5,8 +5,6 @@ import org.antlr.v4.runtime.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.System.out;
-
 /**
  * Created by Don on 10/28/2016.
  */

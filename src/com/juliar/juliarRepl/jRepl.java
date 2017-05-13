@@ -1,7 +1,5 @@
 package com.juliar.juliarRepl;
 
-import com.juliar.ImportsInterface;
-import com.juliar.JuliarCompiler;
 import com.nire4j.repl.*;
 
 import java.io.ByteArrayInputStream;

@@ -1,7 +1,6 @@
 package com.juliar.symbolTable;
 
 import com.juliar.nodes.Node;
-import com.juliar.nodes.NodeType;
 import com.juliar.nodes.VariableNode;
 import com.juliar.vistor.Visitor;
 

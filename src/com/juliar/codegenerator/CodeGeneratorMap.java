@@ -4,8 +4,6 @@ import com.juliar.nodes.IntegralType;
 import static org.objectweb.asm.Opcodes.*;
 
 import java.util.*;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by AndreiM on 11/14/2016.

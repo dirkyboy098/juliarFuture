@@ -1,7 +1,5 @@
 package com.juliar.symbolTable;
 
-import com.juliar.nodes.Node;
-
 import java.util.ArrayList;
 import java.util.List;
 

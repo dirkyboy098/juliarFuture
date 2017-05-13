@@ -77,7 +77,7 @@ public class EvaluatePrimitives {
                 argumentTwo = (FinalNode) activationFrame.variableSet.get( argTwoVariableName );
             }
 
-            int parsedIndex = Integer.parseInt(argumentTwo.dataString());
+            int parsedIndex = Integer.parseInt(argumentTwo != null ? argumentTwo.dataString() : null);
 
             if (parsedIndex > array.length) {
                 throw new RuntimeException("\r\nJuliar runtime exception - Index out of bounds accessing variable - '"+ variableName +"'");

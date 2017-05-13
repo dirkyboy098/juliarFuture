@@ -47,7 +47,7 @@ public class Gui extends Application {
                 scene.getStylesheets().add(getClass().getResource("juliar.css").toExternalForm());
             }
 
-            Controller myController = (Controller) loader.getController();
+            Controller myController = loader.getController();
             myController.setScene(scene);
 
             stage.setScene(scene);

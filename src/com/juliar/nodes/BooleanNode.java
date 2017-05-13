@@ -1,8 +1,5 @@
 package com.juliar.nodes;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-
 /**
  * Created by don on 4/1/17.
  */
@@ -33,14 +30,14 @@ public class BooleanNode extends NodeImpl {
             }
 
             if ( rvalue instanceof FinalNode ){
-                finalNodeRvalue = (FinalNode) finalNodeRvalue;
+                finalNodeRvalue = finalNodeRvalue;
             }
 
         }
     }
 
-    public NodeType getLvalue(Node lvalue){
-        lvalue = variableNodeLvalue;
+    public NodeType getLvalue(){
+        Node lvalue = variableNodeLvalue;
         return NodeType.VariableType;
     }
 
@@ -52,8 +49,8 @@ public class BooleanNode extends NodeImpl {
         throw new RuntimeException("invaild comparision type");
     }
 
-    public NodeType getRvalue(Node rvalue){
-        rvalue = finalNodeRvalue;
+    public NodeType getRvalue(){
+        Node rvalue = finalNodeRvalue;
         return NodeType.FinalType;
     }
 

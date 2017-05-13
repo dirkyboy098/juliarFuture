@@ -1,11 +1,8 @@
 package com.juliar.interpreter;
 
 import com.juliar.codegenerator.InstructionInvocation;
-import com.juliar.nodes.CompliationUnitNode;
-import com.juliar.nodes.Node;
 
 import java.io.*;
-import java.util.List;
 
 /**
  * Created by donre on 4/28/2017.
