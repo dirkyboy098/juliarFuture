@@ -26,7 +26,7 @@ semiColon
     ;
 
 expression
-    : variabledeclartion endLine
+    : variableDeclaration endLine
     | assignmentExpression endLine
     | reassignmentExpression endLine
     | booleanExpression endLine
@@ -39,12 +39,12 @@ expression
     ;
 
 assignmentExpression
-    : variabledeclartion equalsign command
-	| variabledeclartion equalsign variable
-	| variabledeclartion equalsign functionCall
-	| variabledeclartion equalsign primitiveTypes
-	| variabledeclartion equalsign booleanExpression
-    ;
+    : variableDeclaration equalsign command
+    | variableDeclaration equalsign variable
+	| variableDeclaration equalsign functionCall
+	| variableDeclaration equalsign primitiveTypes
+	| variableDeclaration equalsign booleanExpression
+	;
 
 reassignmentExpression
     : variable equalsign variable
@@ -62,7 +62,7 @@ functionCall
 
 functionDeclaration
     : 'function' funcName '()' equalsign '{' (statement)* '}'
-    | 'function' funcName leftParen variabledeclartion (',' variabledeclartion)? rightParen equalsign '{' (statement)* '}'
+    | 'function' funcName leftParen variableDeclaration (',' variableDeclaration)? rightParen equalsign '{' (statement)* '}'
     ;
 
 
@@ -134,7 +134,7 @@ variable
     : ID
     ;
 
-variabledeclartion
+variableDeclaration
     : keywords variable
     ;
 

@@ -13,11 +13,15 @@ import static java.lang.Integer.getInteger;
  * Created by donreamey on 10/28/16.
  */
 public class FinalNode extends NodeImpl{
-    private TerminalNode dataString;
+    private String dataString;
     private Object object;
 
     public FinalNode(TerminalNode data){
-        dataString = data;
+        if (data.getText() != null ) {
+            dataString = data.getText();
+        } else if (data.getSymbol().getText() != null ){
+            dataString = data.getSymbol().getText();
+        }
     }
 
     public FinalNode(){
@@ -38,7 +42,7 @@ public class FinalNode extends NodeImpl{
         }
 
         if (dataString != null) {
-            return dataString.getText();
+            return dataString;//.getText();
         }
 
         return null;
@@ -54,17 +58,17 @@ public class FinalNode extends NodeImpl{
 
 
     public Boolean isPrimitive(){
-        return PrimitivesMap.isPrimitive( dataString.getText());
+        return PrimitivesMap.isPrimitive( dataString) ;//.getText());
     }
 
     public IntegralType getIntegralType() {
-        if (dataString.getText().startsWith("\"") && dataString.getText().endsWith("\"")) {
+        if (dataString.startsWith("\"") && dataString.endsWith("\"")) {
             return IntegralType.jstring;
         }
 
         Object value = null;
         try {
-            value = Integer.parseInt(dataString.getText());
+            value = Integer.parseInt(dataString);
             if (value != null) {
                 return IntegralType.jinteger;
             }
@@ -72,8 +76,8 @@ public class FinalNode extends NodeImpl{
         }
 
         try {
-            if (dataString.getText().toLowerCase().equals("true") || dataString.getText().toLowerCase().endsWith("false")) {
-                value = Boolean.parseBoolean(dataString.getText());
+            if (dataString.toLowerCase().equals("true") || dataString.toLowerCase().endsWith("false")) {
+                value = Boolean.parseBoolean(dataString);
                 if (value != null) {
                     return IntegralType.jboolean;
                 }
@@ -82,7 +86,7 @@ public class FinalNode extends NodeImpl{
         }
 
         try {
-            value = Double.parseDouble(dataString.getText());
+            value = Double.parseDouble(dataString);
             if (value != null) {
                 return IntegralType.jdouble;
             }
@@ -90,7 +94,7 @@ public class FinalNode extends NodeImpl{
         }
 
         try {
-            value = Float.parseFloat(dataString.getText());
+            value = Float.parseFloat(dataString);
             if (value != null) {
                 return IntegralType.jfloat;
             }
@@ -98,7 +102,7 @@ public class FinalNode extends NodeImpl{
         }
 
         try {
-            value = Long.parseLong(dataString.getText());
+            value = Long.parseLong(dataString);
             if (value != null) {
                 return IntegralType.jlong;
             }
@@ -113,33 +117,4 @@ public class FinalNode extends NodeImpl{
         return NodeType.FinalType;
     }
 
-    @Override
-    public void writeNode(ObjectOutputStream stream) {
-        try {
-            stream.writeInt( getType().ordinal() );
-            stream.writeInt( dataString().length() );
-            stream.writeChars( dataString() );
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public Node readObject(ObjectInputStream stream) {
-        try {
-            int length = stream.readInt();
-            StringBuffer buffer = new StringBuffer();
-
-            for (int i = 0; i < length; i++) {
-                buffer.append(stream.readChar());
-            }
-
-            setDataString( buffer.toString() );
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
 }

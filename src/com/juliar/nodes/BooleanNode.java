@@ -61,30 +61,4 @@ public class BooleanNode extends NodeImpl {
     public NodeType getType() {
         return NodeType.BooleanType;
     }
-
-    public void writeNode( ObjectOutputStream stream){
-        try {
-            int ordrinal = getType().ordinal();
-            stream.writeInt( ordrinal );
-
-            if (booleanOperatorNode != null){
-                booleanOperatorNode.writeNode( stream );
-            }
-
-            if (variableNodeLvalue != null){
-                variableNodeLvalue.writeNode( stream );
-            }
-
-            if (finalNodeRvalue != null){
-                finalNodeRvalue.writeNode( stream );
-            }
-
-            for (Node n : instructions) {
-                n.writeNode( stream );
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

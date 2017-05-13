@@ -51,20 +51,5 @@ public class ReturnValueNode extends NodeImpl {
     public NodeType getType() {
         return NodeType.ReturnValueType;
     }
-
-    public void writeNode( ObjectOutputStream stream){
-        try {
-            int ordrinal = getType().ordinal();
-            stream.writeInt( ordrinal );
-            stream.writeChars( typeName );
-            //stream.writeObject( this );
-
-            for (Node n : instructions) {
-                n.writeNode( stream );
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    
 }

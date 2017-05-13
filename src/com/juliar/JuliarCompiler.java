@@ -1,6 +1,7 @@
 package com.juliar;
 
 import com.fastcgi.FCGIInterface;
+import com.juliar.codegenerator.InstructionInvocation;
 import com.juliar.errors.ErrorListener;
 import com.juliar.errors.LogMessage;
 import com.juliar.interpreter.Interpreter;
@@ -122,6 +123,7 @@ public class JuliarCompiler {
 			return compile(fileInputStream, outputPath, compilerFlag, isRepl);
         }
 		catch (Exception ex) {
+        	ex.printStackTrace();
 			new LogMessage(ex.getMessage(),ex);
 		}
 		
@@ -189,11 +191,15 @@ public class JuliarCompiler {
 
         if ( isDebugMode ) {
 			ReadWriteBinaryFile readWriteBinaryFile = new ReadWriteBinaryFile();
-			readWriteBinaryFile.write(inputFileName, visitor.getInstructionList());
-			readWriteBinaryFile.read( inputFileName );
+			readWriteBinaryFile.write(inputFileName, visitor.instructions() );
+			InstructionInvocation invocation = readWriteBinaryFile.read( inputFileName );
+			if (invocation != null) {
+				new Interpreter( invocation );
+			}
 		}
-
-		new Interpreter(visitor.instructions());
+		else {
+			new Interpreter(visitor.instructions());
+		}
 
 		return false;
 	}

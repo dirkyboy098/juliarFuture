@@ -63,7 +63,7 @@ public class EvaluateAssignments {
         final int primtiveIndex = 2;
         VariableDeclarationNode variableToAssignTo =  (VariableDeclarationNode)instructions.get(  varDeclIndex );
 
-        FinalNode variableNameTerminalNode = (FinalNode) variableToAssignTo.getInstructions().get(1).getInstructions().get(0);
+        FinalNode variableNameTerminalNode;
 
         // | zero             | one       | two
         // | variableDecl     | EqualSign | Primitive

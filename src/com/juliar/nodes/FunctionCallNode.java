@@ -27,18 +27,4 @@ public class FunctionCallNode extends NodeImpl {
         return NodeType.FunctionaCallType;
     }
 
-    public void writeNode( ObjectOutputStream stream){
-        try {
-            int ordrinal = getType().ordinal();
-            stream.writeInt( ordrinal );
-            stream.writeChars( functionName() );
-
-            for (Node n : instructions) {
-                n.writeNode( stream );
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

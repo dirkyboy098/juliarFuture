@@ -23,32 +23,4 @@ public class CompliationUnitNode extends NodeImpl  {
     public String getNodeName() {
         return "CompliationUnitNode";
     }
-
-
-    @Override
-    public void writeNode(ObjectOutputStream stream) {
-        super.writeNode(stream);
-        //stream.write
-    }
-
-    @Override
-    public Node readObject (ObjectInputStream stream) {
-        try {
-            int type = stream.readInt();
-            NodeType t[] = NodeType.values();
-
-            int nextType = stream.readInt();
-
-            if ( nextType == FunctionDeclType.ordinal()) {
-                FunctionDeclNode functionDeclNode = new FunctionDeclNode();
-                functionDeclNode.readObject(stream);
-            }
-
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
 }

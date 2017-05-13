@@ -27,22 +27,4 @@ public class AssignmentNode extends NodeImpl implements IContextInfo {
     public NodeType getType() {
         return NodeType.AssignmentType;
     }
-
-
-    public void writeNode( ObjectOutputStream stream){
-        try {
-            int ordrinal = getType().ordinal();
-            stream.writeInt( ordrinal );
-            if (variableNode != null ){
-                variableNode.writeNode( stream );
-            }
-
-            for (Node n : instructions) {
-                n.writeNode( stream );
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

@@ -427,7 +427,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
     }
 
     @Override
-    public Node visitVariabledeclartion(JuliarParser.VariabledeclartionContext ctx) {
+    public Node visitVariableDeclaration(JuliarParser.VariableDeclarationContext ctx) {
         VariableDeclarationNode variableDeclarationNode = new VariableDeclarationNode();
 
         new IterateOverContext(ctx, this , variableDeclarationNode);

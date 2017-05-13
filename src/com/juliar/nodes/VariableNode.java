@@ -24,20 +24,5 @@ public class VariableNode extends NodeImpl {
         return NodeType.VariableType;
     }
 
-    public void writeNode( ObjectOutputStream stream){
-        try {
-            int ordrinal = getType().ordinal();
-            stream.writeInt( ordrinal );
-            stream.writeChars( variableName );
-
-            for (Node n : instructions) {
-                n.writeNode( stream );
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 
 }

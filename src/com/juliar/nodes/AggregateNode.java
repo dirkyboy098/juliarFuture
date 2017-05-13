@@ -43,26 +43,4 @@ public class AggregateNode extends NodeImpl {
         return NodeType.AggregateType;
     }
 
-    public void writeNode( ObjectOutputStream stream){
-        try {
-            int ordrinal = getType().ordinal();
-            stream.writeInt( ordrinal );
-
-            if (op != null) {
-                stream.writeInt( op.ordinal() );
-            }
-            if ( objectData != null ) {
-                for (IntegralTypeNode itn : objectData) {
-                    itn.writeNode(stream);
-                }
-            }
-
-            for (Node n : instructions) {
-                n.writeNode( stream );
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

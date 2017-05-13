@@ -37,7 +37,8 @@ public class EvaluatePrimitives {
                 activationFrame.returnNode = finalNode;
                 break;
             default:
-                throw new RuntimeException( "function "+functionName+" does not exist");
+                //throw new RuntimeException( "function "+functionName+" does not exist");
+                System.out.println( "function "+functionName+" does not exist");
         }
 
         return new ArrayList<>();

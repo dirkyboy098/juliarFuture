@@ -48,38 +48,4 @@ public class FunctionDeclNode extends NodeImpl implements IContextInfo {
         return NodeType.FunctionDeclType;
     }
 
-    @Override
-    public void writeNode(ObjectOutputStream stream) {
-        try {
-            stream.writeInt (getType().ordinal() );
-
-            if (functionName != null) {
-                stream.writeInt( functionName.length() );
-                stream.writeChars(functionName);
-            }
-
-            for (Node n : getInstructions()) {
-                n.writeNode(stream);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public Node readObject(ObjectInputStream stream) {
-        try{
-            int length = stream.readInt();
-            StringBuffer buffer = new StringBuffer();
-            for (int i = 0; i< length; i++){
-                buffer.append( stream.readChar() );
-            }
-        }
-        catch (IOException io){
-
-        }
-
-        return null;
-    }
 }

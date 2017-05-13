@@ -30,8 +30,4 @@ public interface Node {
 
     void setVariableType(String variableType);
 
-    void writeNode( ObjectOutputStream stream);
-
-    NodeType readType( ObjectInputStream stream);
-
     }

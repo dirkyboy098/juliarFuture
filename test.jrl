@@ -21,6 +21,7 @@ class fileObject = {
 }
 
 function main() = {
+    test();
     int index = 3;
     if (index == 3){
         break;
@@ -43,7 +44,7 @@ function main() = {
         string y = __getByteFromString(file, index);
         print(y);
         index = + index 1;
-        if (index == 20){
+        if (index == 800){
             break;
          }
      }

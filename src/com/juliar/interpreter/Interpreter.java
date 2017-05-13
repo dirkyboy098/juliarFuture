@@ -33,9 +33,9 @@ public class Interpreter {
 
             functionMap.put(NodeType.CompliationUnitType        , ((n, activationFrame ) -> evalCompliationUnit()  ));
 
-            functionMap.put(NodeType.VariableReassignmentType   , ((n, activationFrame )-> EvaluateAssignments.evalReassignment(n, activationFrame ) ));
-            functionMap.put(NodeType.AssignmentType             , ((n, activationFrame )-> EvaluateAssignments.evalAssignment(n, activationFrame )  ));
-            functionMap.put(NodeType.PrimitiveType              , ((n, activationFrame )-> EvaluatePrimitives.evalPrimitives(n, activationFrame)  ));
+            functionMap.put(NodeType.VariableReassignmentType   , ( EvaluateAssignments::evalReassignment ));
+            functionMap.put(NodeType.AssignmentType             , ( EvaluateAssignments::evalAssignment ));
+            functionMap.put(NodeType.PrimitiveType              , ( EvaluatePrimitives::evalPrimitives ));
             functionMap.put(NodeType.BreakType                  , ((n, activationFrame )-> evaluateBreak(n , activationFrame) ));
 
             functionMap.put(NodeType.AddType                    , ((n, activationFrame )-> evalAdd(n)     ));
