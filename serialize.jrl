@@ -1,0 +1,3 @@
+function test()={
+    printLine ("this is function test called from Serialize.lib");
+}
