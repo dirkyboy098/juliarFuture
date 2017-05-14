@@ -52,7 +52,7 @@ public class JuliarCompilerTest extends TestCase {
             String [] libsToLoad = new String[] { "test.lib" , "serialize.lib" } ;
             InstructionInvocation invocation = com.juliar.LoaderLinker.LoadLink.loadAndLink( libsToLoad );
             if ( invocation != null ) {
-                Interpreter interpreter = new Interpreter(invocation);
+                new Interpreter(invocation);
             }
         }
         catch( Exception ex){
