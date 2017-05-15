@@ -51,8 +51,6 @@ public class Gui extends Application {
             myController.setScene(scene);
 
             stage.setScene(scene);
-	        stage.setHeight(600);
-            stage.setWidth(800);
             stage.show();
 
 
