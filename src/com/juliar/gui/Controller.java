@@ -259,27 +259,34 @@ public class Controller {
                 Tab tab = new Tab("● Untitled (" + (tabPane.getTabs().size() + 1) + ")");
                 tabPane.getTabs().add(tab);
                 tabPane.getSelectionModel().select(tab);
+                createTab(tab,file);
 
-                CodeArea codeArea = new CodeArea();
-                codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
-
-                codeArea.richChanges()
-                        .filter(ch -> !ch.getInserted().equals(ch.getRemoved())) // XXX
-                        .subscribe(change -> {
-                            codeArea.setStyleSpans(0, computeHighlighting(codeArea.getText()));
-                        });
-                //codeArea.replaceText(0, 0, "");
-                //TextArea loadedTextArea = new TextArea();
-                //tab.setContent(loadedTextArea);
-                tab.setContent(new VirtualizedScrollPane<>(codeArea));
-
-                tab.setText("● " + file.toPath().getFileName().toString());
-                currentTextFile.getContent().forEach(line -> codeArea.appendText(line + "\n"));
             } else {
                 System.out.println("Failed");
             }
         }
     }
+
+
+    private void createTab(Tab tab,File file){
+        CodeArea codeArea = new CodeArea();
+        codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
+
+        codeArea.richChanges()
+                .filter(ch -> !ch.getInserted().equals(ch.getRemoved())) // XXX
+                .subscribe(change -> {
+                    codeArea.setStyleSpans(0, computeHighlighting(codeArea.getText()));
+                });
+        //codeArea.replaceText(0, 0, "");
+        //TextArea loadedTextArea = new TextArea();
+        //tab.setContent(loadedTextArea);
+        tab.setContent(new VirtualizedScrollPane<>(codeArea));
+
+        tab.setText("● " + file.toPath().getFileName().toString());
+        currentTextFile.getContent().forEach(line -> codeArea.appendText(line + "\n"));
+
+    }
+
     @FXML
     public void onLoad() {
         this.loadfile();

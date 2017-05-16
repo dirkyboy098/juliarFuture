@@ -1,3 +1,4 @@
+wmic Path win32_process Where "CommandLine Like '%%JuliarCompiler.jar%%'" Call Terminate
 set CLASSPATH=jars\antlr-4.6-complete.jar;jars\nirerepl.jar;jars\asm-all-6.0_ALPHA.jar;jars\fastcgi.jar;jars\richtextfx-fat-0.7-M5.jar;out
 
 rmdir /s /q out
