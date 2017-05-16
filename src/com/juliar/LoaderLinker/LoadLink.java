@@ -25,27 +25,40 @@ public class LoadLink {
             count++;
         }
 
-        return link( instructionInvocations ) ;
+        InstructionInvocation instructionInvocation = link( instructionInvocations ) ;
+        //read.write( "a.out",  );
+        return instructionInvocation;
     }
 
 
-    private static InstructionInvocation link( InstructionInvocation[] instructionInvocations ){
+    private static InstructionInvocation link( InstructionInvocation[] instructionInvocations ) {
         InstructionInvocation firstInvocation = instructionInvocations[0];
 
-        CompliationUnitNode compliationUnitNode = (CompliationUnitNode) firstInvocation.getInstructionList().get( 0 );
+        CompliationUnitNode compliationUnitNode = (CompliationUnitNode) firstInvocation.getInstructionList().get(0);
 
-        HashMap<String , Node> functionNodeMap = new HashMap<>();
-        functionNodeMap.putAll( firstInvocation.getFunctionNodeMap() );
+        HashMap<String, Node> functionNodeMap = new HashMap<>();
+        functionNodeMap.putAll(firstInvocation.getFunctionNodeMap());
 
-        if (instructionInvocations.length > 0 ){
-            for (int i = 1; i < instructionInvocations.length; i++){
-                compliationUnitNode.getInstructions().addAll( instructionInvocations[i].getInstructionList() );
-                functionNodeMap.putAll( instructionInvocations[i].getFunctionNodeMap() );
+        if (instructionInvocations.length > 0) {
+            for (int i = 1; i < instructionInvocations.length; i++) {
+                compliationUnitNode.getInstructions().addAll(instructionInvocations[i].getInstructionList());
+                functionNodeMap.putAll(instructionInvocations[i].getFunctionNodeMap());
             }
         }
 
-        List<Node> inst = new ArrayList<Node>();
-        inst.add(  compliationUnitNode );
-        return new InstructionInvocation( inst, functionNodeMap );
+        long oneMainFunction = functionNodeMap.keySet().stream().filter(f -> f.equals("main")).count();
+
+        if (oneMainFunction == 1) {
+            List<Node> inst = new ArrayList<>();
+            inst.add(compliationUnitNode);
+            return new InstructionInvocation(inst, functionNodeMap);
+        }
+
+        if (oneMainFunction > 1) {
+            throw new RuntimeException("Multiple main methods were found during linking");
+        }
+
+
+        throw new RuntimeException("No main functions were found during linking");
     }
 }
