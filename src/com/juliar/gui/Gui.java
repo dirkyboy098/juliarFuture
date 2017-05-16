@@ -35,15 +35,7 @@ public class Gui extends Application {
             );
 
             Scene scene = new Scene(loader.load());
-            File jarPath = new File(Gui.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-            String propertiesPath = jarPath.getParentFile().getAbsolutePath();
-            String fullpath = propertiesPath.replace("\\", "/") + "/juliar.css";
-            File f = new File(fullpath);
-            if (f.exists()) {
-                scene.getStylesheets().add("file:///" + fullpath);
-            } else {
-                scene.getStylesheets().add(getClass().getResource("juliar.css").toExternalForm());
-            }
+            loadCSS(scene);
 
             Controller myController = loader.getController();
             myController.setScene(scene);
@@ -53,7 +45,19 @@ public class Gui extends Application {
 
             keyComb(scene);
         } catch (Exception e) {
-            GuiAlert.GuiAlert(e, "Cannot Launch Juliar");
+            new GuiAlert(e, "Cannot Launch Juliar");
+        }
+    }
+
+    public void loadCSS(Scene scene){
+        File jarPath = new File(Gui.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+        String propertiesPath = jarPath.getParentFile().getAbsolutePath();
+        String fullPath = propertiesPath.replace("\\", "/") + "/juliar.css";
+        File f = new File(fullPath);
+        if (f.exists()) {
+            scene.getStylesheets().add("file:///" + fullPath);
+        } else {
+            scene.getStylesheets().add(getClass().getResource("juliar.css").toExternalForm());
         }
     }
 

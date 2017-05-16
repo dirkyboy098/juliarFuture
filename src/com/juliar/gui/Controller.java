@@ -64,10 +64,10 @@ public class Controller {
     );
 
     @FXML
-    private TextArea areaOutText;
+    public TextArea areaOutText;
 
     @FXML
-    private TabPane tabPane;
+    public TabPane tabPane;
 
     private TextFile currentTextFile;
 
@@ -138,12 +138,12 @@ public class Controller {
     }
 
     @FXML
-    private void onSave() {
+    public void onSave() {
         this.savefile();
     }
 
     @FXML
-    private void onSaveAs() {
+    public void onSaveAs() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save File");
         File file =  fileChooser.showSaveDialog(null);
@@ -193,12 +193,12 @@ public class Controller {
     }
 
     @FXML
-    private void onRunInterpreter(){
+    public void onRunInterpreter(){
         interpret();
     }
 
     @FXML
-    private void onCompileAndRun(){
+    public void onCompileAndRun(){
 
         /*TODO */
     }
@@ -218,12 +218,12 @@ public class Controller {
     }
 
     @FXML
-    private void onRefresh(){
+    public void onRefresh(){
         this.reloadfile();
     }
 
     @FXML
-    private void onRunFCGI(){
+    public void onRunFCGI(){
         ProcessBuilder pb = new ProcessBuilder("java","-DFCGI_PORT=9000", "-jar", new File(Controller.class.getProtectionDomain()
                 .getCodeSource()
                 .getLocation()
@@ -241,7 +241,7 @@ public class Controller {
             alert.showAndWait();
         }
         catch(IOException e){
-            GuiAlert.GuiAlert(e, "Juliar FastCGI Cannot Start: Cannot Start a new instance of Juliar!");
+            new GuiAlert(e, "Juliar FastCGI Cannot Start: Cannot Start a new instance of Juliar!");
         }
     }
 
@@ -281,12 +281,12 @@ public class Controller {
         }
     }
     @FXML
-    private void onLoad() {
+    public void onLoad() {
         this.loadfile();
     }
 
     @FXML
-    private void onExit() {
+    public void onExit() {
         model.close();
     }
 
@@ -308,12 +308,12 @@ public class Controller {
     }
 
     @FXML
-    private void onNew(){
+    public void onNew(){
         this.newfile();
     }
 
     @FXML
-    private void onAbout() {
+    public void onAbout() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("About Juliar.Future");
         alert.setTitle("Juliar.Future");

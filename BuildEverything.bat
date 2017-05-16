@@ -1,32 +1,27 @@
-REM Modify JULIARPATH to the directory JuliarFuture is in.
-set JULIARPATH=%cd%
+set CLASSPATH=jars\antlr-4.6-complete.jar;jars\nirerepl.jar;jars\asm-all-6.0_ALPHA.jar;jars\fastcgi.jar;jars\richtextfx-fat-0.7-M5.jar;out
 
+rmdir /s /q out
+mkdir out
+java org.antlr.v4.Tool src\com\juliar\parser\Juliar.g4 -no-listener -package com.juliar.parser -visitor
+javac -Xlint -d out -sourcepath src -g -encoding UTF-8 -source 8 -target 8 src\com\juliar\JuliarCompiler.java
 
-REM DO NOT MODIFY ANYTHING BELOW THIS COMMENT
+rmdir /s /q temp
+mkdir temp
+(echo Main-Class: com.juliar.JuliarCompiler)>temp\manifest.txt
+cd temp
+for /f %%f in ('dir /b ..\jars') do jar xf ..\jars\%%f
+cd ..
+xcopy /e /v out temp
+copy src\com\juliar\gui\juliar.fxml temp\com\juliar\gui\juliar.fxml
+copy src\com\juliar\gui\juliar.css temp\com\juliar\gui\juliar.css
+copy src\com\juliar\gui\juliarFutureIcon.png temp\com\juliar\gui\juliarFutureIcon.png
+copy src\com\juliar\gui\Montserrat-Regular.ttf temp\com\juliar\gui\Montserrat-Regular.ttf
+cd temp
+jar cvfm JuliarCompiler.jar manifest.txt com org javax antlr
+cd ..
+copy temp\JuliarCompiler.jar JuliarCompiler.jar
 
-
-set CLASSPATH=%JULIARPATH%\jars\antlr-4.6-complete.jar;%JULIARPATH%\jars\nirerepl.jar;%JULIARPATH%\jars\asm-all-6.0_ALPHA.jar;%JULIARPATH%\jars\fastcgi.jar;%JULIARPATH%\jars\richtextfx-fat-0.7-M5.jar;%JULIARPATH%\out
-
-rmdir /s /q %JULIARPATH%\out
-mkdir %JULIARPATH%\out
-java org.antlr.v4.Tool %JULIARPATH%\src\com\juliar\parser\Juliar.g4  -o %JULIARPATH%\src\com\juliar\parser -no-listener -package com.juliar.parser -visitor
-javac -Xlint -d %JULIARPATH%\out -sourcepath %JULIARPATH%\src -g -encoding UTF-8 -source 8 -target 8 %JULIARPATH%\src\com\juliar\JuliarCompiler.java
-
-
-mkdir %JULIARPATH%\temp
-cd %JULIARPATH%\temp
-(echo Main-Class: com.juliar.JuliarCompiler)>%JULIARPATH%\temp\manifest.txt
-for /f %%f in ('dir /b %JULIARPATH%\jars') do jar xf %JULIARPATH%\jars\%%f
-xcopy /e /v %JULIARPATH%\out %JULIARPATH%\temp
-copy %JULIARPATH%\src\com\juliar\gui\juliar.fxml %JULIARPATH%\temp\com\juliar\gui\juliar.fxml
-copy %JULIARPATH%\src\com\juliar\gui\juliar.css %JULIARPATH%\temp\com\juliar\gui\juliar.css
-copy %JULIARPATH%\src\com\juliar\gui\juliarFutureIcon.png %JULIARPATH%\temp\com\juliar\gui\juliarFutureIcon.png
-copy %JULIARPATH%\src\com\juliar\gui\Montserrat-Regular.ttf %JULIARPATH%\temp\com\juliar\gui\Montserrat-Regular.ttf
-jar cvfm JuliarCompiler.jar manifest.txt com org javax antlr icons properties templates
-copy %JULIARPATH%\temp\JuliarCompiler.jar  %JULIARPATH%\JuliarCompiler.jar
-
-cd %JULIARPATH%
-rd %JULIARPATH%\temp /s/q
+rd temp /s/q
 
 set CLASSPATH=
 java -jar JuliarCompiler.jar test.jrl
