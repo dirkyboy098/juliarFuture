@@ -10,10 +10,4 @@ public class JRLTab {
 
     public TextArea jrlOutput;
 
-    private boolean changed = false;
-
-
-    public void textChanged(){
-        changed = true;
-    }
 }

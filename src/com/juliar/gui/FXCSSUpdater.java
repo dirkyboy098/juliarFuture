@@ -22,17 +22,13 @@ import java.net.URLStreamHandlerFactory;
  */
 public class FXCSSUpdater {
 
-    // URL Handler to create magic "internal:stylesheet.css" url for our css string
-    {
-        URL.setURLStreamHandlerFactory(new StringURLStreamHandlerFactory());
-    }
-
     private String css;
 
     private Scene scene;
 
     public FXCSSUpdater(Scene scene) {
         this.scene = scene;
+        URL.setURLStreamHandlerFactory(new StringURLStreamHandlerFactory());
     }
 
     public void bindCss(StringProperty cssProperty){
@@ -53,7 +49,7 @@ public class FXCSSUpdater {
         }
 
         @Override
-        public void connect() throws IOException {}
+        public void connect() throws IOException { /*Does Nothing. Otherwise it displays a warning message*/}
 
         @Override public InputStream getInputStream() throws IOException {
             return new ByteArrayInputStream(css.getBytes("UTF-8"));
@@ -65,7 +61,7 @@ public class FXCSSUpdater {
      */
     private class StringURLStreamHandlerFactory implements URLStreamHandlerFactory {
 
-        URLStreamHandler streamHandler = new URLStreamHandler(){
+        public URLStreamHandler streamHandler = new URLStreamHandler(){
             @Override
             protected URLConnection openConnection(URL url) throws IOException {
                 if (url.toString().toLowerCase().endsWith(".css")) {

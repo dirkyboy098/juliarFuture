@@ -1,5 +1,7 @@
 package com.juliar.gui;
 
+import javafx.application.Platform;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,6 +28,6 @@ public class Model {
     }
 
     public void close() {
-        System.exit(0);
+        Platform.exit();
     }
 }

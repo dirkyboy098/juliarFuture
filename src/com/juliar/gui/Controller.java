@@ -30,6 +30,39 @@ import java.util.regex.Pattern;
  * Created by AndreiM on 3/18/2017.
  */
 public class Controller {
+    private static final String[] KEYWORDS = new String[] {
+            "break",
+            "class",
+            "double",
+            "else",
+            "float",
+            "for",
+            "function",
+            "int",
+            "if",
+            "return",
+            "string",
+            "while",
+    };
+
+    private static final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
+    private static final String PAREN_PATTERN = "\\(|\\)";
+    private static final String BRACE_PATTERN = "\\{|\\}";
+    private static final String BRACKET_PATTERN = "\\[|\\]";
+    private static final String SEMICOLON_PATTERN = "\\;";
+    private static final String STRING_PATTERN = "\"([^\"\\\\]|\\\\.)*\"";
+    private static final String COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
+
+    private static final Pattern PATTERN = Pattern.compile(
+            "(?<KEYWORD>" + KEYWORD_PATTERN + ")"
+                    + "|(?<PAREN>" + PAREN_PATTERN + ")"
+                    + "|(?<BRACE>" + BRACE_PATTERN + ")"
+                    + "|(?<BRACKET>" + BRACKET_PATTERN + ")"
+                    + "|(?<SEMICOLON>" + SEMICOLON_PATTERN + ")"
+                    + "|(?<STRING>" + STRING_PATTERN + ")"
+                    + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
+    );
+
     @FXML
     private TextArea areaOutText;
 
@@ -141,6 +174,8 @@ public class Controller {
         JuliarCompiler compiler = new JuliarCompiler();
 
         Tab tab = tabPane.getSelectionModel().getSelectedItem();
+        VirtualizedScrollPane vp = (VirtualizedScrollPane) tab.getContent();
+        CodeArea ca = (CodeArea) vp.getContent();
 
         //areaOutText.appendText(ca.getText());
         areaOutText.clear();
@@ -189,7 +224,7 @@ public class Controller {
 
     @FXML
     private void onRunFCGI(){
-        ProcessBuilder pb = new ProcessBuilder("java","-DFCGI_PORT=9000", "-jar", new java.io.File(Controller.class.getProtectionDomain()
+        ProcessBuilder pb = new ProcessBuilder("java","-DFCGI_PORT=9000", "-jar", new File(Controller.class.getProtectionDomain()
                 .getCodeSource()
                 .getLocation()
                 .getPath())
@@ -198,7 +233,7 @@ public class Controller {
             File log = new File("log");
             pb.redirectErrorStream(true);
             pb.redirectOutput(log);
-            Process p = pb.start();
+            pb.start();
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Juliar FastCGI");
             alert.setHeaderText(null);
@@ -206,11 +241,7 @@ public class Controller {
             alert.showAndWait();
         }
         catch(IOException e){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Juliar FastCGI Cannot Start");
-            alert.setHeaderText("Cannot Start a new instance of Juliar!");
-            alert.setContentText(" Error: "+e);
-            alert.showAndWait();
+            GuiAlert.GuiAlert(e, "Juliar FastCGI Cannot Start: Cannot Start a new instance of Juliar!");
         }
     }
 
@@ -289,40 +320,6 @@ public class Controller {
         alert.setContentText("Juliar - Copyright (C) 2017");
         alert.show();
     }
-
-
-    private static final String[] KEYWORDS = new String[] {
-            "break",
-            "class",
-            "double",
-            "else",
-            "float",
-            "for",
-            "function",
-            "int",
-            "if",
-            "return",
-            "string",
-            "while",
-    };
-
-    private static final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
-    private static final String PAREN_PATTERN = "\\(|\\)";
-    private static final String BRACE_PATTERN = "\\{|\\}";
-    private static final String BRACKET_PATTERN = "\\[|\\]";
-    private static final String SEMICOLON_PATTERN = "\\;";
-    private static final String STRING_PATTERN = "\"([^\"\\\\]|\\\\.)*\"";
-    private static final String COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
-
-    private static final Pattern PATTERN = Pattern.compile(
-            "(?<KEYWORD>" + KEYWORD_PATTERN + ")"
-                    + "|(?<PAREN>" + PAREN_PATTERN + ")"
-                    + "|(?<BRACE>" + BRACE_PATTERN + ")"
-                    + "|(?<BRACKET>" + BRACKET_PATTERN + ")"
-                    + "|(?<SEMICOLON>" + SEMICOLON_PATTERN + ")"
-                    + "|(?<STRING>" + STRING_PATTERN + ")"
-                    + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
-    );
 
     private static StyleSpans<Collection<String>> computeHighlighting(String text) {
         Matcher matcher = PATTERN.matcher(text);
