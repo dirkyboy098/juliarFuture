@@ -31,6 +31,10 @@ public class LoadLink {
     }
 
 
+    /*
+    Finds all function maps and combines into one function map. Looks for multiple main methods.
+   
+     */
     private static InstructionInvocation link( InstructionInvocation[] instructionInvocations ) {
         InstructionInvocation firstInvocation = instructionInvocations[0];
 
@@ -50,7 +54,6 @@ public class LoadLink {
                 functionNodeMap.putAll(instructionInvocations[i].getFunctionNodeMap());
             }
         }
-
 
         if (oneMainFunction == 1) {
             List<Node> inst = new ArrayList<>();
