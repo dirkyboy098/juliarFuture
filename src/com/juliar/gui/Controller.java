@@ -141,8 +141,6 @@ public class Controller {
         JuliarCompiler compiler = new JuliarCompiler();
 
         Tab tab = tabPane.getSelectionModel().getSelectedItem();
-        VirtualizedScrollPane vp = (VirtualizedScrollPane) tab.getContent();
-        CodeArea ca = (CodeArea) vp.getContent();
 
         //areaOutText.appendText(ca.getText());
         areaOutText.clear();
