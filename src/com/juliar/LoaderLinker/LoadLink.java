@@ -22,6 +22,9 @@ public class LoadLink {
 
         for (String file : filesToLoad ) {
             instructionInvocations[ count] = read.read( file );
+            if (instructionInvocations[ count ].getInstructionList().size() == 0){
+                throw new RuntimeException( "Invalid library. Make sure there were no compilation errors");
+            }
             count++;
         }
 
@@ -33,7 +36,7 @@ public class LoadLink {
 
     /*
     Finds all function maps and combines into one function map. Looks for multiple main methods.
-   
+
      */
     private static InstructionInvocation link( InstructionInvocation[] instructionInvocations ) {
         InstructionInvocation firstInvocation = instructionInvocations[0];

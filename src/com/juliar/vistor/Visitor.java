@@ -353,14 +353,26 @@ public class Visitor extends JuliarBaseVisitor<Node>
         IterateOverContext iterateOverContext = new IterateOverContext(){
             @Override
             public void action(Node parent, Node child) {
+                // Set the integral type of the expression for type checking the right hand
+                // side of the expression during parsing and at runtime.
+                if (child instanceof VariableDeclarationNode) {
+                    VariableDeclarationNode variableDeclarationNode = (VariableDeclarationNode) child;
+                    parent.setVariableTypeByIntegralType(variableDeclarationNode.getIntegralType());
+                }
+
                 IntegralType integralType = null;
                 if ( parent instanceof AssignmentNode && parent.getInstructions().size() >= 2 && parent.getInstructions().get(0) instanceof VariableDeclarationNode){
                     VariableNode variableNode = (VariableNode)parent.getInstructions().get(0).getInstructions().get(1);
                     integralType = variableNode.getIntegralType();
+                    if ( parent.getIntegralType() != variableNode.getIntegralType()){
+                       // throw new RuntimeException( "invalide types used in expressioin");
+                    }
                 }
-                if (child instanceof PrimitiveNode && integralType != null){
-                    PrimitiveNode primitiveNode = (PrimitiveNode)child;
-                    primitiveNode.setVariableTypeByIntegralType( integralType );
+
+                if (child instanceof PrimitiveNode && parent.getIntegralType() != null){
+                    if (parent.getIntegralType() != child.getIntegralType()) {
+                       throw new RuntimeException( "invald types used in expression" );
+                    }
                 }
             }
         };

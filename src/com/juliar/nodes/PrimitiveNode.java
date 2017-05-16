@@ -26,4 +26,15 @@ public class PrimitiveNode extends NodeImpl {
     public NodeType getType() {
         return NodeType.PrimitiveType;
     }
+
+    @Override
+    public IntegralType getIntegralType() {
+        if (this.getInstructions().size() > 0) {
+            FinalNode finalNode = (FinalNode) this.getInstructions().get(0);
+            return finalNode.getIntegralType();
+        }
+
+        assert true;
+        return null;
+    }
 }
