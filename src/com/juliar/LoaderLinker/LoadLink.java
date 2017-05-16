@@ -37,16 +37,20 @@ public class LoadLink {
         CompliationUnitNode compliationUnitNode = (CompliationUnitNode) firstInvocation.getInstructionList().get(0);
 
         HashMap<String, Node> functionNodeMap = new HashMap<>();
+
         functionNodeMap.putAll(firstInvocation.getFunctionNodeMap());
+        long oneMainFunction = functionNodeMap.keySet().stream().filter(f -> f.equals("main")).count();
 
         if (instructionInvocations.length > 0) {
             for (int i = 1; i < instructionInvocations.length; i++) {
                 compliationUnitNode.getInstructions().addAll(instructionInvocations[i].getInstructionList());
+
+                oneMainFunction += instructionInvocations[i].getFunctionNodeMap().keySet().stream().filter(f -> f.equals("main")).count();
+
                 functionNodeMap.putAll(instructionInvocations[i].getFunctionNodeMap());
             }
         }
 
-        long oneMainFunction = functionNodeMap.keySet().stream().filter(f -> f.equals("main")).count();
 
         if (oneMainFunction == 1) {
             List<Node> inst = new ArrayList<>();
