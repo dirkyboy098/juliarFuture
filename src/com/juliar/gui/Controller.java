@@ -10,6 +10,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.scene.Scene;
 import org.fxmisc.flowless.VirtualizedScrollPane;
@@ -293,7 +295,10 @@ public class Controller {
         //tab.setContent(loadedTextArea);
         tab.setContent(new VirtualizedScrollPane<>(codeArea));
 
-        tab.setText("● " + file.toPath().getFileName().toString());
+        tab.setText(file.toPath().getFileName().toString());
+        Circle c = new Circle(0, 0, 3);
+        c.setFill(Color.rgb(131,207,23));
+        tab.setGraphic(c);
         currentTextFile.getContent().forEach(line -> codeArea.appendText(line + "\n"));
 
     }
@@ -309,7 +314,10 @@ public class Controller {
     }
 
     public void newfile(){
-        Tab tab = new Tab("● Untitled (" + (tabPane.getTabs().size() + 1)+")");
+        Tab tab = new Tab("Untitled (" + (tabPane.getTabs().size() + 1)+")");
+        Circle c = new Circle(0, 0, 3);
+        c.setFill(Color.rgb(131,207,23));
+        tab.setGraphic(c);
         tabPane.getTabs().add(tab);
         tabPane.getSelectionModel().select(tab);
 
