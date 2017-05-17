@@ -12,6 +12,9 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import org.fxmisc.richtext.CodeArea?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Polygon?>
+<?import java.lang.Double?>
 <VBox prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.juliar.gui.Controller">
       <AnchorPane prefHeight="0.0" prefWidth="600.0">
              <MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -28,25 +31,38 @@
                  </Menu>
                  <Menu text="Run">
                      <MenuItem onAction="#onRunInterpreter" text="Run Interpreter" />
-                     <MenuItem disable="true" onAction="#onCompileAndRun" text="Compile Program" />
+                     <!--<MenuItem disable="true" onAction="#onCompileAndRun" text="Compile Program" />-->
                      <MenuItem onAction="#onRunFCGI" text="Run FastCGI" />
                  </Menu>
                  <Menu text="Help">
                      <MenuItem onAction="#onAbout" text="About" />
                      <MenuItem onAction="#onRefresh" text="Refresh" />
+                     <MenuItem onAction="#onWhatsNew" text="What's New" />
                  </Menu>
              </MenuBar>
       </AnchorPane>
       <TabPane fx:id="tabPane" maxWidth="Infinity" prefHeight="549.0" prefWidth="800.0" tabClosingPolicy="ALL_TABS" VBox.vgrow="ALWAYS">
-          <Tab text="CHANGE LOG">
-              <CodeArea text="-Control + to increase size of text&#10;-Control - to decrease size of text&#10;-Control + Enter - Compile" prefHeight="438.0" prefWidth="800.0"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-          </Tab>
       </TabPane>
       <StackPane>
 
       <AnchorPane prefHeight="206.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0">
           <TextArea fx:id="areaOutText" editable="false" layoutX="45.0" layoutY="-55.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-             <Button onAction="#onRunInterpreter" layoutX="659.0" layoutY="-12.0" text="▶" AnchorPane.rightAnchor="50.0"/>
+             <Button onAction="#onRunInterpreter" layoutX="659.0" layoutY="-30.0" AnchorPane.rightAnchor="50.0">
+          <graphic>
+              <Polygon fill="#ffffff" stroke="BLACK" strokeType="INSIDE">
+                  <points>
+                      <Double fx:value="0.0" />
+                      <Double fx:value="0.0" />
+
+                      <Double fx:value="0.0" />
+                      <Double fx:value="21.0" />
+
+                      <Double fx:value="15.0" />
+                      <Double fx:value="10.5" />
+                  </points>
+              </Polygon>
+          </graphic>
+             </Button>
       </AnchorPane>
       </StackPane>
 </VBox>

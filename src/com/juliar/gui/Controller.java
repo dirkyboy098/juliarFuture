@@ -83,6 +83,7 @@ public class Controller {
 
     @FXML
     public void initialize() {
+        newfile();
         final KeyCombination kb_enter = new KeyCodeCombination(KeyCode.ENTER, KeyCombination.CONTROL_DOWN);
         final KeyCombination kb_new = new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN);
         final KeyCombination kb_load = new KeyCodeCombination(KeyCode.L, KeyCombination.CONTROL_DOWN);
@@ -135,6 +136,16 @@ public class Controller {
 
         TextFile textFile = new TextFile(currentTextFile.getFile(), Arrays.asList(tabContent.getText().split("\n")));
         model.save(textFile);
+    }
+
+
+    @FXML
+    public void onWhatsNew(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("What's New");
+        alert.setHeaderText("Juliar New Features");
+        alert.setContentText("-Control + to increase size of text \r\n-Control - to decrease size of text \r\n-Control + Enter - Compile");
+        alert.showAndWait();
     }
 
     @FXML
