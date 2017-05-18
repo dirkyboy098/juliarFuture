@@ -29,14 +29,14 @@ public class JuliarCompilerTest extends TestCase {
         compiler.isDebugMode = true;
         List<String> errorList = null;
         errorList = compiler.compile("test.jrl", ".",  false,false);
-        errorList.addAll( compiler.compile("serialize.jrl", ".",  false,false));
+        //errorList.addAll( compiler.compile("serialize.jrl", ".",  false,false));
 
         if (errorList.size() > 0 ){
             throw new RuntimeException( "compile errors" );
         }
 
         try {
-            String [] libsToLoad = new String[] { "test.lib", "serialize.lib" } ;
+            String [] libsToLoad = new String[] { "test.lib" };//, "serialize.lib" } ;
             testLoadLibs( libsToLoad );
         }
         catch( Exception ex){

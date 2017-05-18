@@ -36,6 +36,7 @@ expression
     | primitives endLine
     | functionCall endLine
     | returnValue endLine
+    | userDefinedMemberResolution endLine
     ;
 
 assignmentExpression
@@ -130,12 +131,17 @@ userDefinedTypeName
     : ID
     ;
 
+userDefinedMemberResolution
+    : userDefinedTypeName (userDefinedTypeResolutionOperator) variable
+    ;
+
 variable
     : ID
     ;
 
 variableDeclaration
     : keywords variable
+    | userDefinedTypeName variable
     ;
 
 add
@@ -265,6 +271,10 @@ whileExpression
 
 arrowsign    /*Not Sure yet...it may conflict with comparison. Possibly <- would be better? */
     :'<='
+    ;
+
+userDefinedTypeResolutionOperator
+    : '->'
     ;
 
 /*
