@@ -182,18 +182,20 @@
 }
 
 .button {
-    -fx-background-color: linear-gradient(from 0% 0% to -57% 82%, #191c26, #262a38);
+    -fx-background-color: linear-gradient(from 100% 0% to 0% 100%, #191c26,#262a38);
     -fx-background-radius: 100%;
-    -fx-pref-width: 70px;
-    -fx-pref-height: 70px;
     -fx-text-fill: white;
--fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0.1, 0, 8);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3),15, 0, 0, 10);
 }
 
 .button:pressed {
-    -fx-background-color: linear-gradient(from 0% 0% to -57% 82%,#262a38,#191c26);
+    -fx-background-color: linear-gradient(from 100% 0% to 0% 100%,#262a38,#191c26);
 }
 
 .button:focused {
   -fx-background-insets: 0, 0, 1, 2;
+}
+
+.tab .tab-close-button {
+    -fx-background-color: white;
 }

@@ -1,17 +1,18 @@
 package com.juliar.gui;
 
 import com.juliar.JuliarCompiler;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polygon;
 import javafx.stage.FileChooser;
 import javafx.scene.Scene;
 import org.fxmisc.flowless.VirtualizedScrollPane;
@@ -21,10 +22,9 @@ import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -64,6 +64,9 @@ public class Controller {
                     + "|(?<STRING>" + STRING_PATTERN + ")"
                     + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
     );
+
+    @FXML
+    public Button runBtn;
 
     @FXML
     public TextArea areaOutText;
@@ -176,6 +179,13 @@ public class Controller {
 
 
     public void interpret(){
+        Polygon square = new Polygon();
+        square.getPoints().addAll(0.0, 0.0,
+                0.0, 21.0,
+                21.0, 21.0,
+                21.0, 0.0);
+        square.setFill(Color.WHITE);
+        runBtn.setGraphic(square);
         // Create a stream to hold the output
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
@@ -197,12 +207,27 @@ public class Controller {
         //areaOutText.appendText(tabContent.getText());
 
         InputStream is = new ByteArrayInputStream(ca.getText().getBytes());
-        compiler.compile(is, "/", false, false);
 
-        System.out.flush();
-        System.setOut(old);
-        areaOutText.appendText(baos.toString());
-        areaOutText.appendText("\r\nCompleted execution in "+ ((System.nanoTime() - startTime)/1000000) + "ms");
+        Task task = new Task<Void>() {
+            @Override
+            public Void call() {
+                compiler.compile(is, "/", false, false);
+                return null;
+            }
+        };
+        task.setOnSucceeded(taskFinishEvent -> {
+            System.out.flush();
+            System.setOut(old);
+            areaOutText.appendText(baos.toString());
+            areaOutText.appendText("\r\nCompleted execution in " + ((System.nanoTime() - startTime) / 1000000) + "ms");
+            Polygon triangle = new Polygon();
+            triangle.getPoints().addAll(0.0, 0.0,
+                    0.0, 21.0,
+                    15.0, 10.5);
+            triangle.setFill(Color.WHITE);
+            runBtn.setGraphic(triangle);
+        });
+        new Thread(task).start();
     }
 
     @FXML
@@ -211,10 +236,7 @@ public class Controller {
     }
 
     @FXML
-    public void onCompileAndRun(){
-
-        /*TODO */
-    }
+    public void onCompileAndRun(){ /*TODO */}
 
     public void reloadfile(){
         File jarPath=new File(Gui.class.getProtectionDomain().getCodeSource().getLocation().getPath());
@@ -331,6 +353,18 @@ public class Controller {
                 });
         tab.setContent(new VirtualizedScrollPane<>(codeArea));
         currentTextFile = null;
+
+        Date now = new Date();
+        String formattedDate = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).format(now);
+        codeArea.appendText("/* \r\n" +
+                "\tTitle: Juliar Template \r\n" +
+                "\tAuthor: Juliar \r\n" +
+                "\tDate: "+formattedDate+"\r\n"+
+                "*/ \r\n\r\n"+
+                "function main()= {\r\n"+
+                "\tprintLine(\"Hello World\");\r\n}\r\n"
+        );
+
     }
 
     @FXML

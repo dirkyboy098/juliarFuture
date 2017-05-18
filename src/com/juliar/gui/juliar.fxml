@@ -17,6 +17,7 @@
                  <Menu text="Edit">
                      <MenuItem text="Undo" />
                      <MenuItem text="Redo" />
+                     <MenuItem onAction="#onRefresh" text="Refresh Style" />
                  </Menu>
                  <Menu text="Run">
                      <MenuItem onAction="#onRunInterpreter" text="Run Interpreter" />
@@ -25,20 +26,19 @@
                  </Menu>
                  <Menu text="Help">
                      <MenuItem onAction="#onAbout" text="About" />
-                     <MenuItem onAction="#onRefresh" text="Refresh" />
                      <MenuItem onAction="#onWhatsNew" text="What's New" />
                  </Menu>
              </MenuBar>
       </AnchorPane>
-      <TabPane fx:id="tabPane" maxWidth="Infinity" prefHeight="549.0" prefWidth="800.0" tabClosingPolicy="ALL_TABS" VBox.vgrow="ALWAYS">
+      <TabPane fx:id="tabPane" maxWidth="Infinity" prefHeight="549.0" prefWidth="800.0" tabClosingPolicy="SELECTED_TAB" VBox.vgrow="ALWAYS" >
       </TabPane>
       <StackPane>
 
       <AnchorPane prefHeight="206.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0">
           <TextArea fx:id="areaOutText" editable="false" layoutX="45.0" layoutY="-55.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-             <Button onAction="#onRunInterpreter" layoutX="659.0" layoutY="-30.0" AnchorPane.rightAnchor="50.0">
+             <Button fx:id="runBtn" onAction="#onRunInterpreter" layoutX="659.0" layoutY="-35" AnchorPane.rightAnchor="50.0" prefHeight="75.0" prefWidth="75.0">
           <graphic>
-              <Polygon fill="#ffffff" stroke="BLACK" strokeType="INSIDE">
+              <Polygon fill="#ffffff">
                   <points>
                       <Double fx:value="0.0" />
                       <Double fx:value="0.0" />
