@@ -32,6 +32,9 @@ import java.util.regex.Pattern;
  * Created by AndreiM on 3/18/2017.
  */
 public class Controller {
+    public boolean compilerRunning = false;
+    public Thread thread;
+
     private static final String[] KEYWORDS = new String[] {
             "break",
             "class",
@@ -176,16 +179,20 @@ public class Controller {
         }
     }
 
-
-
     public void interpret(){
-        Polygon square = new Polygon();
-        square.getPoints().addAll(0.0, 0.0,
+        Polygon triangle = new Polygon();
+        triangle.getPoints().addAll(0.0, 0.0,
                 0.0, 21.0,
-                21.0, 21.0,
-                21.0, 0.0);
-        square.setFill(Color.WHITE);
-        runBtn.setGraphic(square);
+                15.0, 10.5);
+        triangle.setFill(Color.WHITE);
+
+        if(compilerRunning == true){
+            thread.interrupt();
+            compilerRunning = false;
+            runBtn.setGraphic(triangle);
+            areaOutText.appendText("\r\nInterrupted on " + LocalDateTime.now());
+            return;
+        }
         // Create a stream to hold the output
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
@@ -211,6 +218,7 @@ public class Controller {
         Task task = new Task<Void>() {
             @Override
             public Void call() {
+                compilerRunning = true;
                 compiler.compile(is, "/", false, false);
                 return null;
             }
@@ -220,14 +228,19 @@ public class Controller {
             System.setOut(old);
             areaOutText.appendText(baos.toString());
             areaOutText.appendText("\r\nCompleted execution in " + ((System.nanoTime() - startTime) / 1000000) + "ms");
-            Polygon triangle = new Polygon();
-            triangle.getPoints().addAll(0.0, 0.0,
-                    0.0, 21.0,
-                    15.0, 10.5);
-            triangle.setFill(Color.WHITE);
             runBtn.setGraphic(triangle);
+            compilerRunning = false;
         });
-        new Thread(task).start();
+        Polygon square = new Polygon();
+        square.getPoints().addAll(0.0, 0.0,
+                0.0, 21.0,
+                21.0, 21.0,
+                21.0, 0.0);
+        square.setFill(Color.WHITE);
+        runBtn.setGraphic(square);
+        thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     @FXML
@@ -291,7 +304,7 @@ public class Controller {
             if (io.isOk() && io.hasData()) {
                 currentTextFile = io.getData();
 
-                Tab tab = new Tab("● Untitled (" + (tabPane.getTabs().size() + 1) + ")");
+                Tab tab = new Tab();
                 tabPane.getTabs().add(tab);
                 tabPane.getSelectionModel().select(tab);
                 createTab(tab,file);

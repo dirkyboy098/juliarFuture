@@ -13,3 +13,5 @@ before_script:
 script:
   - ./BuildEverything.sh
 
+notifications:
+  slack: juliarlang:z7GTm7XhwjuvwIb9oYKvFdWN
