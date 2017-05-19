@@ -107,7 +107,7 @@ public class JuliarCompiler {
 				System.out.println("Content-type: text/html\r\n\r\n");
 				System.out.println("<html>");
 
-				if (SCRIPT_NAME == "/" || SCRIPT_NAME == "") {
+				if ("/".equals(SCRIPT_NAME) || "".equals(SCRIPT_NAME)) {
 					SCRIPT_NAME = "index.jrl";
 				}
 

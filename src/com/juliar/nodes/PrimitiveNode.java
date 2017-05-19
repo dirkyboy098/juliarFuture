@@ -7,9 +7,6 @@ public class PrimitiveNode extends NodeImpl {
     private String primitiveName;
     private IntegralTypeNode primitiveArgument;
 
-    public PrimitiveNode(){
-    }
-
     public String getPrimitiveName(){
         return primitiveName;
     }

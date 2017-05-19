@@ -174,7 +174,7 @@ public class Controller {
                 15.0, 10.5);
         triangle.setFill(Color.WHITE);
 
-        if(compilerRunning == true){
+        if(compilerRunning){
             thread.interrupt();
             compilerRunning = false;
             runBtn.setGraphic(triangle);
