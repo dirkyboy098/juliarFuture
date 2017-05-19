@@ -32,4 +32,5 @@ jar cvfm JuliarCompiler.jar manifest.txt com org javax antlr
 mv JuliarCompiler.jar ../JuliarCompiler.jar
 cd ..
 rm -rf temp
+chmod 777 JuliarCompiler.jar
 java -jar JuliarCompiler.jar test.jrl

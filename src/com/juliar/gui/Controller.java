@@ -1,11 +1,10 @@
 package com.juliar.gui;
 
 import com.juliar.JuliarCompiler;
-import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
@@ -14,7 +13,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.stage.FileChooser;
-import javafx.scene.Scene;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
@@ -140,9 +138,10 @@ public class Controller {
     public void savefile(){
         if(currentTextFile == null) onSaveAs();
         Tab tab = tabPane.getSelectionModel().getSelectedItem();
-        TextArea tabContent = (TextArea) tab.getContent();
 
-        TextFile textFile = new TextFile(currentTextFile.getFile(), Arrays.asList(tabContent.getText().split("\n")));
+        VirtualizedScrollPane<CodeArea> vp = (VirtualizedScrollPane<CodeArea>) tab.getContent();
+        CodeArea ca = vp.getContent();
+        TextFile textFile = new TextFile(currentTextFile.getFile(), Arrays.asList(ca.getText().split("\n")));
         model.save(textFile);
     }
 
@@ -169,9 +168,9 @@ public class Controller {
         if (file != null) {
 
             Tab tab = tabPane.getSelectionModel().getSelectedItem();
-            TextArea tabContent = (TextArea) tab.getContent();
-
-            TextFile textFile = new TextFile(file.toPath(), Arrays.asList(tabContent.getText().split("\n")));
+            VirtualizedScrollPane<CodeArea> vp = (VirtualizedScrollPane<CodeArea>) tab.getContent();
+            CodeArea ca = vp.getContent();
+            TextFile textFile = new TextFile(file.toPath(), Arrays.asList(ca.getText().split("\n")));
             model.save(textFile);
             tabPane.getSelectionModel().getSelectedItem().setText(textFile.getName());
             currentTextFile = textFile;
@@ -204,8 +203,8 @@ public class Controller {
         JuliarCompiler compiler = new JuliarCompiler();
 
         Tab tab = tabPane.getSelectionModel().getSelectedItem();
-        VirtualizedScrollPane vp = (VirtualizedScrollPane) tab.getContent();
-        CodeArea ca = (CodeArea) vp.getContent();
+        VirtualizedScrollPane<CodeArea> vp = (VirtualizedScrollPane<CodeArea>) tab.getContent();
+        CodeArea ca = vp.getContent();
 
         //areaOutText.appendText(ca.getText());
         areaOutText.clear();
@@ -215,7 +214,7 @@ public class Controller {
 
         InputStream is = new ByteArrayInputStream(ca.getText().getBytes());
 
-        Task task = new Task<Void>() {
+        Task<Void> task = new Task<Void>() {
             @Override
             public Void call() {
                 compilerRunning = true;
