@@ -75,8 +75,10 @@ public class JuliarCompiler {
 		ArrayList<String> unparsed = new ArrayList<String>();
 		for(int i=0; i < args.length; i++) {
 			if(args[i].startsWith("-")){
-				 params = args[i].split("-");
-				 switch(params[0]){
+				 switch(args[i]){
+					 case "-app":
+						 new Thread(() -> javafx.application.Application.launch(Gui.class)).start();
+						 break;
 					 case "-selfupdate":
 					 	new JPM();
 					 	break;

@@ -21,7 +21,6 @@
                  </Menu>
                  <Menu text="Run">
                      <MenuItem onAction="#onRunInterpreter" text="Run Interpreter" />
-                     <!--<MenuItem disable="true" onAction="#onCompileAndRun" text="Compile Program" />-->
                      <MenuItem onAction="#onRunFCGI" text="Run FastCGI" />
                  </Menu>
                  <Menu text="Help">

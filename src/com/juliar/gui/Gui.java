@@ -85,18 +85,6 @@ public class Gui extends Application {
             }
         });
     }
-
-    /*private EventHandler<WindowEvent> onCloseEvent() {
-        return (WindowEvent event) -> {
-            try {
-                closeAllTabs();
-            } catch (IOException ex) {
-
-            }
-        };
-    }*/
-
-
     public static void main(String[] args) {
         launch(args);
     }

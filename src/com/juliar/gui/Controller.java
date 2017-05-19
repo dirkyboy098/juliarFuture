@@ -124,17 +124,6 @@ public class Controller {
         tabPane.getTabs().remove( tabPane.getSelectionModel().getSelectedIndex());
     }
 
-    /*@FXML
-    public void tabPane.setOnCloseRequest(new EventHandler<Event>(){
-        @Override void handle(Event e){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText("TEST");
-            alert.setTitle("TEST");
-            alert.setContentText("TEST");
-            alert.show();
-        }
-    });*/
-
     public void savefile(){
         if(currentTextFile == null) onSaveAs();
         Tab tab = tabPane.getSelectionModel().getSelectedItem();
@@ -246,9 +235,6 @@ public class Controller {
     public void onRunInterpreter(){
         interpret();
     }
-
-    @FXML
-    public void onCompileAndRun(){ /*TODO */}
 
     public void reloadfile(){
         File jarPath=new File(Gui.class.getProtectionDomain().getCodeSource().getLocation().getPath());
