@@ -538,6 +538,40 @@ public class Visitor extends JuliarBaseVisitor<Node>
         return errorList;
     }
 
+    @Override
+    public Node visitUserDefinedMemberResolution(JuliarParser.UserDefinedMemberResolutionContext ctx) {
+        return super.visitUserDefinedMemberResolution(ctx);
+    }
+
+    @Override
+    public Node visitUserDefinedType(JuliarParser.UserDefinedTypeContext ctx) {
+        String variableName = ctx.userDefinedTypeName().ID().getText();
+        String keyWord = ctx.userDefinedTypeKeyWord().getText();
+
+        UserDefinedTypeNode variableNode = new UserDefinedTypeNode();
+
+        Object[] funcStackArray = funcContextStack.toArray();
+        int length = funcStackArray.length - 1;
+        int index = length;
+        SymbolTypeEnum symbolTypeEnum = null;
+
+        for (; index > 0; index--) {
+            if (funcStackArray[index] instanceof UserDefinedTypeNode) {
+                // We are creating the variable and adding it to the symbol table.
+                // This will automatically throw an exception if creating a symbol with
+                // same name at same scope.
+                symbolTable.addChild(variableNode);
+                break;
+            }
+
+            if( !symbolTable.doesChildExistAtScope( variableNode ) ){
+                addError( "The variable " + variableName +" is not declared at the scope" );
+            }
+            break;
+        }
+
+        return iterateWrapper(ctx, this, variableNode);}
+
     private Node iterateWrapper(ParserRuleContext ctx, Visitor visitor, Node parent){
         IterateOverContext it = new IterateOverContext();
         it.iterateOverChildren(ctx, visitor, parent);

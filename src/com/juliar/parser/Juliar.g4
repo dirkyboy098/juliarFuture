@@ -132,7 +132,7 @@ userDefinedTypeName
     ;
 
 userDefinedMemberResolution
-    : userDefinedTypeName (userDefinedTypeResolutionOperator) variable
+    : userDefinedTypeName(userDefinedTypeResolutionOperator)variable
     ;
 
 variable
