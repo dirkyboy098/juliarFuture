@@ -318,6 +318,7 @@ public class Controller {
         tab.setText(file.toPath().getFileName().toString());
         Circle c = new Circle(0, 0, 3);
         c.setFill(Color.rgb(131,207,23));
+        c.getStyleClass().add("graphic");
         tab.setGraphic(c);
         currentTextFile.getContent().forEach(line -> codeArea.appendText(line + "\n"));
 
@@ -337,6 +338,7 @@ public class Controller {
         Tab tab = new Tab("Untitled (" + (tabPane.getTabs().size() + 1)+")");
         Circle c = new Circle(0, 0, 3);
         c.setFill(Color.rgb(131,207,23));
+        c.getStyleClass().add("graphic");
         tab.setGraphic(c);
         tabPane.getTabs().add(tab);
         tabPane.getSelectionModel().select(tab);
@@ -355,7 +357,7 @@ public class Controller {
         Date now = new Date();
         String formattedDate = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).format(now);
         codeArea.appendText("/* \r\n" +
-                "\tTitle: Juliar Template \r\n" +
+                "\tTitle: Untitled ("+tabPane.getTabs().size()+") \r\n" +
                 "\tAuthor: Juliar \r\n" +
                 "\tDate: "+formattedDate+"\r\n"+
                 "*/ \r\n\r\n"+
