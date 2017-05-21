@@ -3,13 +3,10 @@ package com.juliar.gui;
 import com.juliar.JuliarCompiler;
 import javafx.concurrent.Task;
 import javafx.event.Event;
-import javafx.event.EventType;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
@@ -29,6 +26,8 @@ import java.util.Arrays;
  * Created by AndreiM on 3/18/2017.
  */
 public class Controller {
+    public ArrayList<JRLTab> jrltabs = new ArrayList<>();
+    public Integer jrlID = 0;
     public boolean compilerRunning = false;
     public Thread thread;
 
@@ -83,25 +82,15 @@ public class Controller {
         });
         tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
             jrlID = tabPane.getSelectionModel().getSelectedIndex();
-            //new GuiAlert(new Exception(),"JRLID: "+jrlID+ " JRLLENG: " + jrltabs.size()+ " TEST:" + jrltabs.get(jrlID).getJrlFile().getPath().toString());
         });
     }
 
-    public ArrayList<JRLTab> jrltabs = new ArrayList<>();
-    public Integer jrlID = 0;
-
-
     public void closetab(){
         Tab tab = tabPane.getSelectionModel().getSelectedItem();
-        final EventType<Event> closeRequestEventType = Tab.TAB_CLOSE_REQUEST_EVENT;
-        final Event closeRequestEvent = new Event(closeRequestEventType);
-        Event.fireEvent(tab, closeRequestEvent);
-
-        final EventType<Event> closedEventType = Tab.CLOSED_EVENT;
-        final Event closedEvent = new Event(closedEventType);
-        Event.fireEvent(tab, closedEvent);
-
-        tabPane.getTabs().remove(tab);
+        EventHandler<Event> handler = tab.getOnCloseRequest();
+        if (null != handler) {
+            handler.handle(null);
+        }
     }
 
     @FXML
@@ -117,9 +106,9 @@ public class Controller {
     @FXML
     public void onNew(){
         JRLTab jrlTab = new JRLTab();
-        createTab(jrlTab);
-        jrlTab.setEdited(true);
+        jrlTab = createTab(jrlTab);
         jrltabs.add(jrlTab);
+        jrlTab.getJlrCodeArea().getUndoManager().mark();
     }
 
 
@@ -136,33 +125,50 @@ public class Controller {
             if (io.isOk() && io.hasData()) {
                 TextFile tFile = io.getData();
                 jrlTab.setJrlFileName(tFile);
-                createTab(jrlTab);
-                jrltabs.add(jrlTab);
+                jrlTab = createTab(jrlTab);
+                jrlTab.getJlrCodeArea().getUndoManager().mark();
                 jrlTab.setEdited(false);
+                jrltabs.add(jrlTab);
             }
         }
     }
 
-    public void createTab(JRLTab jrlTab){
+    public JRLTab createTab(JRLTab jrlTab){
         int tabSize = jrltabs.size();
         CodeArea codeArea = new CodeArea();
+        jrlTab.setJlrCodeArea(codeArea);
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
         codeArea.richChanges()
                 .filter(ch -> !ch.getInserted().equals(ch.getRemoved()))
                 .subscribe(change -> {
                     codeArea.setStyleSpans(0, Highlighter.computeHighlighting(codeArea.getText()));
-                    jrlTab.setEdited(true);
+                    if(jrlTab.getJlrCodeArea().getUndoManager().isAtMarkedPosition()) {
+                        jrlTab.setEdited(false);
+                        //new GuiAlert(new Exception(),"AtMarked: " + codeArea.getUndoManager().atMarkedPositionProperty() + "Edited: false" + codeArea.getUndoManager().getCurrentPosition());
+                    }
+                    else{
+                        jrlTab.setEdited(true);
+                        //new GuiAlert(new Exception(),"AtMarked: " + codeArea.getUndoManager().atMarkedPositionProperty() +"Edited: true" +  codeArea.getUndoManager().getCurrentPosition());
+                    }
                 });
-        jrlTab.setJlrCodeArea(codeArea);
+
 
         Tab tab = new Tab();
         tab.setText("Untitled (" + (tabSize)+")");
         jrlTab.setJrlTab(tab);
         tab.setOnCloseRequest(e -> {
             int myid = jrlID;
-            jrltabs.remove(myid);
-            //e.consume();
-            //new GuiAlert(new Exception(),"MYID" + myid + "JRLID: "+jrlID+ " JRLLENG: " + jrltabs.size()+ " TEST:");
+            if(jrltabs.get(myid).isEdited()){
+                if (CloseConfirm.close().get() == ButtonType.OK){
+                    tabPane.getTabs().remove(jrltabs.get(myid).getJrlTab());
+                    jrltabs.remove(myid);
+                }
+            }
+            else {
+                tabPane.getTabs().remove(jrltabs.get(myid).getJrlTab());
+                jrltabs.remove(myid);
+            }
+            e.consume();
         });
 
         Circle c = Shapes.tabCircle();
@@ -182,6 +188,8 @@ public class Controller {
         else{
             codeArea.appendText(JRLTab.newText(tabSize));
         }
+        jrlTab.getJlrCodeArea().getUndoManager().forgetHistory();
+        return jrlTab;
     }
 
     @FXML
@@ -190,6 +198,7 @@ public class Controller {
         TextFile textFile = new TextFile(jrltabs.get(jrlID).getJrlFile().toPath(), Arrays.asList(jrltabs.get(jrlID).getJlrCodeArea().getText().split("\n")));
         model.save(textFile);
         jrltabs.get(jrlID).setEdited(false);
+        jrltabs.get(jrlID).getJlrCodeArea().getUndoManager().mark();
     }
 
     @FXML
@@ -204,6 +213,7 @@ public class Controller {
             jrltabs.get(jrlID).getJrlTab().setText(textFile.getName());
             jrltabs.get(jrlID).setJrlFileName(textFile);
             jrltabs.get(jrlID).setEdited(false);
+            jrltabs.get(jrlID).getJlrCodeArea().getUndoManager().mark();
         }
     }
 
