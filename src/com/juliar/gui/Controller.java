@@ -2,29 +2,30 @@ package com.juliar.gui;
 
 import com.juliar.JuliarCompiler;
 import javafx.concurrent.Task;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Polygon;
 import javafx.stage.FileChooser;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
-import org.fxmisc.richtext.model.StyleSpans;
-import org.fxmisc.richtext.model.StyleSpansBuilder;
 
 import java.io.*;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 
 /**
  * Created by AndreiM on 3/18/2017.
@@ -32,39 +33,6 @@ import java.util.regex.Pattern;
 public class Controller {
     public boolean compilerRunning = false;
     public Thread thread;
-
-    private static final String[] KEYWORDS = new String[] {
-            "break",
-            "class",
-            "double",
-            "else",
-            "float",
-            "for",
-            "function",
-            "int",
-            "if",
-            "return",
-            "string",
-            "while",
-    };
-
-    private static final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
-    private static final String PAREN_PATTERN = "\\(|\\)";
-    private static final String BRACE_PATTERN = "\\{|\\}";
-    private static final String BRACKET_PATTERN = "\\[|\\]";
-    private static final String SEMICOLON_PATTERN = "\\;";
-    private static final String STRING_PATTERN = "\"([^\"\\\\]|\\\\.)*\"";
-    private static final String COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
-
-    private static final Pattern PATTERN = Pattern.compile(
-            "(?<KEYWORD>" + KEYWORD_PATTERN + ")"
-                    + "|(?<PAREN>" + PAREN_PATTERN + ")"
-                    + "|(?<BRACE>" + BRACE_PATTERN + ")"
-                    + "|(?<BRACKET>" + BRACKET_PATTERN + ")"
-                    + "|(?<SEMICOLON>" + SEMICOLON_PATTERN + ")"
-                    + "|(?<STRING>" + STRING_PATTERN + ")"
-                    + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
-    );
 
     @FXML
     public Button runBtn;
@@ -89,7 +57,7 @@ public class Controller {
 
     @FXML
     public void initialize() {
-        newfile();
+        onNew();
         final KeyCombination kb_enter = new KeyCodeCombination(KeyCode.ENTER, KeyCombination.CONTROL_DOWN);
         final KeyCombination kb_new = new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN);
         final KeyCombination kb_load = new KeyCodeCombination(KeyCode.L, KeyCombination.CONTROL_DOWN);
@@ -99,54 +67,120 @@ public class Controller {
 
         tabPane.getParent().addEventFilter(KeyEvent.KEY_PRESSED, ke -> {
             if (kb_enter.match(ke)) {
-                this.interpret();
+                this.onRunInterpreter();
             }
             if (kb_new.match(ke)) {
-                this.newfile();
+                this.onNew();
             }
             if (kb_load.match(ke)) {
-                this.loadfile();
+                this.onLoad();
             }
             if (kb_save.match(ke)) {
-                this.savefile();
+                this.onSave();
             }
             if (kb_reload.match(ke)) {
-                this.reloadfile();
+                this.onRefresh();
             }
             if (kb_closetab.match(ke)) {
                 this.closetab();
             }
         });
-
+        tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
+            jrlID = tabPane.getSelectionModel().getSelectedIndex();
+            //new GuiAlert(new Exception(),"JRLID: "+jrlID+ " JRLLENG: " + jrltabs.size()+ " TEST:" + jrltabs.get(jrlID).getJrlFile().getPath().toString());
+        });
     }
+
+    public ArrayList<JRLTab> jrltabs = new ArrayList<>();
+    public Integer jrlID = 0;
+
 
     public void closetab(){
-        tabPane.getTabs().remove( tabPane.getSelectionModel().getSelectedIndex());
+        Tab tab = tabPane.getSelectionModel().getSelectedItem();
+        final EventType<Event> closeRequestEventType = Tab.TAB_CLOSE_REQUEST_EVENT;
+        final Event closeRequestEvent = new Event(closeRequestEventType);
+        Event.fireEvent(tab, closeRequestEvent);
+
+        final EventType<Event> closedEventType = Tab.CLOSED_EVENT;
+        final Event closedEvent = new Event(closedEventType);
+        Event.fireEvent(tab, closedEvent);
+
+        tabPane.getTabs().remove(tab);
     }
 
-    public void savefile(){
-        if(currentTextFile == null) onSaveAs();
-        Tab tab = tabPane.getSelectionModel().getSelectedItem();
-
-        VirtualizedScrollPane<CodeArea> vp = (VirtualizedScrollPane<CodeArea>) tab.getContent();
-        CodeArea ca = vp.getContent();
-        TextFile textFile = new TextFile(currentTextFile.getFile(), Arrays.asList(ca.getText().split("\n")));
-        model.save(textFile);
+    @FXML
+    public void onNew(){
+        JRLTab jrlTab = new JRLTab();
+        createTab(jrlTab);
+        jrltabs.add(jrlTab);
     }
 
 
     @FXML
-    public void onWhatsNew(){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("What's New");
-        alert.setHeaderText("Juliar New Features");
-        alert.setContentText("-Control + to increase size of text \r\n-Control - to decrease size of text \r\n-Control + Enter - Compile");
-        alert.showAndWait();
+    public void onLoad() {
+        JRLTab jrlTab = new JRLTab();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File("./"));
+        File file = fileChooser.showOpenDialog(null);
+        jrlTab.setJrlFile(file);
+        if (file != null) {
+            IOResult<TextFile> io = model.load(file.toPath());
+
+            if (io.isOk() && io.hasData()) {
+                TextFile tFile = io.getData();
+                jrlTab.setJrlFileName(tFile);
+                createTab(jrlTab);
+                jrltabs.add(jrlTab);
+            }
+        }
+    }
+
+    public void createTab(JRLTab jrlTab){
+        int tabSize = jrltabs.size();
+        CodeArea codeArea = new CodeArea();
+        codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
+        codeArea.richChanges()
+                .filter(ch -> !ch.getInserted().equals(ch.getRemoved()))
+                .subscribe(change -> {
+                    codeArea.setStyleSpans(0, Highlighter.computeHighlighting(codeArea.getText()));
+                });
+        jrlTab.setJlrCodeArea(codeArea);
+
+        Tab tab = new Tab();
+        tab.setText("Untitled (" + (tabSize)+")");
+        jrlTab.setJrlTab(tab);
+        tab.setOnCloseRequest(e -> {
+            int myid = jrlID;
+            jrltabs.remove(myid);
+            //e.consume();
+            //new GuiAlert(new Exception(),"MYID" + myid + "JRLID: "+jrlID+ " JRLLENG: " + jrltabs.size()+ " TEST:");
+        });
+
+        Circle c = Shapes.tabCircle();
+        tab.setGraphic(c);
+        jrlTab.setJrlGraphic(c);
+
+        tabPane.getTabs().add(tab);
+        tabPane.getSelectionModel().select(tab);
+
+        tab.setContent(new VirtualizedScrollPane<>(codeArea));
+
+
+        if(jrlTab.getJrlFileName() != null){
+            tab.setText(jrlTab.getJrlFile().toPath().getFileName().toString());
+            jrlTab.getJrlFileName().getContent().forEach(line -> codeArea.appendText(line + "\n"));
+        }
+        else{
+            codeArea.appendText(JRLTab.newText(tabSize));
+        }
+        //new GuiAlert(new Exception(),"JRLID: "+jrlID+ " JRLLENG: " + jrltabs.size() + " TEST:");
     }
 
     @FXML
     public void onSave() {
-        this.savefile();
+        if(jrltabs.get(jrlID).getJrlFileName() == null) onSaveAs();
+        TextFile textFile = new TextFile(jrltabs.get(jrlID).getJrlFile().toPath(), Arrays.asList(jrltabs.get(jrlID).getJlrCodeArea().getText().split("\n")));
+        model.save(textFile);
     }
 
     @FXML
@@ -155,29 +189,28 @@ public class Controller {
         fileChooser.setTitle("Save File");
         File file =  fileChooser.showSaveDialog(null);
         if (file != null) {
+            jrltabs.get(jrlID).setJrlFile(file);
 
-            Tab tab = tabPane.getSelectionModel().getSelectedItem();
-            VirtualizedScrollPane<CodeArea> vp = (VirtualizedScrollPane<CodeArea>) tab.getContent();
-            CodeArea ca = vp.getContent();
-            TextFile textFile = new TextFile(file.toPath(), Arrays.asList(ca.getText().split("\n")));
+            //new GuiAlert(new Exception(),"JRLID: "+jrlID+ " JRLLENG: " + jrltabs.size() + " TEST1:" + jrltabs.get(jrlID).getJrlFile().toPath().toString());
+
+            TextFile textFile = new TextFile(jrltabs.get(jrlID).getJrlFile().toPath(), Arrays.asList(jrltabs.get(jrlID).getJlrCodeArea().getText().split("\n")));
+            //new GuiAlert(new Exception(),"JRLID: "+jrlID+ " JRLLENG: " + jrltabs.size() + " TEST2:");
             model.save(textFile);
-            tabPane.getSelectionModel().getSelectedItem().setText(textFile.getName());
-            currentTextFile = textFile;
+            //new GuiAlert(new Exception(),"JRLID: "+jrlID+ " JRLLENG: " + jrltabs.size() + " TEST3:");
 
+            jrltabs.get(jrlID).getJrlTab().setText(textFile.getName());
+            jrltabs.get(jrlID).setJrlFileName(textFile);
+
+            //new GuiAlert(new Exception(),"JRLID: "+jrlID+ " JRLLENG: " + jrltabs.size() + " TEST4:");
         }
     }
 
-    public void interpret(){
-        Polygon triangle = new Polygon();
-        triangle.getPoints().addAll(0.0, 0.0,
-                0.0, 21.0,
-                15.0, 10.5);
-        triangle.setFill(Color.WHITE);
-
+    @FXML
+    public void onRunInterpreter(){
         if(compilerRunning){
             thread.interrupt();
             compilerRunning = false;
-            runBtn.setGraphic(triangle);
+            runBtn.setGraphic(Shapes.btnTriangle());
             areaOutText.appendText("\r\nInterrupted on " + LocalDateTime.now());
             return;
         }
@@ -191,17 +224,11 @@ public class Controller {
         // Print some output: goes to your special stream
         JuliarCompiler compiler = new JuliarCompiler();
 
-        Tab tab = tabPane.getSelectionModel().getSelectedItem();
-        VirtualizedScrollPane<CodeArea> vp = (VirtualizedScrollPane<CodeArea>) tab.getContent();
-        CodeArea ca = vp.getContent();
-
-        //areaOutText.appendText(ca.getText());
         areaOutText.clear();
         areaOutText.appendText("Starting Interpreter at: " + LocalDateTime.now() + "\r\n");
         long startTime = System.nanoTime();
-        //areaOutText.appendText(tabContent.getText());
 
-        InputStream is = new ByteArrayInputStream(ca.getText().getBytes());
+        InputStream is = new ByteArrayInputStream(jrltabs.get(jrlID).getJlrCodeArea().getText().getBytes());
 
         Task<Void> task = new Task<Void>() {
             @Override
@@ -216,27 +243,17 @@ public class Controller {
             System.setOut(old);
             areaOutText.appendText(baos.toString());
             areaOutText.appendText("\r\nCompleted execution in " + ((System.nanoTime() - startTime) / 1000000) + "ms");
-            runBtn.setGraphic(triangle);
+            runBtn.setGraphic(Shapes.btnTriangle());
             compilerRunning = false;
         });
-        Polygon square = new Polygon();
-        square.getPoints().addAll(0.0, 0.0,
-                0.0, 21.0,
-                21.0, 21.0,
-                21.0, 0.0);
-        square.setFill(Color.WHITE);
-        runBtn.setGraphic(square);
+        runBtn.setGraphic(Shapes.btnSquare());
         thread = new Thread(task);
         thread.setDaemon(true);
         thread.start();
     }
 
     @FXML
-    public void onRunInterpreter(){
-        interpret();
-    }
-
-    public void reloadfile(){
+    public void onRefresh(){
         File jarPath=new File(Gui.class.getProtectionDomain().getCodeSource().getLocation().getPath());
         String propertiesPath=jarPath.getParentFile().getAbsolutePath();
         scene.getStylesheets().clear();
@@ -251,11 +268,6 @@ public class Controller {
     }
 
     @FXML
-    public void onRefresh(){
-        this.reloadfile();
-    }
-
-    @FXML
     public void onRunFCGI(){
         ProcessBuilder pb = new ProcessBuilder("java","-DFCGI_PORT=9000", "-jar", new File(Controller.class.getProtectionDomain()
                 .getCodeSource()
@@ -267,66 +279,11 @@ public class Controller {
             pb.redirectErrorStream(true);
             pb.redirectOutput(log);
             pb.start();
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Juliar FastCGI");
-            alert.setHeaderText(null);
-            alert.setContentText("Juliar Successfully launched!");
-            alert.showAndWait();
+            GuiInformation.create("Juliar FastCGI","","Juliar Successfully launched!");
         }
         catch(IOException e){
             new GuiAlert(e, "Juliar FastCGI Cannot Start: Cannot Start a new instance of Juliar!");
         }
-    }
-
-
-    public void loadfile(){
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(new File("./"));
-        File file = fileChooser.showOpenDialog(null);
-        if (file != null) {
-            IOResult<TextFile> io = model.load(file.toPath());
-
-            if (io.isOk() && io.hasData()) {
-                currentTextFile = io.getData();
-
-                Tab tab = new Tab();
-                tabPane.getTabs().add(tab);
-                tabPane.getSelectionModel().select(tab);
-                createTab(tab,file);
-
-            } else {
-                System.out.println("Failed");
-            }
-        }
-    }
-
-
-    private void createTab(Tab tab,File file){
-        CodeArea codeArea = new CodeArea();
-        codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
-
-        codeArea.richChanges()
-                .filter(ch -> !ch.getInserted().equals(ch.getRemoved())) // XXX
-                .subscribe(change -> {
-                    codeArea.setStyleSpans(0, computeHighlighting(codeArea.getText()));
-                });
-        //codeArea.replaceText(0, 0, "");
-        //TextArea loadedTextArea = new TextArea();
-        //tab.setContent(loadedTextArea);
-        tab.setContent(new VirtualizedScrollPane<>(codeArea));
-
-        tab.setText(file.toPath().getFileName().toString());
-        Circle c = new Circle(0, 0, 3);
-        c.setFill(Color.rgb(131,207,23));
-        c.getStyleClass().add("graphic");
-        tab.setGraphic(c);
-        currentTextFile.getContent().forEach(line -> codeArea.appendText(line + "\n"));
-
-    }
-
-    @FXML
-    public void onLoad() {
-        this.loadfile();
     }
 
     @FXML
@@ -334,74 +291,10 @@ public class Controller {
         model.close();
     }
 
-    public void newfile(){
-        Tab tab = new Tab("Untitled (" + (tabPane.getTabs().size() + 1)+")");
-        Circle c = new Circle(0, 0, 3);
-        c.setFill(Color.rgb(131,207,23));
-        c.getStyleClass().add("graphic");
-        tab.setGraphic(c);
-        tabPane.getTabs().add(tab);
-        tabPane.getSelectionModel().select(tab);
-
-        CodeArea codeArea = new CodeArea();
-        codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
-
-        codeArea.richChanges()
-                .filter(ch -> !ch.getInserted().equals(ch.getRemoved())) // XXX
-                .subscribe(change -> {
-                    codeArea.setStyleSpans(0, computeHighlighting(codeArea.getText()));
-                });
-        tab.setContent(new VirtualizedScrollPane<>(codeArea));
-        currentTextFile = null;
-
-        Date now = new Date();
-        String formattedDate = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).format(now);
-        codeArea.appendText("/* \r\n" +
-                "\tTitle: Untitled ("+tabPane.getTabs().size()+") \r\n" +
-                "\tAuthor: Juliar \r\n" +
-                "\tDate: "+formattedDate+"\r\n"+
-                "*/ \r\n\r\n"+
-                "function main()= {\r\n"+
-                "\tprintLine(\"Hello World\");\r\n}\r\n"
-        );
-
-    }
+    @FXML
+    public void onAbout() { GuiInformation.create("About Juliar.Future","Juliar.Future","Juliar - Copyright (C) 2017"); }
 
     @FXML
-    public void onNew(){
-        this.newfile();
-    }
-
-    @FXML
-    public void onAbout() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText("About Juliar.Future");
-        alert.setTitle("Juliar.Future");
-        alert.setContentText("Juliar - Copyright (C) 2017");
-        alert.show();
-    }
-
-    private static StyleSpans<Collection<String>> computeHighlighting(String text) {
-        Matcher matcher = PATTERN.matcher(text);
-        int lastKwEnd = 0;
-        StyleSpansBuilder<Collection<String>> spansBuilder
-                = new StyleSpansBuilder<>();
-        while(matcher.find()) {
-            String styleClass =
-                    matcher.group("KEYWORD") != null ? "keyword" :
-                            matcher.group("PAREN") != null ? "paren" :
-                                    matcher.group("BRACE") != null ? "brace" :
-                                            matcher.group("BRACKET") != null ? "bracket" :
-                                                    matcher.group("SEMICOLON") != null ? "semicolon" :
-                                                            matcher.group("STRING") != null ? "string" :
-                                                                    matcher.group("COMMENT") != null ? "comment" :
-                                                                            null; /* never happens */ assert styleClass != null;
-            spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
-            spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());
-            lastKwEnd = matcher.end();
-        }
-        spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
-        return spansBuilder.create();
-    }
-
+    public void onWhatsNew(){ GuiInformation.create("What's New","Juliar New Features",
+            "-Control + to increase size of text \r\n-Control - to decrease size of text \r\n-Control + Enter - Compile");}
 }
