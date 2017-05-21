@@ -3,7 +3,6 @@ package com.juliar.gui;
 import com.juliar.JuliarCompiler;
 import javafx.concurrent.Task;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -25,7 +24,6 @@ import java.io.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 
 /**
  * Created by AndreiM on 3/18/2017.
@@ -42,8 +40,6 @@ public class Controller {
 
     @FXML
     public TabPane tabPane;
-
-    private TextFile currentTextFile;
 
     private Model model;
 
@@ -109,9 +105,20 @@ public class Controller {
     }
 
     @FXML
+    public void onUndo(){
+        jrltabs.get(jrlID).getJlrCodeArea().undo();
+    }
+
+    @FXML
+    public void onRedo(){
+        jrltabs.get(jrlID).getJlrCodeArea().redo();
+    }
+
+    @FXML
     public void onNew(){
         JRLTab jrlTab = new JRLTab();
         createTab(jrlTab);
+        jrlTab.setEdited(true);
         jrltabs.add(jrlTab);
     }
 
@@ -131,6 +138,7 @@ public class Controller {
                 jrlTab.setJrlFileName(tFile);
                 createTab(jrlTab);
                 jrltabs.add(jrlTab);
+                jrlTab.setEdited(false);
             }
         }
     }
@@ -143,6 +151,7 @@ public class Controller {
                 .filter(ch -> !ch.getInserted().equals(ch.getRemoved()))
                 .subscribe(change -> {
                     codeArea.setStyleSpans(0, Highlighter.computeHighlighting(codeArea.getText()));
+                    jrlTab.setEdited(true);
                 });
         jrlTab.setJlrCodeArea(codeArea);
 
@@ -173,7 +182,6 @@ public class Controller {
         else{
             codeArea.appendText(JRLTab.newText(tabSize));
         }
-        //new GuiAlert(new Exception(),"JRLID: "+jrlID+ " JRLLENG: " + jrltabs.size() + " TEST:");
     }
 
     @FXML
@@ -181,6 +189,7 @@ public class Controller {
         if(jrltabs.get(jrlID).getJrlFileName() == null) onSaveAs();
         TextFile textFile = new TextFile(jrltabs.get(jrlID).getJrlFile().toPath(), Arrays.asList(jrltabs.get(jrlID).getJlrCodeArea().getText().split("\n")));
         model.save(textFile);
+        jrltabs.get(jrlID).setEdited(false);
     }
 
     @FXML
@@ -190,18 +199,11 @@ public class Controller {
         File file =  fileChooser.showSaveDialog(null);
         if (file != null) {
             jrltabs.get(jrlID).setJrlFile(file);
-
-            //new GuiAlert(new Exception(),"JRLID: "+jrlID+ " JRLLENG: " + jrltabs.size() + " TEST1:" + jrltabs.get(jrlID).getJrlFile().toPath().toString());
-
             TextFile textFile = new TextFile(jrltabs.get(jrlID).getJrlFile().toPath(), Arrays.asList(jrltabs.get(jrlID).getJlrCodeArea().getText().split("\n")));
-            //new GuiAlert(new Exception(),"JRLID: "+jrlID+ " JRLLENG: " + jrltabs.size() + " TEST2:");
             model.save(textFile);
-            //new GuiAlert(new Exception(),"JRLID: "+jrlID+ " JRLLENG: " + jrltabs.size() + " TEST3:");
-
             jrltabs.get(jrlID).getJrlTab().setText(textFile.getName());
             jrltabs.get(jrlID).setJrlFileName(textFile);
-
-            //new GuiAlert(new Exception(),"JRLID: "+jrlID+ " JRLLENG: " + jrltabs.size() + " TEST4:");
+            jrltabs.get(jrlID).setEdited(false);
         }
     }
 

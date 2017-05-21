@@ -15,8 +15,8 @@
                      <MenuItem onAction="#onExit" text="Exit" />
                  </Menu>
                  <Menu text="Edit">
-                     <MenuItem text="Undo" />
-                     <MenuItem text="Redo" />
+                     <MenuItem onAction="#onUndo" text="Undo"/>
+                     <MenuItem onAction="#onRedo" text="Redo" />
                      <MenuItem onAction="#onRefresh" text="Refresh Style" />
                  </Menu>
                  <Menu text="Run">

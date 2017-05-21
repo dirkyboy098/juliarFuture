@@ -1,6 +1,7 @@
 package com.juliar.gui;
 
 import javafx.scene.control.Tab;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import org.fxmisc.richtext.CodeArea;
 
@@ -13,12 +14,12 @@ import java.util.Locale;
  * Created by AndreiM on 4/11/2017.
  */
 public class JRLTab {
-    public Tab jrlTab;
-    public Circle jrlGraphic;
-    public TextFile jrlFileName = null;
-    public File jrlFile;
-    public CodeArea jlrCodeArea;
-    public boolean edited = false;
+    private Tab jrlTab;
+    private Circle jrlGraphic;
+    private TextFile jrlFileName = null;
+    private File jrlFile;
+    private CodeArea jlrCodeArea;
+    private boolean edited = false;
 
     public File getJrlFile() {
         return jrlFile;
@@ -66,6 +67,12 @@ public class JRLTab {
 
     public void setEdited(boolean edited) {
         this.edited = edited;
+        if(edited){
+            this.jrlGraphic.setFill(Color.rgb(242, 240, 34));
+        }
+        else{
+            this.jrlGraphic.setFill(Color.rgb(131,207,23));
+        }
     }
 
     public static String newText(int size) {
