@@ -25,10 +25,12 @@ public class Gui extends Application {
     @Override
     public void start(Stage stage) {
         try {
+            Controller myController = new Controller(new Model());
             FXMLLoader loader = new FXMLLoader(getClass().getResource("juliar.fxml"));
-            loader.setControllerFactory(t -> new Controller(new Model()));
-            stage.setTitle("Juliar.Future");
-            stage.getIcons().add(new Image(getClass().getResourceAsStream("juliarFutureIcon.png")));
+            loader.setControllerFactory(t -> myController);
+
+            final Image juliarImg = new Image(getClass().getResourceAsStream("juliarFutureIcon.png"));
+            stage.getIcons().add(juliarImg);
             Font.loadFont(
                     getClass().getResource("Montserrat-Regular.ttf").toExternalForm(),
                     14
@@ -37,10 +39,9 @@ public class Gui extends Application {
             Scene scene = new Scene(loader.load());
             loadCSS(scene);
 
-            Controller myController = loader.getController();
-            myController.setScene(scene);
-
+            stage.setTitle("Juliar.Future");
             stage.setScene(scene);
+            myController.setScene(scene);
             stage.show();
 
             keyComb(scene);
@@ -50,9 +51,7 @@ public class Gui extends Application {
     }
 
     public void loadCSS(Scene scene){
-        File jarPath = new File(Gui.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-        String propertiesPath = jarPath.getParentFile().getAbsolutePath();
-        String fullPath = propertiesPath.replace("\\", "/") + "/juliar.css";
+        String fullPath = getClass().getProtectionDomain().getCodeSource().getLocation() + "/juliar.css";
         File f = new File(fullPath);
         if (f.exists()) {
             scene.getStylesheets().add("file:///" + fullPath);
@@ -71,16 +70,12 @@ public class Gui extends Application {
         updater.bindCss(cssProp);
 
         scene.addEventFilter(KeyEvent.KEY_PRESSED, ke -> {
-            if (kb_plus.match(ke)) {
-                TextArea track = (TextArea) scene.lookup("#areaOutText");
-                double size = track.getFont().getSize() + 1;
-
-                cssProp.set(".text-area,.code-area .lineno,.paragraph-text .text {-fx-font-size: "+size+"px;}");
-            }
-            else if(kb_minus.match(ke)){
-                TextArea track = (TextArea) scene.lookup("#areaOutText");
-                double size = track.getFont().getSize() - 1;
-
+            if (kb_plus.match(ke) || kb_minus.match(ke)) {
+                Font track = ((TextArea) scene.lookup("#areaOutText")).getFont();
+                double size = track.getSize() + 1;
+                if(kb_minus.match(ke)){
+                    size -= 2;
+                }
                 cssProp.set(".text-area,.code-area .lineno,.paragraph-text .text {-fx-font-size: "+size+"px;}");
             }
         });

@@ -79,7 +79,7 @@ public class JuliarCompiler {
 					 case "-app":
 						 new Thread(() -> javafx.application.Application.launch(Gui.class)).start();
 						 break;
-					 case "-selfupdate":
+					 case "-update":
 					 	new JPM();
 					 	break;
 					 case "-verbose":
@@ -217,12 +217,12 @@ public class JuliarCompiler {
 		Visitor v = new Visitor(new ImportsInterface() {
             @Override
             public void createTempCallback(String imports, int linesToSkip) {
-
+				/*TODO Nothing?*/
             }
         }, true);
 
 		v.visit(context);
-		Interpreter i = new Interpreter(v.instructions());
+		new Interpreter(v.instructions());
 	}
 
 
