@@ -5,10 +5,12 @@ package com.juliar.gui;
  */
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -17,8 +19,6 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
-import java.io.File;
 
 public class Gui extends Application {
 
@@ -37,7 +37,7 @@ public class Gui extends Application {
             );
 
             Scene scene = new Scene(loader.load());
-            loadCSS(scene);
+            CSSLoader.cssLoad(scene);
 
             stage.setTitle("Juliar.Future");
             stage.setScene(scene);
@@ -45,21 +45,16 @@ public class Gui extends Application {
             stage.show();
 
             keyComb(scene);
+            stage.setOnCloseRequest(event -> {
+                if (CloseConfirm.closeApp().get() == ButtonType.OK){
+                    Platform.exit();
+                }
+                event.consume();
+            });
         } catch (Exception e) {
             new GuiAlert(e, "Cannot Launch Juliar");
         }
     }
-
-    public void loadCSS(Scene scene){
-        String fullPath = getClass().getProtectionDomain().getCodeSource().getLocation() + "/juliar.css";
-        File f = new File(fullPath);
-        if (f.exists()) {
-            scene.getStylesheets().add("file:///" + fullPath);
-        } else {
-            scene.getStylesheets().add(getClass().getResource("juliar.css").toExternalForm());
-        }
-    }
-
 
     public void keyComb(Scene scene){
         final KeyCombination kb_plus = new KeyCodeCombination(KeyCode.EQUALS, KeyCombination.CONTROL_DOWN);

@@ -8,6 +8,7 @@ import javafx.scene.control.Alert;
 public class GuiInformation {
     public static void create (String title, String header, String content){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        CSSLoader.cssLoad(alert.getDialogPane());
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);

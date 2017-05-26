@@ -15,6 +15,7 @@ import java.io.StringWriter;
 public class GuiAlert {
     public GuiAlert(Exception e, String header){
         Alert alert = new Alert(Alert.AlertType.ERROR);
+        CSSLoader.cssLoad(alert.getDialogPane());
         alert.setTitle("Juliar Error");
         alert.setHeaderText("Juliar Runtime Error has occured");
         alert.setContentText(header);

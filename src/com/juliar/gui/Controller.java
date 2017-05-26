@@ -266,17 +266,8 @@ public class Controller {
 
     @FXML
     public void onRefresh(){
-        File jarPath=new File(Gui.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-        String propertiesPath=jarPath.getParentFile().getAbsolutePath();
         scene.getStylesheets().clear();
-        String fullpath = propertiesPath.replace("\\", "/") +"/juliar.css";
-        File f = new File(fullpath);
-        if(f.exists()){
-            scene.getStylesheets().add("file:///"+fullpath);
-        }
-        else {
-            scene.getStylesheets().add(getClass().getResource("juliar.css").toExternalForm());
-        }
+        CSSLoader.cssLoad(scene);
     }
 
     @FXML

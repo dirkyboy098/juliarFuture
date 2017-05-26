@@ -4,15 +4,15 @@
 .menu-bar {
     -fx-font-family: "Montserrat";
     -fx-background-color: #232733;
-	-fx-padding: 0em 0em 0em 0em;
+    -fx-padding: 0em 0em 0em 0em;
 }
-.menu:hover{
-	-fx-background-color: #737f97;
+.menu:hover {
+    -fx-background-color: #737f97;
 }
 .menu .label {
     -fx-alignment: CENTER;
     -fx-text-fill: white;
-	-fx-padding: 0.5em 0.5em 0.5em 0.5em;
+    -fx-padding: 0.5em 0.5em 0.5em 0.5em;
     -fx-effect: dropshadow( gaussian, rgba(0, 0, 0, 1.5), 0, 0, 0, 1);
 }
 .menu:showing {
@@ -62,15 +62,12 @@
     -fx-background-color: #353d4f;
     -fx-border-color: #737f97;
 }
-
-.tab .graphic{
+.tab .graphic {
     -fx-opacity: 0.0;
 }
-
-.tab:selected .graphic{
+.tab:selected .graphic {
     -fx-opacity: 1.0;
 }
-
 .tab .tab-label {
     -fx-pref-width: 180px;
     -fx-font-family: "Montserrat";
@@ -108,7 +105,6 @@
     -fx-border-width: 3px 0px 0px 0px;
     -fx-border-color: #262a38;
 }
-
 .code-area,
 .code-area .content {
     -fx-background-color: #353d4f;
@@ -126,7 +122,7 @@
     -fx-font-size: 14;
     -fx-background-color: #353d4f;
     -fx-font-family: monospace;
-	-fx-background-radius: 0;
+    -fx-background-radius: 0;
 }
 .code-area .keyword {
     -fx-fill: #FF707F;
@@ -155,7 +151,7 @@
 }
 .button {
     -fx-background-color: linear-gradient(from 0% 100% to 100% 0%, #191c26, #262a38);
-	-fx-background-radius: 100%;
+    -fx-background-radius: 100%;
     -fx-text-fill: white;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.25), 15, 0, 0, 7);
 }
@@ -170,4 +166,20 @@
 }
 .caret {
     -fx-stroke: white;
+}
+.dialog-pane {
+    -fx-font-family: "Montserrat";
+    -fx-font-size: 24px;
+}
+.dialog-pane > .content.label {
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+    -fx-fill: #232733;
+}
+.dialog-pane .header-panel {
+    -fx-background-color: #353d4f;
+}
+.dialog-pane:header .header-panel .label {
+    -fx-text-fill: white;
+    -fx-font-size: 24px;
 }
