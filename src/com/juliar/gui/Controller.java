@@ -7,10 +7,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.input.*;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import org.fxmisc.flowless.VirtualizedScrollPane;
@@ -44,7 +41,42 @@ public class Controller {
 
     private Scene scene;
 
-    public void setScene(Scene scene) { this.scene = scene; }
+    public void setScene(Scene scene) {
+        scene.setOnDragOver(event -> {
+            Dragboard db = event.getDragboard();
+            if (db.hasFiles()) {
+                event.acceptTransferModes(TransferMode.COPY);
+            } else {
+                event.consume();
+            }
+        });
+
+        // Dropping over surface
+        scene.setOnDragDropped(event -> {
+            Dragboard db = event.getDragboard();
+            boolean success = false;
+            if (db.hasFiles()) {
+                success = true;
+                for (File file:db.getFiles()) {
+                    JRLTab jrlTab = new JRLTab();
+                    jrlTab.setJrlFile(file);
+                    IOResult<TextFile> io = model.load(file.toPath());
+
+                    if (io.isOk() && io.hasData()) {
+                        TextFile tFile = io.getData();
+                        jrlTab.setJrlFileName(tFile);
+                        jrlTab = createTab(jrlTab);
+                        jrlTab.getJlrCodeArea().getUndoManager().mark();
+                        jrlTab.setEdited(false);
+                        jrltabs.add(jrlTab);
+                    }
+                }
+            }
+            event.setDropCompleted(success);
+            event.consume();
+        });
+        this.scene = scene;
+    }
 
     public Controller(Model model) {
         this.model = model;
