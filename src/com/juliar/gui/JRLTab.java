@@ -81,7 +81,7 @@ public class JRLTab {
         String formattedDate = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).format(now);
         return "/* \r\n" +
                 "\tTitle: Untitled (" + size + ") \r\n" +
-                "\tAuthor: Juliar \r\n" +
+                "\tAuthor: "+System.getProperty("user.name")+" \r\n" +
                 "\tDate: " + formattedDate + "\r\n" +
                 "*/ \r\n\r\n" +
                 "function main()= {\r\n" +
