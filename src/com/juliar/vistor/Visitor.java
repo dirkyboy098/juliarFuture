@@ -496,6 +496,12 @@ public class Visitor extends JuliarBaseVisitor<Node>
                 break;
             }
 
+            if ( funcStackArray[index] instanceof UserDefinedTypeNode ) {
+                // TODO
+                // user defined variables will need to be looked up in the class / variable map.
+                break;
+            }
+
             if( !symbolTable.doesChildExistAtScope( variableNode ) ){
                 addError( "The variable " + variableName +" is not declared at the scope" );
             }
@@ -537,7 +543,11 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
     @Override
     public Node visitUserDefinedMemberResolution(JuliarParser.UserDefinedMemberResolutionContext ctx) {
-        return super.visitUserDefinedMemberResolution(ctx);
+        UserDefinedTypeNode userDefinedTypeNode = new UserDefinedTypeNode();
+
+        Node iteratorNode = iterateWrapper(ctx, this, userDefinedTypeNode);
+
+        return iteratorNode;
     }
 
     @Override

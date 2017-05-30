@@ -134,6 +134,7 @@ userDefinedTypeName
 
 userDefinedMemberResolution
     : userDefinedTypeName(userDefinedTypeResolutionOperator)variable
+    | userDefinedTypeName(userDefinedTypeResolutionOperator)functionCall
     ;
 
 variable
@@ -275,7 +276,7 @@ arrowsign    /*Not Sure yet...it may conflict with comparison. Possibly <- would
     ;
 
 userDefinedTypeResolutionOperator
-    : '->'
+    : '::'
     ;
 
 /*

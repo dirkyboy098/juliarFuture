@@ -9,5 +9,7 @@ class node = {
 function main() = {
     node xfoo;
 
-    int x = xfoo->data;
+    test();
+    int x = xfoo::data;
+    int y = xfoo::test();
 }
