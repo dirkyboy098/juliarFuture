@@ -8,4 +8,6 @@ class node = {
 
 function main() = {
     node xfoo;
+
+    int x = xfoo->data;
 }

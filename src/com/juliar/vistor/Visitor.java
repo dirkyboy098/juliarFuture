@@ -502,7 +502,9 @@ public class Visitor extends JuliarBaseVisitor<Node>
             break;
         }
 
-        return iterateWrapper(ctx, this, variableNode);
+        Node iteratorNode = iterateWrapper(ctx, this, variableNode);
+
+        return iteratorNode;
     }
 
     @Override

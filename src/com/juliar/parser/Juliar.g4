@@ -45,6 +45,7 @@ assignmentExpression
 	| variableDeclaration equalsign functionCall
 	| variableDeclaration equalsign primitiveTypes
 	| variableDeclaration equalsign booleanExpression
+	| variableDeclaration equalsign userDefinedMemberResolution
 	;
 
 reassignmentExpression
