@@ -1,62 +1,12 @@
-/*
-class fileReader = {
-    int i = 0;
-    function fileReader(string s) = {
-        fileOpen(s);
-    }
-
-    function fileWrite(string y) = {
-    }
-
-    function getByte() = {
-        string i = "this is a string";
-        int index = 3;
-
-        __getByteFromString(i, index);
-    }
-}
-*/
 
 class node = {
     int data;
     node next;
+
+    function test()={
+    }
 }
 
 function main() = {
     node xfoo;
-
-    test();
-    int index = 3;
-    if (index == 3){
-        break;
-    }
-    /*
-    while( true ){
-        index = + index 1;
-    }
-    */
-    int x = availableMemory();
-    print("avilable memory = ");
-    printLine(x);
-    string file = fileOpen("./test.jrl");
-    //parse(file);
-    foo(x);
-
-    int boo = 0;
-    index = 0;
-     while ( true ){
-        string y = __getByteFromString(file, index);
-        print(y);
-        index = + index 1;
-        if (index == 800){
-            break;
-         }
-     }
-     printLine("");
 }
-
-function foo(int s)={
-
-}
-
-

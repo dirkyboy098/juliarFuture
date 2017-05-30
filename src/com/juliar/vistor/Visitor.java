@@ -550,6 +550,8 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
         UserDefinedTypeNode variableNode = new UserDefinedTypeNode();
 
+        callStack.push( variableName );
+
         Object[] funcStackArray = funcContextStack.toArray();
         int length = funcStackArray.length - 1;
         int index = length;
@@ -570,7 +572,11 @@ public class Visitor extends JuliarBaseVisitor<Node>
             break;
         }
 
-        return iterateWrapper(ctx, this, variableNode);}
+        Node iteratorNode = iterateWrapper(ctx, this, variableNode);
+        callStack.pop();
+
+        return iteratorNode;
+    }
 
     private Node iterateWrapper(ParserRuleContext ctx, Visitor visitor, Node parent){
         IterateOverContext it = new IterateOverContext();
