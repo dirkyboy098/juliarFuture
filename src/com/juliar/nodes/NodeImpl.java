@@ -84,6 +84,8 @@ public abstract class NodeImpl implements Node , Serializable{
             case "boolean":
                 integralType = jboolean;
                 break;
+            default:
+                integralType = juserDefined;
         }
     }
 

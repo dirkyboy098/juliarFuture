@@ -30,7 +30,6 @@ public class Visitor extends JuliarBaseVisitor<Node>
     private HashMap<String, Node> functionNodeMap = new HashMap<String, Node>();
     private Stack<Node> funcContextStack = new Stack<Node>();
     private Stack<String> callStack = new Stack<>();
-
     private SymbolTable symbolTable = SymbolTable.createSymbolTable( this );
     private ControlFlowAdjacencyList cfa = new ControlFlowAdjacencyList();
     private ImportsInterface importsInterfaceCallback;
@@ -39,10 +38,6 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
     public InstructionInvocation instructions(){
         return new InstructionInvocation(instructionList, functionNodeMap);
-    }
-
-    public List<Node> getInstructionList(){
-        return instructionList;
     }
 
     public Visitor(ImportsInterface cb, boolean skip){
@@ -580,7 +575,6 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
     private void cacheImports( String fileName){
         StringBuilder builder = new StringBuilder();
-
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(Primitives.stripQuotes( fileName ) ))){
             String line = bufferedReader.readLine();
             while ( line != null ){

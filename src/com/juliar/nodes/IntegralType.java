@@ -10,5 +10,6 @@ public enum IntegralType {
     jlong,
     jstring,
     jobject,
-    jboolean
+    jboolean,
+    juserDefined,
 }
