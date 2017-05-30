@@ -139,11 +139,13 @@ userDefinedMemberResolution
 
 variable
     : ID
+    | userDefinedTypeName(userDefinedTypeResolutionOperator)variable
     ;
 
 variableDeclaration
     : keywords variable
     | userDefinedTypeName variable
+    | userDefinedMemberResolution
     ;
 
 add

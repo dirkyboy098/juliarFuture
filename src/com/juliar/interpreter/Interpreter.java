@@ -22,30 +22,31 @@ public class Interpreter {
 
             functionNodeMap = invocation.getFunctionNodeMap();
 
-            functionMap.put(NodeType.CompliationUnitType        , ((n, activationFrame ) -> evalCompliationUnit()  ));
+            functionMap.put( NodeType.CompliationUnitType        , ((n, activationFrame ) -> evalCompliationUnit()  ));
 
-            functionMap.put(NodeType.VariableReassignmentType   , ( EvaluateAssignments::evalReassignment ));
-            functionMap.put(NodeType.AssignmentType             , ( EvaluateAssignments::evalAssignment ));
-            functionMap.put(NodeType.PrimitiveType              , ( EvaluatePrimitives::evalPrimitives ));
-            functionMap.put(NodeType.BreakType                  , ((n, activationFrame )-> evaluateBreak(n , activationFrame) ));
+            functionMap.put( NodeType.VariableReassignmentType   , ( EvaluateAssignments::evalReassignment ));
+            functionMap.put( NodeType.AssignmentType             , ( EvaluateAssignments::evalAssignment ));
+            functionMap.put( NodeType.PrimitiveType              , ( EvaluatePrimitives::evalPrimitives ));
+            functionMap.put( NodeType.BreakType                  , ((n, activationFrame )-> evaluateBreak(n , activationFrame) ));
 
-            functionMap.put(NodeType.AddType                    , ((n, activationFrame )-> evalAdd(n)     ));
-            functionMap.put(NodeType.AggregateType              , ((n, activationFrame )-> evaluateAggregate(n, activationFrame)      ));
-            functionMap.put(NodeType.CommandType                , ((n, activationFrame )-> evalCommand(n)      ));
-            functionMap.put(NodeType.SummationType              , ((n, activationFrame )-> evalSummation(n)     ));
+            functionMap.put( NodeType.AddType                    , ((n, activationFrame )-> evalAdd(n)     ));
+            functionMap.put( NodeType.AggregateType              , ((n, activationFrame )-> evaluateAggregate(n, activationFrame)      ));
+            functionMap.put( NodeType.CommandType                , ((n, activationFrame )-> evalCommand(n)      ));
+            functionMap.put( NodeType.SummationType              , ((n, activationFrame )-> evalSummation(n)     ));
 
-            functionMap.put(NodeType.FunctionaCallType          , ((n, activationFrame )-> evalFunctionCall(n)      ));
-            functionMap.put(NodeType.FunctionDeclType           , ((n, activationFrame )-> evalFunctionDecl(n)      ));
-            functionMap.put(NodeType.VariableType               , ((n, activationFrame )-> evalActivationFrame(n)   ));
-            functionMap.put(NodeType.BinaryType                 , ((n, activationFrame )-> evalBinaryNode(n)        ));
-            functionMap.put(NodeType.StatementType              , ((n, activationFrame )-> evalStatement(n)         ));
-            functionMap.put(NodeType.ExpressionType             , ((n, activationFrame )-> evalStatement(n)         ));
-            functionMap.put(NodeType.FinalType                  , ((n, activationFrame )-> evalFinal(n)             ));
-            functionMap.put(NodeType.ReturnValueType            , ((n, activationFrame )-> evalReturn(n, activationFrame)             ));
-            functionMap.put(NodeType.BooleanType                , ((n, activationFrame )-> evalBooleanNode(n, activationFrame)    ));
-            functionMap.put(NodeType.BooleanOperatorType        , ((n, activationFrame )-> evalBooleanOperator(n, activationFrame)    ));
-            functionMap.put(NodeType.IfExprType                 , ((n, activationFrame )-> evalIfStatement(n, activationFrame)    ));
-            functionMap.put(NodeType.WhileExpressionType        , ((n, activationFrame )-> evalWhileExpression(n, activationFrame)));
+            functionMap.put( NodeType.FunctionaCallType          , ((n, activationFrame )-> evalFunctionCall(n)      ));
+            functionMap.put( NodeType.FunctionDeclType           , ((n, activationFrame )-> evalFunctionDecl(n)      ));
+            functionMap.put( NodeType.VariableType               , ((n, activationFrame )-> evalActivationFrame(n)   ));
+            functionMap.put( NodeType.BinaryType                 , ((n, activationFrame )-> evalBinaryNode(n)        ));
+            functionMap.put( NodeType.StatementType              , ((n, activationFrame )-> evalStatement(n)         ));
+            functionMap.put( NodeType.ExpressionType             , ((n, activationFrame )-> evalStatement(n)         ));
+            functionMap.put( NodeType.FinalType                  , ((n, activationFrame )-> evalFinal(n)             ));
+            functionMap.put( NodeType.ReturnValueType            , ((n, activationFrame )-> evalReturn(n, activationFrame)             ));
+            functionMap.put( NodeType.BooleanType                , ((n, activationFrame )-> evalBooleanNode(n, activationFrame)    ));
+            functionMap.put( NodeType.BooleanOperatorType        , ((n, activationFrame )-> evalBooleanOperator(n, activationFrame)    ));
+            functionMap.put( NodeType.IfExprType                 , ((n, activationFrame )-> evalIfStatement(n, activationFrame)    ));
+            functionMap.put( NodeType.WhileExpressionType        , ((n, activationFrame )-> evalWhileExpression(n, activationFrame)));
+            functionMap.put( NodeType.VariableDeclarationType   , ((n , activationFrame ) -> evalVariableDeclration( n, activationFrame )));
 
             //functionMap.put(NodeType.VariableDeclarationType, (n-> eval(n)));
             //functionMap.put(NodeType.ReturnValueType            , (n-> evalReassignment(n)      ));
@@ -363,6 +364,10 @@ public class Interpreter {
         }
 
         return new ArrayList<>();
+    }
+
+    private List<Node> evalVariableDeclration(Node node, ActivationFrame frame){
+        return null;
     }
 
     private FinalNode getFinalNodeFromAnyNode(Node node){

@@ -8,8 +8,6 @@ class node = {
 
 function main() = {
     node xfoo;
-
-    test();
-    int x = xfoo::data;
-    int y = xfoo::test();
+    xfoo::data = 3;
+    int i = 3;
 }
