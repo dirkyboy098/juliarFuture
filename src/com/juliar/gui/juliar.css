@@ -183,3 +183,10 @@
     -fx-text-fill: white;
     -fx-font-size: 24px;
 }
+.dialog-pane .button{
+    -fx-background-radius: 0;
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+    -fx-padding: 10 20 10 20;
+}
