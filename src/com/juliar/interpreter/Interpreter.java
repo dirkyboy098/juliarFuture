@@ -367,7 +367,7 @@ public class Interpreter {
     }
 
     private List<Node> evalVariableDeclration(Node node, ActivationFrame frame){
-        return null;
+        return new ArrayList<>();
     }
 
     private FinalNode getFinalNodeFromAnyNode(Node node){

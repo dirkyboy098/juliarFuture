@@ -16,4 +16,17 @@ public class UserDefinedTypeNode extends NodeImpl {
     public NodeType getType() {
         return null;
     }
+
+    public VariableNode getVariableNode(){
+        return (VariableNode)this.getInstructions().get(2);
+    }
+
+    public FinalNode getObjectIdentifier(){
+        return (FinalNode)this.getInstructions().get(0);
+    }
+
+    public FinalNode getVariableIdentifer(){
+        VariableNode variableNode = (VariableNode)this.getInstructions().get(2);
+        return variableNode.getFinalNode();
+    }
 }
