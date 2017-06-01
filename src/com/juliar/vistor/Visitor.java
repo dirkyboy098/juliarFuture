@@ -64,6 +64,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
         }
         catch(Exception ex){
             System.out.println(ex.getMessage());
+            ex.printStackTrace();
         }
         return node;
     }
@@ -491,9 +492,22 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
     @Override
     public Node visitVariable(JuliarParser.VariableContext ctx) {
-        String variableName = ctx.ID().getText();
+        String variableName = "";
+
+        if ( ctx.ID() != null ) {
+            variableName = ctx.ID().getText();
+        }
+        else if ( ctx.variable() != null){
+            variableName = ctx.userDefinedTypeName().getText();
+            variableName += "::";
+            variableName += ctx.variable().getText();
+        }
 
         VariableNode variableNode = new VariableNode(variableName);
+
+        if ( variableNode == null){
+            throw new RuntimeException( "unable to create a variable");
+        }
 
         Object[] funcStackArray = funcContextStack.toArray();
         int length = funcStackArray.length - 1;
