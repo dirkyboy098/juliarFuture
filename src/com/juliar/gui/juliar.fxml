@@ -25,6 +25,7 @@
                  </Menu>
                  <Menu text="Help">
                      <MenuItem onAction="#onAbout" text="About" />
+                     <MenuItem onAction="#onPackageManager" text="Package Manager" />
                      <MenuItem onAction="#onWhatsNew" text="What's New" />
                  </Menu>
              </MenuBar>
