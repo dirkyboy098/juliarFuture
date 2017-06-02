@@ -88,6 +88,11 @@ public class Controller {
     }
 
     @FXML
+    public void onException(){
+        new GuiAlert(new Exception(),"Triggered an Error");
+    }
+
+    @FXML
     public void initialize() {
         onNew();
         final KeyCombination kb_enter = new KeyCodeCombination(KeyCode.ENTER, KeyCombination.CONTROL_DOWN);
