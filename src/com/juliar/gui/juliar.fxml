@@ -27,6 +27,7 @@
                      <MenuItem onAction="#onAbout" text="About" />
                      <MenuItem onAction="#onPackageManager" text="Package Manager" />
                      <MenuItem onAction="#onWhatsNew" text="What's New" />
+                     <MenuItem onAction="#onException" text="Debug: Error" />
                  </Menu>
              </MenuBar>
       </AnchorPane>

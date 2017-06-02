@@ -33,6 +33,9 @@
     -fx-background-radius: 0 6 6 6, 0 5 5 5, 0 4 4 4;
     -fx-padding: 0.333333em 0.083333em 0.666667em 0.083333em;
 }
+.context-menu .label{
+    -fx-text-fill: white;
+}
 .tab-pane .tab-header-area .tab-header-background {
     -fx-background-color: #232733;
     -fx-focus-color: transparent;
@@ -169,7 +172,7 @@
 }
 .dialog-pane {
     -fx-font-family: "Montserrat";
-    -fx-font-size: 24px;
+    -fx-font-size: 18px;
 }
 .dialog-pane > .content.label {
     -fx-font-size: 14px;
@@ -189,4 +192,14 @@
     -fx-text-fill: white;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
     -fx-padding: 10 20 10 20;
+}
+.dialog-pane .label{
+    -fx-text-fill: white;
+}
+.dialog-pane > .button-bar > .container > .details-button.more {
+    -fx-text-fill: white;
+}
+
+.dialog-pane > .button-bar > .container > .details-button.less {
+    -fx-text-fill: white;
 }
