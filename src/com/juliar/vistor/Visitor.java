@@ -357,10 +357,16 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
                 IntegralType integralType = null;
                 if ( parent instanceof AssignmentNode && parent.getInstructions().size() >= 2 && parent.getInstructions().get(0) instanceof VariableDeclarationNode){
-                    VariableNode variableNode = (VariableNode)parent.getInstructions().get(0).getInstructions().get(1);
-                    integralType = variableNode.getIntegralType();
-                    if ( parent.getIntegralType() != variableNode.getIntegralType()){
-                       // throw new RuntimeException( "invalide types used in expressioin");
+                    if ( parent.getInstructions().get(0).getInstructions().get(0) instanceof  UserDefinedTypeNode){
+                        integralType = parent.getInstructions().get(0).getInstructions().get(0).getInstructions().get(2).getIntegralType();
+                        return;
+                    }
+                    else {
+                        VariableNode variableNode = (VariableNode) parent.getInstructions().get(0).getInstructions().get(1);
+                        integralType = variableNode.getIntegralType();
+                        if (parent.getIntegralType() != variableNode.getIntegralType()) {
+                            // throw new RuntimeException( "invalide types used in expressioin");
+                        }
                     }
                 }
 
@@ -437,9 +443,16 @@ public class Visitor extends JuliarBaseVisitor<Node>
         VariableDeclarationNode variableDeclarationNode = new VariableDeclarationNode();
 
         new IterateOverContext(ctx, this , variableDeclarationNode);
+        VariableNode variableNode;
 
-        VariableNode variableNode  = (VariableNode)variableDeclarationNode.getInstructions().get(1);
-        variableNode.setVariableType( ctx.children.get(0).getText() );
+        if ( variableDeclarationNode.getInstructions().get(0) instanceof  UserDefinedTypeNode){
+            variableNode = (VariableNode) variableDeclarationNode.getInstructions().get(0).getInstructions().get(2);
+            variableNode.setVariableType( ctx.children.get(0).getChild(0).getText() );
+        }
+        else if (variableDeclarationNode.getInstructions().size() >= 2) {
+            variableNode = (VariableNode) variableDeclarationNode.getInstructions().get(1);
+            variableNode.setVariableType(ctx.children.get(0).getText());
+        }
 
         return variableDeclarationNode;
     }
@@ -615,29 +628,30 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
     class IterateOverContext {
 
-        public IterateOverContext(){
+        public IterateOverContext() {
         }
 
-        public IterateOverContext(ParserRuleContext ctx, Visitor visitor, Node parent){
+        public IterateOverContext(ParserRuleContext ctx, Visitor visitor, Node parent) {
             this();
-            iterateOverChildren( ctx, visitor, parent);
+            iterateOverChildren(ctx, visitor, parent);
         }
 
 
         public void iterateOverChildren(ParserRuleContext ctx, Visitor visitor, Node parent) {
-            funcContextStack.push( parent );
+            funcContextStack.push(parent);
             for (Iterator<ParseTree> pt = ctx.children.iterator(); pt.hasNext(); ) {
                 ParseTree parseTree = pt.next();
-                Node node = parseTree.accept( visitor );
+                Node node = parseTree.accept(visitor);
 
                 if (node != null) {
                     action(parent, node);
                     action(node);
-                    parent.AddInst( node );
+                    parent.AddInst(node);
                 }
             }
             funcContextStack.pop();
         }
+
 
         /*
          this method will be overridden in implementation.

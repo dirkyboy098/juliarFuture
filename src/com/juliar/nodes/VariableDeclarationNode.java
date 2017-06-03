@@ -17,13 +17,24 @@ public class VariableDeclarationNode extends NodeImpl {
     @Override
     public IntegralType getIntegralType(){
         if (this.getInstructions().size() > 0) {
-            KeywordNode keywordNode = (KeywordNode) this.getInstructions().get(0);
-            if (keywordNode.getInstructions().size() > 0 ) {
-                return keywordNode.getIntegralType();
+            if (this.getInstructions().get(0) instanceof  KeywordNode) {
+                KeywordNode keywordNode = (KeywordNode) this.getInstructions().get(0);
+                if (keywordNode.getInstructions().size() > 0) {
+                    return keywordNode.getIntegralType();
+                }
+            }
+            if (this.getInstructions().get(0) instanceof  UserDefinedTypeNode) {
+                UserDefinedTypeNode keywordNode = (UserDefinedTypeNode) this.getInstructions().get(0);
+                return keywordNode.getInstructions().get(2).getIntegralType();
             }
         }
 
         assert true;
         return null;
+    }
+
+    public UserDefinedTypeNode getUserDefinedNode(){
+        assert this.getInstructions().size() >= 1;
+        return ( UserDefinedTypeNode )this.getInstructions().get(0);
     }
 }

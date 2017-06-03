@@ -85,14 +85,21 @@ public class EvaluateAssignments {
                 PrimitiveNode primitiveNode = (PrimitiveNode)rvalue;
                 if (canPrimitiveValueBeAssignedToVar(variableToAssignTo, primitiveNode)){
                     ActivationFrame frame = activationFrame;
-                    variableNameTerminalNode = (FinalNode) variableToAssignTo.getInstructions().get(1).getInstructions().get(0);
-                    String variableName = variableNameTerminalNode.dataString();
 
-                    if (frame.variableSet.containsKey( variableName )) {
-                        frame.variableSet.remove(variableName);
+                    if (variableToAssignTo.getIntegralType() == IntegralType.juserDefined){
+                        FinalNode variableObjectId = variableToAssignTo.getUserDefinedNode().getObjectIdentifier();
+                        variableNameTerminalNode = (FinalNode)variableToAssignTo.getUserDefinedNode().getVariableIdentifer();
                     }
+                    else {
+                        variableNameTerminalNode = (FinalNode) variableToAssignTo.getInstructions().get(1).getInstructions().get(0);
+                        String variableName = variableNameTerminalNode.dataString();
 
-                    frame.variableSet.put( variableName, primitiveNode );
+                        if (frame.variableSet.containsKey(variableName)) {
+                            frame.variableSet.remove(variableName);
+                        }
+
+                        frame.variableSet.put(variableName, primitiveNode);
+                    }
                 }
             }
             if (rvalue instanceof  BooleanNode){
@@ -142,7 +149,15 @@ public class EvaluateAssignments {
 
     static private boolean canPrimitiveValueBeAssignedToVar(VariableDeclarationNode lvalue, PrimitiveNode rvalue) {
         FinalNode rvalueTerminal = (FinalNode) rvalue.getInstructions().get(0);
-        VariableNode variableNode = (VariableNode) lvalue.getInstructions().get(1);
+
+        VariableNode variableNode;
+
+        if (IntegralType.juserDefined == lvalue.getIntegralType()){
+            variableNode = lvalue.getUserDefinedNode().getVariableNode();
+        }
+        else {
+            variableNode = (VariableNode) lvalue.getInstructions().get(1);
+        }
         String data = rvalueTerminal.dataString();
 
         try {
@@ -165,6 +180,9 @@ public class EvaluateAssignments {
                     return false;
                 case jboolean:
                     Boolean.parseBoolean(data);
+                    return true;
+                case juserDefined:
+                    //TODO map userdefined values and make available at runtime
                     return true;
                 default:
                     return false;

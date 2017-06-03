@@ -14,6 +14,7 @@ for /f %%f in ('dir /b ..\jars') do jar xf ..\jars\%%f
 cd ..
 xcopy /e /v out temp
 copy src\com\juliar\gui\juliar.fxml temp\com\juliar\gui\juliar.fxml
+copy src\com\juliar\gui\packages.fxml temp\com\juliar\gui\packages.fxml
 copy src\com\juliar\gui\juliar.css temp\com\juliar\gui\juliar.css
 copy src\com\juliar\gui\juliarFutureIcon.png temp\com\juliar\gui\juliarFutureIcon.png
 copy src\com\juliar\gui\Montserrat-Regular.ttf temp\com\juliar\gui\Montserrat-Regular.ttf

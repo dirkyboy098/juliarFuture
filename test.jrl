@@ -6,4 +6,5 @@ class node = {
 function main() = {
     node xfoo;
     xfoo::data = 3;
+    printLine("main");
 }
