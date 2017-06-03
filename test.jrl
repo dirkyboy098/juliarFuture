@@ -1,13 +1,9 @@
 class node = {
     int data;
     node next;
-
-    function test()={
-    }
 }
 
 function main() = {
     node xfoo;
     xfoo::data = 3;
-    int i = 3;
 }
