@@ -26,6 +26,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
     private static int functionDeclCount = 0;
     private static int ifDeclCount = 0;
     private static int whileDeclCount = 0;
+    private static int classDeclCount = 0;
     private List<Node> instructionList = new ArrayList<>();
     private HashMap<String, Node> functionNodeMap = new HashMap<String, Node>();
     private Stack<Node> funcContextStack = new Stack<Node>();
@@ -514,7 +515,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
         int index = length;
         SymbolTypeEnum symbolTypeEnum = null;
 
-        for (; index > 0; index--) {
+        for (; index >= 0; index--) {
             if (funcStackArray[index] instanceof VariableDeclarationNode) {
                 // We are creating the variable and adding it to the symbol table.
                 // This will automatically throw an exception if creating a symbol with
@@ -582,17 +583,14 @@ public class Visitor extends JuliarBaseVisitor<Node>
         String variableName = ctx.userDefinedTypeName().ID().getText();
         String keyWord = ctx.userDefinedTypeKeyWord().getText();
 
-        UserDefinedTypeNode variableNode = new UserDefinedTypeNode();
-
-        callStack.push( variableName );
+        UserDefinedTypeNode variableNode = new UserDefinedTypeNode( variableName , keyWord);
 
         Object[] funcStackArray = funcContextStack.toArray();
         int length = funcStackArray.length - 1;
         int index = length;
-        SymbolTypeEnum symbolTypeEnum = null;
 
-        for (; index > 0; index--) {
-            if (funcStackArray[index] instanceof UserDefinedTypeNode) {
+        for (; index >= 0; index--) {
+            if ( (funcStackArray[index] instanceof CompliationUnitNode) || (funcStackArray[index] instanceof UserDefinedTypeNode ) ) {
                 // We are creating the variable and adding it to the symbol table.
                 // This will automatically throw an exception if creating a symbol with
                 // same name at same scope.
@@ -606,8 +604,9 @@ public class Visitor extends JuliarBaseVisitor<Node>
             break;
         }
 
+        symbolTable.addLevel( "class" + "_" + classDeclCount++);
         Node iteratorNode = iterateWrapper(ctx, this, variableNode);
-        callStack.pop();
+        symbolTable.popScope();
 
         return iteratorNode;
     }
