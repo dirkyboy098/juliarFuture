@@ -568,6 +568,10 @@ public class Visitor extends JuliarBaseVisitor<Node>
         String variableName = ctx.userDefinedTypeName().ID().getText();
         String keyWord = ctx.userDefinedTypeKeyWord().getText();
 
+        if (!keyWord.equalsIgnoreCase("class")){
+            throw new RuntimeException("invalid keyword");
+        }
+
         UserDefinedTypeNode variableNode = new UserDefinedTypeNode();
 
         callStack.push( variableName );

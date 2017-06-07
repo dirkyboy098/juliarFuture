@@ -83,23 +83,25 @@ public class EvaluateAssignments {
 
             if (rvalue instanceof PrimitiveNode){
                 PrimitiveNode primitiveNode = (PrimitiveNode)rvalue;
-                if (canPrimitiveValueBeAssignedToVar(variableToAssignTo, primitiveNode)){
+                if (canPrimitiveValueBeAssignedToVar(variableToAssignTo, primitiveNode)) {
                     ActivationFrame frame = activationFrame;
+                    String variableName;
 
-                    if (variableToAssignTo.getIntegralType() == IntegralType.juserDefined){
+                    if (variableToAssignTo.getIntegralType() == IntegralType.juserDefined) {
                         FinalNode variableObjectId = variableToAssignTo.getUserDefinedNode().getObjectIdentifier();
-                        variableNameTerminalNode = (FinalNode)variableToAssignTo.getUserDefinedNode().getVariableIdentifer();
-                    }
-                    else {
+                        variableNameTerminalNode = (FinalNode) variableToAssignTo.getUserDefinedNode().getVariableIdentifer();
+
+                        variableName = variableToAssignTo.getUserDefinedNode().getFullyQualifiedVariableName();
+                    } else {
                         variableNameTerminalNode = (FinalNode) variableToAssignTo.getInstructions().get(1).getInstructions().get(0);
-                        String variableName = variableNameTerminalNode.dataString();
-
-                        if (frame.variableSet.containsKey(variableName)) {
-                            frame.variableSet.remove(variableName);
-                        }
-
-                        frame.variableSet.put(variableName, primitiveNode);
+                        variableName = variableNameTerminalNode.dataString();
                     }
+
+                    if (frame.variableSet.containsKey(variableName)) {
+                        frame.variableSet.remove(variableName);
+                    }
+
+                    frame.variableSet.put(variableName, primitiveNode);
                 }
             }
             if (rvalue instanceof  BooleanNode){

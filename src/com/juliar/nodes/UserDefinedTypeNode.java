@@ -29,4 +29,12 @@ public class UserDefinedTypeNode extends NodeImpl {
         VariableNode variableNode = (VariableNode)this.getInstructions().get(2);
         return variableNode.getFinalNode();
     }
+
+    public String getFullyQualifiedVariableName(){
+        FinalNode object = getObjectIdentifier();
+        FinalNode variableName = getVariableIdentifer();
+
+        return object.dataString() + "::" + variableName.dataString();
+    }
+
 }
