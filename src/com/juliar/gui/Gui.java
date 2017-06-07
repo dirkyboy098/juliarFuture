@@ -8,11 +8,9 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
@@ -25,25 +23,7 @@ public class Gui extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            Controller myController = new Controller(new Model());
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("juliar.fxml"));
-            loader.setControllerFactory(t -> myController);
-
-            final Image juliarImg = new Image(getClass().getResourceAsStream("juliarFutureIcon.png"));
-            stage.getIcons().add(juliarImg);
-            Font.loadFont(
-                    getClass().getResource("Montserrat-Regular.ttf").toExternalForm(),
-                    14
-            );
-
-            Scene scene = new Scene(loader.load());
-            CSSLoader.cssLoad(scene);
-
-            stage.setTitle("Juliar.Future");
-            stage.setScene(scene);
-            myController.setScene(scene);
-            stage.show();
-
+            Scene scene = SceneCreator.create(stage,"juliar.fxml","Juliar.Future");
             keyComb(scene);
             stage.setOnCloseRequest(event -> {
                 if (CloseConfirm.closeApp().get() == ButtonType.OK){

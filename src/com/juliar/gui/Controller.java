@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
@@ -40,6 +41,10 @@ public class Controller {
     private Model model;
 
     private Scene scene;
+
+    public void addPackage(){
+        new JuliarModule();
+    }
 
     public void setScene(Scene scene) {
         scene.setOnDragOver(event -> {
@@ -80,6 +85,11 @@ public class Controller {
 
     public Controller(Model model) {
         this.model = model;
+    }
+
+    @FXML
+    public void onException(){
+        new GuiAlert(new Exception(),"Triggered an Error");
     }
 
     @FXML
@@ -328,6 +338,18 @@ public class Controller {
 
     @FXML
     public void onAbout() { GuiInformation.create("About Juliar.Future","Juliar.Future","Juliar - Copyright (C) 2017"); }
+
+    @FXML
+    public void onPackageManager() {
+        try {
+            Stage packageStage = new Stage();
+            SceneCreator.create(packageStage,"packages.fxml","Juliar.Future Package Manager");
+        }
+        catch(Exception e){
+            new GuiAlert(e,"Package Manager Cannot Launch");
+        }
+
+    }
 
     @FXML
     public void onWhatsNew(){ GuiInformation.create("What's New","Juliar New Features",

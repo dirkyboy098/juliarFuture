@@ -1,10 +1,13 @@
 package com.juliar.symbolTable;
 
 import com.juliar.nodes.Node;
+import com.juliar.nodes.UserDefinedTypeNode;
+import com.juliar.nodes.VariableDeclarationNode;
 import com.juliar.nodes.VariableNode;
 import com.juliar.vistor.Visitor;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Created by donreamey on 1/9/17.
@@ -69,15 +72,48 @@ public class SymbolTable {
     }
 
     public void addChild(Node child) {
+        SymbolTableNode node = scopeHash.get(currentScope.peek());
+
         if (child instanceof VariableNode) {
-            SymbolTableNode node = scopeHash.get(currentScope.peek());
+
+            if (node.children.stream()
+                    .filter(f -> f instanceof VariableNode)
+                    .filter(f -> ((VariableNode) f)
+                            .variableName.equals(((VariableNode) child)
+                                    .variableName))
+                    .count() > 0) {
+                visitor
+                        .addError("identifier " + ((VariableNode) child)
+                                .variableName + " already exist");
+            }
+
+            /*
             if (node.children.stream()
                     .filter(f -> ((VariableNode) f).variableName.equals(((VariableNode) child).variableName)).count() > 0) {
                 visitor.addError( "identifier " + ((VariableNode) child).variableName + " already exist" );
-             }
+             }*/
+
+        } else if (child instanceof UserDefinedTypeNode){
+
+            if (node.children.stream()
+                    .filter( f -> f instanceof UserDefinedTypeNode)
+                    .filter(f -> ((UserDefinedTypeNode) f)
+                            .getTypeName()
+                            .equals(((UserDefinedTypeNode) child)
+                                    .getTypeName()))
+                    .count() > 0) {
+                visitor
+                        .addError("identifier " + ((UserDefinedTypeNode) child)
+                                .getTypeName() + " already exist");
+            }
+
         }
+
+
+
         scopeHash.get(currentScope.peek()).children.add(child);
     }
+
 
     public Node getNode(Node child){
         Node returnNode = null;
@@ -88,19 +124,42 @@ public class SymbolTable {
             tempScope.push( currentScope.pop() );
 
             while ( !currentScope.empty() ) {
-                SymbolTableNode node = scopeHash.get(currentScope.peek());
-                if (node.children.stream()
-                        .filter(f -> ((VariableNode) f).variableName.equals(((VariableNode) child).variableName)).count() == 1) {
 
-                    returnNode = node.children
-                            .stream()
-                            .filter(f -> ((VariableNode) f).variableName.equals(((VariableNode) child).variableName))
-                            .findFirst().get();
+                if (child instanceof VariableNode) {
 
-                    if ( returnNode != null){
-                        break;
+                    SymbolTableNode node = scopeHash.get(currentScope.peek());
+                    if (node.children.stream()
+                            .filter(f -> f instanceof VariableNode)
+                            .filter(f -> ((VariableNode) f).variableName.equals(((VariableNode) child).variableName)).count() == 1) {
+
+                        returnNode = node.children
+                                .stream()
+                                .filter(f -> ((VariableNode) f).variableName.equals(((VariableNode) child).variableName))
+                                .findFirst().get();
+
+                        if (returnNode != null) {
+                            break;
+                        }
                     }
-               }
+                }
+                else if (child instanceof UserDefinedTypeNode){
+                    SymbolTableNode node = scopeHash.get(currentScope.peek());
+
+                    if (node.children.stream()
+                            .filter(f -> f instanceof UserDefinedTypeNode)
+                            .filter(f -> ((UserDefinedTypeNode) f).getTypeName().equals(((UserDefinedTypeNode) child).getTypeName())).count() == 1) {
+
+                        returnNode = node.children
+                                .stream()
+                                .filter(f -> f instanceof UserDefinedTypeNode)
+                                .filter(f -> ((UserDefinedTypeNode) f).getTypeName().equals(((UserDefinedTypeNode) child).getTypeName()))
+                                .findFirst().get();
+
+                        if (returnNode != null) {
+                            break;
+                        }
+                    }
+                }
 
                while (!tempScope.empty()){
                     currentScope.push (tempScope.pop());
@@ -121,13 +180,24 @@ public class SymbolTable {
         boolean doesExist = false;
 
         while ( !currentScope.empty() ) {
-            doesExist = scopeHash.get(tempScope.peek())
-                    .children.stream()
-                    .filter(f -> f instanceof VariableNode)
-                    .filter(t -> ((VariableNode) t).variableName.equals(((VariableNode) child).variableName)).count() == 1;
+            if (child instanceof  VariableNode) {
+                doesExist = scopeHash.get(tempScope.peek())
+                        .children.stream()
+                        .filter(f -> f instanceof VariableNode)
+                        .filter(t -> ((VariableNode) t).variableName.equals(((VariableNode) child).variableName)).count() == 1;
 
-            if ( doesExist ){
-                break;
+                if (doesExist) {
+                    break;
+                }
+            } else if (child instanceof UserDefinedTypeNode){
+                doesExist = scopeHash.get(tempScope.peek())
+                        .children.stream()
+                        .filter(f -> f instanceof UserDefinedTypeNode)
+                        .filter(t -> ((VariableNode) t).variableName.equals(((UserDefinedTypeNode) child).getTypeName())).count() == 1;
+
+                if (doesExist) {
+                    break;
+                }
             }
 
             tempScope.push ( currentScope.pop() );

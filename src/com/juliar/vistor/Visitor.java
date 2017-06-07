@@ -26,6 +26,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
     private static int functionDeclCount = 0;
     private static int ifDeclCount = 0;
     private static int whileDeclCount = 0;
+    private static int classDeclCount = 0;
     private List<Node> instructionList = new ArrayList<>();
     private HashMap<String, Node> functionNodeMap = new HashMap<String, Node>();
     private Stack<Node> funcContextStack = new Stack<Node>();
@@ -64,6 +65,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
         }
         catch(Exception ex){
             System.out.println(ex.getMessage());
+            ex.printStackTrace();
         }
         return node;
     }
@@ -491,16 +493,29 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
     @Override
     public Node visitVariable(JuliarParser.VariableContext ctx) {
-        String variableName = ctx.ID().getText();
+        String variableName = "";
+
+        if ( ctx.ID() != null ) {
+            variableName = ctx.ID().getText();
+        }
+        else if ( ctx.variable() != null){
+            variableName = ctx.userDefinedTypeName().getText();
+            variableName += "::";
+            variableName += ctx.variable().getText();
+        }
 
         VariableNode variableNode = new VariableNode(variableName);
+
+        if ( variableNode == null){
+            throw new RuntimeException( "unable to create a variable");
+        }
 
         Object[] funcStackArray = funcContextStack.toArray();
         int length = funcStackArray.length - 1;
         int index = length;
         SymbolTypeEnum symbolTypeEnum = null;
 
-        for (; index > 0; index--) {
+        for (; index >= 0; index--) {
             if (funcStackArray[index] instanceof VariableDeclarationNode) {
                 // We are creating the variable and adding it to the symbol table.
                 // This will automatically throw an exception if creating a symbol with
@@ -572,17 +587,14 @@ public class Visitor extends JuliarBaseVisitor<Node>
             throw new RuntimeException("invalid keyword");
         }
 
-        UserDefinedTypeNode variableNode = new UserDefinedTypeNode();
-
-        callStack.push( variableName );
+        UserDefinedTypeNode variableNode = new UserDefinedTypeNode( variableName , keyWord);
 
         Object[] funcStackArray = funcContextStack.toArray();
         int length = funcStackArray.length - 1;
         int index = length;
-        SymbolTypeEnum symbolTypeEnum = null;
 
-        for (; index > 0; index--) {
-            if (funcStackArray[index] instanceof UserDefinedTypeNode) {
+        for (; index >= 0; index--) {
+            if ( (funcStackArray[index] instanceof CompliationUnitNode) || (funcStackArray[index] instanceof UserDefinedTypeNode ) ) {
                 // We are creating the variable and adding it to the symbol table.
                 // This will automatically throw an exception if creating a symbol with
                 // same name at same scope.
@@ -596,8 +608,9 @@ public class Visitor extends JuliarBaseVisitor<Node>
             break;
         }
 
+        symbolTable.addLevel( "class" + "_" + classDeclCount++);
         Node iteratorNode = iterateWrapper(ctx, this, variableNode);
-        callStack.pop();
+        symbolTable.popScope();
 
         return iteratorNode;
     }

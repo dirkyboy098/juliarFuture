@@ -7,6 +7,20 @@ import java.util.List;
  * Created by don on 5/18/17.
  */
 public class UserDefinedTypeNode extends NodeImpl {
+    private String typeName;
+    private String keyWordName;
+
+    public UserDefinedTypeNode(){
+    }
+
+    public UserDefinedTypeNode(String typeName, String keyWordName){
+        typeName = typeName;
+        keyWordName = keyWordName;
+    }
+
+    public String getTypeName(){
+        return typeName;
+    }
 
     public List< String > variableList = new ArrayList<String>();
 
