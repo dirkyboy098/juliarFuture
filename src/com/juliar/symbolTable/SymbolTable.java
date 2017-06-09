@@ -110,8 +110,8 @@ public class SymbolTable {
         }
 
 
-
-        scopeHash.get(currentScope.peek()).children.add(child);
+        node.children.add ( child );
+        //scopeHash.get(currentScope.peek()).children.add(child);
     }
 
 

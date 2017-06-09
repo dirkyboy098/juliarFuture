@@ -500,8 +500,8 @@ public class Visitor extends JuliarBaseVisitor<Node>
         }
         else if ( ctx.variable() != null){
             variableName = ctx.userDefinedTypeName().getText();
-            variableName += "::";
-            variableName += ctx.variable().getText();
+            //variableName += "::";
+            //variableName += ctx.variable().getText();
         }
 
         VariableNode variableNode = new VariableNode(variableName);
@@ -569,6 +569,29 @@ public class Visitor extends JuliarBaseVisitor<Node>
         return errorList;
     }
 
+
+    @Override
+    public Node visitUserDefinedTypeDecl(JuliarParser.UserDefinedTypeDeclContext ctx) {
+        return super.visitUserDefinedTypeDecl(ctx);
+    }
+
+    @Override
+    public Node visitUserDefinedTypeKeyWord(JuliarParser.UserDefinedTypeKeyWordContext ctx) {
+        return super.visitUserDefinedTypeKeyWord(ctx);
+    }
+
+    @Override
+    public Node visitUserDefinedTypeName(JuliarParser.UserDefinedTypeNameContext ctx) {
+        return super.visitUserDefinedTypeName(ctx);
+    }
+
+    /*
+
+    @Override
+    public Node visitUserDefinedTypeKeyWord(JuliarParser.UserDefinedTypeKeyWordContext ctx) {
+        return super.visitUserDefinedTypeKeyWord(ctx);
+    }
+
     @Override
     public Node visitUserDefinedMemberResolution(JuliarParser.UserDefinedMemberResolutionContext ctx) {
         UserDefinedTypeNode userDefinedTypeNode = new UserDefinedTypeNode();
@@ -578,6 +601,19 @@ public class Visitor extends JuliarBaseVisitor<Node>
         return iteratorNode;
     }
 
+    @Override
+    public Node visitUserDefinedTypeName(JuliarParser.UserDefinedTypeNameContext ctx) {
+        return super.visitUserDefinedTypeName(ctx);
+    }
+
+    @Override
+    public Node visitUserDefinedTypeResolutionOperator(JuliarParser.UserDefinedTypeResolutionOperatorContext ctx) {
+        return super.visitUserDefinedTypeResolutionOperator(ctx);
+    }
+    */
+
+
+    /*
     @Override
     public Node visitUserDefinedType(JuliarParser.UserDefinedTypeContext ctx) {
         String variableName = ctx.userDefinedTypeName().ID().getText();
@@ -614,6 +650,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
         return iteratorNode;
     }
+    */
 
     private Node iterateWrapper(ParserRuleContext ctx, Visitor visitor, Node parent){
         IterateOverContext it = new IterateOverContext();

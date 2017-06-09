@@ -10,7 +10,7 @@ compileUnit
 
 classifications
     : functionDeclaration
-    | userDefinedType
+    | userDefinedTypeDecl
     ;
 
 statement
@@ -36,7 +36,7 @@ expression
     | primitives endLine
     | functionCall endLine
     | returnValue endLine
-    | userDefinedMemberResolution endLine
+    | userDefinedTypeVariableReference endLine
     ;
 
 assignmentExpression
@@ -45,7 +45,7 @@ assignmentExpression
 	| variableDeclaration equalsign functionCall
 	| variableDeclaration equalsign primitiveTypes
 	| variableDeclaration equalsign booleanExpression
-	| variableDeclaration equalsign userDefinedMemberResolution
+	| variableDeclaration equalsign userDefinedTypeVariableReference
 	;
 
 reassignmentExpression
@@ -87,8 +87,6 @@ rightParen
     : ')'
     ;
 
-
-
 booleanExpression
     : BOOLEAN
     | variable (comparisonOperator) variable
@@ -120,7 +118,7 @@ command
 	| modulo
     ;
 
-userDefinedType
+userDefinedTypeDecl
     : userDefinedTypeKeyWord userDefinedTypeName equalsign '{' (statement)* (functionDeclaration)* '}'
     ;
 
@@ -132,7 +130,7 @@ userDefinedTypeName
     : ID
     ;
 
-userDefinedMemberResolution
+userDefinedTypeVariableReference
     : userDefinedTypeName(userDefinedTypeResolutionOperator)variable
     | userDefinedTypeName(userDefinedTypeResolutionOperator)functionCall
     ;
@@ -144,7 +142,11 @@ variable
 
 variableDeclaration
     : keywords variable
-    | userDefinedTypeName variable
+    | userDefinedTypeVariableDecl
+    ;
+
+userDefinedTypeVariableDecl
+    : userDefinedTypeName variable
     ;
 
 add
