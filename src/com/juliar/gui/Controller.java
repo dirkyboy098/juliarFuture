@@ -269,12 +269,16 @@ public class Controller {
             return;
         }
         // Create a stream to hold the output
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(baos);
+        ByteArrayOutputStream newOut = new ByteArrayOutputStream();
+        ByteArrayOutputStream newErr = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(newOut);
+        PrintStream ps2 = new PrintStream(newErr);
         // IMPORTANT: Save the old System.out!
-        PrintStream old = System.out;
+        PrintStream oldOut = System.out;
+        PrintStream oldErr = System.err;
         // Tell Java to use your special stream
         System.setOut(ps);
+        System.setErr(ps2);
         // Print some output: goes to your special stream
         JuliarCompiler compiler = new JuliarCompiler();
 
@@ -294,8 +298,10 @@ public class Controller {
         };
         task.setOnSucceeded(taskFinishEvent -> {
             System.out.flush();
-            System.setOut(old);
-            areaOutText.appendText(baos.toString());
+            System.setOut(oldOut);
+            System.setErr(oldErr);
+            areaOutText.appendText(newOut.toString());
+            areaOutText.appendText(newErr.toString());
             areaOutText.appendText("\r\nCompleted execution in " + ((System.nanoTime() - startTime) / 1000000) + "ms");
             runBtn.setGraphic(Shapes.btnTriangle());
             compilerRunning = false;
