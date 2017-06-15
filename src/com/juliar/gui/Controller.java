@@ -19,6 +19,8 @@ import java.io.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by AndreiM on 3/18/2017.
@@ -285,8 +287,8 @@ public class Controller {
         areaOutText.clear();
         areaOutText.appendText("Starting Interpreter at: " + LocalDateTime.now() + "\r\n");
         long startTime = System.nanoTime();
-
-        InputStream is = new ByteArrayInputStream(jrltabs.get(jrlID).getJlrCodeArea().getText().getBytes());
+        CodeArea area = jrltabs.get(jrlID).getJlrCodeArea();
+        InputStream is = new ByteArrayInputStream(area.getText().getBytes());
 
         Task<Void> task = new Task<Void>() {
             @Override
@@ -297,11 +299,29 @@ public class Controller {
             }
         };
         task.setOnSucceeded(taskFinishEvent -> {
+            area.requestFocus();
             System.out.flush();
             System.setOut(oldOut);
             System.setErr(oldErr);
             areaOutText.appendText(newOut.toString());
-            areaOutText.appendText(newErr.toString());
+            Pattern word = Pattern.compile("([0-9]+,[0-9]+).*\\r\\n");
+            Matcher m = word.matcher(newErr.toString());
+
+            if (m.find()) {
+                String[] parts = m.group().split("[)] ");
+                String[] indicators = parts[0].split(",");
+                areaOutText.appendText(parts[1]);
+                int startPos = area.getAbsolutePosition(Integer.parseInt(indicators[0])-1, Integer.parseInt(indicators[1]));
+                int endPos = area.getAbsolutePosition(Integer.parseInt(indicators[0])-1, area.getParagraphLenth(Integer.parseInt(indicators[0])-1));
+                area.selectRange(startPos, endPos);
+                area.setEstimatedScrollY(0);
+            }
+
+            while(m.find()){
+                String[] parts = m.group().split("[)] ");
+                areaOutText.appendText(parts[1]);
+            }
+
             areaOutText.appendText("\r\nCompleted execution in " + ((System.nanoTime() - startTime) / 1000000) + "ms");
             runBtn.setGraphic(Shapes.btnTriangle());
             compilerRunning = false;

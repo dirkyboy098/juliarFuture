@@ -176,11 +176,11 @@ public class JuliarCompiler {
 
 		if (errors.ErrorList().size() > 0 || visitor.getErrorList().size() > 0){
 			for (String error : errors.ErrorList()){
-				System.out.println( error );
+				System.err.println( error );
 			}
 
 			for (String error : visitor.getErrorList()){
-				System.out.println( error );
+				System.err.println( error );
 			}
 
 			return true;
