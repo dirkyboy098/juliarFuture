@@ -101,6 +101,8 @@ primitives
     | 'printLine' '(' variable ')'
     | 'fileOpen' '(' STRING ')'
     | 'fileOpen' '(' variable ')'
+    | 'sysExec' '(' STRING ')'
+    | 'sysExec' '(' variable ')'
     | 'print' '(' variable ')'
     | 'print' '(' (variable | types ) ')'
     | 'availableMemory' '()'

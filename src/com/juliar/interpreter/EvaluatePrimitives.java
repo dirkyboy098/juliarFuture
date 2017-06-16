@@ -30,6 +30,12 @@ public class EvaluatePrimitives {
                 finalNode.setVariableTypeByIntegralType(IntegralType.jstring);
                 activationFrame.returnNode = finalNode;
                 break;
+            case "sysExec":
+                String ex = sysExec(n.getInstructions().get(2));
+                finalNode.setDataString(ex);
+                finalNode.setVariableTypeByIntegralType(IntegralType.jstring);
+                activationFrame.returnNode = finalNode;
+                break;
             case "availableMemory":
                 long value = availableMemory();
                 finalNode.setDataString(value);
@@ -50,6 +56,14 @@ public class EvaluatePrimitives {
             return com.juliar.pal.Primitives.sys_file_open(finalNode.dataString());
         }
 
+        return "";
+    }
+
+    public static String sysExec(Node argumentNode) {
+        if (argumentNode instanceof FinalNode) {
+            FinalNode finalNode = (FinalNode) argumentNode;
+            return com.juliar.pal.Primitives.sysExec(finalNode.dataString());
+        }
         return "";
     }
 

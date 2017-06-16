@@ -1,8 +1,6 @@
 package com.juliar.pal;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,27 +19,53 @@ public class Primitives {
             int read = 1024;
             int N = 1024 * read;
             char[] buffer = new char[N];
-            String text = "";
+            StringBuilder text = new StringBuilder();
 
             FileReader reader = new FileReader(path);
             BufferedReader bufferedReader = new BufferedReader(reader);
 
             while (true) {
                 read = bufferedReader.read(buffer, 0, N);
-                text += new String(buffer, 0, read);
+                text.append(new String(buffer, 0, read));
 
                 if (read < N) {
                     break;
                 }
             }
 
-            return text;
+            return text.toString();
 
         } catch (Exception fne) {
             new LogMessage(fne.getMessage());
         }
 
         return "";
+    }
+
+    public static String sysExec(String execString){
+        String command = "/bin/sh";
+        String param = "-c";
+        if(System.getProperty("os.name").toLowerCase().contains("win")) {
+            command = "cmd.exe";
+            param = "/C";
+        }
+        ProcessBuilder builder = new ProcessBuilder(command, param, execString);
+        builder.redirectErrorStream(true);
+        try {
+            Process process = builder.start();
+            InputStream is = process.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+
+            String line = null;
+            StringBuilder output =new StringBuilder();
+            while ((line = reader.readLine()) != null) {
+                output.append(line).append(System.getProperty("line.separator"));
+            }
+            return output.toString();
+        }
+        catch (Exception e){
+            return "";
+        }
     }
 
     public static void sys_file_write(String path) {
@@ -88,6 +112,4 @@ public class Primitives {
     public static char[] sys_get_byte_from_string(String s){
         return s.toCharArray();
     }
-
-    //public static
 }
