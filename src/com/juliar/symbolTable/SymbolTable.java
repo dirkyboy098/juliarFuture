@@ -1,4 +1,4 @@
-package com.juliar.symboltable;
+package com.juliar.symbolTable;
 
 import com.juliar.nodes.Node;
 import com.juliar.nodes.UserDefinedTypeNode;
