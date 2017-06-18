@@ -29,6 +29,7 @@ public enum NodeType {
     RvalueType,
     StatementType,
     SummationType,
+    UserDefinedDeclarationType,
     VariableDeclarationType,
     VariableType,
     VariableReassignmentType,

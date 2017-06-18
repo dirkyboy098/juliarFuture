@@ -36,6 +36,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
     private ImportsInterface importsInterfaceCallback;
     private boolean skimImports = false;
     private List<String> errorList = new ArrayList<>();
+    private List<String> declaredClasses = new ArrayList<>();
 
     public InstructionInvocation instructions(){
         return new InstructionInvocation(instructionList, functionNodeMap);
@@ -572,7 +573,17 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
     @Override
     public Node visitUserDefinedTypeDecl(JuliarParser.UserDefinedTypeDeclContext ctx) {
-        return super.visitUserDefinedTypeDecl(ctx);
+        UserDefinedTypeNode userDefinedTypeNode = new UserDefinedTypeNode();
+
+        iterateWrapper( ctx, this, userDefinedTypeNode);
+
+        if ( declaredClasses.contains( userDefinedTypeNode.getTypeName() ) ){
+            throw new RuntimeException( "class " + userDefinedTypeNode.getTypeName() + "already exist at current scope");
+        }
+
+        declaredClasses.add( userDefinedTypeNode.getTypeName() );
+
+        return userDefinedTypeNode;
     }
 
     @Override
