@@ -4,6 +4,7 @@ package com.juliar.nodes;
  * Created by Don on 1/15/2017.
  */
 public class VariableNode extends NodeImpl {
+    private static final long serialVersionUID = 321323217;
     public String variableName;
     public IntegralTypeNode integralTypeNode;
 

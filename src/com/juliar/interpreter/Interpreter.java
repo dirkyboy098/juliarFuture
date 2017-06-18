@@ -1,6 +1,7 @@
 package com.juliar.interpreter;
 
 import com.juliar.codegenerator.InstructionInvocation;
+import com.juliar.errors.LogMessage;
 import com.juliar.nodes.*;
 
 import java.util.*;
@@ -29,10 +30,10 @@ public class Interpreter {
             functionMap.put( NodeType.PrimitiveType              , ( EvaluatePrimitives::evalPrimitives ));
             functionMap.put( NodeType.BreakType                  , ((n, activationFrame )-> evaluateBreak(n , activationFrame) ));
 
-            functionMap.put( NodeType.AddType                    , ((n, activationFrame )-> evalAdd(n)     ));
+            functionMap.put( NodeType.AddType                    , ((n, activationFrame )-> evalAdd()     ));
             functionMap.put( NodeType.AggregateType              , ((n, activationFrame )-> evaluateAggregate(n, activationFrame)      ));
             functionMap.put( NodeType.CommandType                , ((n, activationFrame )-> evalCommand(n)      ));
-            functionMap.put( NodeType.SummationType              , ((n, activationFrame )-> evalSummation(n)     ));
+            functionMap.put( NodeType.SummationType              , ((n, activationFrame )-> evalSummation()     ));
 
             functionMap.put( NodeType.FunctionaCallType          , ((n, activationFrame )-> evalFunctionCall(n)      ));
             functionMap.put( NodeType.FunctionDeclType           , ((n, activationFrame )-> evalFunctionDecl(n)      ));
@@ -40,7 +41,7 @@ public class Interpreter {
             functionMap.put( NodeType.BinaryType                 , ((n, activationFrame )-> evalBinaryNode(n)        ));
             functionMap.put( NodeType.StatementType              , ((n, activationFrame )-> evalStatement(n)         ));
             functionMap.put( NodeType.ExpressionType             , ((n, activationFrame )-> evalStatement(n)         ));
-            functionMap.put( NodeType.FinalType                  , ((n, activationFrame )-> evalFinal(n)             ));
+            functionMap.put( NodeType.FinalType                  , ((n, activationFrame )-> evalFinal()             ));
             functionMap.put( NodeType.ReturnValueType            , ((n, activationFrame )-> evalReturn(n, activationFrame)             ));
             functionMap.put( NodeType.BooleanType                , ((n, activationFrame )-> evalBooleanNode(n, activationFrame)    ));
             functionMap.put( NodeType.BooleanOperatorType        , ((n, activationFrame )-> evalBooleanOperator(n, activationFrame)    ));
@@ -69,7 +70,7 @@ public class Interpreter {
                 }
             }
             else{
-                evalNull( Node );
+                evalNull();
             }
         }
 
@@ -104,7 +105,7 @@ public class Interpreter {
         return new ArrayList<>();
     }
 
-    private List<Node> evalSummation(Node node){
+    private List<Node> evalSummation(){
         return new ArrayList<>();
     }
 
@@ -119,15 +120,15 @@ public class Interpreter {
         return new ArrayList<>();
     }
 
-    private List<Node> evalAdd(Node node){
+    private List<Node> evalAdd(){
         return new ArrayList<>();
     }
 
-    private List<Node> evalNull(Node Node){
+    private List<Node> evalNull(){
         return new ArrayList<>();
     }
 
-    private List<Node> evalFinal( Node Node){
+    private List<Node> evalFinal(){
         return new ArrayList<>();
     }
 
@@ -181,7 +182,7 @@ public class Interpreter {
 
             if (executeTrue) {
                 Boolean breakStatement = false;
-                for ( ; ; ) {
+                while(true) {
                     for (int expressionCount = 0; expressionCount < trueExpressions.size(); expressionCount++) {
                         List<Node> currentExpressionInWhileBody = new ArrayList<>();
                         Node currentNode = trueExpressions.get( expressionCount );
@@ -211,12 +212,11 @@ public class Interpreter {
                     finalNode = (FinalNode) boolEvalResult.getInstructions().get(0);
 
                     //assert finalNode.dataString().equalsIgnoreCase( "true ") || finalNode.dataString().equalsIgnoreCase( "false" ) : "A boolean value was not returned";
-                    executeTrue = Boolean.parseBoolean( finalNode.dataString() );
+                   ;
 
-                    if (executeTrue) {
-                        continue;
+                    if (!(Boolean.parseBoolean( finalNode.dataString() ))) {
+                        break;
                     }
-                    break;
                 }
             }
         }
@@ -271,7 +271,7 @@ public class Interpreter {
 
             // TODO - FINISH THIS
             if ( booleanResult ) {
-                List<Node> s = execute( trueExpressions );
+                //List<Node> s = execute( trueExpressions );
                 if ( frame.returnNode != null ){
                     Node returnNode = frame.returnNode;
                     if ( returnNode instanceof BreakExprNode){
@@ -289,8 +289,8 @@ public class Interpreter {
     }
 
     private List<Node> evalFunctionDecl(Node Node){
-        if (((FunctionDeclNode)Node).getFunctionName().toLowerCase() == "import"){
-        }
+        //if ("import".equals(((FunctionDeclNode)Node).getFunctionName().toLowerCase())){
+        //}
         return new ArrayList<>();
     }
 
@@ -330,9 +330,9 @@ public class Interpreter {
 
             } else if (node.getInstructions().size() > 1) {
                 booleanOperatorNode = (BooleanOperatorNode) node.getInstructions().get(1);
-                if (booleanOperatorNode.getInstructions().get(0) instanceof EqualEqualSignNode) {
+                //if (booleanOperatorNode.getInstructions().get(0) instanceof EqualEqualSignNode) {
                     //isEqualEqual;
-                }
+                //}
                 rvalue = node.getInstructions().get(2);
                 FinalNode updatedRvalue = null;
                 if (rvalue != null && rvalue instanceof PrimitiveNode) {
@@ -360,7 +360,7 @@ public class Interpreter {
             }
         }
         catch( Exception ex){
-            throw new RuntimeException(ex.getMessage());
+            new LogMessage(ex.getMessage());
         }
 
         return new ArrayList<>();

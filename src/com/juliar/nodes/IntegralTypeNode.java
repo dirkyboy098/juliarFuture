@@ -4,6 +4,7 @@ package com.juliar.nodes;
  * Created by donreamey on 10/28/16.
  */
 public class IntegralTypeNode extends NodeImpl {
+    private static final long serialVersionUID = 321323218;
     private FinalNode objectData;
     private String integralName;
 

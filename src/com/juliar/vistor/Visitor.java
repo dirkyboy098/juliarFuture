@@ -7,8 +7,7 @@ import com.juliar.nodes.*;
 import com.juliar.pal.Primitives;
 import com.juliar.parser.JuliarBaseVisitor;
 import com.juliar.parser.JuliarParser;
-import com.juliar.symbolTable.SymbolTable;
-import com.juliar.symbolTable.SymbolTypeEnum;
+import com.juliar.symboltable.SymbolTable;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -26,7 +25,6 @@ public class Visitor extends JuliarBaseVisitor<Node>
     private static int functionDeclCount = 0;
     private static int ifDeclCount = 0;
     private static int whileDeclCount = 0;
-    private static int classDeclCount = 0;
     private List<Node> instructionList = new ArrayList<>();
     private HashMap<String, Node> functionNodeMap = new HashMap<String, Node>();
     private Stack<Node> funcContextStack = new Stack<Node>();
@@ -37,6 +35,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
     private boolean skimImports = false;
     private List<String> errorList = new ArrayList<>();
     private List<String> declaredClasses = new ArrayList<>();
+    private StringBuilder importBuffer = new StringBuilder();
 
     public InstructionInvocation instructions(){
         return new InstructionInvocation(instructionList, functionNodeMap);
@@ -78,8 +77,10 @@ public class Visitor extends JuliarBaseVisitor<Node>
                     break;
                 case IfExprType:
                     ifDeclCount--;
+                    break;
                 case WhileExpressionType:
                     whileDeclCount--;
+                    break;
                 default:
                     return;
             }
@@ -115,7 +116,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
     @Override
     public Node visitSubtract(JuliarParser.SubtractContext ctx) {
         String text = ctx.subtraction().getText();
-        if (text.equals("subtract") || text.equals("-")){
+        if ("subtract".equals(text) || "-".equals(text)){
             if (ctx.types().size() == 2) {
                 BinaryNode node = new BinaryNode();
                 try {
@@ -211,7 +212,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
     public Node visitModulo(JuliarParser.ModuloContext ctx) {
 
         String text = ctx.moduli().getText();
-        if (text.equals("modulo") || text.equals("%")){
+        if ("modulo".equals(text) || "%".equals(text)){
             if (ctx.types().size() == 2) {
                 BinaryNode node = new BinaryNode();
                 try {
@@ -279,7 +280,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
     public Node visitMultiply(JuliarParser.MultiplyContext ctx) {
 
         String text = ctx.multiplication().getText();
-        if (text.equals("multiply") || text.equals("*")){
+        if ("multiply".equals(text) || "*".equals(text)){
             if (ctx.types().size() == 2) {
                 BinaryNode node = new BinaryNode();
                 try {
@@ -331,7 +332,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
         Node n = funcContextStack.peek();
         if (n instanceof FunctionDeclNode) {
             String name = ((FunctionDeclNode) n).getFunctionName();
-            if ( name.equals( "import" )) {
+            if ("import".equals(name)) {
                cacheImports( node.getText() );
 
             }
@@ -514,7 +515,6 @@ public class Visitor extends JuliarBaseVisitor<Node>
         Object[] funcStackArray = funcContextStack.toArray();
         int length = funcStackArray.length - 1;
         int index = length;
-        SymbolTypeEnum symbolTypeEnum = null;
 
         for (; index >= 0; index--) {
             if (funcStackArray[index] instanceof VariableDeclarationNode) {
@@ -688,8 +688,6 @@ public class Visitor extends JuliarBaseVisitor<Node>
         int currentLineNumber = 0;
         importsInterfaceCallback.createTempCallback( importBuffer.toString(), currentLineNumber);
     }
-
-    private StringBuilder importBuffer = new StringBuilder();
 
     class IterateOverContext {
 

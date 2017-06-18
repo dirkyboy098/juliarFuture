@@ -9,6 +9,7 @@ import java.util.*;
  * Created by Don on 1/12/2017.
  */
 public class InstructionInvocation implements Serializable {
+    private static final long serialVersionUID = 321323213;
     private List<Node> instructionList = new ArrayList<>();
     private HashMap<String, Node> functionNodeMap = new HashMap<String, Node>();
 

@@ -1,4 +1,4 @@
-package com.juliar.symbolTable;
+package com.juliar.symboltable;
 
 /**
  * Created by donreamey on 4/10/17.

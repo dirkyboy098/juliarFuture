@@ -1,4 +1,4 @@
-package com.juliar.symbolTable;
+package com.juliar.symboltable;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -45,6 +45,7 @@ public class EvaluatePrimitives {
             default:
                 //throw new RuntimeException( "function "+functionName+" does not exist");
                 System.out.println( "function "+functionName+" does not exist");
+                break;
         }
 
         return new ArrayList<>();
@@ -135,9 +136,9 @@ public class EvaluatePrimitives {
         assert finalNode != null : "EvaluatePrimitives.printLine - finalNode == null";
 
         if (finalNode.dataString() != null) {
-            if (functionName.equals("printLine")) {
+            if ("printLine".equals(functionName)) {
                 com.juliar.pal.Primitives.sys_print_line(finalNode.dataString());
-            } else if (functionName.equals("print")) {
+            } else if ("print".equals(functionName)) {
                 com.juliar.pal.Primitives.sys_print(finalNode.dataString());
             }
         }

@@ -1,14 +1,11 @@
 package com.juliar.test;
 
 import com.juliar.JuliarCompiler;
-import com.juliar.codegenerator.InstructionInvocation;
-import com.juliar.interpreter.Interpreter;
 import junit.framework.TestCase;
 import org.junit.Assert;
 
 import java.util.List;
 
-import static java.lang.System.err;
 import static java.lang.System.out;
 
 /**
@@ -48,6 +45,7 @@ public class JuliarCompilerTest extends TestCase {
     public void testCompile() throws Exception {
         try {
             JuliarCompiler compiler = new JuliarCompiler();
+            assertNotNull(compiler);
             List<String> errorList = compiler.compile("test.jrl", ".",  false,false);
 
             for(String s : errorList){
@@ -62,6 +60,7 @@ public class JuliarCompilerTest extends TestCase {
 
 
     public void testLoadLibs( String[] libToLoad) throws Exception {
+        assertNotNull(libToLoad);
         /*try {
             InstructionInvocation invocation = com.juliar.LoaderLinker.LoadLink.loadAndLink( libToLoad );
             if ( invocation != null ) {
