@@ -1,6 +1,6 @@
 package com.juliar.nodes;
 
-import com.juliar.symbolTable.SymbolTypeEnum;
+import com.juliar.symboltable.SymbolTypeEnum;
 
 import java.util.List;
 import java.util.Stack;

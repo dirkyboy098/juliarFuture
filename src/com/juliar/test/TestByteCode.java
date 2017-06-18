@@ -10,30 +10,20 @@ public class TestByteCode extends TestCase {
     public void testRead(){
         String s = "D:\\source\\juliarFuture\\test.jrl";
         Primitives.sys_file_open(s);
+        assertNotNull(s);
     }
 
     public void testPrint(){
         Primitives.sys_print_line("this is a test");
+        assertNotNull("test");
     }
 
 
     public void testGetMemoryUsage(){
         Primitives.sys_available_memory();
+        assertNotNull(Primitives.sys_available_memory());
     }
 
-
-    public void testReturn(){
-        //int i = returnInt();
-    }
-
-
-    private String returnString(){
-        return "foo";
-    }
-
-    private static String returnFoo(){
-        return new String("don reamey");
-    }
 
     @Override
     public void tearDown() throws Exception {
@@ -45,7 +35,4 @@ public class TestByteCode extends TestCase {
         super.setUp();
     }
 
-    static class foo{
-
-    }
 }

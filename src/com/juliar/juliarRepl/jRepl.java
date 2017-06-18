@@ -1,4 +1,4 @@
-package com.juliar.juliarRepl;
+package com.juliar.juliarrepl;
 
 import com.nire4j.repl.*;
 
@@ -8,26 +8,26 @@ import java.util.List;
 /**
  * Created by donreamey on 11/10/16.
  */
-public class jRepl extends replTerminal {
+public class JRepl extends replTerminal {
     public static void main(String[] args) {
         if (args[0]!=null && (args[0].equalsIgnoreCase("true") || args[0].equalsIgnoreCase("false"))) {
-            replTerminal r = new jRepl(Boolean.parseBoolean(args[0]));
+            new JRepl(Boolean.parseBoolean(args[0]));
         }
         else {
-            new jRepl(true);
+            new JRepl(true);
         }
     }
-    public jRepl() {
+    public JRepl() {
         super();
     }
 
-    public jRepl(boolean isDebug) {
+    public JRepl(boolean isDebug) {
         super(isDebug);
     }
 
     @Override
     public void printStartUpMessage() {
-
+        //TODO Nothing?
     }
 
     @Override
@@ -37,6 +37,6 @@ public class jRepl extends replTerminal {
 
     @Override
     public void printEndMessage() {
-
+        //TODO Nothing?
     }
 }

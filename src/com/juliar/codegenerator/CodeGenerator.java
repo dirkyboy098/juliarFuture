@@ -30,13 +30,13 @@ public class CodeGenerator {
         debug = true;
     }
 
-    public void Generate(InstructionInvocation invocation, String outputfile) throws IOException {
+    public void generate(InstructionInvocation invocation, String outputfile) throws IOException {
         List<Node> inst = invocation.getInstructionList();
-        Generate(inst,outputfile);
+        generate(inst,outputfile);
     }
 
 
-    public void Generate(List<Node> instructions, String outputfile) throws java.io.FileNotFoundException, java.io.IOException {
+    public void generate(List<Node> instructions, String outputfile) throws java.io.IOException {
         ClassWriter cw = new ClassWriter(0);
         cw.visit(V1_1, ACC_PUBLIC, outputfile, null, "java/lang/Object", null);
 
@@ -74,7 +74,7 @@ public class CodeGenerator {
 
         Integer stackSize = 0;
         GeneratorAdapter ga = new GeneratorAdapter(mw, ACC_PUBLIC + ACC_STATIC, "juliarMethod", "()V");
-        EvaluateExpressions(instructions, mw, ga, stackSize);
+        evaluateExpressions(instructions, mw, ga, stackSize);
 
 
 
@@ -152,7 +152,7 @@ public class CodeGenerator {
         fout.close();*/
     }
 
-    private MethodVisitor EvaluateExpressions(List<Node> instructions, MethodVisitor mw, GeneratorAdapter ga, Integer stackSize ){
+    private MethodVisitor evaluateExpressions(List<Node> instructions, MethodVisitor mw, GeneratorAdapter ga, Integer stackSize ){
         for(Node instruction : instructions) {
             if ( instruction instanceof PrimitiveNode){
 
@@ -170,7 +170,7 @@ public class CodeGenerator {
                         false);
 
 
-                if (function.equals("printLine")){
+                if ("printLine".equals(function)){
                     function = "sys_print_line";
                     mw.visitLdcInsn( ((PrimitiveNode) instruction).getGetPrimitiveArgument().toString());
                     mw.visitIntInsn(ASTORE, 0);
@@ -183,7 +183,7 @@ public class CodeGenerator {
                             false);
                 }
 
-                if (function.equals( "printInt" )){
+                if ("printInt".equals(function)){
                     function = "sys_print_int";
                     //mw.visitLdcInsn( ((PrimitiveNode) instruction).getGetPrimitiveArgument().toString());
                     //mw.visitIntInsn(ASTORE, 0);
@@ -194,7 +194,7 @@ public class CodeGenerator {
                             "(I)V",
                             false);
                 }
-                if (function.equals( "printFloat" )){
+                if ("printFloat".equals(function)){
                     function = "sys_print_float";
                     //mw.visitLdcInsn( ((PrimitiveNode) instruction).getGetPrimitiveArgument().toString());
                     //mw.visitIntInsn(ASTORE, 0);
@@ -205,7 +205,7 @@ public class CodeGenerator {
                             "(I)V",
                             false);
                 }
-                if (function.equals( "printDouble" )){
+                if ("printDouble".equals(function)){
                     function = "sys_print_double";
                     //mw.visitLdcInsn( ((PrimitiveNode) instruction).getGetPrimitiveArgument().toString());
                     //mw.visitIntInsn(ASTORE, 0);
@@ -216,7 +216,7 @@ public class CodeGenerator {
                             "(I)V",
                             false);
                 }
-                if (function.equals( "printLong" )){
+                if ("printLong".equals(function)){
                     function = "sys_print_long";
                     //mw.visitLdcInsn( ((PrimitiveNode) instruction).getGetPrimitiveArgument().toString());
                     //mw.visitIntInsn(ASTORE, 0);
@@ -235,7 +235,7 @@ public class CodeGenerator {
                 /*List<Node> t = ((CompliationUnitNode) instructions).statementNodes;
 
                 for (Node n : t) {
-                    EvaluateExpressions(n, mw, ga, stackSize);
+                    evaluateExpressions(n, mw, ga, stackSize);
                 }*/
 
             }
@@ -245,7 +245,7 @@ public class CodeGenerator {
                 /*List<Node> t = ((StatementNode) instructions).statements;
 
                 for (Node n : t) {
-                    EvaluateExpressions(n, mw, ga, stackSize);
+                    evaluateExpressions(n, mw, ga, stackSize);
                 }*/
 
             }

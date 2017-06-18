@@ -1,4 +1,4 @@
-package com.juliar.LoaderLinker;
+package com.juliar.loaderlinker;
 
 import com.juliar.codegenerator.InstructionInvocation;
 import com.juliar.interpreter.ReadWriteBinaryFile;
@@ -46,13 +46,13 @@ public class LoadLink {
         HashMap<String, Node> functionNodeMap = new HashMap<>();
 
         functionNodeMap.putAll(firstInvocation.getFunctionNodeMap());
-        long oneMainFunction = functionNodeMap.keySet().stream().filter(f -> f.equals("main")).count();
+        long oneMainFunction = functionNodeMap.keySet().stream().filter(f -> "main".equals(f)).count();
 
         if (instructionInvocations.length > 0) {
             for (int i = 1; i < instructionInvocations.length; i++) {
                 compliationUnitNode.getInstructions().addAll(instructionInvocations[i].getInstructionList());
 
-                oneMainFunction += instructionInvocations[i].getFunctionNodeMap().keySet().stream().filter(f -> f.equals("main")).count();
+                oneMainFunction += instructionInvocations[i].getFunctionNodeMap().keySet().stream().filter(f -> "main".equals(f)).count();
 
                 functionNodeMap.putAll(instructionInvocations[i].getFunctionNodeMap());
             }

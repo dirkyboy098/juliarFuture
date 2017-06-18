@@ -4,18 +4,13 @@ package com.juliar.nodes;
  * Created by don on 4/1/17.
  */
 public class BooleanNode extends NodeImpl {
+    private static final long serialVersionUID = 321323215;
     private Node booleanOperatorNode = null;
 
-    VariableNode variableNodeLvalue = null;
-    FinalNode finalNodeRvalue = null;
-
-    public BooleanNode(){
-        super();
-    }
+    private VariableNode variableNodeLvalue = null;
+    private FinalNode finalNodeRvalue = null;
 
     public void determineBooleanComparisionType() {
-        boolean variableComparision = false;
-
         if (instructions.size() == 3) {
             if (instructions.get(0) instanceof VariableNode) {
                 variableNodeLvalue = (VariableNode) instructions.get( 0 );
@@ -37,7 +32,6 @@ public class BooleanNode extends NodeImpl {
     }
 
     public NodeType getLvalue(){
-        Node lvalue = variableNodeLvalue;
         return NodeType.VariableType;
     }
 
@@ -50,7 +44,6 @@ public class BooleanNode extends NodeImpl {
     }
 
     public NodeType getRvalue(){
-        Node rvalue = finalNodeRvalue;
         return NodeType.FinalType;
     }
 

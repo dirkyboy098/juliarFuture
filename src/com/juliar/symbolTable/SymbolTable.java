@@ -1,13 +1,14 @@
-package com.juliar.symbolTable;
+package com.juliar.symboltable;
 
 import com.juliar.nodes.Node;
 import com.juliar.nodes.UserDefinedTypeNode;
-import com.juliar.nodes.VariableDeclarationNode;
 import com.juliar.nodes.VariableNode;
 import com.juliar.vistor.Visitor;
 
-import java.util.*;
-import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Stack;
 
 /**
  * Created by donreamey on 1/9/17.
@@ -77,8 +78,7 @@ public class SymbolTable {
         if (child instanceof VariableNode) {
 
             if (node.children.stream()
-                    .filter(f -> f instanceof VariableNode)
-                    .filter(f -> ((VariableNode) f)
+                    .filter(f -> f instanceof VariableNode && ((VariableNode) f)
                             .variableName.equals(((VariableNode) child)
                                     .variableName))
                     .count() > 0) {
