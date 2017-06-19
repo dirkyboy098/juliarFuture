@@ -501,7 +501,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
             variableName = ctx.ID().getText();
         }
         else if ( ctx.variable() != null){
-            variableName = ctx.userDefinedTypeName().getText();
+            variableName = ctx.userDefinedTypeNameDecl().getText();
             //variableName += "::";
             //variableName += ctx.variable().getText();
         }
@@ -596,7 +596,18 @@ public class Visitor extends JuliarBaseVisitor<Node>
         return super.visitUserDefinedTypeName(ctx);
     }
 
-    /*
+
+    @Override
+    public Node visitUserDefinedTypeResolutionOperator(JuliarParser.UserDefinedTypeResolutionOperatorContext ctx) {
+        return super.visitUserDefinedTypeResolutionOperator(ctx);
+    }
+
+    @Override
+    public Node visitUserDefinedTypeNameDecl(JuliarParser.UserDefinedTypeNameDeclContext ctx) {
+        return super.visitUserDefinedTypeNameDecl(ctx);
+    }
+
+/*
 
     @Override
     public Node visitUserDefinedTypeKeyWord(JuliarParser.UserDefinedTypeKeyWordContext ctx) {

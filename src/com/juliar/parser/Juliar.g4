@@ -132,14 +132,18 @@ userDefinedTypeName
     : ID
     ;
 
+userDefinedTypeNameDecl
+    : ID
+    ;
+
 userDefinedTypeVariableReference
-    : userDefinedTypeName(userDefinedTypeResolutionOperator)variable
-    | userDefinedTypeName(userDefinedTypeResolutionOperator)functionCall
+    : userDefinedTypeNameDecl(userDefinedTypeResolutionOperator)variable
+    | userDefinedTypeNameDecl(userDefinedTypeResolutionOperator)functionCall
     ;
 
 variable
     : ID
-    | userDefinedTypeName(userDefinedTypeResolutionOperator)variable
+    | userDefinedTypeNameDecl(userDefinedTypeResolutionOperator)variable
     ;
 
 variableDeclaration
@@ -148,7 +152,7 @@ variableDeclaration
     ;
 
 userDefinedTypeVariableDecl
-    : userDefinedTypeName variable
+    : userDefinedTypeNameDecl variable
     ;
 
 add

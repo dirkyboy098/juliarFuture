@@ -1,6 +1,5 @@
 class node = {
     int data;
-    node next;
 }
 
 function main() = {
