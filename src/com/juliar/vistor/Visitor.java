@@ -7,7 +7,7 @@ import com.juliar.nodes.*;
 import com.juliar.pal.Primitives;
 import com.juliar.parser.JuliarBaseVisitor;
 import com.juliar.parser.JuliarParser;
-import com.juliar.symbolTable.SymbolTable;
+import com.juliar.symboltable.SymbolTable;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
