@@ -34,7 +34,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
     private ImportsInterface importsInterfaceCallback;
     private boolean skimImports = false;
     private List<String> errorList = new ArrayList<>();
-    private List<String> declaredClasses = new ArrayList<>();
+    private HashMap<String, UserDefinedTypeNode> declaredClasses = new HashMap<>();
     private StringBuilder importBuffer = new StringBuilder();
 
     public InstructionInvocation instructions(){
@@ -500,8 +500,8 @@ public class Visitor extends JuliarBaseVisitor<Node>
         if ( ctx.ID() != null ) {
             variableName = ctx.ID().getText();
         }
-        else if ( ctx.variable() != null){
-            variableName = ctx.userDefinedTypeNameDecl().getText();
+        else {
+            //variableName = ctx.userDefinedTypeVariableDecl().getText();
             //variableName += "::";
             //variableName += ctx.variable().getText();
         }
@@ -577,26 +577,32 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
         iterateWrapper( ctx, this, userDefinedTypeNode);
 
-        if ( declaredClasses.contains( userDefinedTypeNode.getTypeName() ) ){
+        if ( declaredClasses.containsKey( userDefinedTypeNode.getTypeName() ) ){
             throw new RuntimeException( "class " + userDefinedTypeNode.getTypeName() + "already exist at current scope");
         }
 
-        declaredClasses.add( userDefinedTypeNode.getTypeName() );
+        declaredClasses.put(
+                userDefinedTypeNode.getTypeName(),
+                userDefinedTypeNode);
 
         return userDefinedTypeNode;
     }
 
     @Override
     public Node visitUserDefinedTypeKeyWord(JuliarParser.UserDefinedTypeKeyWordContext ctx) {
-        return super.visitUserDefinedTypeKeyWord(ctx);
+        KeywordNode keywordNode = new KeywordNode();
+        iterateWrapper( ctx, this ,keywordNode );
+        return keywordNode;
     }
 
     @Override
     public Node visitUserDefinedTypeName(JuliarParser.UserDefinedTypeNameContext ctx) {
-        return super.visitUserDefinedTypeName(ctx);
+        StringTypeNode stringTypeNode = new StringTypeNode();
+        iterateWrapper( ctx, this, stringTypeNode);
+        return stringTypeNode;
     }
 
-
+/*
     @Override
     public Node visitUserDefinedTypeResolutionOperator(JuliarParser.UserDefinedTypeResolutionOperatorContext ctx) {
         return super.visitUserDefinedTypeResolutionOperator(ctx);
@@ -607,7 +613,6 @@ public class Visitor extends JuliarBaseVisitor<Node>
         return super.visitUserDefinedTypeNameDecl(ctx);
     }
 
-/*
 
     @Override
     public Node visitUserDefinedTypeKeyWord(JuliarParser.UserDefinedTypeKeyWordContext ctx) {
@@ -712,7 +717,11 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
 
         public void iterateOverChildren(ParserRuleContext ctx, Visitor visitor, Node parent) {
+            if ( ctx.children == null ){
+                return;
+            }
             funcContextStack.push(parent);
+
             for (Iterator<ParseTree> pt = ctx.children.iterator(); pt.hasNext(); ) {
                 ParseTree parseTree = pt.next();
                 Node node = parseTree.accept(visitor);
@@ -723,6 +732,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
                     parent.AddInst(node);
                 }
             }
+
             funcContextStack.pop();
         }
 

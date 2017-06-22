@@ -3,6 +3,8 @@ class node = {
 }
 
 function main() = {
-    node xfoo;
-    xfoo::data = 3;
+    node one;
+    node xfoo = new node;
+    int x;
+    x = xfoo::data;
 }

@@ -36,7 +36,6 @@ expression
     | primitives endLine
     | functionCall endLine
     | returnValue endLine
-    | userDefinedTypeVariableReference endLine
     ;
 
 assignmentExpression
@@ -45,7 +44,6 @@ assignmentExpression
 	| variableDeclaration equalsign functionCall
 	| variableDeclaration equalsign primitiveTypes
 	| variableDeclaration equalsign booleanExpression
-	| variableDeclaration equalsign userDefinedTypeVariableReference
 	;
 
 reassignmentExpression
@@ -53,6 +51,8 @@ reassignmentExpression
 	| variable equalsign functionCall
 	| variable equalsign primitiveTypes
 	| variable equalsign command
+	| variable equalsign userDefinedTypeVariableReference
+	| variable equalsign userDefinedTypeFunctionReference
     ;
 
 
@@ -120,6 +120,17 @@ command
 	| modulo
     ;
 
+//
+// Class declaration start
+//
+/*
+class foo = {
+        int x;
+        int y;
+        function z() = {
+        }
+}
+*/
 userDefinedTypeDecl
     : userDefinedTypeKeyWord userDefinedTypeName equalsign '{' (statement)* (functionDeclaration)* '}'
     ;
@@ -131,19 +142,12 @@ userDefinedTypeKeyWord
 userDefinedTypeName
     : ID
     ;
-
-userDefinedTypeNameDecl
-    : ID
-    ;
-
-userDefinedTypeVariableReference
-    : userDefinedTypeNameDecl(userDefinedTypeResolutionOperator)variable
-    | userDefinedTypeNameDecl(userDefinedTypeResolutionOperator)functionCall
-    ;
+//
+// Class declaration end
+//
 
 variable
     : ID
-    | userDefinedTypeNameDecl(userDefinedTypeResolutionOperator)variable
     ;
 
 variableDeclaration
@@ -152,8 +156,18 @@ variableDeclaration
     ;
 
 userDefinedTypeVariableDecl
-    : userDefinedTypeNameDecl variable
+    : userDefinedTypeName ID
+    | userDefinedTypeName ID equalsign (newKeyWord userDefinedTypeName)
     ;
+
+
+userDefinedTypeVariableReference
+    : userDefinedTypeName(userDefinedTypeResolutionOperator)variable
+    ;
+userDefinedTypeFunctionReference
+    : userDefinedTypeName(userDefinedTypeResolutionOperator)funcName
+    ;
+
 
 add
     : summation types (types)*
@@ -256,6 +270,10 @@ keywords
     | 'boolean'
     | 'string'
     | 'class'
+    ;
+
+newKeyWord
+    : 'new'
     ;
 
 breakKeyWord

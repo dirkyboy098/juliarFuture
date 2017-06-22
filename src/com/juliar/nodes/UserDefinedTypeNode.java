@@ -19,7 +19,7 @@ public class UserDefinedTypeNode extends NodeImpl {
     }
 
     public String getTypeName(){
-        return typeName;
+        return ((FinalNode)instructions.get( 1 ).getInstructions().get( 0 )).dataString();
     }
 
     public List< String > variableList = new ArrayList<String>();
