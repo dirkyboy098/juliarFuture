@@ -8,7 +8,7 @@ import com.juliar.interpreter.Interpreter;
 import com.juliar.interpreter.ReadWriteBinaryFile;
 import com.juliar.parser.JuliarLexer;
 import com.juliar.parser.JuliarParser;
-import com.juliar.symbolTable.SymbolTable;
+import com.juliar.symboltable.SymbolTable;
 import com.juliar.vistor.Visitor;
 import com.juliar.jpm.JPM;
 import com.juliar.gui.Gui;
