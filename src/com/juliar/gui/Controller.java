@@ -127,6 +127,15 @@ public class Controller {
         });
         tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
             jrlID = tabPane.getSelectionModel().getSelectedIndex();
+            try {
+                String titlename = "Juliar.Future - *New File*";
+                if((jrlID < jrltabs.size()) && (jrltabs.get(jrlID).getJrlFile() != null)){
+                    titlename = "Juliar.Future - " + jrltabs.get(jrlID).getJrlFile().toPath().toString();
+                }
+                ((Stage) scene.getWindow()).setTitle(titlename);
+            } catch (Exception e){
+                new GuiAlert(e, "Something wrong with setting title" + jrltabs.size());
+            }
         });
     }
 
@@ -191,6 +200,8 @@ public class Controller {
                 jrlTab.getJlrCodeArea().getUndoManager().mark();
                 jrlTab.setEdited(false);
                 jrltabs.add(jrlTab);
+                String titleName = "Juliar.Future - " + file.toPath().toString();
+                ((Stage) scene.getWindow()).setTitle(titleName);
             }
         }
     }
@@ -261,6 +272,8 @@ public class Controller {
         model.save(textFile);
         jrltabs.get(jrlID).setEdited(false);
         jrltabs.get(jrlID).getJlrCodeArea().getUndoManager().mark();
+        String titleName = "Juliar.Future - " + jrltabs.get(jrlID).getJrlFile().toPath().toString();
+        ((Stage) scene.getWindow()).setTitle(titleName);
     }
 
     @FXML
@@ -276,6 +289,8 @@ public class Controller {
             jrltabs.get(jrlID).setJrlFileName(textFile);
             jrltabs.get(jrlID).setEdited(false);
             jrltabs.get(jrlID).getJlrCodeArea().getUndoManager().mark();
+            String titleName = "Juliar.Future - " + jrltabs.get(jrlID).getJrlFile().toPath().toString();
+            ((Stage) scene.getWindow()).setTitle(titleName);
         }
     }
 

@@ -23,7 +23,7 @@ public class Gui extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            Scene scene = SceneCreator.create(stage,"juliar.fxml","Juliar.Future");
+            Scene scene = SceneCreator.create(stage,"juliar.fxml","Juliar.Future - *New File*");
             keyComb(scene);
             stage.setOnCloseRequest(event -> {
                 if (CloseConfirm.closeApp().get() == ButtonType.OK){
