@@ -19,6 +19,7 @@ import java.io.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -145,6 +146,23 @@ public class Controller {
     @FXML
     public void onRedo(){
         jrltabs.get(jrlID).getJlrCodeArea().redo();
+    }
+
+    @FXML
+    public void onMoveTo() {
+        TextInputDialog dialog = new TextInputDialog("1");
+        CSSLoader.cssLoad(dialog.getDialogPane());
+        dialog.setTitle("Go to Line Number");
+        dialog.setHeaderText("Go to Line Number");
+        dialog.setContentText("Line:");
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(name -> {
+            CodeArea area = jrltabs.get(jrlID).getJlrCodeArea();
+            int pos = area.getAbsolutePosition(Integer.parseInt(name) - 1, 0);
+            area.moveTo(pos);
+            area.requestFocus();
+        });
     }
 
     @FXML

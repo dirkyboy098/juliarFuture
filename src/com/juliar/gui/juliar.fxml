@@ -18,6 +18,7 @@
                      <MenuItem onAction="#onUndo" text="Undo"/>
                      <MenuItem onAction="#onRedo" text="Redo" />
                      <MenuItem onAction="#onRefresh" text="Refresh Style" />
+                     <MenuItem onAction="#onMoveTo" text="Move To" />
                  </Menu>
                  <Menu text="Run">
                      <MenuItem onAction="#onRunInterpreter" text="Run Interpreter" />
