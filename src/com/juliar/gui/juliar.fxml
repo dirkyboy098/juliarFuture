@@ -36,8 +36,15 @@
       </TabPane>
       <StackPane>
 
-      <AnchorPane prefHeight="206.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0">
-          <TextArea fx:id="areaOutText" editable="false" layoutX="45.0" layoutY="-55.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <AnchorPane prefHeight="306.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0">
+          <TabPane fx:id="tabPaneOut" maxWidth="Infinity" prefHeight="250.0" prefWidth="300.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" >
+              <Tab text="Output">
+                <TextArea fx:id="areaOutText" editable="false" layoutX="45.0" layoutY="-55.0" prefHeight="300.0" prefWidth="200.0"/>
+              </Tab>
+              <Tab text="Errors">
+                  <TextArea fx:id="areaErrorText" editable="false" layoutX="45.0" layoutY="-55.0" prefHeight="300.0" prefWidth="200.0"/>
+              </Tab>
+          </TabPane>
              <Button fx:id="runBtn" onAction="#onRunInterpreter" layoutX="659.0" layoutY="-35" AnchorPane.rightAnchor="50.0" prefHeight="75.0" prefWidth="75.0">
           <graphic>
               <Polygon fill="#ffffff">

@@ -39,6 +39,9 @@ public class Controller {
     public TextArea areaOutText;
 
     @FXML
+    public TextArea areaErrorText;
+
+    @FXML
     public TabPane tabPane;
 
     private Model model;
@@ -318,6 +321,7 @@ public class Controller {
         JuliarCompiler compiler = new JuliarCompiler();
 
         areaOutText.clear();
+        areaErrorText.clear();
         areaOutText.appendText("Starting Interpreter at: " + LocalDateTime.now() + "\r\n");
         long startTime = System.nanoTime();
         CodeArea area = jrltabs.get(jrlID).getJlrCodeArea();
@@ -336,6 +340,7 @@ public class Controller {
             System.out.flush();
             System.setOut(oldOut);
             System.setErr(oldErr);
+            areaErrorText.appendText(newErr.toString());
             areaOutText.appendText(newOut.toString());
             Pattern word = Pattern.compile("([0-9]+,[0-9]+).*\\r\\n");
             Matcher m = word.matcher(newErr.toString());
