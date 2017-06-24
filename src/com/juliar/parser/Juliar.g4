@@ -35,24 +35,17 @@ expression
     | whileExpression
     | primitives endLine
     | functionCall endLine
+    | userDefinedTypeFunctionReference endLine
     | returnValue endLine
     ;
 
 assignmentExpression
-    : variableDeclaration equalsign command
-    | variableDeclaration equalsign variable
-	| variableDeclaration equalsign functionCall
-	| variableDeclaration equalsign primitiveTypes
-	| variableDeclaration equalsign booleanExpression
+    : variableDeclaration equalsign ( command | variable | functionCall | primitiveTypes | booleanExpression | userDefinedTypeVariableReference | userDefinedTypeVariableReference)
+    | userDefinedTypeVariableReference equalsign ( variable | primitiveTypes)
 	;
 
 reassignmentExpression
-    : variable equalsign variable
-	| variable equalsign functionCall
-	| variable equalsign primitiveTypes
-	| variable equalsign command
-	| variable equalsign userDefinedTypeVariableReference
-	| variable equalsign userDefinedTypeFunctionReference
+    : variable equalsign ( variable | functionCall | primitiveTypes | command |  userDefinedTypeVariableReference | userDefinedTypeFunctionReference )
     ;
 
 
@@ -89,9 +82,7 @@ rightParen
 
 booleanExpression
     : BOOLEAN
-    | variable (comparisonOperator) variable
-    | variable (comparisonOperator) primitiveTypes
-    | variable (comparisonOperator) command
+    | variable (comparisonOperator) ( variable | primitiveTypes | command | userDefinedTypeVariableReference | userDefinedTypeFunctionReference )
     | command (comparisonOperator) command
     ;
 
@@ -164,9 +155,11 @@ userDefinedTypeVariableDecl
 userDefinedTypeVariableReference
     : userDefinedTypeName(userDefinedTypeResolutionOperator)variable
     ;
+
 userDefinedTypeFunctionReference
-    : userDefinedTypeName(userDefinedTypeResolutionOperator)funcName
+    : userDefinedTypeName(userDefinedTypeResolutionOperator)functionCall
     ;
+
 
 
 add
