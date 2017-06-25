@@ -81,9 +81,7 @@ rightParen
     ;
 
 booleanExpression
-    : BOOLEAN
-    | variable (comparisonOperator) ( variable | primitiveTypes | command | userDefinedTypeVariableReference | userDefinedTypeFunctionReference )
-    | command (comparisonOperator) command
+    : ( BOOLEAN | variable | command ) (comparisonOperator) ( variable | primitiveTypes | command | userDefinedTypeVariableReference | userDefinedTypeFunctionReference )
     ;
 
 
