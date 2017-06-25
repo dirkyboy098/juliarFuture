@@ -102,11 +102,26 @@
     -fx-background-color: #353d4f;
     -fx-background-radius: 0;
 }
-#areaOutText {
+#areaOutText, #areaErrorText {
     -fx-text-fill: #737f97;
     -fx-effect: dropshadow( gaussian, rgba(0, 0, 0, 0.5), 0, 0, 1, 0);
-    -fx-border-width: 3px 0px 0px 0px;
+    -fx-border-width: 0px 0px 0px 0px;
     -fx-border-color: #262a38;
+}
+#tabPaneOut .tab {
+    -fx-pref-width: 115px;
+    -fx-pref-height: 20px;
+    -fx-background-radius: 0;
+    -fx-border-width: 3px 0px 0px 0px;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-background-insets: 0 0 0 0, 0;
+}
+#tabPaneOut .tab-label {
+    -fx-pref-width: 100px;
+    -fx-font-family: "Montserrat";
+    -fx-text-fill: white;
+    -fx-effect: dropshadow( gaussian, rgba(0, 0, 0, 0.5), 0, 0, 0, 1);
 }
 .code-area,
 .code-area .content {
