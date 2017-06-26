@@ -1,3 +1,5 @@
+rm -rf out
+
 #!/bin/sh
 export CLASSPATH="jars/antlr-4.6-complete.jar:jars/nirerepl.jar:jars/asm-all-6.0_ALPHA.jar:jars/richtextfx-fat-0.7-M5.jar:jars/fastcgi.jar:out"
 

@@ -4,7 +4,5 @@ class node = {
 
 function main() = {
     node one;
-    node xfoo = new node;
-    int x;
-    x = xfoo::data;
+    int x = one::data;
 }

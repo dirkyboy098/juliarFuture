@@ -31,6 +31,7 @@ public enum NodeType {
     StringType,
     SummationType,
     UserDefinedDeclarationType,
+    UserDefinedVariableDeclarationType,
     VariableDeclarationType,
     VariableType,
     VariableReassignmentType,

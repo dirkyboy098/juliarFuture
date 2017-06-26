@@ -602,7 +602,14 @@ public class Visitor extends JuliarBaseVisitor<Node>
         return stringTypeNode;
     }
 
-/*
+    @Override
+    public Node visitUserDefinedTypeVariableDecl(JuliarParser.UserDefinedTypeVariableDeclContext ctx) {
+        UserDefinedTypeVariableDeclNode node = new UserDefinedTypeVariableDeclNode();
+        return iterateWrapper( ctx, this , node);
+        //return node;
+    }
+
+    /*
     @Override
     public Node visitUserDefinedTypeResolutionOperator(JuliarParser.UserDefinedTypeResolutionOperatorContext ctx) {
         return super.visitUserDefinedTypeResolutionOperator(ctx);

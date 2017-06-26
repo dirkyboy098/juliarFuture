@@ -158,8 +158,6 @@ userDefinedTypeFunctionReference
     : userDefinedTypeName(userDefinedTypeResolutionOperator)functionCall
     ;
 
-
-
 add
     : summation types (types)*
     | summation types types
