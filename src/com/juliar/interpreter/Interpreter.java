@@ -125,6 +125,7 @@ public class Interpreter {
     }
 
     private List<Node> evalNull(){
+        assert true : "called evalNull";
         return new ArrayList<>();
     }
 
