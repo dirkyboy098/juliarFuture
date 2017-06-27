@@ -37,4 +37,10 @@ public class VariableDeclarationNode extends NodeImpl {
         assert this.getInstructions().size() >= 1;
         return ( UserDefinedTypeNode )this.getInstructions().get(0);
     }
+
+    public VariableNode getVariableNode(){
+        return (VariableNode) instructions.get(1);
+    }
+
+
 }

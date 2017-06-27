@@ -145,7 +145,7 @@ variableDeclaration
     ;
 
 userDefinedTypeVariableDecl
-    : userDefinedTypeName ID
+    : userDefinedTypeName variable
     | userDefinedTypeName ID equalsign (newKeyWord userDefinedTypeName)
     ;
 

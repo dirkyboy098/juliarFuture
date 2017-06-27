@@ -51,4 +51,9 @@ public class UserDefinedTypeNode extends NodeImpl {
         return object.dataString() + "::" + variableName.dataString();
     }
 
+    public List<String> getAllVariableNames(){
+        StatementNode statementNode = (StatementNode)instructions.get ( 4 );
+        return statementNode.findAllVariablesInStatement();
+    }
+
 }

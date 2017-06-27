@@ -526,13 +526,63 @@ public class Visitor extends JuliarBaseVisitor<Node>
             }
 
             if ( funcStackArray[index] instanceof UserDefinedTypeNode ) {
+                assert true : "should not hit this";
                 // TODO
                 // user defined variables will need to be looked up in the class / variable map.
                 break;
             }
 
+            if ( funcStackArray[index] instanceof UserDefinedTypeVariableDeclNode ){
+                UserDefinedTypeVariableDeclNode temp = (UserDefinedTypeVariableDeclNode)funcStackArray[index];
+                variableNode.setParent( temp );
+                if (!symbolTable.doesChildExistAtScope( variableNode )) {
+                    symbolTable.addChild(variableNode);
+                }
+            }
+
+            if ( funcStackArray[index] instanceof UserDefinedTypeVariableReference ){
+                UserDefinedTypeVariableReference tempRef = (UserDefinedTypeVariableReference)funcStackArray[index];
+                String objectName = tempRef.getObjectName();
+
+                VariableNode objectVariable = new VariableNode( objectName );
+                UserDefinedTypeVariableDeclNode parent = null;
+                if (symbolTable.doesChildExistAtScope( objectVariable )){
+                    Node localVar = symbolTable.getNode( objectVariable );
+                    if (localVar instanceof VariableNode){
+                        VariableNode localVariableNode = (VariableNode)localVar;
+                        /*
+                        VariableNode localVariableNode = (VariableNode)localVar;
+                        if ( localVariableNode.getParent() instanceof VariableDeclarationNode){
+                            parent = (VariableDeclarationNode) localVariableNode.getParent();
+                        }
+                        else
+                        */
+                        if ( localVariableNode.getParent() instanceof  UserDefinedTypeVariableDeclNode ) {
+                            parent = (UserDefinedTypeVariableDeclNode) localVariableNode.getParent();
+                        }
+                    }
+
+                }
+
+
+                String className = parent.getUserDefinedVariableTypeName();
+
+                if ( declaredClasses.containsKey( className )){
+                    UserDefinedTypeNode userDefinedTypeNode = declaredClasses.get ( className );
+
+                    if ( !userDefinedTypeNode.getAllVariableNames().contains( variableName )) {
+                        addError( "the object [ " + className  + "]   does not have a varible [" + variableName + "] defined as part of its instance");
+                    }
+
+                    VariableNode tempVariableNode = new VariableNode( variableName );
+                    if ( !symbolTable.doesChildExistAtScope( tempVariableNode ) ){
+                        symbolTable.addChild( tempVariableNode );
+                    }
+                }
+            }
+
             if( !symbolTable.doesChildExistAtScope( variableNode ) ){
-                addError( "The variable " + variableName +" is not declared at the scope" );
+                addError( "The variable [" + variableName +"] is not declared at the scope" );
             }
             break;
         }
@@ -597,94 +647,30 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
     @Override
     public Node visitUserDefinedTypeName(JuliarParser.UserDefinedTypeNameContext ctx) {
-        StringTypeNode stringTypeNode = new StringTypeNode();
-        iterateWrapper( ctx, this, stringTypeNode);
-        return stringTypeNode;
+        UserDefinedTypeNameNode userDefinedTypeNameNode = new UserDefinedTypeNameNode();
+        iterateWrapper( ctx, this, userDefinedTypeNameNode);
+        return userDefinedTypeNameNode;
     }
 
     @Override
     public Node visitUserDefinedTypeVariableDecl(JuliarParser.UserDefinedTypeVariableDeclContext ctx) {
         UserDefinedTypeVariableDeclNode node = new UserDefinedTypeVariableDeclNode();
-        return iterateWrapper( ctx, this , node);
-        //return node;
-    }
-
-    /*
-    @Override
-    public Node visitUserDefinedTypeResolutionOperator(JuliarParser.UserDefinedTypeResolutionOperatorContext ctx) {
-        return super.visitUserDefinedTypeResolutionOperator(ctx);
-    }
-
-    @Override
-    public Node visitUserDefinedTypeNameDecl(JuliarParser.UserDefinedTypeNameDeclContext ctx) {
-        return super.visitUserDefinedTypeNameDecl(ctx);
-    }
-
-
-    @Override
-    public Node visitUserDefinedTypeKeyWord(JuliarParser.UserDefinedTypeKeyWordContext ctx) {
-        return super.visitUserDefinedTypeKeyWord(ctx);
-    }
-
-    @Override
-    public Node visitUserDefinedMemberResolution(JuliarParser.UserDefinedMemberResolutionContext ctx) {
-        UserDefinedTypeNode userDefinedTypeNode = new UserDefinedTypeNode();
-
-        Node iteratorNode = iterateWrapper(ctx, this, userDefinedTypeNode);
-
-        return iteratorNode;
-    }
-
-    @Override
-    public Node visitUserDefinedTypeName(JuliarParser.UserDefinedTypeNameContext ctx) {
-        return super.visitUserDefinedTypeName(ctx);
+        iterateWrapper( ctx, this , node);
+        return node;
     }
 
     @Override
     public Node visitUserDefinedTypeResolutionOperator(JuliarParser.UserDefinedTypeResolutionOperatorContext ctx) {
         return super.visitUserDefinedTypeResolutionOperator(ctx);
     }
-    */
 
-
-    /*
     @Override
-    public Node visitUserDefinedType(JuliarParser.UserDefinedTypeContext ctx) {
-        String variableName = ctx.userDefinedTypeName().ID().getText();
-        String keyWord = ctx.userDefinedTypeKeyWord().getText();
-
-        if (!keyWord.equalsIgnoreCase("class")){
-            throw new RuntimeException("invalid keyword");
-        }
-
-        UserDefinedTypeNode variableNode = new UserDefinedTypeNode( variableName , keyWord);
-
-        Object[] funcStackArray = funcContextStack.toArray();
-        int length = funcStackArray.length - 1;
-        int index = length;
-
-        for (; index >= 0; index--) {
-            if ( (funcStackArray[index] instanceof CompliationUnitNode) || (funcStackArray[index] instanceof UserDefinedTypeNode ) ) {
-                // We are creating the variable and adding it to the symbol table.
-                // This will automatically throw an exception if creating a symbol with
-                // same name at same scope.
-                symbolTable.addChild(variableNode);
-                break;
-            }
-
-            if( !symbolTable.doesChildExistAtScope( variableNode ) ){
-                addError( "The variable " + variableName +" is not declared at the scope" );
-            }
-            break;
-        }
-
-        symbolTable.addLevel( "class" + "_" + classDeclCount++);
-        Node iteratorNode = iterateWrapper(ctx, this, variableNode);
-        symbolTable.popScope();
-
-        return iteratorNode;
+    public Node visitUserDefinedTypeVariableReference(JuliarParser.UserDefinedTypeVariableReferenceContext ctx) {
+        UserDefinedTypeVariableReference node = new UserDefinedTypeVariableReference();
+        iterateWrapper( ctx, this , node);
+        return node;
     }
-    */
+
 
     private Node iterateWrapper(ParserRuleContext ctx, Visitor visitor, Node parent){
         IterateOverContext it = new IterateOverContext();

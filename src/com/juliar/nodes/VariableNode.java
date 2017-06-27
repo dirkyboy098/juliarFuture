@@ -5,8 +5,18 @@ package com.juliar.nodes;
  */
 public class VariableNode extends NodeImpl {
     private static final long serialVersionUID = 321323217;
+    private Node parent;
     public String variableName;
     public IntegralTypeNode integralTypeNode;
+
+
+    public Node getParent(){
+        return parent;
+    }
+
+    public void setParent( Node parentNode){
+        parent = parentNode;
+    }
 
 
     public VariableNode(String vName){

@@ -8,4 +8,9 @@ public class UserDefinedTypeVariableDeclNode extends NodeImpl {
     public NodeType getType() {
         return NodeType.UserDefinedVariableDeclarationType;
     }
+
+    public String getUserDefinedVariableTypeName(){
+        UserDefinedTypeNameNode name = (UserDefinedTypeNameNode) instructions.get ( 0 );
+        return name.getTypeName();
+    }
 }
