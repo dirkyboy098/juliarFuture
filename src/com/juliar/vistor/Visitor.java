@@ -541,44 +541,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
             }
 
             if ( funcStackArray[index] instanceof UserDefinedTypeVariableReference ){
-                UserDefinedTypeVariableReference tempRef = (UserDefinedTypeVariableReference)funcStackArray[index];
-                String objectName = tempRef.getObjectName();
-
-                VariableNode objectVariable = new VariableNode( objectName );
-                UserDefinedTypeVariableDeclNode parent = null;
-                if (symbolTable.doesChildExistAtScope( objectVariable )){
-                    Node localVar = symbolTable.getNode( objectVariable );
-                    if (localVar instanceof VariableNode){
-                        VariableNode localVariableNode = (VariableNode)localVar;
-                        /*
-                        VariableNode localVariableNode = (VariableNode)localVar;
-                        if ( localVariableNode.getParent() instanceof VariableDeclarationNode){
-                            parent = (VariableDeclarationNode) localVariableNode.getParent();
-                        }
-                        else
-                        */
-                        if ( localVariableNode.getParent() instanceof  UserDefinedTypeVariableDeclNode ) {
-                            parent = (UserDefinedTypeVariableDeclNode) localVariableNode.getParent();
-                        }
-                    }
-
-                }
-
-
-                String className = parent.getUserDefinedVariableTypeName();
-
-                if ( declaredClasses.containsKey( className )){
-                    UserDefinedTypeNode userDefinedTypeNode = declaredClasses.get ( className );
-
-                    if ( !userDefinedTypeNode.getAllVariableNames().contains( variableName )) {
-                        addError( "the object [ " + className  + "]   does not have a varible [" + variableName + "] defined as part of its instance");
-                    }
-
-                    VariableNode tempVariableNode = new VariableNode( variableName );
-                    if ( !symbolTable.doesChildExistAtScope( tempVariableNode ) ){
-                        symbolTable.addChild( tempVariableNode );
-                    }
-                }
+                handleUserDefinedTypeVariableReference(variableName, funcStackArray[index]);
             }
 
             if( !symbolTable.doesChildExistAtScope( variableNode ) ){
@@ -590,6 +553,39 @@ public class Visitor extends JuliarBaseVisitor<Node>
         Node iteratorNode = iterateWrapper(ctx, this, variableNode);
 
         return iteratorNode;
+    }
+
+    private void handleUserDefinedTypeVariableReference(String variableName, Object functionStackObject) {
+        UserDefinedTypeVariableReference tempRef = (UserDefinedTypeVariableReference) functionStackObject;
+        String objectName = tempRef.getObjectName();
+
+        VariableNode objectVariable = new VariableNode( objectName );
+        UserDefinedTypeVariableDeclNode parent = null;
+        if (symbolTable.doesChildExistAtScope( objectVariable )){
+            Node localVar = symbolTable.getNode( objectVariable );
+            if (localVar instanceof VariableNode){
+                VariableNode localVariableNode = (VariableNode)localVar;
+
+                if ( localVariableNode.getParent() instanceof  UserDefinedTypeVariableDeclNode ) {
+                    parent = (UserDefinedTypeVariableDeclNode) localVariableNode.getParent();
+                }
+            }
+        }
+
+        String className = parent.getUserDefinedVariableTypeName();
+
+        if ( declaredClasses.containsKey( className )){
+            UserDefinedTypeNode userDefinedTypeNode = declaredClasses.get ( className );
+
+            if ( !userDefinedTypeNode.getAllVariableNames().contains( variableName )) {
+                addError( "the object [ " + className  + "]   does not have a varible [" + variableName + "] defined as part of its instance");
+            }
+
+            VariableNode tempVariableNode = new VariableNode( variableName );
+            if ( !symbolTable.doesChildExistAtScope( tempVariableNode ) ){
+                symbolTable.addChild( tempVariableNode );
+            }
+        }
     }
 
     @Override
