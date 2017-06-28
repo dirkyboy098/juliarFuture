@@ -278,7 +278,10 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
     @Override
     public Node visitMultiply(JuliarParser.MultiplyContext ctx) {
-
+        MulitiplyNode node = new MulitiplyNode();
+        iterateWrapper( ctx, this, node);
+        return node;
+        /*
         String text = ctx.multiplication().getText();
         if ("multiply".equals(text) || "*".equals(text)){
             if (ctx.types().size() == 2) {
@@ -307,6 +310,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
         }
 
         return null;
+        */
     }
 
     @Override

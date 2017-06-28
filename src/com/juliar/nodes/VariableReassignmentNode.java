@@ -5,6 +5,10 @@ package com.juliar.nodes;
  */
 public class VariableReassignmentNode extends NodeImpl {
 
+    public Node getRvalueType(){
+        return instructions.get(2).getInstructions().get(0);
+    }
+
     @Override
     public NodeType getType() {
         return NodeType.VariableReassignmentType;

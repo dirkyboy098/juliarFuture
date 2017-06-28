@@ -6,5 +6,5 @@ function main() = {
     node one;
     int x = one::data;
     int y = + 3 3;
-    printLine( y );
+    y = * 2 2;
 }
