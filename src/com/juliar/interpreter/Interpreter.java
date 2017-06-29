@@ -290,8 +290,6 @@ public class Interpreter {
     }
 
     private List<Node> evalFunctionDecl(Node Node){
-        //if ("import".equals(((FunctionDeclNode)Node).getFunctionName().toLowerCase())){
-        //}
         return new ArrayList<>();
     }
 

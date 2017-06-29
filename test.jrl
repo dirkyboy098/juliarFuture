@@ -6,5 +6,8 @@ function main() = {
     node one;
     int x = one::data;
     int y = + 3 3;
-    y = * 2 2;
+    if ( y == 6){
+        printLine(y);
+    }
+
 }
