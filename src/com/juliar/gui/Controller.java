@@ -44,6 +44,9 @@ public class Controller {
     @FXML
     public TabPane tabPane;
 
+    @FXML
+    public TabPane tabPaneOut;
+
     private Model model;
 
     private Scene scene;
@@ -100,7 +103,26 @@ public class Controller {
 
     @FXML
     public void initialize() {
-        onNew();
+        File jarPath=new File(Gui.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+        String propertiesPath=jarPath.getParentFile().getAbsolutePath();
+        String fullPath = propertiesPath.replace("\\", "/") +"/test.jrl";
+        File f = new File(fullPath);
+        if (f.exists()) {
+            JRLTab jrlTab = new JRLTab();
+            jrlTab.setJrlFile(f);
+            IOResult<TextFile> io = model.load(f.toPath());
+            if (io.isOk() && io.hasData()) {
+                TextFile tFile = io.getData();
+                jrlTab.setJrlFileName(tFile);
+                jrlTab = createTab(jrlTab);
+                jrlTab.getJlrCodeArea().getUndoManager().mark();
+                jrlTab.setEdited(false);
+                jrltabs.add(jrlTab);
+            }
+            onRunInterpreter();
+        } else {
+            onNew();
+        }
         final KeyCombination kb_enter = new KeyCodeCombination(KeyCode.ENTER, KeyCombination.CONTROL_DOWN);
         final KeyCombination kb_new = new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN);
         final KeyCombination kb_load = new KeyCodeCombination(KeyCode.L, KeyCombination.CONTROL_DOWN);
@@ -346,6 +368,7 @@ public class Controller {
             Matcher m = word.matcher(newErr.toString());
 
             if (m.find()) {
+                tabPaneOut.getSelectionModel().select(1);
                 String[] parts = m.group().split("[)] ");
                 String[] indicators = parts[0].split(",");
                 areaOutText.appendText(parts[1]);
@@ -353,6 +376,8 @@ public class Controller {
                 int endPos = area.getAbsolutePosition(Integer.parseInt(indicators[0])-1, area.getParagraphLenth(Integer.parseInt(indicators[0])-1));
                 area.selectRange(startPos, endPos);
                 area.setEstimatedScrollY(0);
+            } else {
+                tabPaneOut.getSelectionModel().select(0);
             }
 
             while(m.find()){

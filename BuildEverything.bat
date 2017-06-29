@@ -2,12 +2,14 @@ wmic Path win32_process Where "CommandLine Like '%%JuliarCompiler.jar%%'" Call T
 set CLASSPATH=jars\antlr-4.6-complete.jar;jars\nirerepl.jar;jars\asm-all-6.0_ALPHA.jar;jars\fastcgi.jar;jars\richtextfx-fat-0.7-M5.jar;out
 
 rmdir /s /q out
+rmdir /s /q temp
+
 mkdir out
+mkdir temp
+
 java org.antlr.v4.Tool src\com\juliar\parser\Juliar.g4 -no-listener -package com.juliar.parser -visitor
 javac -Xlint -d out -sourcepath src -g -encoding UTF-8 -source 8 -target 8 src\com\juliar\JuliarCompiler.java
 
-rmdir /s /q temp
-mkdir temp
 (echo Main-Class: com.juliar.JuliarCompiler)>temp\manifest.txt
 cd temp
 for /f %%f in ('dir /b ..\jars') do jar xf ..\jars\%%f
