@@ -426,7 +426,7 @@ public class Controller {
     }
 
     @FXML
-    public void onAbout() { GuiInformation.create("About Juliar.Future","Juliar.Future","Juliar - Copyright (C) 2017"); }
+    public void onAbout() { GuiInformation.about(); }
 
     @FXML
     public void onPackageManager() {
