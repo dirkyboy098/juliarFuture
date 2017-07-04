@@ -19,6 +19,7 @@ copy src\com\juliar\gui\juliar.fxml temp\com\juliar\gui\juliar.fxml
 copy src\com\juliar\gui\packages.fxml temp\com\juliar\gui\packages.fxml
 copy src\com\juliar\gui\juliar.css temp\com\juliar\gui\juliar.css
 copy src\com\juliar\gui\juliarFutureIcon.png temp\com\juliar\gui\juliarFutureIcon.png
+copy src\com\juliar\gui\whitelogo.png temp\com\juliar\gui\whitelogo.png
 copy src\com\juliar\gui\Montserrat-Regular.ttf temp\com\juliar\gui\Montserrat-Regular.ttf
 cd temp
 jar cvfm JuliarCompiler.jar manifest.txt com org javax antlr

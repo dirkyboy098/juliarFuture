@@ -29,6 +29,7 @@ cp ../src/com/juliar/gui/juliar.fxml ../temp/com/juliar/gui/juliar.fxml
 cp ../src/com/juliar/gui/packages.fxml ../temp/com/juliar/gui/packages.fxml
 cp ../src/com/juliar/gui/juliar.css ../temp/com/juliar/gui/juliar.css
 cp ../src/com/juliar/gui/juliarFutureIcon.png ../temp/com/juliar/gui/juliarFutureIcon.png
+cp ../src/com/juliar/gui/whitelogo.png ../temp/com/juliar/gui/whitelogo.png
 cp ../src/com/juliar/gui/Montserrat-Regular.ttf ../temp/com/juliar/gui/Montserrat-Regular.ttf
 jar cvfm JuliarCompiler.jar manifest.txt com org javax antlr
 mv JuliarCompiler.jar ../JuliarCompiler.jar
