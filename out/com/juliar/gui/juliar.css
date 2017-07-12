@@ -1,0 +1,220 @@
+.root {
+    -fx-background-color: #232733;
+}
+.menu-bar {
+    -fx-font-family: "Montserrat";
+    -fx-background-color: #232733;
+    -fx-padding: 0em 0em 0em 0em;
+}
+.menu:hover {
+    -fx-background-color: #737f97;
+}
+.menu .label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: white;
+    -fx-padding: 0.5em 0.5em 0.5em 0.5em;
+    -fx-effect: dropshadow( gaussian, rgba(0, 0, 0, 1.5), 0, 0, 0, 1);
+}
+.menu:showing {
+    -fx-background-color: #000000;
+}
+.menuitem .label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: white;
+}
+.menuitem:showing .label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #353d4f;
+}
+.context-menu {
+    -fx-skin: "com.sun.javafx.scene.control.skin.ContextMenuSkin";
+    -fx-background-color: black;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 0 6 6 6, 0 5 5 5, 0 4 4 4;
+    -fx-padding: 0.333333em 0.083333em 0.666667em 0.083333em;
+}
+.context-menu .label{
+    -fx-text-fill: white;
+}
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: #232733;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+.tab-pane:top *.tab-header-area {
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
+    -fx-padding: 0.0em 0.166667em 0.0em 0.0em;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+.tab {
+    -fx-font-family: "Montserrat";
+    -fx-font-size: 14;
+    -fx-background-color: #232733;
+    -fx-pref-width: 200px;
+    -fx-pref-height: 40px;
+    -fx-background-radius: 0;
+    -fx-border-width: 5px 0px 0px 0px;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-background-insets: 0 0 0 0, 0;
+}
+.tab:selected {
+    -fx-font-family: "Montserrat";
+    -fx-font-size: 14;
+    -fx-background-color: #353d4f;
+    -fx-border-color: #737f97;
+}
+.tab .graphic {
+    -fx-opacity: 0.0;
+}
+.tab:selected .graphic {
+    -fx-opacity: 1.0;
+}
+.tab .tab-label {
+    -fx-pref-width: 180px;
+    -fx-font-family: "Montserrat";
+    -fx-text-fill: #7e7e7e;
+    -fx-effect: dropshadow( gaussian, rgba(0, 0, 0, 0.5), 0, 0, 0, 1);
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+.tab:selected .tab-label {
+    -fx-font-family: "Montserrat";
+    -fx-text-fill: #ffffff;
+    -fx-effect: dropshadow( gaussian, rgba(0, 0, 0, 0.5), 0, 0, 0, 1);
+}
+.text-area {
+    -fx-control-inner-background: #353d4f;
+    -fx-font-family: "Montserrat";
+    -fx-font-size: 14;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-focus-color: -fx-control-inner-background;
+    -fx-faint-focus-color: -fx-control-inner-background;
+    -fx-text-box-border: -fx-control-inner-background;
+    -fx-effect: dropshadow( gaussian, rgba(0, 0, 0, 0.5), 0, 0, 0, 1);
+}
+.text-area,
+.text-area .content {
+    -fx-background-color: #353d4f;
+    -fx-background-radius: 0;
+}
+#areaOutText, #areaErrorText {
+    -fx-text-fill: #737f97;
+    -fx-effect: dropshadow( gaussian, rgba(0, 0, 0, 0.5), 0, 0, 1, 0);
+    -fx-border-width: 0px 0px 0px 0px;
+    -fx-border-color: #262a38;
+}
+#tabPaneOut .tab {
+    -fx-pref-width: 115px;
+    -fx-pref-height: 20px;
+    -fx-background-radius: 0;
+    -fx-border-width: 3px 0px 0px 0px;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-background-insets: 0 0 0 0, 0;
+}
+#tabPaneOut .tab-label {
+    -fx-pref-width: 100px;
+    -fx-font-family: "Montserrat";
+    -fx-text-fill: white;
+    -fx-effect: dropshadow( gaussian, rgba(0, 0, 0, 0.5), 0, 0, 0, 1);
+}
+.code-area,
+.code-area .content {
+    -fx-background-color: #353d4f;
+}
+.code-area .paragraph-box .paragraph-text,
+.paragraph-text .text {
+    -fx-fill: #FFF574;
+    -fx-text-fill: yellow;
+    -fx-font-family: "Montserrat";
+    -fx-font-size: 14;
+}
+.code-area .lineno,
+.lineno {
+    -fx-text-fill: #737f97;
+    -fx-font-size: 14;
+    -fx-background-color: #353d4f;
+    -fx-font-family: monospace;
+    -fx-background-radius: 0;
+}
+.code-area .keyword {
+    -fx-fill: #FF707F;
+    -fx-font-weight: bold;
+}
+.code-area .semicolon {
+    -fx-font-weight: bold;
+}
+.code-area .paren {
+    -fx-fill: white;
+    -fx-font-weight: bold;
+}
+.code-area .bracket {
+    -fx-fill: darkgreen;
+    -fx-font-weight: bold;
+}
+.code-area .brace {
+    -fx-fill: white;
+    -fx-font-weight: bold;
+}
+.code-area .string {
+    -fx-fill: #A1FF39;
+}
+.code-area .comment {
+    -fx-fill: #9B9B9B;
+}
+.button {
+    -fx-background-color: linear-gradient(from 0% 100% to 100% 0%, #191c26, #262a38);
+    -fx-background-radius: 100%;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.25), 15, 0, 0, 7);
+}
+.button:pressed {
+    -fx-background-color: linear-gradient(from 0% 100% to 100% 0%, #262a38, #191c26);
+}
+.button:focused {
+    -fx-background-insets: 0, 0, 1, 2;
+}
+.tab .tab-close-button {
+    -fx-background-color: white;
+}
+.caret {
+    -fx-stroke: white;
+}
+.dialog-pane {
+    -fx-font-family: "Montserrat";
+    -fx-font-size: 18px;
+}
+.dialog-pane > .content.label {
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+    -fx-fill: #232733;
+}
+.dialog-pane .header-panel {
+    -fx-background-color: #353d4f;
+}
+.dialog-pane:header .header-panel .label {
+    -fx-text-fill: white;
+    -fx-font-size: 24px;
+}
+.dialog-pane .button{
+    -fx-background-radius: 0;
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+    -fx-padding: 10 20 10 20;
+}
+.dialog-pane .label{
+    -fx-text-fill: white;
+}
+.dialog-pane > .button-bar > .container > .details-button.more {
+    -fx-text-fill: white;
+}
+
+.dialog-pane > .button-bar > .container > .details-button.less {
+    -fx-text-fill: white;
+}

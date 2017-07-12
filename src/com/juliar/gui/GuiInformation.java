@@ -58,7 +58,7 @@ public class GuiInformation {
 
 
             StackPane pane = new StackPane();
-            Image image = new Image(GuiInformation.class.getResourceAsStream("whitelogo.png"), 70, 70, false, true);
+            Image image = new Image(GuiInformation.class.getResourceAsStream("whitelogo.png"), 70, 70, false, false);
             ImageView iview = new ImageView(image);
             pane.setTranslateX(-30);
             pane.getChildren().add(iview);
@@ -66,7 +66,7 @@ public class GuiInformation {
 
 
             Label lbl2 = new Label("Juliar IDE ");
-            lbl2.setFont(Font.font("Montserrat", FontWeight.EXTRA_BOLD, 36));
+            lbl2.setFont(Font.font("Montserrat", FontWeight.BOLD, 36));
             vbox_1.getChildren().add(lbl2);
 
             Label lbl3 = new Label(" Alpha 0.01 · 07.03.2017   ");

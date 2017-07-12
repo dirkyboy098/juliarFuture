@@ -23,6 +23,10 @@ public class SceneCreator {
                     SceneCreator.class.getResource("Montserrat-Regular.ttf").toExternalForm(),
                     14
             );
+            Font.loadFont(
+                    SceneCreator.class.getResource("Montserrat-Bold.ttf").toExternalForm(),
+                    36
+            );
 
             Scene scene = new Scene(loader.load());
             CSSLoader.cssLoad(scene);
