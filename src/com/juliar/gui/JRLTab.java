@@ -66,14 +66,12 @@ public class JRLTab {
     }
 
     public void setEdited(boolean edited) {
-        //if(this.edited != edited) {
-            if (edited) {
-                this.jrlGraphic.setFill(Color.rgb(242, 240, 34));
-            } else {
-                this.jrlGraphic.setFill(Color.rgb(131, 207, 23));
-            }
-            this.edited = edited;
-        //}
+        if (edited) {
+            this.jrlGraphic.setFill(Color.rgb(242, 240, 34));
+        } else {
+            this.jrlGraphic.setFill(Color.rgb(131, 207, 23));
+        }
+        this.edited = edited;
     }
 
     public static String newText(int size) {

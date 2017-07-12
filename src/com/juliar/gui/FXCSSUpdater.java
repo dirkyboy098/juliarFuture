@@ -34,10 +34,7 @@ public class FXCSSUpdater {
     public void bindCss(StringProperty cssProperty){
         cssProperty.addListener(e -> {
             this.css = cssProperty.get();
-            Platform.runLater(()->{
-                //scene.getStylesheets().clear();
-                scene.getStylesheets().add("internal:"+System.nanoTime()+"stylesheet.css");
-            });
+            Platform.runLater(()-> scene.getStylesheets().add("internal:"+System.nanoTime()+"stylesheet.css"));
         });
     }
     /**

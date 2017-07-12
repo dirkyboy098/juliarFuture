@@ -1,5 +1,6 @@
 package com.juliar.interpreter;
 
+import com.juliar.errors.Logger;
 import com.juliar.nodes.*;
 
 
@@ -9,7 +10,10 @@ import java.util.List;
 /**
  * Created by donreamey on 3/28/17.
  */
-public class EvaluatePrimitives {
+class EvaluatePrimitives {
+    private EvaluatePrimitives(){
+
+    }
     static public List<Node> evalPrimitives(Node n, ActivationFrame activationFrame) {
         String functionName = ((FinalNode) n.getInstructions().get(0)).dataString();
         FinalNode finalNode = new FinalNode();
@@ -43,8 +47,7 @@ public class EvaluatePrimitives {
                 activationFrame.returnNode = finalNode;
                 break;
             default:
-                //throw new RuntimeException( "function "+functionName+" does not exist");
-                System.out.println( "function "+functionName+" does not exist");
+                Logger.log( "function "+functionName+" does not exist");
                 break;
         }
 

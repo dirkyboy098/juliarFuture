@@ -6,7 +6,10 @@ import javafx.scene.shape.*;
 /**
  * Created by AndreiM on 5/20/2017.
  */
-public class Shapes {
+class Shapes {
+    private Shapes(){
+
+    }
     public static Polygon btnSquare() {
         Polygon square = new Polygon();
         square.getPoints().addAll(0.0, 0.0,

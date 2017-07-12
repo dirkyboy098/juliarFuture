@@ -2,7 +2,6 @@ package com.juliar.gui;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.DialogPane;
 
 import java.util.Optional;
 
@@ -10,6 +9,7 @@ import java.util.Optional;
  * Created by AndreiM on 5/21/2017.
  */
 public class CloseConfirm {
+    private CloseConfirm() {}
     public static Optional<ButtonType> close(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         CSSLoader.cssLoad(alert.getDialogPane());

@@ -1,6 +1,7 @@
 package com.juliar.interpreter;
 
 import com.juliar.codegenerator.InstructionInvocation;
+import com.juliar.errors.Logger;
 
 import java.io.*;
 
@@ -19,12 +20,9 @@ public class ReadWriteBinaryFile {
             p.writeObject( invocation );
             p.flush();
             ostream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.log(e);
         }
-
     }
 
     public InstructionInvocation read(String inputFile) {
@@ -43,15 +41,9 @@ public class ReadWriteBinaryFile {
             s.close();
             istream.close();
         }
-        catch (FileNotFoundException e){
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        catch (IOException|ClassNotFoundException e){
+            Logger.log(e);
         }
-        catch (ClassNotFoundException cnfe){
-            cnfe.printStackTrace();
-        }
-
         return invocation;
     }
 

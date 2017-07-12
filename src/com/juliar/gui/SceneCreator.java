@@ -10,7 +10,10 @@ import javafx.stage.Stage;
 /**
  * Created by AndreiM on 5/31/2017.
  */
-public class SceneCreator {
+class SceneCreator {
+    private SceneCreator () {
+
+    }
     public static Scene create(Stage stage, String resource, String title){
         try {
             FXMLLoader loader = new FXMLLoader(SceneCreator.class.getResource(resource));

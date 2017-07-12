@@ -9,6 +9,7 @@ import java.io.File;
  * Created by AndreiM on 5/25/2017.
  */
 public class CSSLoader {
+    private CSSLoader() {}
     public static void cssLoad(DialogPane dialogPane){
         File jarPath=new File(Gui.class.getProtectionDomain().getCodeSource().getLocation().getPath());
         String propertiesPath=jarPath.getParentFile().getAbsolutePath();

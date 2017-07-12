@@ -1,5 +1,6 @@
 package com.juliar.gui;
 
+import com.juliar.errors.Logger;
 import javafx.application.Platform;
 
 import java.io.IOException;
@@ -13,7 +14,7 @@ public class Model {
         try {
             Files.write(textFile.getFile(), textFile.getContent());
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.log(e);
         }
     }
 
@@ -22,7 +23,7 @@ public class Model {
             List<String> lines = Files.readAllLines(file);
             return new IOResult<>(true, new TextFile(file, lines));
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.log(e);
             return new IOResult<>(false, null);
         }
     }

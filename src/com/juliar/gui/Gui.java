@@ -37,18 +37,18 @@ public class Gui extends Application {
     }
 
     public void keyComb(Scene scene){
-        final KeyCombination kb_plus = new KeyCodeCombination(KeyCode.EQUALS, KeyCombination.CONTROL_DOWN);
-        final KeyCombination kb_minus = new KeyCodeCombination(KeyCode.MINUS, KeyCombination.CONTROL_DOWN);
+        final KeyCombination kbPlus = new KeyCodeCombination(KeyCode.EQUALS, KeyCombination.CONTROL_DOWN);
+        final KeyCombination kbMinus = new KeyCodeCombination(KeyCode.MINUS, KeyCombination.CONTROL_DOWN);
 
         StringProperty cssProp = new SimpleStringProperty("");
         FXCSSUpdater updater = new FXCSSUpdater(scene);
         updater.bindCss(cssProp);
 
         scene.addEventFilter(KeyEvent.KEY_PRESSED, ke -> {
-            if (kb_plus.match(ke) || kb_minus.match(ke)) {
+            if (kbPlus.match(ke) || kbMinus.match(ke)) {
                 Font track = ((TextArea) scene.lookup("#areaOutText")).getFont();
                 double size = track.getSize() + 1;
-                if(kb_minus.match(ke)){
+                if(kbMinus.match(ke)){
                     size -= 2;
                 }
                 cssProp.set(".text-area,.code-area .lineno,.paragraph-text .text {-fx-font-size: "+size+"px;}");

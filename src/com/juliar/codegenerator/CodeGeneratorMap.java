@@ -9,6 +9,8 @@ import java.util.*;
  * Created by AndreiM on 11/14/2016.
  */
 public class CodeGeneratorMap {
+    private CodeGeneratorMap(){}
+
     private static final Map<String, List<Integer>> map;
     static {
         map = new HashMap<>();

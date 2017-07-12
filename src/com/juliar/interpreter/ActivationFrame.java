@@ -3,6 +3,7 @@ package com.juliar.interpreter;
 import com.juliar.nodes.Node;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 /**
@@ -10,8 +11,8 @@ import java.util.Stack;
  */
 public class ActivationFrame {
     public String frameName;
-    public HashMap<String, Node> variableSet = new HashMap<String , Node>();
-    public Stack<Node> parameterStack = new Stack<Node>();
-    public Stack<Node> operandStack = new Stack<Node>();
+    public Map<String, Node> variableSet = new HashMap<>();
+    public Stack<Node> parameterStack = new Stack<>();
+    public Stack<Node> operandStack = new Stack<>();
     public Node returnNode;
 }

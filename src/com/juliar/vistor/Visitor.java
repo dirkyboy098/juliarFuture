@@ -2,7 +2,7 @@ package com.juliar.vistor;
 import com.juliar.ImportsInterface;
 import com.juliar.codegenerator.InstructionInvocation;
 import com.juliar.controlflow.ControlFlowAdjacencyList;
-import com.juliar.errors.LogMessage;
+import com.juliar.errors.Logger;
 import com.juliar.nodes.*;
 import com.juliar.pal.Primitives;
 import com.juliar.parser.JuliarBaseVisitor;
@@ -127,7 +127,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
                                 ctx.types(1).accept(this));
                     n.AddInst( funcContextStack, n);
                 }catch( Exception ex){
-                    new LogMessage(ex.getMessage(),ex);
+                    Logger.log(ex.getMessage(),ex);
                 }
             }
 
@@ -221,7 +221,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
                             ctx.types(0).accept(this),
                             ctx.types(1).accept(this)));
                 }catch( Exception ex){
-                    new LogMessage(ex.getMessage(),ex);
+                    Logger.log(ex.getMessage(),ex);
                 }
             }
 
@@ -256,7 +256,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
                                 ctx.types(1).accept(this)));
                     }
                 }catch( Exception ex){
-                    new LogMessage(ex.getMessage(),ex);
+                    Logger.log(ex.getMessage(),ex);
                 }
             }
 

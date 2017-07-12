@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
  * Created by AndreiM on 5/20/2017.
  */
 public class Highlighter {
+
     private static final String[] KEYWORDS = new String[] {
             "break",
             "class",

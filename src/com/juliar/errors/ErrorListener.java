@@ -15,11 +15,11 @@ public class ErrorListener extends BaseErrorListener {
     public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
         String errorMessage = "("+line+","+charPositionInLine+") error on line " + line +" at column "+ charPositionInLine +" " +msg;
         errorList.add(errorMessage);
-        Object context = ((Parser)recognizer).getRuleInvocationStack();
+        ((Parser)recognizer).getRuleInvocationStack();
         super.syntaxError(recognizer, offendingSymbol, line, charPositionInLine, msg, e);
     }
 
-    public List<String> ErrorList(){
+    public List<String> errorList(){
         return errorList;
     }
 }

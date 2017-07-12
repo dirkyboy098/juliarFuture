@@ -1,6 +1,6 @@
 package com.juliar.gui;
 
-import com.juliar.errors.LogMessage;
+import com.juliar.errors.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,7 +22,7 @@ public class Updater {
             scanner.useDelimiter("\\A");
             version = scanner.next();
         } catch (IOException e) {
-            LogMessage.message("Failed to access Juliar Website");
+            Logger.log("Failed to access Juliar Website");
         }
         if(!version.equals(checksum())){
             /*TODO DOWNLOAD NEW VERSION OF JAR FILE*/
@@ -50,11 +50,11 @@ public class Updater {
         }
         catch(NoSuchAlgorithmException e)
         {
-            e.printStackTrace();
+            Logger.log(e);
         }
         catch(IOException e)
         {
-            e.printStackTrace();
+            Logger.log(e);
         }
 
         return sb;

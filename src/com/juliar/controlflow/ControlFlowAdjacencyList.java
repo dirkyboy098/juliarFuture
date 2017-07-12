@@ -1,5 +1,7 @@
 package com.juliar.controlflow;
 
+import com.juliar.errors.Logger;
+
 import java.util.*;
 import java.util.concurrent.LinkedBlockingDeque;
 
@@ -23,13 +25,11 @@ public class ControlFlowAdjacencyList {
 
     private void walkGraph(ControlFlowNode main){
         try {
-            //System.out.println(main.functionName);
             main.visited = true;
             queue.addFirst(main.next);
             while (!queue.isEmpty()) {
                 ControlFlowNode g = queue.removeLast();
                 if (!g.visited) {
-                    //System.out.println(g.functionName);
                     g.visited = true;
                 }
                 while (g != null) {
@@ -41,7 +41,7 @@ public class ControlFlowAdjacencyList {
             }
         }
         catch(Exception e){
-
+            Logger.log(e);
         }
 
     }

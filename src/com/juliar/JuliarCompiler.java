@@ -3,7 +3,7 @@ package com.juliar;
 import com.fastcgi.FCGIInterface;
 import com.juliar.codegenerator.InstructionInvocation;
 import com.juliar.errors.ErrorListener;
-import com.juliar.errors.LogMessage;
+import com.juliar.errors.Logger;
 import com.juliar.interpreter.Interpreter;
 import com.juliar.interpreter.ReadWriteBinaryFile;
 import com.juliar.parser.JuliarLexer;
@@ -52,19 +52,19 @@ public class JuliarCompiler {
 			compiler.compile(fileName, outputPath, compileFlag, replFlag);
 
 		} catch (Exception ex) {
-			new LogMessage("Error " + ex.getMessage(), ex);
+			Logger.log("Error " + ex.getMessage());
 		}
 	}
 
 	private static boolean startupInstructions(String[] args) {
-		LogMessage.message("Juliar Compiler - Copyright (C) 2017");
+		Logger.log("Juliar Compiler - Copyright (C) 2017");
 
 		if(args.length != 1 && args.length != 2){
-            LogMessage.message("Usage: java -jar JuliarCompiler.jar <source file> <output path> <fcgi port>");
-            LogMessage.message("Path to Juliar source file");
-            LogMessage.message("Path to output directory if compiled.");
-            LogMessage.message("If output path is undefined, source file will be interpreted");
-            LogMessage.message("If you would like to use JuliarCompiler for web specify fcgi port ex. -DFCGI=9000");
+			Logger.log("Usage: java -jar JuliarCompiler.jar <source file> <output path> <fcgi port>");
+			Logger.log("Path to Juliar source file");
+			Logger.log("Path to output directory if compiled.");
+			Logger.log("If output path is undefined, source file will be interpreted");
+			Logger.log("If you would like to use JuliarCompiler for web specify fcgi port ex. -DFCGI=9000");
 			return true;
         }
 		return false;
@@ -83,7 +83,7 @@ public class JuliarCompiler {
 					 	new JPM();
 					 	break;
 					 case "-verbose":
-						System.out.println("verbose is on");
+						Logger.log("verbose is on");
 					 	break;
 					 default:
 					 	break;
@@ -104,8 +104,8 @@ public class JuliarCompiler {
 			if (method != null) {
 				String DOCUMENT_ROOT = System.getProperty("DOCUMENT_ROOT");
 				String SCRIPT_NAME = System.getProperty("SCRIPT_NAME");
-				System.out.println("Content-type: text/html\r\n\r\n");
-				System.out.println("<html>");
+				Logger.log("Content-type: text/html\r\n\r\n");
+				Logger.log("<html>");
 
 				if ("/".equals(SCRIPT_NAME) || "".equals(SCRIPT_NAME)) {
 					SCRIPT_NAME = "index.jrl";
@@ -113,7 +113,7 @@ public class JuliarCompiler {
 
 				JuliarCompiler compiler = new JuliarCompiler();
 				compiler.compile(DOCUMENT_ROOT + SCRIPT_NAME, "", false, false);
-				System.out.println("</html>");
+				Logger.log("</html>");
 			}
 		}
 	}
@@ -126,7 +126,7 @@ public class JuliarCompiler {
         }
 		catch (Exception ex) {
         	ex.printStackTrace();
-			new LogMessage(ex.getMessage(),ex);
+			Logger.log(ex.getMessage());
 		}
 		
         return new ArrayList<>();
@@ -147,12 +147,12 @@ public class JuliarCompiler {
 			}
 			else {
 				if (excuteCompiler(outputfile, compilerFlag, parser)) {
-					return errors.ErrorList();
+					return errors.errorList();
 				}
 
 			}
 			} catch (Exception ex) {
-			new LogMessage(ex.getMessage(),ex);
+			Logger.log(ex.getMessage());
 		}
 		
         return new ArrayList<>();
@@ -168,19 +168,19 @@ public class JuliarCompiler {
 
 		JuliarParser.CompileUnitContext context = parser.compileUnit();
 		if (isDebugMode) {
-            System.out.println(context.toStringTree(parser));
+            Logger.log(context.toStringTree(parser));
         }
 
 		Visitor visitor = new Visitor((imports, linesToSkip) -> {}, true);
 		visitor.visit(context);
 
-		if (errors.ErrorList().size() > 0 || visitor.getErrorList().size() > 0){
-			for (String error : errors.ErrorList()){
-				System.err.println( error );
+		if (!errors.errorList().isEmpty()|| !visitor.getErrorList().isEmpty()){
+			for (String error : errors.errorList()){
+				Logger.logerr( error );
 			}
 
 			for (String error : visitor.getErrorList()){
-				System.err.println( error );
+				Logger.logerr( error );
 			}
 
 			return true;
@@ -212,13 +212,10 @@ public class JuliarCompiler {
 	private void executeCommandLineRepl(JuliarParser parser) {
 		JuliarParser.CompileUnitContext context = parser.compileUnit();
 		if (isDebugMode) {
-            System.out.println(context.toStringTree(parser));
+            Logger.log(context.toStringTree(parser));
         }
-		Visitor v = new Visitor(new ImportsInterface() {
-            @Override
-            public void createTempCallback(String imports, int linesToSkip) {
-				/*TODO Nothing?*/
-            }
+		Visitor v = new Visitor((imports, linesToSkip) -> {
+            /*TODO Nothing?*/
         }, true);
 
 		v.visit(context);
