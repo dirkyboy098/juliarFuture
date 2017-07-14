@@ -48,6 +48,7 @@ public class FinalNode extends NodeImpl{
         return null;
     }
 
+    @Override
     public IntegralType getIntegralType() {
         if (dataString.startsWith("\"") && dataString.endsWith("\"")) {
             return IntegralType.jstring;

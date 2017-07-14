@@ -22,9 +22,9 @@ public class CodeGeneratorMap {
     }
 
 
-    public static Map<IntegralType,Integer> GenerateMap(String instruction){
+    public static Map<IntegralType,Integer> generateMap(String instruction){
         List<Integer> current = map.get(instruction);
-        Map<IntegralType, Integer> hmap = new HashMap<>();
+        Map<IntegralType, Integer> hmap = new EnumMap<>(IntegralType.class);
         hmap.put(IntegralType.jinteger,current.get(0));
         hmap.put(IntegralType.jlong,current.get(1));
         hmap.put(IntegralType.jfloat,current.get(2));
@@ -32,7 +32,7 @@ public class CodeGeneratorMap {
         return hmap;
     }
 
-    public static List<Integer> GenerateList(String instruction){
+    public static List<Integer> generateList(String instruction){
         return map.get(instruction);
     }
 }

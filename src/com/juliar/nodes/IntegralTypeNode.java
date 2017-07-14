@@ -17,6 +17,7 @@ public class IntegralTypeNode extends NodeImpl {
 
     }
 
+    @Override
     public IntegralType getIntegralType()
     {
         return objectData.getIntegralType();

@@ -7,11 +7,11 @@ import java.util.Stack;
  * Created by donreamey on 10/21/16.
  */
 public interface Node {
-    void AddInst(Node parent, Node instruction);
+    void addInst(Node parent, Node instruction);
 
-    void AddInst(Node instruction);
+    void addInst(Node instruction);
 
-    void AddInst(Stack<Node> contextStack, Node instruction);
+    void addInst(Stack<Node> contextStack, Node instruction);
 
     List<Node> getInstructions();
 

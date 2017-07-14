@@ -12,8 +12,8 @@ import java.util.*;
 public class Interpreter {
     private static Stack<ActivationFrame> activationFrameStack = new Stack<ActivationFrame>();
     private Stack<Node> returnValueStack = new Stack<>();
-    private HashMap<String, Node> functionNodeMap;
-    private HashMap<NodeType, Evaluate> functionMap = new HashMap<NodeType, Evaluate>();
+    private Map<String, Node> functionNodeMap;
+    private Map<NodeType, Evaluate> functionMap = new HashMap<NodeType, Evaluate>();
     private final static String mainFunctionName = "main";
 
     public Interpreter(InstructionInvocation invocation){
@@ -318,7 +318,7 @@ public class Interpreter {
                 //lvalue must be a single boolean expression
                 if (lvalue instanceof FinalNode) {
                     BooleanNode booleanNode = new BooleanNode();
-                    booleanNode.AddInst(lvalue);
+                    booleanNode.addInst(lvalue);
                     frame.returnNode = booleanNode;
                     return new ArrayList<>();
                 }
@@ -352,7 +352,7 @@ public class Interpreter {
                 finalNode.setDataString(isEqualEqual);
 
                 BooleanNode booleanNode = new BooleanNode();
-                booleanNode.AddInst(finalNode);
+                booleanNode.addInst(finalNode);
 
                 frame.returnNode = booleanNode;
                 return new ArrayList<>();
@@ -453,11 +453,11 @@ public class Interpreter {
             FinalNode primitiveArg = new FinalNode();
             primitiveArg.setDataString( functionToCall );
             PrimitiveNode primitiveNode = new PrimitiveNode();
-            primitiveNode.AddInst(primitiveArg);
+            primitiveNode.addInst(primitiveArg);
 
             for(Node primArgs : node.getInstructions()){
                 if (primArgs instanceof VariableNode || primArgs instanceof IntegralTypeNode){
-                    primitiveNode.AddInst( primArgs );
+                    primitiveNode.addInst( primArgs );
                 }
             }
 

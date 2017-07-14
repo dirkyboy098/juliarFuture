@@ -3,6 +3,7 @@ package com.juliar.juliarrepl;
 import com.nire4j.repl.*;
 
 import java.io.ByteArrayInputStream;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ public class JRepl extends replTerminal {
 
     @Override
     public List<String> repl(ByteArrayInputStream byteArrayInputStream) {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override

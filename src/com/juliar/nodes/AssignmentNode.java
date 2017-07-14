@@ -16,8 +16,8 @@ public class AssignmentNode extends NodeImpl implements IContextInfo {
     }
 
     @Override
-    public void AddInst(Node instruction) {
-        super.AddInst( instruction );
+    public void addInst(Node instruction) {
+        super.addInst( instruction );
     }
 
     @Override

@@ -21,18 +21,18 @@ public class FunctionDeclNode extends NodeImpl implements IContextInfo {
 
 
     @Override
-    public void AddInst(Node parent, Node instruction) {
-        super.AddInst(parent, instruction);
+    public void addInst(Node parent, Node instruction) {
+        super.addInst(parent, instruction);
     }
 
     @Override
-    public void AddInst(Node instruction) {
-        super.AddInst(instruction);
+    public void addInst(Node instruction) {
+        super.addInst(instruction);
     }
 
     @Override
-    public void AddInst(Stack<Node> contextStack, Node instruction) {
-        super.AddInst(contextStack, instruction);
+    public void addInst(Stack<Node> contextStack, Node instruction) {
+        super.addInst(contextStack, instruction);
     }
 
     public String getFunctionName(){

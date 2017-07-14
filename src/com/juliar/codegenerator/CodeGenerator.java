@@ -251,7 +251,7 @@ public class CodeGenerator {
             }
 
             if (instruction instanceof BinaryNode){
-                Map<IntegralType,Integer> op = CodeGeneratorMap.GenerateMap(((BinaryNode)instruction).operation().toString());
+                Map<IntegralType,Integer> op = CodeGeneratorMap.generateMap(((BinaryNode)instruction).operation().toString());
 
                 BinaryNode b = ((BinaryNode)instruction);
                 if (debug) {
@@ -288,7 +288,7 @@ public class CodeGenerator {
             }
 
             if (instruction instanceof AggregateNode) {
-                Map<IntegralType,Integer> op = CodeGeneratorMap.GenerateMap(((AggregateNode)instruction).operation().toString());
+                Map<IntegralType,Integer> op = CodeGeneratorMap.generateMap(((AggregateNode)instruction).operation().toString());
 
                 List<IntegralTypeNode> integralTypeNodes = ((AggregateNode)instruction).data();
                 int addCount = integralTypeNodes.size() - 1;

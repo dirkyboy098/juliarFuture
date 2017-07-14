@@ -11,8 +11,8 @@ import com.juliar.symboltable.SymbolTable;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
+
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
@@ -26,8 +26,8 @@ public class Visitor extends JuliarBaseVisitor<Node>
     private static int ifDeclCount = 0;
     private static int whileDeclCount = 0;
     private List<Node> instructionList = new ArrayList<>();
-    private HashMap<String, Node> functionNodeMap = new HashMap<String, Node>();
-    private Stack<Node> funcContextStack = new Stack<Node>();
+    private HashMap<String, Node> functionNodeMap = new HashMap<>();
+    private Stack<Node> funcContextStack = new Stack<>();
     private Stack<String> callStack = new Stack<>();
     private SymbolTable symbolTable = SymbolTable.createSymbolTable( this );
     private ControlFlowAdjacencyList cfa = new ControlFlowAdjacencyList();
@@ -64,8 +64,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
             //symbolTable.dumpSymbolTable();
         }
         catch(Exception ex){
-            System.out.println(ex.getMessage());
-            ex.printStackTrace();
+            Logger.log(ex);
         }
         return node;
     }
@@ -125,7 +124,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
                                 Operation.subtract,
                                 ctx.types(0).accept(this),
                                 ctx.types(1).accept(this));
-                    n.AddInst( funcContextStack, n);
+                    n.addInst( funcContextStack, n);
                 }catch( Exception ex){
                     Logger.log(ex.getMessage(),ex);
                 }
@@ -140,7 +139,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
                 AggregateNode aggregateNode = new AggregateNode(Operation.subtract, data);
 
                 FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
-                functionDeclNode.AddInst( aggregateNode );
+                functionDeclNode.addInst( aggregateNode );
             }
         }
         return null;
@@ -209,6 +208,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
         return null;
     }
 
+    @Override
     public Node visitModulo(JuliarParser.ModuloContext ctx) {
 
         String text = ctx.moduli().getText();
@@ -250,7 +250,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
                 try {
                     if (!funcContextStack.empty()) {
                         FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
-                        functionDeclNode.AddInst(node.MakeNode(
+                        functionDeclNode.addInst(node.MakeNode(
                                 Operation.divide,
                                 ctx.types(0).accept(this),
                                 ctx.types(1).accept(this)));
@@ -269,7 +269,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
                 AggregateNode aggregateNode = new AggregateNode(Operation.divide, data);
 
                 FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
-                functionDeclNode.AddInst( aggregateNode );
+                functionDeclNode.addInst( aggregateNode );
             }
         }
 
@@ -281,36 +281,6 @@ public class Visitor extends JuliarBaseVisitor<Node>
         MulitiplyNode node = new MulitiplyNode();
         iterateWrapper( ctx, this, node);
         return node;
-        /*
-        String text = ctx.multiplication().getText();
-        if ("multiply".equals(text) || "*".equals(text)){
-            if (ctx.types().size() == 2) {
-                BinaryNode node = new BinaryNode();
-                try {
-                    FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
-                    functionDeclNode.AddInst(node.MakeNode(
-                            Operation.multiply,
-                            ctx.types(0).accept(this),
-                            ctx.types(1).accept(this)));
-                }catch( Exception ex){
-                    new LogMessage(ex.getMessage(),ex);
-                }
-            }
-
-            if (ctx.types().size() > 2){
-                List<IntegralTypeNode> data = new ArrayList<>();
-
-                for ( int i = 0; i< ctx.types().size(); i++) {
-                    data.add((IntegralTypeNode) ctx.types(i).accept(this));
-                }
-                AggregateNode aggregateNode = new AggregateNode(Operation.multiply, data);
-                FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
-                functionDeclNode.AddInst( aggregateNode );
-            }
-        }
-
-        return null;
-        */
     }
 
     @Override
@@ -366,12 +336,12 @@ public class Visitor extends JuliarBaseVisitor<Node>
                 IntegralType integralType = null;
                 if ( parent instanceof AssignmentNode && parent.getInstructions().size() >= 2 && parent.getInstructions().get(0) instanceof VariableDeclarationNode){
                     if ( parent.getInstructions().get(0).getInstructions().get(0) instanceof  UserDefinedTypeNode){
-                        integralType = parent.getInstructions().get(0).getInstructions().get(0).getInstructions().get(2).getIntegralType();
+                        parent.getInstructions().get(0).getInstructions().get(0).getInstructions().get(2).getIntegralType();
                         return;
                     }
                     else {
                         VariableNode variableNode = (VariableNode) parent.getInstructions().get(0).getInstructions().get(1);
-                        integralType = variableNode.getIntegralType();
+                        variableNode.getIntegralType();
                         if (parent.getIntegralType() != variableNode.getIntegralType()) {
                             // throw new RuntimeException( "invalide types used in expressioin");
                         }
@@ -686,10 +656,8 @@ public class Visitor extends JuliarBaseVisitor<Node>
                 builder.append( line );
                 line = bufferedReader.readLine();
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.log(e);
         }
 
         importBuffer.append( builder );
@@ -722,7 +690,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
                 if (node != null) {
                     action(parent, node);
                     action(node);
-                    parent.AddInst(node);
+                    parent.addInst(node);
                 }
             }
 

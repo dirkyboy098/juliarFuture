@@ -4,14 +4,13 @@ import com.fastcgi.FCGIInterface;
 import com.juliar.codegenerator.InstructionInvocation;
 import com.juliar.errors.ErrorListener;
 import com.juliar.errors.Logger;
+import com.juliar.gui.Gui;
 import com.juliar.interpreter.Interpreter;
 import com.juliar.interpreter.ReadWriteBinaryFile;
 import com.juliar.parser.JuliarLexer;
 import com.juliar.parser.JuliarParser;
 import com.juliar.symboltable.SymbolTable;
 import com.juliar.vistor.Visitor;
-import com.juliar.jpm.JPM;
-import com.juliar.gui.Gui;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
@@ -22,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JuliarCompiler {
-	public boolean isDebugMode = false;
+	public static boolean isDebugMode = false;
     private ErrorListener errors;
     private String inputFileName;
 
@@ -33,17 +32,17 @@ public class JuliarCompiler {
 			return;
 		}
 		try {
-			String[] unparsed_args = parseFlags(args);
+			String[] unparsedArgs = parseFlags(args);
 
-			if (startupInstructions(unparsed_args)) {
+			if (startupInstructions(unparsedArgs)) {
 				return;
 			}
 
 			Boolean compileFlag = false;
-			String fileName = unparsed_args[0];
+			String fileName = unparsedArgs[0];
 			String outputPath = "/";
-			if(unparsed_args.length > 1){
-				outputPath = unparsed_args[1];
+			if(unparsedArgs.length > 1){
+				outputPath = unparsedArgs[1];
 				compileFlag = true;
 			}
 
@@ -71,17 +70,13 @@ public class JuliarCompiler {
 	}
 
 	private static String[] parseFlags(String[] args) {
-		String[] params;
-		ArrayList<String> unparsed = new ArrayList<String>();
+		ArrayList<String> unparsed = new ArrayList<>();
 		for(int i=0; i < args.length; i++) {
 			if(args[i].startsWith("-")){
 				 switch(args[i]){
 					 case "-app":
 						 new Thread(() -> javafx.application.Application.launch(Gui.class)).start();
 						 break;
-					 case "-update":
-					 	new JPM();
-					 	break;
 					 case "-verbose":
 						Logger.log("verbose is on");
 					 	break;
@@ -102,17 +97,17 @@ public class JuliarCompiler {
 			String method = System.getProperty("REQUEST_METHOD");
 
 			if (method != null) {
-				String DOCUMENT_ROOT = System.getProperty("DOCUMENT_ROOT");
-				String SCRIPT_NAME = System.getProperty("SCRIPT_NAME");
+				String documentROOT = System.getProperty("DOCUMENT_ROOT");
+				String scriptNAME = System.getProperty("SCRIPT_NAME");
 				Logger.log("Content-type: text/html\r\n\r\n");
 				Logger.log("<html>");
 
-				if ("/".equals(SCRIPT_NAME) || "".equals(SCRIPT_NAME)) {
-					SCRIPT_NAME = "index.jrl";
+				if ("/".equals(scriptNAME) || "".equals(scriptNAME)) {
+					scriptNAME = "index.jrl";
 				}
 
 				JuliarCompiler compiler = new JuliarCompiler();
-				compiler.compile(DOCUMENT_ROOT + SCRIPT_NAME, "", false, false);
+				compiler.compile(documentROOT + scriptNAME, "", false, false);
 				Logger.log("</html>");
 			}
 		}
@@ -125,7 +120,6 @@ public class JuliarCompiler {
 			return compile(fileInputStream, outputPath, compilerFlag, isRepl);
         }
 		catch (Exception ex) {
-        	ex.printStackTrace();
 			Logger.log(ex.getMessage());
 		}
 		
@@ -223,7 +217,7 @@ public class JuliarCompiler {
 	}
 
 
-	private JuliarParser parse(InputStream b) throws Exception {
+	private JuliarParser parse(InputStream b) throws IOException {
         JuliarParser parser = null;
 
         ANTLRInputStream s = new ANTLRInputStream(b);

@@ -9,7 +9,7 @@ import java.util.concurrent.LinkedBlockingDeque;
  * Created by Don on 2/1/2017.
  */
 public class ControlFlowAdjacencyList {
-    private List<ControlFlowNode> list = new ArrayList<ControlFlowNode>();
+    private List<ControlFlowNode> list = new ArrayList<>();
     private LinkedBlockingDeque<ControlFlowNode> queue = new LinkedBlockingDeque<>();
 
     public void addNode(String caller, String callee){

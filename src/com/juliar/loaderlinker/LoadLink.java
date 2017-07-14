@@ -22,7 +22,7 @@ public class LoadLink {
 
         for (String file : filesToLoad ) {
             instructionInvocations[ count] = read.read( file );
-            if (instructionInvocations[ count ].getInstructionList().size() == 0){
+            if (instructionInvocations[ count ].getInstructionList().isEmpty()){
                 throw new RuntimeException( "Invalid library. Make sure there were no compilation errors");
             }
             count++;

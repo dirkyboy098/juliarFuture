@@ -14,7 +14,7 @@ import java.util.Locale;
  * Created by AndreiM on 4/11/2017.
  */
 public class JRLTab {
-    private Tab jrlTab;
+    private Tab myTab;
     private Circle jrlGraphic;
     private TextFile jrlFileName = null;
     private File jrlFile;
@@ -30,11 +30,11 @@ public class JRLTab {
     }
 
     public Tab getJrlTab() {
-        return jrlTab;
+        return myTab;
     }
 
     public void setJrlTab(Tab jrlTab) {
-        this.jrlTab = jrlTab;
+        this.myTab = jrlTab;
     }
 
     public Circle getJrlGraphic() {

@@ -48,11 +48,7 @@ public class Updater {
             for(int i=0; i<mdbytes.length; i++)
                 sb.append(Integer.toString((mdbytes[i] & 0xff) + 0x100 , 16).substring(1));
         }
-        catch(NoSuchAlgorithmException e)
-        {
-            Logger.log(e);
-        }
-        catch(IOException e)
+        catch(NoSuchAlgorithmException|IOException e)
         {
             Logger.log(e);
         }

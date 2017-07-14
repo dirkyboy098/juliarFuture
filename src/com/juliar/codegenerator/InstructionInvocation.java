@@ -11,9 +11,9 @@ import java.util.*;
 public class InstructionInvocation implements Serializable {
     private static final long serialVersionUID = 321323213;
     private List<Node> instructionList = new ArrayList<>();
-    private HashMap<String, Node> functionNodeMap = new HashMap<>();
+    private Map<String, Node> functionNodeMap = new HashMap<>();
 
-    public InstructionInvocation(List<Node> inst, HashMap<String, Node> functionMap){
+    public InstructionInvocation(List<Node> inst, Map<String, Node> functionMap){
         instructionList = inst;
         functionNodeMap = functionMap;
     }
@@ -22,7 +22,7 @@ public class InstructionInvocation implements Serializable {
         return instructionList;
     }
 
-    public HashMap<String, Node> getFunctionNodeMap() {
+    public Map<String, Node> getFunctionNodeMap() {
         return functionNodeMap;
     }
 }

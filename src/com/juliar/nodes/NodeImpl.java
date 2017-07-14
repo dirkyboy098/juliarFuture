@@ -21,19 +21,19 @@ public abstract class NodeImpl implements Node , Serializable{
     }
 
     @Override
-    public void AddInst(Node parent, Node instruction) {
+    public void addInst(Node parent, Node instruction) {
     /*add instruction given parent*/
     }
 
     @Override
-    public void AddInst(Node instruction) {
+    public void addInst(Node instruction) {
         instructions.add( instruction );
     }
 
     @Override
-    public void AddInst(Stack<Node> contextStack, Node instruction) {
+    public void addInst(Stack<Node> contextStack, Node instruction) {
         Node n = contextStack.peek();
-        n.AddInst(instruction);
+        n.addInst(instruction);
     }
 
     @Override
