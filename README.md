@@ -13,6 +13,7 @@ in order to optimize programming efficiency.
 ### IDE is included! No additional software needed
 
 ![JuliarFuture](https://user-images.githubusercontent.com/11934545/28906618-c4cedc84-77e6-11e7-98af-dff8b0657c52.png)
+
 *If you are using Linux, we suggest that you use Oracle Java instead of OpenJava.
 
 For more information, please check out our official website at [https://www.juliar.org](http://www.juliar.org)
