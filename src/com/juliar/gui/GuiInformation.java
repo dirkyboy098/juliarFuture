@@ -68,7 +68,7 @@ public class GuiInformation {
             lbl2.setFont(Font.font(FONT, FontWeight.BOLD, 36));
             vbox1.getChildren().add(lbl2);
 
-            Label lbl3 = new Label(" Alpha 0.01 · 07.03.2017   ");
+            Label lbl3 = new Label(" Alpha 0.01 · 08.02.2017   ");
             lbl3.setFont(Font.font(FONT, 14));
             vbox1.getChildren().add(lbl3);
             vbox1.setAlignment(Pos.CENTER_LEFT);
