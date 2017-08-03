@@ -22,6 +22,11 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.application.HostServices;
 
+import java.io.File;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+
 /**
  * Created by AndreiM on 5/20/2017.
  */
@@ -78,7 +83,15 @@ public class GuiInformation {
             lbl2.setFont(Font.font(FONT, FontWeight.BOLD, 36));
             vbox1.getChildren().add(lbl2);
 
-            Label lbl3 = new Label(" Alpha 0.01 · 08.03.2017   ");
+
+            Date compdate = new Date(new File(GuiInformation.class.getClassLoader().getResource(GuiInformation.class.getCanonicalName().replace('.', '/') + ".class").toURI()).lastModified());
+            LocalDate localDate = compdate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            int year  = localDate.getYear();
+            int month = localDate.getMonthValue();
+            int day   = localDate.getDayOfMonth();
+
+
+            Label lbl3 = new Label(" Alpha 0.01 · " + String.format("%02d",month) + "." + String.format("%02d",day) + "."+year);
             lbl3.setFont(Font.font(FONT, 14));
             vbox1.getChildren().add(lbl3);
             vbox1.setAlignment(Pos.CENTER_LEFT);
