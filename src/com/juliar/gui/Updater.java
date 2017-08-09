@@ -29,7 +29,7 @@ public class Updater {
         }
     }
 
-    public StringBuilder checksum(){
+    private StringBuilder checksum(){
         File currentJavaJarFile = new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
         String filepath = currentJavaJarFile.getAbsolutePath();
         StringBuilder sb = new StringBuilder();

@@ -1,8 +1,7 @@
 package com.juliar.gui;
 
+import com.juliar.errors.Logger;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -20,7 +19,6 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import javafx.application.HostServices;
 
 import java.io.File;
 import java.time.LocalDate;

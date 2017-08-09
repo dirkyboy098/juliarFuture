@@ -1,6 +1,7 @@
 package com.juliar.gui;
 
 import com.juliar.JuliarCompiler;
+import com.juliar.errors.Logger;
 import javafx.concurrent.Task;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -27,10 +28,15 @@ import java.util.regex.Pattern;
  * Created by AndreiM on 3/18/2017.
  */
 public class Controller {
-    public ArrayList<JRLTab> jrltabs = new ArrayList<>();
-    public Integer jrlID = 0;
-    public boolean compilerRunning = false;
-    public Thread thread;
+    private ArrayList<JRLTab> jrltabs = new ArrayList<>();
+    private Integer jrlID = 0;
+    private boolean compilerRunning = false;
+    private Thread thread;
+    private static final String JULIAR_STR = "Juliar.Future - ";
+
+    Controller(Model model) {
+        this.model = model;
+    }
 
     @FXML
     public Button runBtn;
@@ -92,13 +98,39 @@ public class Controller {
         this.scene = scene;
     }
 
-    public Controller(Model model) {
-        this.model = model;
-    }
-
     @FXML
     public void onException(){
         new GuiAlert(new Exception(),"Triggered an Error");
+    }
+
+    private void keyCombinations(){
+        final KeyCombination kbEnter = new KeyCodeCombination(KeyCode.ENTER, KeyCombination.CONTROL_DOWN);
+        final KeyCombination kbNew = new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN);
+        final KeyCombination kbLoad = new KeyCodeCombination(KeyCode.L, KeyCombination.CONTROL_DOWN);
+        final KeyCombination kbSave = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN);
+        final KeyCombination kbReload = new KeyCodeCombination(KeyCode.R, KeyCombination.CONTROL_DOWN);
+        final KeyCombination kbClosetab = new KeyCodeCombination(KeyCode.W, KeyCombination.CONTROL_DOWN);
+
+        tabPane.getParent().addEventFilter(KeyEvent.KEY_PRESSED, ke -> {
+            if (kbEnter.match(ke)) {
+                this.onRunInterpreter();
+            }
+            if (kbNew.match(ke)) {
+                this.onNew();
+            }
+            if (kbLoad.match(ke)) {
+                this.onLoad();
+            }
+            if (kbSave.match(ke)) {
+                this.onSave();
+            }
+            if (kbReload.match(ke)) {
+                this.onRefresh();
+            }
+            if (kbClosetab.match(ke)) {
+                this.closetab();
+            }
+        });
     }
 
     @FXML
@@ -123,39 +155,14 @@ public class Controller {
         } else {
             onNew();
         }
-        final KeyCombination kb_enter = new KeyCodeCombination(KeyCode.ENTER, KeyCombination.CONTROL_DOWN);
-        final KeyCombination kb_new = new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN);
-        final KeyCombination kb_load = new KeyCodeCombination(KeyCode.L, KeyCombination.CONTROL_DOWN);
-        final KeyCombination kb_save = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN);
-        final KeyCombination kb_reload = new KeyCodeCombination(KeyCode.R, KeyCombination.CONTROL_DOWN);
-        final KeyCombination kb_closetab = new KeyCodeCombination(KeyCode.W, KeyCombination.CONTROL_DOWN);
+        keyCombinations();
 
-        tabPane.getParent().addEventFilter(KeyEvent.KEY_PRESSED, ke -> {
-            if (kb_enter.match(ke)) {
-                this.onRunInterpreter();
-            }
-            if (kb_new.match(ke)) {
-                this.onNew();
-            }
-            if (kb_load.match(ke)) {
-                this.onLoad();
-            }
-            if (kb_save.match(ke)) {
-                this.onSave();
-            }
-            if (kb_reload.match(ke)) {
-                this.onRefresh();
-            }
-            if (kb_closetab.match(ke)) {
-                this.closetab();
-            }
-        });
         tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
             jrlID = tabPane.getSelectionModel().getSelectedIndex();
             try {
-                String titlename = "Juliar.Future - *New File*";
+                String titlename = JULIAR_STR + "*New File*";
                 if((jrlID < jrltabs.size()) && (jrltabs.get(jrlID).getJrlFile() != null)){
-                    titlename = "Juliar.Future - " + jrltabs.get(jrlID).getJrlFile().toPath().toString();
+                    titlename = JULIAR_STR + jrltabs.get(jrlID).getJrlFile().toPath().toString();
                 }
                 ((Stage) scene.getWindow()).setTitle(titlename);
             } catch (Exception e){
@@ -194,7 +201,11 @@ public class Controller {
         result.ifPresent(name -> {
             CodeArea area = jrltabs.get(jrlID).getJlrCodeArea();
             int pos = area.getAbsolutePosition(Integer.parseInt(name) - 1, 0);
-            area.moveTo(pos);
+            try {
+                area.moveTo(pos);
+            } catch(Exception e){
+                Logger.log(e);
+            }
             area.requestFocus();
         });
     }
@@ -225,7 +236,7 @@ public class Controller {
                 jrlTab.getJlrCodeArea().getUndoManager().mark();
                 jrlTab.setEdited(false);
                 jrltabs.add(jrlTab);
-                String titleName = "Juliar.Future - " + file.toPath().toString();
+                String titleName = JULIAR_STR + file.toPath().toString();
                 ((Stage) scene.getWindow()).setTitle(titleName);
             }
         }
@@ -242,11 +253,9 @@ public class Controller {
                     codeArea.setStyleSpans(0, Highlighter.computeHighlighting(codeArea.getText()));
                     if(jrlTab.getJlrCodeArea().getUndoManager().isAtMarkedPosition()) {
                         jrlTab.setEdited(false);
-                        //new GuiAlert(new Exception(),"AtMarked: " + codeArea.getUndoManager().atMarkedPositionProperty() + "Edited: false" + codeArea.getUndoManager().getCurrentPosition());
                     }
                     else{
                         jrlTab.setEdited(true);
-                        //new GuiAlert(new Exception(),"AtMarked: " + codeArea.getUndoManager().atMarkedPositionProperty() +"Edited: true" +  codeArea.getUndoManager().getCurrentPosition());
                     }
                 });
 
@@ -297,7 +306,7 @@ public class Controller {
         model.save(textFile);
         jrltabs.get(jrlID).setEdited(false);
         jrltabs.get(jrlID).getJlrCodeArea().getUndoManager().mark();
-        String titleName = "Juliar.Future - " + jrltabs.get(jrlID).getJrlFile().toPath().toString();
+        String titleName = JULIAR_STR + jrltabs.get(jrlID).getJrlFile().toPath().toString();
         ((Stage) scene.getWindow()).setTitle(titleName);
     }
 
@@ -314,7 +323,7 @@ public class Controller {
             jrltabs.get(jrlID).setJrlFileName(textFile);
             jrltabs.get(jrlID).setEdited(false);
             jrltabs.get(jrlID).getJlrCodeArea().getUndoManager().mark();
-            String titleName = "Juliar.Future - " + jrltabs.get(jrlID).getJrlFile().toPath().toString();
+            String titleName = JULIAR_STR + jrltabs.get(jrlID).getJrlFile().toPath().toString();
             ((Stage) scene.getWindow()).setTitle(titleName);
         }
     }

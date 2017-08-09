@@ -11,7 +11,7 @@ public class TextFile {
 
     private String name;
 
-    public TextFile(Path file, List<String> content) {
+    TextFile(Path file, List<String> content) {
         this.file = file;
         this.content = content;
         this.name = file.getFileName().toString();
@@ -21,7 +21,7 @@ public class TextFile {
         return file;
     }
 
-    public List<String> getContent() {
+    List<String> getContent() {
         return content;
     }
 

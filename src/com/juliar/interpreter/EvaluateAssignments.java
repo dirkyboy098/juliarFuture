@@ -13,7 +13,7 @@ import static com.juliar.nodes.IntegralType.*;
 public class EvaluateAssignments {
     private static Interpreter interpreterCallback = null;
 
-    static public void Create(Interpreter interpreter){
+    static public void create(Interpreter interpreter){
         if (interpreterCallback == null) {
             interpreterCallback = interpreter;
         }

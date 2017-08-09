@@ -1,9 +1,5 @@
 package com.juliar.gui;
 
-/**
- * Created by AndreiM on 3/16/2017.
- */
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
@@ -36,7 +32,7 @@ public class Gui extends Application {
         }
     }
 
-    public void keyComb(Scene scene){
+    private void keyComb(Scene scene){
         final KeyCombination kbPlus = new KeyCodeCombination(KeyCode.EQUALS, KeyCombination.CONTROL_DOWN);
         final KeyCombination kbMinus = new KeyCodeCombination(KeyCode.MINUS, KeyCombination.CONTROL_DOWN);
 

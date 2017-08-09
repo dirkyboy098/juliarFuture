@@ -8,9 +8,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-public class Model {
+class Model {
 
-    public void save(TextFile textFile) {
+    void save(TextFile textFile) {
         try {
             Files.write(textFile.getFile(), textFile.getContent());
         } catch (IOException e) {
@@ -18,7 +18,7 @@ public class Model {
         }
     }
 
-    public IOResult<TextFile> load(Path file) {
+    IOResult<TextFile> load(Path file) {
         try {
             List<String> lines = Files.readAllLines(file);
             return new IOResult<>(true, new TextFile(file, lines));
@@ -28,7 +28,7 @@ public class Model {
         }
     }
 
-    public void close() {
+    void close() {
         Platform.exit();
     }
 }

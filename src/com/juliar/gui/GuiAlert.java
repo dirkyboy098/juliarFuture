@@ -12,8 +12,8 @@ import java.io.StringWriter;
 /**
  * Created by AndreiM on 5/15/2017.
  */
-public class GuiAlert {
-    public GuiAlert(Exception e, String header){
+class GuiAlert {
+    GuiAlert(Exception e, String header){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         CSSLoader.cssLoad(alert.getDialogPane());
         alert.setTitle("Juliar Error");

@@ -18,7 +18,7 @@ public class Interpreter {
 
     public Interpreter(InstructionInvocation invocation){
         try {
-            EvaluateAssignments.Create(this);
+            EvaluateAssignments.create(this);
             List<Node> inst = invocation.getInstructionList();
 
             functionNodeMap = invocation.getFunctionNodeMap();

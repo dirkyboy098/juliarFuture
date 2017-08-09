@@ -20,18 +20,18 @@ import java.net.URLStreamHandlerFactory;
  * see : https://github.com/fxexperience/code/blob/master/FXExperienceTools/src/com/fxexperience/tools/caspianstyler/CaspianStylerMainFrame.java
  * and : http://stackoverflow.com/questions/24704515/in-javafx-8-can-i-provide-a-stylesheet-from-a-string
  */
-public class FXCSSUpdater {
+class FXCSSUpdater {
 
     private String css;
 
     private Scene scene;
 
-    public FXCSSUpdater(Scene scene) {
+    FXCSSUpdater(Scene scene) {
         this.scene = scene;
         URL.setURLStreamHandlerFactory(new StringURLStreamHandlerFactory());
     }
 
-    public void bindCss(StringProperty cssProperty){
+    void bindCss(StringProperty cssProperty){
         cssProperty.addListener(e -> {
             this.css = cssProperty.get();
             Platform.runLater(()-> scene.getStylesheets().add("internal:"+System.nanoTime()+"stylesheet.css"));
@@ -41,7 +41,7 @@ public class FXCSSUpdater {
      * URLConnection implementation that returns the css string property, as a stream, in the getInputStream method.
      */
     private class StringURLConnection extends URLConnection {
-        public StringURLConnection(URL url){
+        StringURLConnection(URL url){
             super(url);
         }
 
@@ -58,7 +58,7 @@ public class FXCSSUpdater {
      */
     private class StringURLStreamHandlerFactory implements URLStreamHandlerFactory {
 
-        public URLStreamHandler streamHandler = new URLStreamHandler(){
+        private final URLStreamHandler streamHandler = new URLStreamHandler(){
             @Override
             protected URLConnection openConnection(URL url) throws IOException {
                 if (url.toString().toLowerCase().endsWith(".css")) {

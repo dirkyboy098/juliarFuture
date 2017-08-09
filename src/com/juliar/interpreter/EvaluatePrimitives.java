@@ -14,7 +14,7 @@ class EvaluatePrimitives {
     private EvaluatePrimitives(){
 
     }
-    static public List<Node> evalPrimitives(Node n, ActivationFrame activationFrame) {
+    static List<Node> evalPrimitives(Node n, ActivationFrame activationFrame) {
         String functionName = ((FinalNode) n.getInstructions().get(0)).dataString();
         FinalNode finalNode = new FinalNode();
 
