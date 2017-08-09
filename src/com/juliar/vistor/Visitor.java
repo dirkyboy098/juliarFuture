@@ -59,8 +59,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
             instructionList.add(node);
 
             popScope( node.getType() );
-            cfa.walkGraph();
-
+            //cfa.walkGraph();
             //symbolTable.dumpSymbolTable();
         }
         catch(Exception ex){
