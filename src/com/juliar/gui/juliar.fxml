@@ -4,12 +4,13 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Polygon?>
 <?import java.lang.*?>
-<VBox prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.juliar.gui.Controller">
+<VBox prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.juliar.gui.Controller">
       <AnchorPane>
              <MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                  <Menu text="File">
                      <MenuItem onAction="#onNew" text="New" />
-				    <MenuItem onAction="#onLoad" text="Load" />
+				     <MenuItem onAction="#onLoad" text="Load" />
+                     <MenuItem onAction="#onLoadFolder" text="Open Folder" />
                      <MenuItem onAction="#onSave" text="Save" />
                      <MenuItem onAction="#onSaveAs" text="Save As..." />
                      <MenuItem onAction="#onExit" text="Exit" />
@@ -32,12 +33,16 @@
                  </Menu>
              </MenuBar>
       </AnchorPane>
-      <TabPane fx:id="tabPane" maxWidth="Infinity" prefHeight="549.0" tabClosingPolicy="SELECTED_TAB" VBox.vgrow="ALWAYS" >
-      </TabPane>
-      <StackPane>
+      <HBox>
+          <StackPane prefWidth="300.0">
+              <TreeView fx:id="folderTree" />
+          </StackPane>
+          <TabPane fx:id="tabPane" maxWidth="Infinity" prefHeight="549.0" tabClosingPolicy="SELECTED_TAB" HBox.hgrow="ALWAYS"/>
+      </HBox>
+      <StackPane VBox.vgrow="ALWAYS">
 
       <AnchorPane prefHeight="306.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0">
-          <TabPane fx:id="tabPaneOut" maxWidth="Infinity" prefHeight="250.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" >
+          <TabPane fx:id="tabPaneOut" maxWidth="Infinity" maxHeight="Infinity" prefHeight="250.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" >
               <Tab text="Output">
                 <TextArea fx:id="areaOutText" editable="false" layoutX="45.0" layoutY="-55.0"/>
               </Tab>
@@ -60,6 +65,9 @@
                   </points>
               </Polygon>
           </graphic>
+                 <tooltip>
+                     <Tooltip text="Ctrl+Enter"/>
+                 </tooltip>
              </Button>
       </AnchorPane>
       </StackPane>

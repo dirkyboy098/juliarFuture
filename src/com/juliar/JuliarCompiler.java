@@ -71,13 +71,14 @@ public class JuliarCompiler {
 
 	private static String[] parseFlags(String[] args) {
 		ArrayList<String> unparsed = new ArrayList<>();
-		for(int i=0; i < args.length; i++) {
-			if(args[i].startsWith("-")){
-				 switch(args[i]){
+		for(String arg: args) {
+			if(arg.startsWith("-")){
+				 switch(arg){
 					 case "-app":
 						 new Thread(() -> javafx.application.Application.launch(Gui.class)).start();
 						 break;
 					 case "-verbose":
+					 	isDebugMode = true;
 						Logger.log("verbose is on");
 					 	break;
 					 default:
@@ -85,7 +86,7 @@ public class JuliarCompiler {
 				 }
 			}
 			else{
-				unparsed.add(args[i]);
+				unparsed.add(arg);
 			}
         }
         return unparsed.toArray(new String[0]);

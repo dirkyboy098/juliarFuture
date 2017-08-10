@@ -218,3 +218,35 @@
 .dialog-pane > .button-bar > .container > .details-button.less {
     -fx-text-fill: white;
 }
+
+.tree-view,.tree-cell {
+	-fx-padding: 0em 0em 0em 0em;
+	-fx-background-radius: 0;
+    -fx-border-width: 0px 0px 0px 0px;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-background-insets: 0 0 0 0, 0;
+	
+}
+
+.tree-cell {
+	-fx-text-fill: white;
+	-fx-background-color: #353d4f;
+	-fx-font-size: 14px;
+}
+
+.tree-cell:selected {
+	-fx-text-fill: white;
+	-fx-background-color: #737f97 ;
+}
+
+.tree-cell:expanded, .tree-cell:sub-tree-item {
+    -fx-background-color: #232733 ;
+}
+
+.tree-cell > .tree-disclosure-node > .arrow  {
+    -fx-background-color: #232733;
+}
+.tree-cell:expanded > .tree-disclosure-node > .arrow {
+    -fx-background-color: #737f97;
+}
