@@ -9,7 +9,9 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.fxmisc.flowless.VirtualizedScrollPane;
@@ -23,6 +25,9 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static java.lang.System.*;
+import static java.lang.System.out;
 
 /**
  * Created by AndreiM on 3/18/2017.
@@ -38,6 +43,8 @@ public class Controller {
         this.model = model;
     }
 
+    public String rootFolder = "";
+
     @FXML
     public Button runBtn;
 
@@ -49,6 +56,9 @@ public class Controller {
 
     @FXML
     public TabPane tabPane;
+
+    @FXML
+    public TreeView folderTree;
 
     @FXML
     public TabPane tabPaneOut;
@@ -98,6 +108,8 @@ public class Controller {
         this.scene = scene;
     }
 
+
+
     @FXML
     public void onException(){
         new GuiAlert(new Exception(),"Triggered an Error");
@@ -109,7 +121,7 @@ public class Controller {
         final KeyCombination kbLoad = new KeyCodeCombination(KeyCode.L, KeyCombination.CONTROL_DOWN);
         final KeyCombination kbSave = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN);
         final KeyCombination kbReload = new KeyCodeCombination(KeyCode.R, KeyCombination.CONTROL_DOWN);
-        final KeyCombination kbClosetab = new KeyCodeCombination(KeyCode.W, KeyCombination.CONTROL_DOWN);
+        final KeyCombination kbCloseTab = new KeyCodeCombination(KeyCode.W, KeyCombination.CONTROL_DOWN);
 
         tabPane.getParent().addEventFilter(KeyEvent.KEY_PRESSED, ke -> {
             if (kbEnter.match(ke)) {
@@ -127,7 +139,7 @@ public class Controller {
             if (kbReload.match(ke)) {
                 this.onRefresh();
             }
-            if (kbClosetab.match(ke)) {
+            if (kbCloseTab.match(ke)) {
                 this.closetab();
             }
         });
@@ -156,22 +168,55 @@ public class Controller {
             onNew();
         }
         keyCombinations();
+        folderTree.setRoot(new TreeItem("Go to File -> Folder Open"));
 
+        folderTree.setOnMouseClicked((MouseEvent click) -> {
+            if (click.getButton() == MouseButton.PRIMARY && click.getClickCount() == 2) {
+                //Use ListView's getSelected Item
+                TreeItem treeItem = (TreeItem) folderTree.getSelectionModel().getSelectedItem();
+
+                StringBuilder pathBuilder = new StringBuilder();
+                for (TreeItem item = treeItem;
+                     item != null ; item = item.getParent()) {
+
+                    pathBuilder.insert(0, item.getValue());
+                    pathBuilder.insert(0, "/");
+                }
+                pathBuilder.insert(0,rootFolder);
+                String path = pathBuilder.toString();
+
+
+                File g = new File(path);
+                if (g.exists()) {
+                    JRLTab jrlTab = new JRLTab();
+                    jrlTab.setJrlFile(g);
+                    IOResult<TextFile> io = model.load(g.toPath());
+                    if (io.isOk() && io.hasData()) {
+                        TextFile tFile = io.getData();
+                        jrlTab.setJrlFileName(tFile);
+                        jrlTab = createTab(jrlTab);
+                        jrlTab.getJlrCodeArea().getUndoManager().mark();
+                        jrlTab.setEdited(false);
+                        jrltabs.add(jrlTab);
+                    }
+                }
+            }
+        });
         tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
             jrlID = tabPane.getSelectionModel().getSelectedIndex();
             try {
-                String titlename = JULIAR_STR + "*New File*";
+                String titleName = JULIAR_STR + "*New File*";
                 if((jrlID < jrltabs.size()) && (jrltabs.get(jrlID).getJrlFile() != null)){
-                    titlename = JULIAR_STR + jrltabs.get(jrlID).getJrlFile().toPath().toString();
+                    titleName = JULIAR_STR + jrltabs.get(jrlID).getJrlFile().toPath().toString();
                 }
-                ((Stage) scene.getWindow()).setTitle(titlename);
+                ((Stage) scene.getWindow()).setTitle(titleName);
             } catch (Exception e){
                 new GuiAlert(e, "Something wrong with setting title" + jrltabs.size());
             }
         });
     }
 
-    public void closetab(){
+    private void closetab(){
         Tab tab = tabPane.getSelectionModel().getSelectedItem();
         EventHandler<Event> handler = tab.getOnCloseRequest();
         if (null != handler) {
@@ -242,7 +287,35 @@ public class Controller {
         }
     }
 
-    public JRLTab createTab(JRLTab jrlTab){
+    @FXML
+    public void onLoadFolder(){
+        DirectoryChooser dc = new DirectoryChooser();
+        dc.setInitialDirectory(new File(System.getProperty("user.home")));
+        File choice = dc.showDialog(null);
+        if(choice == null || ! choice.isDirectory()) {
+            new GuiAlert(new Exception("The file is Invalid"),"Could not open directory.");
+        } else {
+            rootFolder = choice.getPath();
+            rootFolder = rootFolder.substring(0,rootFolder.lastIndexOf(File.separator));
+            folderTree.setRoot(getNodesForDirectory(choice));
+        }
+    }
+
+    private TreeItem<String> getNodesForDirectory(File directory) { //Returns a TreeItem representation of the specified directory
+        TreeItem<String> root = new TreeItem<>(directory.getName());
+        if(directory.listFiles() != null) {
+            for (File f : directory.listFiles()) {
+                if (f.isDirectory()) { //Then we call the function recursively
+                    root.getChildren().add(getNodesForDirectory(f));
+                } else {
+                    root.getChildren().add(new TreeItem<String>(f.getName()));
+                }
+            }
+        }
+        return root;
+    }
+
+    private JRLTab createTab(JRLTab jrlTab){
         int tabSize = jrltabs.size();
         CodeArea codeArea = new CodeArea();
         jrlTab.setJlrCodeArea(codeArea);
@@ -343,18 +416,16 @@ public class Controller {
         PrintStream ps = new PrintStream(newOut);
         PrintStream ps2 = new PrintStream(newErr);
         // IMPORTANT: Save the old System.out!
-        PrintStream oldOut = System.out;
-        PrintStream oldErr = System.err;
         // Tell Java to use your special stream
-        System.setOut(ps);
-        System.setErr(ps2);
+        setOut(ps);
+        setErr(ps2);
         // Print some output: goes to your special stream
         JuliarCompiler compiler = new JuliarCompiler();
 
         areaOutText.clear();
         areaErrorText.clear();
         areaOutText.appendText("Starting Interpreter at: " + LocalDateTime.now() + "\r\n");
-        long startTime = System.nanoTime();
+        long startTime = nanoTime();
         CodeArea area = jrltabs.get(jrlID).getJlrCodeArea();
         InputStream is = new ByteArrayInputStream(area.getText().getBytes());
 
@@ -368,9 +439,9 @@ public class Controller {
         };
         task.setOnSucceeded(taskFinishEvent -> {
             area.requestFocus();
-            System.out.flush();
-            System.setOut(oldOut);
-            System.setErr(oldErr);
+            out.flush();
+            setOut(out);
+            setErr(err);
             areaErrorText.appendText(newErr.toString());
             areaOutText.appendText(newOut.toString());
             Pattern word = Pattern.compile("([0-9]+,[0-9]+).*\\r\\n");
@@ -394,7 +465,7 @@ public class Controller {
                 areaOutText.appendText(parts[1]);
             }
 
-            areaOutText.appendText("\r\nCompleted execution in " + ((System.nanoTime() - startTime) / 1000000) + "ms");
+            areaOutText.appendText("\r\nCompleted execution in " + ((nanoTime() - startTime) / 1000000) + "ms");
             runBtn.setGraphic(Shapes.btnTriangle());
             compilerRunning = false;
         });
