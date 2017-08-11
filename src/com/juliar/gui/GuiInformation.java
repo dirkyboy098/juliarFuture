@@ -81,8 +81,7 @@ public class GuiInformation {
             lbl2.setFont(Font.font(FONT, FontWeight.BOLD, 36));
             vbox1.getChildren().add(lbl2);
 
-
-            Date compdate = new Date(new File(GuiInformation.class.getClassLoader().getResource(GuiInformation.class.getCanonicalName().replace('.', '/') + ".class").toURI()).lastModified());
+            Date compdate = new Date(new File(GuiInformation.class.getProtectionDomain().getCodeSource().getLocation().getPath()).lastModified());
             LocalDate localDate = compdate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             int year  = localDate.getYear();
             int month = localDate.getMonthValue();
