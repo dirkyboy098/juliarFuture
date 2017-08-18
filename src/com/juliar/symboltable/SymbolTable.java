@@ -5,10 +5,7 @@ import com.juliar.nodes.UserDefinedTypeNode;
 import com.juliar.nodes.VariableNode;
 import com.juliar.vistor.Visitor;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Created by donreamey on 1/9/17.
@@ -30,20 +27,22 @@ import java.util.Stack;
  *    - foo2
  */
 public class SymbolTable {
+    private static final String IDENTIFIERTXT = "identifier";
+    private static final String EXISTTXT = " already exist";
     private HashMap< String, SymbolTableNode> scopeHash = new HashMap<>();
     private static SymbolTable symbolTable;
-    private static Stack<String> currentScope = new Stack<>();
+    private static Deque<String> currentScope = new ArrayDeque<>();
     private Visitor visitor;
 
-    static public SymbolTable createSymbolTable(Visitor v) {
+    public static SymbolTable createSymbolTable(Visitor v) {
         if (symbolTable == null) {
             symbolTable = new SymbolTable( v );
         }
         return symbolTable;
     }
 
-    static public void clearSymbolTable(){
-        currentScope.empty();
+    public static void clearSymbolTable(){
+        currentScope.isEmpty();
         symbolTable = null;
         symbolTable = null;
     }
@@ -61,7 +60,7 @@ public class SymbolTable {
         node.levelNode = level;
 
         if (scopeHash.containsKey(level)) {
-            visitor.addError( "identifier " + level + " already exist" );
+            visitor.addError( IDENTIFIERTXT + level + EXISTTXT );
         } else {
             currentScope.push(level);
             scopeHash.put(level, node);
@@ -83,35 +82,20 @@ public class SymbolTable {
                                     .variableName))
                     .count() > 0) {
                 visitor
-                        .addError("identifier " + ((VariableNode) child)
-                                .variableName + " already exist");
+                        .addError(IDENTIFIERTXT + ((VariableNode) child)
+                                .variableName + EXISTTXT);
             }
-
-            /*
-            if (node.children.stream()
-                    .filter(f -> ((VariableNode) f).variableName.equals(((VariableNode) child).variableName)).count() > 0) {
-                visitor.addError( "identifier " + ((VariableNode) child).variableName + " already exist" );
-             }*/
-
-        } else if (child instanceof UserDefinedTypeNode){
-
-            if (node.children.stream()
-                    .filter( f -> f instanceof UserDefinedTypeNode)
-                    .filter(f -> ((UserDefinedTypeNode) f)
-                            .getTypeName()
-                            .equals(((UserDefinedTypeNode) child)
-                                    .getTypeName()))
-                    .count() > 0) {
-                visitor
-                        .addError("identifier " + ((UserDefinedTypeNode) child)
-                                .getTypeName() + " already exist");
-            }
-
+        } else if (child instanceof UserDefinedTypeNode &&  node.children.stream()
+                .filter( f -> f instanceof UserDefinedTypeNode)
+                .filter(f -> ((UserDefinedTypeNode) f)
+                        .getTypeName()
+                        .equals(((UserDefinedTypeNode) child)
+                                .getTypeName()))
+                .count() > 0){
+                visitor.addError(IDENTIFIERTXT + ((UserDefinedTypeNode) child).getTypeName() + EXISTTXT);
         }
 
-
         node.children.add ( child );
-        //scopeHash.get(currentScope.peek()).children.add(child);
     }
 
 
@@ -120,91 +104,74 @@ public class SymbolTable {
 
         if (child instanceof VariableNode){
 
-            Stack<String> tempScope = new Stack<>();
+            Deque<String> tempScope = new ArrayDeque<>();
             tempScope.push( currentScope.pop() );
 
-            while ( !currentScope.empty() ) {
+            while ( !currentScope.isEmpty() ) {
 
                 if (child instanceof VariableNode) {
 
                     SymbolTableNode node = scopeHash.get(currentScope.peek());
-                    if (node.children.stream()
+                    Optional<Node> nodeS = node.children.stream()
                             .filter(f -> f instanceof VariableNode)
-                            .filter(f -> ((VariableNode) f).variableName.equals(((VariableNode) child).variableName)).count() == 1) {
+                            .filter(f -> ((VariableNode) f).variableName.equals(((VariableNode) child).variableName)).findFirst();
 
-                        returnNode = node.children
-                                .stream()
-                                .filter(f -> ((VariableNode) f).variableName.equals(((VariableNode) child).variableName))
-                                .findFirst().get();
-
-                        if (returnNode != null) {
-                            break;
-                        }
-                    }
+                    returnNode = nodeS.orElse(null);
                 }
                 else if (child instanceof UserDefinedTypeNode){
                     SymbolTableNode node = scopeHash.get(currentScope.peek());
 
-                    if (node.children.stream()
+                    Optional<Node> nodeS2 = node.children.stream()
                             .filter(f -> f instanceof UserDefinedTypeNode)
-                            .filter(f -> ((UserDefinedTypeNode) f).getTypeName().equals(((UserDefinedTypeNode) child).getTypeName())).count() == 1) {
+                            .filter(f -> ((UserDefinedTypeNode) f).getTypeName().equals(((UserDefinedTypeNode) child).getTypeName())).findFirst();
 
-                        returnNode = node.children
-                                .stream()
-                                .filter(f -> f instanceof UserDefinedTypeNode)
-                                .filter(f -> ((UserDefinedTypeNode) f).getTypeName().equals(((UserDefinedTypeNode) child).getTypeName()))
-                                .findFirst().get();
-
-                        if (returnNode != null) {
-                            break;
-                        }
-                    }
+                    returnNode =  nodeS2.orElse(null);
                 }
 
-               while (!tempScope.empty()){
+                if (returnNode != null) {
+                    break;
+                }
+
+               while (!tempScope.isEmpty()){
                     currentScope.push (tempScope.pop());
                }
             }
         }
 
         if (returnNode == null){
-            throw new RuntimeException( "unable to find variable -" + ((VariableNode)child).variableName + "in scope for reassignment");
+            throw new IllegalStateException( "unable to find variable -" + ((VariableNode)child).variableName + "in scope for reassignment");
         }
 
         return returnNode;
     }
 
     public boolean doesChildExistAtScope(Node child){
-        Stack<String> tempScope = new Stack<>();
+        Deque<String> tempScope = new ArrayDeque<>();
         tempScope.push ( currentScope.pop() );
         boolean doesExist = false;
 
-        while ( !currentScope.empty() ) {
+        while ( !currentScope.isEmpty() ) {
             if (child instanceof  VariableNode) {
                 doesExist = scopeHash.get(tempScope.peek())
                         .children.stream()
                         .filter(f -> f instanceof VariableNode)
                         .filter(t -> ((VariableNode) t).variableName.equals(((VariableNode) child).variableName)).count() == 1;
-
-                if (doesExist) {
-                    break;
-                }
             } else if (child instanceof UserDefinedTypeNode){
                 doesExist = scopeHash.get(tempScope.peek())
                         .children.stream()
                         .filter(f -> f instanceof UserDefinedTypeNode)
                         .filter(t -> ((VariableNode) t).variableName.equals(((UserDefinedTypeNode) child).getTypeName())).count() == 1;
 
-                if (doesExist) {
-                    break;
-                }
+            }
+            if (doesExist) {
+                break;
             }
 
             tempScope.push ( currentScope.pop() );
         }
 
 
-        while(!tempScope.empty()){
+        while(!tempScope.isEmpty()){
             currentScope.push ( tempScope.pop());
         }
 
@@ -213,7 +180,23 @@ public class SymbolTable {
 
 
     class SymbolTableNode {
-        public String levelNode;
-        public List<Node> children = new ArrayList<>();
+        private String levelNode;
+        private List<Node> children = new ArrayList<>();
+
+        public String getLevelNode() {
+            return levelNode;
+        }
+
+        public void setLevelNode(String levelNode) {
+            this.levelNode = levelNode;
+        }
+
+        public List<Node> getChildren() {
+            return children;
+        }
+
+        public void setChildren(List<Node> children) {
+            this.children = children;
+        }
     }
 }

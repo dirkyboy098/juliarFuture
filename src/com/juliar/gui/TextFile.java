@@ -21,7 +21,7 @@ public class TextFile {
         return file;
     }
 
-    List<String> getContent() {
+    public List<String> getContent() {
         return content;
     }
 

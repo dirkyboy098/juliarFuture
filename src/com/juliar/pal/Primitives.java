@@ -13,7 +13,7 @@ import com.juliar.errors.Logger;
  * platform abstraction layer.
  */
 public class Primitives {
-    public static String sys_file_open(String path) {
+    public static String sysFileOpen(String path) {
         path = stripQuotes( path );
         try {
             int read = 1024;
@@ -68,22 +68,22 @@ public class Primitives {
         }
     }
 
-    public static void sys_file_write(String path) {
+    public static void sysFileWrite(String path) {
         try{
             List<String> lines = Arrays.asList("Test Line 1", "Test Line 2");
             Path file = Paths.get("the-file-name.txt");
             Files.write(file, lines, Charset.forName("UTF-8"));
         } catch (IOException e) {
-            Logger.log(e.getMessage() + " sys_file_write error");
+            Logger.log(e.getMessage() + " sysFileWrite error");
         }
     }
 
-    public static void sys_print_line(String string) {
+    public static void sysPrintLine(String string) {
         System.out.println(stripQuotes(string));
 
     }
 
-    public static void sys_print(String string) {
+    public static void sysPrint(String string) {
         System.out.print(stripQuotes(string));
     }
 
@@ -100,7 +100,7 @@ public class Primitives {
         return s;
     }
 
-    public static long sys_available_memory() {
+    public static long sysAvailableMemory() {
         Runtime rt = Runtime.getRuntime();
         long total = rt.totalMemory();
         long free = rt.freeMemory();
@@ -109,7 +109,7 @@ public class Primitives {
         return freeMemory;
     }
 
-    public static char[] sys_get_byte_from_string(String s){
+    public static char[] sysGetByteFromString(String s){
         return s.toCharArray();
     }
 }

@@ -36,7 +36,7 @@ public class CodeGenerator {
     }
 
 
-    public void generate(List<Node> instructions, String outputfile) throws java.io.IOException {
+    public void generate(List<Node> instructions, String outputfile) throws IOException {
         ClassWriter cw = new ClassWriter(0);
         cw.visit(V1_1, ACC_PUBLIC, outputfile, null, "java/lang/Object", null);
 
@@ -171,7 +171,7 @@ public class CodeGenerator {
 
 
                 if ("printLine".equals(function)){
-                    function = "sys_print_line";
+                    function = "sysPrintLine";
                     mw.visitLdcInsn( ((PrimitiveNode) instruction).getGetPrimitiveArgument().toString());
                     mw.visitIntInsn(ASTORE, 0);
                     mw.visitIntInsn(ALOAD, 0);

@@ -1,5 +1,7 @@
 package com.juliar.errors;
 
+import static java.lang.System.*;
+
 /**
  * Created by AndreiM on 12/27/2016.
  */
@@ -13,20 +15,20 @@ public class Logger {
     }
 
     public static void log(String msg){
-        System.out.println(msg);
+        out.println(msg);
     }
 
     public static void log(String msg,Exception e){
-        System.out.println(msg);
+        out.println(msg);
     }
 
     public static void log(Exception e){
-        System.out.println(e.getMessage());
+        out.println(e.getMessage());
     }
 
 
     public static void logerr(String msg){
-        System.err.println(msg);
+        err.println(msg);
     }
 
     public static void errorFound(){
@@ -40,20 +42,20 @@ public class Logger {
 
     public static void exitIfErrors(){
         if(Logger.hasError){
-            System.err.println("Found "+errors+" errors!");
-            System.exit(1);
+            err.println("Found "+errors+" errors!");
+            throw new NullPointerException();
         }
     }
 
     public Logger(String Message){
-        System.out.println("Error: " + Message);
+        out.println("Error: " + Message);
     }
 
     public Logger(String Message, Exception Type){
-        System.out.println("Error: " + Message);
+        out.println("Error: " + Message);
     }
 
     public static void message(String message){
-        System.out.println( message );
+        out.println( message );
     }
 }

@@ -31,7 +31,7 @@ class FXCSSUpdater {
         URL.setURLStreamHandlerFactory(new StringURLStreamHandlerFactory());
     }
 
-    void bindCss(StringProperty cssProperty){
+    public void bindCss(StringProperty cssProperty){
         cssProperty.addListener(e -> {
             this.css = cssProperty.get();
             Platform.runLater(()-> scene.getStylesheets().add("internal:"+System.nanoTime()+"stylesheet.css"));

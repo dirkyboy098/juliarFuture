@@ -6,9 +6,6 @@ package com.juliar.nodes;
 public class VariableDeclarationNode extends NodeImpl {
     public String type;
 
-    public VariableDeclarationNode(){
-    }
-
     @Override
     public NodeType getType() {
         return NodeType.VariableDeclarationType;
@@ -16,10 +13,10 @@ public class VariableDeclarationNode extends NodeImpl {
 
     @Override
     public IntegralType getIntegralType(){
-        if (this.getInstructions().size() > 0) {
+        if (!this.getInstructions().isEmpty()) {
             if (this.getInstructions().get(0) instanceof  KeywordNode) {
                 KeywordNode keywordNode = (KeywordNode) this.getInstructions().get(0);
-                if (keywordNode.getInstructions().size() > 0) {
+                if (!keywordNode.getInstructions().isEmpty()) {
                     return keywordNode.getIntegralType();
                 }
             }
@@ -34,7 +31,7 @@ public class VariableDeclarationNode extends NodeImpl {
     }
 
     public UserDefinedTypeNode getUserDefinedNode(){
-        assert this.getInstructions().size() >= 1;
+        assert !this.getInstructions().isEmpty();
         return ( UserDefinedTypeNode )this.getInstructions().get(0);
     }
 

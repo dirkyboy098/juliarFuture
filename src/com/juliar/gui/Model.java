@@ -10,7 +10,7 @@ import java.util.List;
 
 class Model {
 
-    void save(TextFile textFile) {
+    public void save(TextFile textFile) {
         try {
             Files.write(textFile.getFile(), textFile.getContent());
         } catch (IOException e) {
@@ -18,7 +18,7 @@ class Model {
         }
     }
 
-    IOResult<TextFile> load(Path file) {
+    public IOResult<TextFile> load(Path file) {
         try {
             List<String> lines = Files.readAllLines(file);
             return new IOResult<>(true, new TextFile(file, lines));
@@ -28,7 +28,7 @@ class Model {
         }
     }
 
-    void close() {
+    public void close() {
         Platform.exit();
     }
 }

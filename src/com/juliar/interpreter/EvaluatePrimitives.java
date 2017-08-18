@@ -7,6 +7,8 @@ import com.juliar.nodes.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.juliar.pal.Primitives.*;
+
 /**
  * Created by donreamey on 3/28/17.
  */
@@ -14,7 +16,7 @@ class EvaluatePrimitives {
     private EvaluatePrimitives(){
 
     }
-    static List<Node> evalPrimitives(Node n, ActivationFrame activationFrame) {
+    public static List<Node> evalPrimitives(Node n, ActivationFrame activationFrame) {
         String functionName = ((FinalNode) n.getInstructions().get(0)).dataString();
         FinalNode finalNode = new FinalNode();
 
@@ -57,7 +59,7 @@ class EvaluatePrimitives {
     private static String fileOpen(Node argumentNode) {
         if (argumentNode instanceof FinalNode) {
             FinalNode finalNode = (FinalNode) argumentNode;
-            return com.juliar.pal.Primitives.sys_file_open(finalNode.dataString());
+            return sysFileOpen(finalNode.dataString());
         }
 
         return "";
@@ -72,7 +74,7 @@ class EvaluatePrimitives {
     }
 
     private static long availableMemory() {
-        return com.juliar.pal.Primitives.sys_available_memory();
+        return sysAvailableMemory();
     }
 
     private static void getByteFromString(ActivationFrame activationFrame, Node argumentNode, Node index) {
@@ -80,7 +82,7 @@ class EvaluatePrimitives {
         Object variable = activationFrame.variableSet.get( variableName );
 
         if (variable instanceof FinalNode) {
-            char[] array = com.juliar.pal.Primitives.sys_get_byte_from_string(((FinalNode) variable).dataString());
+            char[] array = sysGetByteFromString(((FinalNode) variable).dataString());
 
             FinalNode finalNode = new FinalNode();
 
@@ -95,7 +97,8 @@ class EvaluatePrimitives {
                 argumentTwo = (FinalNode) activationFrame.variableSet.get( argTwoVariableName );
             }
 
-            int parsedIndex = Integer.parseInt(argumentTwo != null ? argumentTwo.dataString() : null);
+            assert (argumentTwo != null ? argumentTwo.dataString() : null) != null;
+            int parsedIndex = Integer.parseInt(argumentTwo.dataString());
 
             if (parsedIndex > array.length) {
                 throw new RuntimeException("\r\nJuliar runtime exception - Index out of bounds accessing variable - '"+ variableName +"'");
@@ -119,17 +122,9 @@ class EvaluatePrimitives {
                 finalNode = (FinalNode) primitiveNode.getInstructions().get(0);
             }
 
-            if (variable instanceof IntegralTypeNode) {
-                finalNode = (FinalNode) ((IntegralTypeNode) variable).getInstructions().get(0);
-            }
-
-            if (variable instanceof BooleanNode) {
-                finalNode = (FinalNode) ((BooleanNode) variable).getInstructions().get(0);
-            }
-
-            if (variable instanceof FinalNode) {
-                finalNode = (FinalNode) variable;
-            }
+            if (variable instanceof IntegralTypeNode) finalNode = (FinalNode) ((IntegralTypeNode) variable).getInstructions().get(0);
+            if (variable instanceof BooleanNode) finalNode = (FinalNode) ((BooleanNode) variable).getInstructions().get(0);
+            if (variable instanceof FinalNode) finalNode = (FinalNode) variable;
         }
 
         if (argumentNode instanceof IntegralTypeNode) {
@@ -140,9 +135,9 @@ class EvaluatePrimitives {
 
         if (finalNode.dataString() != null) {
             if ("printLine".equals(functionName)) {
-                com.juliar.pal.Primitives.sys_print_line(finalNode.dataString());
+                sysPrintLine(finalNode.dataString());
             } else if ("print".equals(functionName)) {
-                com.juliar.pal.Primitives.sys_print(finalNode.dataString());
+                sysPrint(finalNode.dataString());
             }
         }
     }

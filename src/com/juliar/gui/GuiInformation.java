@@ -1,7 +1,6 @@
 package com.juliar.gui;
 
-import com.juliar.errors.Logger;
-import javafx.application.Application;
+import javafx.application.HostServices;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -40,7 +39,7 @@ public class GuiInformation {
         alert.setContentText(content);
         alert.showAndWait();
     }
-    public static void about () {
+    public static void about (HostServices hostServices) {
         try {
             Dialog<String> dialog = new Dialog<>();
             dialog.setTitle("About Juliar IDE");
@@ -97,27 +96,11 @@ public class GuiInformation {
 
             Hyperlink hyperlinkJuliar = new Hyperlink("https://juliar.org/");
 
-            hyperlinkJuliar.setOnAction(event -> {
-                Application application = new Application() {
-                    @Override
-                    public void start(Stage primaryStage) throws Exception {
-
-                    }
-                };
-                application.getHostServices().showDocument("https://juliar.org");
-            });
+            hyperlinkJuliar.setOnAction(event -> hostServices.showDocument("https://juliar.org"));
 
             Hyperlink hyperlinkEmail = new Hyperlink("admin@juliar.org");
 
-            hyperlinkEmail.setOnAction(event -> {
-                Application application = new Application() {
-                    @Override
-                    public void start(Stage primaryStage) throws Exception {
-
-                    }
-                };
-                application.getHostServices().showDocument("mailto:admin@juliar.org");
-            });
+            hyperlinkEmail.setOnAction(event -> hostServices.showDocument("mailto:admin@juliar.org"));
             Text text1 = new Text("Visit us at ");
             text1.setFont(Font.font(FONT, 14));
             text1.setStyle("-fx-fill: white;");

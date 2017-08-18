@@ -10,7 +10,7 @@ class Shapes {
     private Shapes(){
 
     }
-    static Polygon btnSquare() {
+    public static Polygon btnSquare() {
         Polygon square = new Polygon();
         square.getPoints().addAll(0.0, 0.0,
                 0.0, 21.0,
@@ -19,7 +19,7 @@ class Shapes {
         square.setFill(javafx.scene.paint.Color.WHITE);
         return square;
     }
-    static Polygon btnTriangle() {
+    public static Polygon btnTriangle() {
         Polygon triangle = new Polygon();
         triangle.getPoints().addAll(0.0, 0.0,
                 0.0, 21.0,
@@ -27,7 +27,7 @@ class Shapes {
         triangle.setFill(Color.WHITE);
         return triangle;
     }
-    static Circle tabCircle(){
+    public static Circle tabCircle(){
         Circle c = new Circle(0, 0, 3);
         c.setFill(Color.rgb(131,207,23));
         c.getStyleClass().add("graphic");

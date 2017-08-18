@@ -1,5 +1,6 @@
 package com.juliar.gui;
 
+import javafx.application.HostServices;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -14,7 +15,7 @@ class SceneCreator {
     private SceneCreator () {
 
     }
-    public static Scene create(Stage stage, String resource, String title){
+    public static Scene create(Stage stage, String resource, String title, HostServices hostServices){
         try {
             FXMLLoader loader = new FXMLLoader(SceneCreator.class.getResource(resource));
             Controller myController = new Controller(new Model());
@@ -33,6 +34,7 @@ class SceneCreator {
 
             Scene scene = new Scene(loader.load());
             CSSLoader.cssLoad(scene);
+            myController.setHostServices(hostServices);
 
             stage.setTitle(title);
             stage.setScene(scene);

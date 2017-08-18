@@ -9,9 +9,10 @@ import java.util.*;
  * Created by AndreiM on 11/14/2016.
  */
 public class CodeGeneratorMap {
+    private static final Map<String, List<Integer>> map;
     private CodeGeneratorMap(){}
 
-    private static final Map<String, List<Integer>> map;
+
     static {
         map = new HashMap<>();
         map.put("add", new ArrayList<>(Arrays.asList(IADD,LADD,FADD,DADD)));

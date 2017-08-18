@@ -213,7 +213,6 @@ public class Interpreter {
                     finalNode = (FinalNode) boolEvalResult.getInstructions().get(0);
 
                     //assert finalNode.dataString().equalsIgnoreCase( "true ") || finalNode.dataString().equalsIgnoreCase( "false" ) : "A boolean value was not returned";
-                   ;
 
                     if (!(Boolean.parseBoolean( finalNode.dataString() ))) {
                         break;
@@ -271,15 +270,12 @@ public class Interpreter {
             }
 
             // TODO - FINISH THIS
-            if ( booleanResult ) {
-                //List<Node> s = execute( trueExpressions );
-                if ( frame.returnNode != null ){
-                    Node returnNode = frame.returnNode;
-                    if ( returnNode instanceof BreakExprNode){
-                        List<Node> returnList = new ArrayList<>();
-                        returnList.add( returnNode );
-                        return new ArrayList<>();
-                    }
+            if ( booleanResult && frame.returnNode != null  ) {
+                Node returnNode = frame.returnNode;
+                if ( returnNode instanceof BreakExprNode){
+                    List<Node> returnList = new ArrayList<>();
+                    returnList.add( returnNode );
+                    return new ArrayList<>();
                 }
             }
 
@@ -289,7 +285,7 @@ public class Interpreter {
         return new ArrayList<>();
     }
 
-    private List<Node> evalFunctionDecl(Node Node){
+    private List<Node> evalFunctionDecl(Node node){
         return new ArrayList<>();
     }
 
@@ -306,7 +302,6 @@ public class Interpreter {
                 lvalue = variableType;
             }
 
-            BooleanOperatorNode booleanOperatorNode = null;
             boolean isEqualEqual;
             Node rvalue = null;
             // This is ugly code. Need to find a better way to
@@ -328,7 +323,6 @@ public class Interpreter {
                 }
 
             } else if (node.getInstructions().size() > 1) {
-                booleanOperatorNode = (BooleanOperatorNode) node.getInstructions().get(1);
                 //if (booleanOperatorNode.getInstructions().get(0) instanceof EqualEqualSignNode) {
                     //isEqualEqual;
                 //}
@@ -382,7 +376,7 @@ public class Interpreter {
     }
 
     private boolean isEqual(Node left, Node right){
-        return left == right;
+        return left.equals(right);
     }
 
     private boolean isLessThan(Node left, Node right){
@@ -527,10 +521,8 @@ public class Interpreter {
             Node v = frame.variableSet.get( variableNodeList.get(i).variableName);
             FinalNode finalNode = null;
 
-            if (v instanceof FinalNode){
-                if (v.getInstructions().size() == 0 ){
-                    finalNode = (FinalNode)v;
-                }
+            if (v instanceof FinalNode && v.getInstructions().isEmpty()){
+                finalNode = (FinalNode)v;
             }
 
             if (v instanceof PrimitiveNode) {
@@ -585,6 +577,7 @@ public class Interpreter {
                 break;
             default:
                 assert true;
+                break;
         }
         return new ArrayList<>();
     }

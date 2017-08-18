@@ -1,6 +1,7 @@
 package com.juliar.gui;
 
 import javafx.application.Application;
+import javafx.application.HostServices;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -14,15 +15,19 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.util.Optional;
+
 public class Gui extends Application {
 
     @Override
     public void start(Stage stage) {
         try {
-            Scene scene = SceneCreator.create(stage,"juliar.fxml","Juliar.Future - *New File*");
+            HostServices hostServices = getHostServices();
+            Scene scene = SceneCreator.create(stage,"juliar.fxml","Juliar.Future - *New File*", hostServices);
             keyComb(scene);
             stage.setOnCloseRequest(event -> {
-                if (CloseConfirm.closeApp().get() == ButtonType.OK){
+                Optional confirmation = CloseConfirm.closeApp();
+                if (confirmation.isPresent() && confirmation.get() == ButtonType.OK){
                     Platform.exit();
                 }
                 event.consume();

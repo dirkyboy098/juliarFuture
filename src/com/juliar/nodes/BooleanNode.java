@@ -7,15 +7,10 @@ public class BooleanNode extends NodeImpl {
     private static final long serialVersionUID = 321323215;
     private Node booleanOperatorNode = null;
 
-    private VariableNode variableNodeLvalue = null;
     private FinalNode finalNodeRvalue = null;
 
     public void determineBooleanComparisionType() {
         if (instructions.size() == 3) {
-            if (instructions.get(0) instanceof VariableNode) {
-                variableNodeLvalue = (VariableNode) instructions.get( 0 );
-            }
-
             booleanOperatorNode = instructions.get(1);
 
 

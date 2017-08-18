@@ -11,15 +11,17 @@ import static com.juliar.nodes.IntegralType.*;
  * Created by donreamey on 3/28/17.
  */
 public class EvaluateAssignments {
+    private EvaluateAssignments() {}
+
     private static Interpreter interpreterCallback = null;
 
-    static public void create(Interpreter interpreter){
+    public static void create(Interpreter interpreter){
         if (interpreterCallback == null) {
             interpreterCallback = interpreter;
         }
     }
 
-    static public List<Node> evalReassignment( Node n, ActivationFrame activationFrame){
+    public static List<Node> evalReassignment( Node n, ActivationFrame activationFrame) {
         if ( n != null){
             VariableReassignmentNode node = (VariableReassignmentNode)n;
 
@@ -29,32 +31,83 @@ public class EvaluateAssignments {
             String variableName = variableNode.variableName;
             Node rValueType = node.getInstructions().get(2).getInstructions().get(0);
 
-            ActivationFrame frame = activationFrame;
-            if (frame.variableSet.containsKey( variableName ) && rValueType instanceof  FinalNode) {
-                Node variableFromFrame = frame.variableSet.get( variableName );
+            if (activationFrame.variableSet.containsKey( variableName ) && rValueType instanceof  FinalNode) {
+                Node variableFromFrame = activationFrame.variableSet.get( variableName );
                 IntegralType integralType = variableFromFrame.getIntegralType();
 
                 if (integralType != variableNode.getIntegralType()){
-                    throw new RuntimeException("Cannot assign "+ variableNode.getIntegralType().toString() +" to "+integralType.toString());
+                    throw new IllegalArgumentException("Cannot assign "+ variableNode.getIntegralType().toString() +" to "+integralType.toString());
                 }
 
-                frame.variableSet.remove( variableName );
+                activationFrame.variableSet.remove( variableName );
                 FinalNode variableNameTerminalNode = (FinalNode) node.getInstructions().get(2).getInstructions().get(0);
                 variableNameTerminalNode.setVariableTypeByIntegralType( integralType );
-                frame.variableSet.put(variableName, variableNameTerminalNode );
+                activationFrame.variableSet.put(variableName, variableNameTerminalNode );
             }
             else if (rValue instanceof CommandNode){
                 List<Node> instructions = new ArrayList<>();
                 instructions.add( rValueType );
                 interpreterCallback.execute( instructions );
-                frame.variableSet.put (variableName, frame.returnNode);
+                activationFrame.variableSet.put (variableName, activationFrame.returnNode);
             }
         }
 
         return new ArrayList<>();
     }
 
-    static public List<Node> evalAssignment(Node n, ActivationFrame activationFrame) {
+
+    public static void functionCallNode(FunctionCallNode functionCallNode, ActivationFrame activationFrame,VariableDeclarationNode variableToAssignTo){
+        List<Node> functionList = new ArrayList<>();
+        functionList.add(functionCallNode);
+        interpreterCallback.execute(functionList);
+        assignReturnValueToVariable(activationFrame, variableToAssignTo);
+    }
+
+    public static void primitiveInstance(PrimitiveNode primitiveNode, ActivationFrame activationFrame,VariableDeclarationNode variableToAssignTo){
+        if (canPrimitiveValueBeAssignedToVar(variableToAssignTo, primitiveNode)) {
+            String variableName;
+
+            if (variableToAssignTo.getIntegralType() == juserDefined) {
+
+                variableName = variableToAssignTo.getUserDefinedNode().getFullyQualifiedVariableName();
+            } else {
+                FinalNode variableNameTerminalNode = (FinalNode) variableToAssignTo.getInstructions().get(1).getInstructions().get(0);
+                variableName = variableNameTerminalNode.dataString();
+            }
+
+            if (activationFrame.variableSet.containsKey(variableName)) {
+                activationFrame.variableSet.remove(variableName);
+            }
+
+            activationFrame.variableSet.put(variableName, primitiveNode);
+        }
+    }
+
+    public static void booleanInstance(BooleanNode booleanNode, ActivationFrame activationFrame,VariableDeclarationNode variableToAssignTo){
+        List<Node> slotList = new ArrayList<>();
+        slotList.add( booleanNode );
+        interpreterCallback.execute( slotList );
+        assignReturnValueToVariable(activationFrame, variableToAssignTo);
+    }
+
+    public static void commandInstance(CommandNode commandNode, ActivationFrame activationFrame,VariableDeclarationNode variableToAssignTo){
+        List<Node> slotList = new ArrayList<>();
+        slotList.add( commandNode );
+        interpreterCallback.execute( slotList );
+
+        FinalNode variableNameTerminalNode = (FinalNode) variableToAssignTo.getInstructions().get(1).getInstructions().get(0);
+
+        String variableName = variableNameTerminalNode.dataString();
+
+        if (activationFrame.variableSet.containsKey( variableName )) {
+            activationFrame.variableSet.remove(variableName);
+        }
+
+        activationFrame.variableSet.put( variableName, activationFrame.returnNode );
+        activationFrame.returnNode = null;
+    }
+
+    public static List<Node> evalAssignment(Node n, ActivationFrame activationFrame) {
         AssignmentNode assignmentNode = (AssignmentNode)n;
         List<Node> instructions = assignmentNode.getInstructions();
 
@@ -62,8 +115,6 @@ public class EvaluateAssignments {
         final int equalSignIndex = 1;
         final int primtiveIndex = 2;
         VariableDeclarationNode variableToAssignTo =  (VariableDeclarationNode)instructions.get(  varDeclIndex );
-
-        FinalNode variableNameTerminalNode;
 
         // | zero             | one       | two
         // | variableDecl     | EqualSign | Primitive
@@ -73,67 +124,19 @@ public class EvaluateAssignments {
             Object rvalue = instructions.get( primtiveIndex );
 
             if (rvalue instanceof FunctionCallNode){
-                List<Node> functionList = new ArrayList<Node>();
-                functionList.add( (FunctionCallNode)rvalue );
-
-                interpreterCallback.execute(functionList);
-
-                assignReturnValueToVariable(activationFrame, variableToAssignTo);
+                functionCallNode((FunctionCallNode) rvalue, activationFrame, variableToAssignTo);
             }
-
             if (rvalue instanceof PrimitiveNode){
-                PrimitiveNode primitiveNode = (PrimitiveNode)rvalue;
-                if (canPrimitiveValueBeAssignedToVar(variableToAssignTo, primitiveNode)) {
-                    ActivationFrame frame = activationFrame;
-                    String variableName;
-
-                    if (variableToAssignTo.getIntegralType() == IntegralType.juserDefined) {
-                        FinalNode variableObjectId = variableToAssignTo.getUserDefinedNode().getObjectIdentifier();
-                        variableNameTerminalNode = (FinalNode) variableToAssignTo.getUserDefinedNode().getVariableIdentifer();
-
-                        variableName = variableToAssignTo.getUserDefinedNode().getFullyQualifiedVariableName();
-                    } else {
-                        variableNameTerminalNode = (FinalNode) variableToAssignTo.getInstructions().get(1).getInstructions().get(0);
-                        variableName = variableNameTerminalNode.dataString();
-                    }
-
-                    if (frame.variableSet.containsKey(variableName)) {
-                        frame.variableSet.remove(variableName);
-                    }
-
-                    frame.variableSet.put(variableName, primitiveNode);
-                }
+                primitiveInstance((PrimitiveNode) rvalue, activationFrame, variableToAssignTo);
             }
             if (rvalue instanceof  BooleanNode){
-                BooleanNode booleanNode = (BooleanNode)rvalue;
-                List<Node> slotList = new ArrayList<>();
-                slotList.add( booleanNode );
-
-                interpreterCallback.execute( slotList );
-
-                assignReturnValueToVariable(activationFrame, variableToAssignTo);
+                booleanInstance((BooleanNode) rvalue, activationFrame, variableToAssignTo);
             }
-
             if (rvalue instanceof CommandNode)
             {
-                List<Node> slotList = new ArrayList<>();
-                slotList.add( (CommandNode)rvalue );
-                interpreterCallback.execute( slotList );
-
-                ActivationFrame frame = activationFrame;
-                variableNameTerminalNode = (FinalNode) variableToAssignTo.getInstructions().get(1).getInstructions().get(0);
-
-                String variableName = variableNameTerminalNode.dataString();
-
-                if (frame.variableSet.containsKey( variableName )) {
-                    frame.variableSet.remove(variableName);
-                }
-
-                frame.variableSet.put( variableName, frame.returnNode );
-                frame.returnNode = null;
+                commandInstance((CommandNode) rvalue, activationFrame, variableToAssignTo);
             }
         }
-
         return new ArrayList<>();
     }
 
@@ -149,12 +152,12 @@ public class EvaluateAssignments {
     }
 
 
-    static private boolean canPrimitiveValueBeAssignedToVar(VariableDeclarationNode lvalue, PrimitiveNode rvalue) {
+    public static boolean canPrimitiveValueBeAssignedToVar(VariableDeclarationNode lvalue, PrimitiveNode rvalue) {
         FinalNode rvalueTerminal = (FinalNode) rvalue.getInstructions().get(0);
 
         VariableNode variableNode;
 
-        if (IntegralType.juserDefined == lvalue.getIntegralType()){
+        if (juserDefined == lvalue.getIntegralType()){
             variableNode = lvalue.getUserDefinedNode().getVariableNode();
         }
         else {
@@ -165,26 +168,20 @@ public class EvaluateAssignments {
         try {
             switch (variableNode.getIntegralType()) {
                 case jinteger:
-                    Integer.parseInt(data);
                     return true;
                 case jdouble:
-                    Double.parseDouble(data);
                     return true;
                 case jfloat:
-                    Float.parseFloat(data);
                     return true;
                 case jlong:
-                    Long.parseLong(data);
                     return true;
                 case jstring:
                     return true;
                 case jobject:
                     return false;
                 case jboolean:
-                    Boolean.parseBoolean(data);
-                    return true;
+                    return Boolean.parseBoolean(data);
                 case juserDefined:
-                    //TODO map userdefined values and make available at runtime
                     return true;
                 default:
                     return false;

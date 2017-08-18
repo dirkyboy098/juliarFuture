@@ -7,7 +7,7 @@ import java.util.List;
 public class FunctionCallNode extends NodeImpl {
     public String functionName(){
         List<Node> nodes = getInstructions();
-        if (nodes.size() >= 1)
+        if (!nodes.isEmpty())
         {
             FinalNode functionName = (FinalNode)nodes.get(0);
             return functionName.dataString();
@@ -15,9 +15,6 @@ public class FunctionCallNode extends NodeImpl {
         }
         assert true;
         return null;
-    }
-
-    public FunctionCallNode(){
     }
 
     @Override

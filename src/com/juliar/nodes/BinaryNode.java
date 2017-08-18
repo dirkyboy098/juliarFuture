@@ -18,21 +18,13 @@ public class BinaryNode extends NodeImpl  {
     }
 
 
-    public BinaryNode MakeNode(Operation operation, Node lvalue, Node rvalue){
+    public BinaryNode makeNode(Operation operation, Node lvalue, Node rvalue){
         BinaryNode binaryNode = new BinaryNode(operation);
         binaryNode.lv = lvalue;
         binaryNode.rv = rvalue;
 
         return binaryNode;
     }
-
-
-    private BinaryNode getBinaryNodeWithType(Node value)  throws Exception{
-        BinaryNode binaryNode = new BinaryNode(Operation.data);
-        return binaryNode;
-    }
-
-
 
     public Operation operation(){
         return op;

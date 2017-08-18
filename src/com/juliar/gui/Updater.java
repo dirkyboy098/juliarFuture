@@ -24,9 +24,6 @@ public class Updater {
         } catch (IOException e) {
             Logger.log("Failed to access Juliar Website");
         }
-        if(!version.equals(checksum())){
-            /*TODO DOWNLOAD NEW VERSION OF JAR FILE*/
-        }
     }
 
     private StringBuilder checksum(){

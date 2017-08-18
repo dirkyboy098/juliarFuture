@@ -30,9 +30,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
     private Stack<Node> funcContextStack = new Stack<>();
     private Stack<String> callStack = new Stack<>();
     private SymbolTable symbolTable = SymbolTable.createSymbolTable( this );
-    private ControlFlowAdjacencyList cfa = new ControlFlowAdjacencyList();
     private ImportsInterface importsInterfaceCallback;
-    private boolean skimImports = false;
     private List<String> errorList = new ArrayList<>();
     private HashMap<String, UserDefinedTypeNode> declaredClasses = new HashMap<>();
     private StringBuilder importBuffer = new StringBuilder();
@@ -43,7 +41,6 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
     public Visitor(ImportsInterface cb, boolean skip){
         importsInterfaceCallback = cb;
-        skimImports = skip;
     }
 
     @Override
@@ -119,7 +116,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
                 BinaryNode node = new BinaryNode();
                 try {
 
-                    Node n = node.MakeNode(
+                    Node n = node.makeNode(
                                 Operation.subtract,
                                 ctx.types(0).accept(this),
                                 ctx.types(1).accept(this));
@@ -215,7 +212,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
             if (ctx.types().size() == 2) {
                 BinaryNode node = new BinaryNode();
                 try {
-                    instructionList.add(node.MakeNode(
+                    instructionList.add(node.makeNode(
                             Operation.modulo,
                             ctx.types(0).accept(this),
                             ctx.types(1).accept(this)));
@@ -243,13 +240,13 @@ public class Visitor extends JuliarBaseVisitor<Node>
     public Node visitDivide(JuliarParser.DivideContext ctx) {
 
         String text = ctx.division().getText();
-        if (text.equals("divide") || text.equals("/")){
+        if ("divide".equals(text) || "/".equals(text)){
             if (ctx.types().size() == 2) {
                 BinaryNode node = new BinaryNode();
                 try {
                     if (!funcContextStack.empty()) {
                         FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
-                        functionDeclNode.addInst(node.MakeNode(
+                        functionDeclNode.addInst(node.makeNode(
                                 Operation.divide,
                                 ctx.types(0).accept(this),
                                 ctx.types(1).accept(this)));
@@ -332,7 +329,6 @@ public class Visitor extends JuliarBaseVisitor<Node>
                     parent.setVariableTypeByIntegralType(variableDeclarationNode.getIntegralType());
                 }
 
-                IntegralType integralType = null;
                 if ( parent instanceof AssignmentNode && parent.getInstructions().size() >= 2 && parent.getInstructions().get(0) instanceof VariableDeclarationNode){
                     if ( parent.getInstructions().get(0).getInstructions().get(0) instanceof  UserDefinedTypeNode){
                         parent.getInstructions().get(0).getInstructions().get(0).getInstructions().get(2).getIntegralType();
@@ -341,16 +337,14 @@ public class Visitor extends JuliarBaseVisitor<Node>
                     else {
                         VariableNode variableNode = (VariableNode) parent.getInstructions().get(0).getInstructions().get(1);
                         variableNode.getIntegralType();
-                        if (parent.getIntegralType() != variableNode.getIntegralType()) {
-                            // throw new RuntimeException( "invalide types used in expressioin");
-                        }
+                        /* if (parent.getIntegralType() != variableNode.getIntegralType()) {
+                           throw new RuntimeException( "invalide types used in expressioin");
+                        }*/
                     }
                 }
 
-                if (child instanceof PrimitiveNode && parent.getIntegralType() != null){
-                    if (parent.getIntegralType() != child.getIntegralType()) {
-                       throw new RuntimeException( "invald types used in expression" );
-                    }
+                if (child instanceof PrimitiveNode && parent.getIntegralType() != null && parent.getIntegralType() != child.getIntegralType()){
+                    throw new RuntimeException( "invald types used in expression" );
                 }
             }
         };
@@ -473,11 +467,6 @@ public class Visitor extends JuliarBaseVisitor<Node>
         if ( ctx.ID() != null ) {
             variableName = ctx.ID().getText();
         }
-        else {
-            //variableName = ctx.userDefinedTypeVariableDecl().getText();
-            //variableName += "::";
-            //variableName += ctx.variable().getText();
-        }
 
         VariableNode variableNode = new VariableNode(variableName);
 
@@ -520,7 +509,6 @@ public class Visitor extends JuliarBaseVisitor<Node>
             if( !symbolTable.doesChildExistAtScope( variableNode ) ){
                 addError( "The variable [" + variableName +"] is not declared at the scope" );
             }
-            break;
         }
 
         Node iteratorNode = iterateWrapper(ctx, this, variableNode);
@@ -660,7 +648,6 @@ public class Visitor extends JuliarBaseVisitor<Node>
         }
 
         importBuffer.append( builder );
-        skimImports = true;
         int currentLineNumber = 0;
         importsInterfaceCallback.createTempCallback( importBuffer.toString(), currentLineNumber);
     }

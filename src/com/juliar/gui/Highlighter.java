@@ -12,11 +12,6 @@ import java.util.regex.Pattern;
  * Created by AndreiM on 5/20/2017.
  */
 class Highlighter {
-
-    private Highlighter() {
-        throw new IllegalStateException("Highlighter");
-    }
-
     private static final String[] KEYWORDS = new String[] {
             "break",
             "class",
@@ -61,7 +56,7 @@ class Highlighter {
         return null;
     }
 
-    static StyleSpans<Collection<String>> computeHighlighting(String text) {
+    public static StyleSpans<Collection<String>> getHighlighting(String text) {
         Matcher matcher = PATTERN.matcher(text);
         int lastKwEnd = 0;
         StyleSpansBuilder<Collection<String>> spansBuilder
@@ -76,4 +71,7 @@ class Highlighter {
         return spansBuilder.create();
     }
 
+    private Highlighter() {
+        throw new IllegalStateException("Highlighter");
+    }
 }

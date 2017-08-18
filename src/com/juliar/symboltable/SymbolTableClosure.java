@@ -11,14 +11,14 @@ public class SymbolTableClosure {
     }
 
     public void prologue(){
-
+        // TODO: Add Things
     }
 
     public void action(){
-
+        // TODO: Add Things
     }
 
     public void epilogue(){
-
+        // TODO: Add Things
     }
 }

@@ -12,7 +12,7 @@ import static com.juliar.nodes.IntegralType.*;
  */
 public abstract class NodeImpl implements Node , Serializable{
     private static final long serialVersionUID = 321323214;
-    protected List<Node> instructions = new ArrayList<>();
+    protected transient List<Node> instructions = new ArrayList<>();
     protected String nodeName;
     private IntegralType integralType;
 
@@ -87,6 +87,7 @@ public abstract class NodeImpl implements Node , Serializable{
                 break;
             default:
                 integralType = juserDefined;
+                break;
         }
     }
 

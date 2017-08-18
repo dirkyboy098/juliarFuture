@@ -74,9 +74,9 @@ public class ControlFlowAdjacencyList {
 }
 
 class ControlFlowNode{
-    ControlFlowNode next;
-    String functionName;
-    boolean visited = false;
+    public ControlFlowNode next;
+    public String functionName;
+    public boolean visited = false;
 
     ControlFlowNode(String funcName){
         functionName = funcName;

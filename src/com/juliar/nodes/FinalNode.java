@@ -1,6 +1,6 @@
 package com.juliar.nodes;
 
-import com.juliar.pal.PrimitivesMap;
+import com.juliar.errors.Logger;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 /**
@@ -9,7 +9,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 public class FinalNode extends NodeImpl{
     private static final long serialVersionUID = 321323216;
     private String dataString;
-    private Object object;
+    private transient Object object;
 
     public FinalNode(TerminalNode data){
         if (data.getText() != null ) {
@@ -57,28 +57,33 @@ public class FinalNode extends NodeImpl{
         try {
             return IntegralType.jinteger;
         } catch (Exception e) {
+            Logger.log(e);
         }
 
         try {
-            if (dataString.toLowerCase().equals("true") || dataString.toLowerCase().endsWith("false")) {
+            if (dataString.equalsIgnoreCase("true") || dataString.toLowerCase().endsWith("false")) {
                 return IntegralType.jboolean;
             }
         } catch (Exception e) {
+            Logger.log(e);
         }
 
         try {
             return IntegralType.jdouble;
         } catch (Exception e) {
+            Logger.log(e);
         }
 
         try {
             return IntegralType.jfloat;
         } catch (Exception e) {
+            Logger.log(e);
         }
 
         try {
             return IntegralType.jlong;
         } catch (Exception e) {
+            Logger.log(e);
         }
 
         return IntegralType.jobject;

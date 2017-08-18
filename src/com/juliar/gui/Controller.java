@@ -2,6 +2,7 @@ package com.juliar.gui;
 
 import com.juliar.JuliarCompiler;
 import com.juliar.errors.Logger;
+import javafx.application.HostServices;
 import javafx.concurrent.Task;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -9,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
-import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -27,24 +27,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.lang.System.*;
-import static java.lang.System.out;
 
 /**
  * Created by AndreiM on 3/18/2017.
  */
 public class Controller {
-    private ArrayList<JRLTab> jrltabs = new ArrayList<>();
-    private Integer jrlID = 0;
-    private boolean compilerRunning = false;
-    private Thread thread;
-    private static final String JULIAR_STR = "Juliar.Future - ";
-
-    Controller(Model model) {
-        this.model = model;
-    }
-
-    public String rootFolder = "";
-
     @FXML
     public Button runBtn;
 
@@ -58,7 +45,7 @@ public class Controller {
     public TabPane tabPane;
 
     @FXML
-    public TreeView folderTree;
+    public TreeView<String> folderTree;
 
     @FXML
     public TabPane tabPaneOut;
@@ -67,8 +54,26 @@ public class Controller {
 
     private Scene scene;
 
+    private ArrayList<JRLTab> jrltabs = new ArrayList<>();
+    private Integer jrlID = 0;
+    private boolean compilerRunning = false;
+    private Thread thread;
+    private static final String JULIAR_STR = "Juliar.Future - ";
+
+    public Controller(Model model) {
+        this.model = model;
+    }
+    private String rootFolder = "";
+
+
     public void addPackage(){
         new JuliarModule();
+    }
+
+    private HostServices hostServices ;
+
+    public void setHostServices(HostServices hostServices) {
+        this.hostServices = hostServices ;
     }
 
     public void setScene(Scene scene) {
@@ -145,38 +150,15 @@ public class Controller {
         });
     }
 
-    @FXML
-    public void initialize() {
-        File jarPath=new File(Gui.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-        String propertiesPath=jarPath.getParentFile().getAbsolutePath();
-        String fullPath = propertiesPath.replace("\\", "/") +"/test.jrl";
-        File f = new File(fullPath);
-        if (f.exists()) {
-            JRLTab jrlTab = new JRLTab();
-            jrlTab.setJrlFile(f);
-            IOResult<TextFile> io = model.load(f.toPath());
-            if (io.isOk() && io.hasData()) {
-                TextFile tFile = io.getData();
-                jrlTab.setJrlFileName(tFile);
-                jrlTab = createTab(jrlTab);
-                jrlTab.getJlrCodeArea().getUndoManager().mark();
-                jrlTab.setEdited(false);
-                jrltabs.add(jrlTab);
-            }
-            onRunInterpreter();
-        } else {
-            onNew();
-        }
-        keyCombinations();
-        folderTree.setRoot(new TreeItem("Go to File -> Folder Open"));
-
+    public void folderRoot(TreeItem<String> myRootItem){
+        folderTree.setRoot(myRootItem);
         folderTree.setOnMouseClicked((MouseEvent click) -> {
             if (click.getButton() == MouseButton.PRIMARY && click.getClickCount() == 2) {
                 //Use ListView's getSelected Item
-                TreeItem treeItem = (TreeItem) folderTree.getSelectionModel().getSelectedItem();
+                TreeItem<String> treeItem = folderTree.getSelectionModel().getSelectedItem();
 
                 StringBuilder pathBuilder = new StringBuilder();
-                for (TreeItem item = treeItem;
+                for (TreeItem<String> item = treeItem;
                      item != null ; item = item.getParent()) {
 
                     pathBuilder.insert(0, item.getValue());
@@ -202,6 +184,35 @@ public class Controller {
                 }
             }
         });
+    }
+
+
+    @FXML
+    public void initialize() {
+        File jarPath=new File(Gui.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+        String propertiesPath=jarPath.getParentFile().getAbsolutePath();
+        String fullPath = propertiesPath.replace("\\", "/") +"/test.jrl";
+        File f = new File(fullPath);
+        if (f.exists()) {
+            JRLTab jrlTab = new JRLTab();
+            jrlTab.setJrlFile(f);
+            IOResult<TextFile> io = model.load(f.toPath());
+            if (io.isOk() && io.hasData()) {
+                TextFile tFile = io.getData();
+                jrlTab.setJrlFileName(tFile);
+                jrlTab = createTab(jrlTab);
+                jrlTab.getJlrCodeArea().getUndoManager().mark();
+                jrlTab.setEdited(false);
+                jrltabs.add(jrlTab);
+            }
+            onRunInterpreter();
+        } else {
+            onNew();
+        }
+        keyCombinations();
+        TreeItem<String> myRootItem = new TreeItem<>("Go to File -> Folder Open");
+        folderRoot(myRootItem);
+
         tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
             jrlID = tabPane.getSelectionModel().getSelectedIndex();
             try {
@@ -290,7 +301,7 @@ public class Controller {
     @FXML
     public void onLoadFolder(){
         DirectoryChooser dc = new DirectoryChooser();
-        dc.setInitialDirectory(new File(System.getProperty("user.home")));
+        dc.setInitialDirectory(new File(getProperty("user.home")));
         File choice = dc.showDialog(null);
         if(choice == null || ! choice.isDirectory()) {
             new GuiAlert(new Exception("The file is Invalid"),"Could not open directory.");
@@ -323,7 +334,7 @@ public class Controller {
         codeArea.richChanges()
                 .filter(ch -> !ch.getInserted().equals(ch.getRemoved()))
                 .subscribe(change -> {
-                    codeArea.setStyleSpans(0, Highlighter.computeHighlighting(codeArea.getText()));
+                    codeArea.setStyleSpans(0, Highlighter.getHighlighting(codeArea.getText()));
                     if(jrlTab.getJlrCodeArea().getUndoManager().isAtMarkedPosition()) {
                         jrlTab.setEdited(false);
                     }
@@ -506,13 +517,13 @@ public class Controller {
     }
 
     @FXML
-    public void onAbout() { GuiInformation.about(); }
+    public void onAbout() { GuiInformation.about(hostServices); }
 
     @FXML
     public void onPackageManager() {
         try {
             Stage packageStage = new Stage();
-            SceneCreator.create(packageStage,"packages.fxml","Juliar.Future Package Manager");
+            SceneCreator.create(packageStage,"packages.fxml","Juliar.Future Package Manager", hostServices);
         }
         catch(Exception e){
             new GuiAlert(e,"Package Manager Cannot Launch");
