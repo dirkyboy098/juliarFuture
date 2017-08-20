@@ -1,7 +1,7 @@
 package com.juliar.vistor;
+
 import com.juliar.ImportsInterface;
 import com.juliar.codegenerator.InstructionInvocation;
-import com.juliar.controlflow.ControlFlowAdjacencyList;
 import com.juliar.errors.Logger;
 import com.juliar.nodes.*;
 import com.juliar.pal.Primitives;

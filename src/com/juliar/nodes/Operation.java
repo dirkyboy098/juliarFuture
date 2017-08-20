@@ -1,5 +1,6 @@
 package com.juliar.nodes;
 
+/* Defines available Juliar Operations */
 public enum Operation {
     add,
     subtract,
