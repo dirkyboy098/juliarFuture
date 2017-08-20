@@ -101,10 +101,10 @@ public class GuiInformation {
             Hyperlink hyperlinkEmail = new Hyperlink("admin@juliar.org");
 
             hyperlinkEmail.setOnAction(event -> hostServices.showDocument("mailto:admin@juliar.org"));
-            Text text1 = new Text("Visit us at ");
+            Text text1 = new Text("Visit us at");
             text1.setFont(Font.font(FONT, 14));
             text1.setStyle("-fx-fill: white;");
-            Text text2 = new Text(", or just say hi: ");
+            Text text2 = new Text(", or just say hi:");
             text2.setFont(Font.font(FONT, 14));
             text2.setStyle("-fx-fill: white;");
 

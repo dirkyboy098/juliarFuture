@@ -192,7 +192,7 @@ public class Controller {
         File jarPath=new File(Gui.class.getProtectionDomain().getCodeSource().getLocation().getPath());
         String propertiesPath=jarPath.getParentFile().getAbsolutePath();
         String fullPath = propertiesPath.replace("\\", "/") +"/test.jrl";
-        /*File f = new File(fullPath);
+        File f = new File(fullPath);
         if (f.exists()) {
             JRLTab jrlTab = new JRLTab();
             jrlTab.setJrlFile(f);
@@ -208,8 +208,7 @@ public class Controller {
             onRunInterpreter();
         } else {
             onNew();
-        }*/
-        onNew();
+        }
         keyCombinations();
         TreeItem<String> myRootItem = new TreeItem<>("Go to File -> Folder Open");
         folderRoot(myRootItem);

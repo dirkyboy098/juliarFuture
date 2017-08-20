@@ -1,5 +1,6 @@
 
 .idea/workspace.xml
+.idea/sonarlint/*
 
 *.tokens
 
@@ -27,9 +28,7 @@ JuliarCompiler.jar
 
 test2.jrl
 
-out/com/juliar/codegenerator/CodeGenerator.class
-
-out/com/juliar/parser/juliarVisitor.class
+out/com/*
 
 out/.idea/src.iml
 
