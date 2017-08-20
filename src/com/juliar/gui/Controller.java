@@ -117,7 +117,7 @@ public class Controller {
 
     @FXML
     public void onException(){
-        new GuiAlert(new Exception(),"Triggered an Error");
+        new GuiAlert(new Exception(),"Triggered an Error: jrlID: " + jrlID + "; LastIndex: "+(jrltabs.size()-1));
     }
 
     private void keyCombinations(){
@@ -192,7 +192,7 @@ public class Controller {
         File jarPath=new File(Gui.class.getProtectionDomain().getCodeSource().getLocation().getPath());
         String propertiesPath=jarPath.getParentFile().getAbsolutePath();
         String fullPath = propertiesPath.replace("\\", "/") +"/test.jrl";
-        File f = new File(fullPath);
+        /*File f = new File(fullPath);
         if (f.exists()) {
             JRLTab jrlTab = new JRLTab();
             jrlTab.setJrlFile(f);
@@ -208,30 +208,39 @@ public class Controller {
             onRunInterpreter();
         } else {
             onNew();
-        }
+        }*/
+        onNew();
         keyCombinations();
         TreeItem<String> myRootItem = new TreeItem<>("Go to File -> Folder Open");
         folderRoot(myRootItem);
 
         tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
-            jrlID = tabPane.getSelectionModel().getSelectedIndex();
-            try {
-                String titleName = JULIAR_STR + "*New File*";
-                if((jrlID < jrltabs.size()) && (jrltabs.get(jrlID).getJrlFile() != null)){
-                    titleName = JULIAR_STR + jrltabs.get(jrlID).getJrlFile().toPath().toString();
+            if(jrltabs.size() > 1) {
+                jrlID = tabPane.getSelectionModel().getSelectedIndex();
+                try {
+                    String titleName = JULIAR_STR + "*New File*";
+                    if((jrlID <= jrltabs.size()-1) && (jrltabs.get(jrlID).getJrlFile() != null)){
+                        titleName = JULIAR_STR + jrltabs.get(jrlID).getJrlFile().toPath().toString();
+                    }
+                    ((Stage) scene.getWindow()).setTitle(titleName);
+                } catch (Exception e){
+                    new GuiAlert(e, "Something wrong with setting title" + jrltabs.size());
                 }
-                ((Stage) scene.getWindow()).setTitle(titleName);
-            } catch (Exception e){
-                new GuiAlert(e, "Something wrong with setting title" + jrltabs.size());
             }
         });
     }
 
     private void closetab(){
-        Tab tab = tabPane.getSelectionModel().getSelectedItem();
-        EventHandler<Event> handler = tab.getOnCloseRequest();
-        if (null != handler) {
-            handler.handle(null);
+        int myid = jrlID;
+        if(jrltabs.get(myid).isEdited()){
+            if (CloseConfirm.close().get() == ButtonType.OK){
+                tabPane.getTabs().remove(jrltabs.get(myid).getJrlTab());
+                jrltabs.remove(myid);
+            }
+        }
+        else {
+            tabPane.getTabs().remove(jrltabs.get(myid).getJrlTab());
+            jrltabs.remove(myid);
         }
     }
 
@@ -303,9 +312,9 @@ public class Controller {
         DirectoryChooser dc = new DirectoryChooser();
         dc.setInitialDirectory(new File(getProperty("user.home")));
         File choice = dc.showDialog(null);
-        if(choice == null || ! choice.isDirectory()) {
+        if(! choice.isDirectory()) {
             new GuiAlert(new Exception("The file is Invalid"),"Could not open directory.");
-        } else {
+        } else if(choice != null) {
             rootFolder = choice.getPath();
             rootFolder = rootFolder.substring(0,rootFolder.lastIndexOf(File.separator));
             folderTree.setRoot(getNodesForDirectory(choice));

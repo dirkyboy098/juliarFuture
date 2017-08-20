@@ -12,7 +12,7 @@ in order to optimize programming efficiency.
 
 ### IDE is included! No additional software needed
 
-![JuliarFuture](https://user-images.githubusercontent.com/11934545/29199600-2ff02000-7e1c-11e7-935e-86e6540080af.png)
+![JuliarFuture](https://user-images.githubusercontent.com/11934545/29492056-748cb48a-853d-11e7-94b2-159a32582bc5.png)
 
 *If you are using Linux, we suggest that you use Oracle Java instead of OpenJava.
 

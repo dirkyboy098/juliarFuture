@@ -29,7 +29,7 @@ class Shapes {
     }
     public static Circle tabCircle(){
         Circle c = new Circle(0, 0, 3);
-        c.setFill(Color.rgb(131,207,23));
+        c.setFill(Color.rgb(25,226,198));
         c.getStyleClass().add("graphic");
         return c;
     }

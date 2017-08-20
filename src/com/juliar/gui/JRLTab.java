@@ -69,7 +69,7 @@ public class JRLTab {
         if (edited) {
             this.jrlGraphic.setFill(Color.rgb(242, 240, 34));
         } else {
-            this.jrlGraphic.setFill(Color.rgb(131, 207, 23));
+            this.jrlGraphic.setFill(Color.rgb(25, 226, 198));
         }
         this.edited = edited;
     }
