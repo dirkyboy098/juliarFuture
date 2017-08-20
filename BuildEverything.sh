@@ -1,6 +1,21 @@
 #!/bin/sh
 export CLASSPATH="jars/antlr-4.6-complete.jar:jars/nirerepl.jar:jars/asm-all-6.0_ALPHA.jar:jars/richtextfx-fat-0.7-M5.jar:jars/fastcgi.jar:out"
 
+if ! [$(which java)]; then
+   echo 'java' is not defined. Please make sure you have installed JDK w/ JRE and that 'java' is in the PATH.
+   exit 1
+fi
+
+if ! [$(which javac)]; then
+   echo 'javac' is not defined. Please make sure you have installed JDK and that 'javac' is in the PATH.
+   exit 1
+fi
+
+if ! [$(which jar)]; then
+   echo 'jar' is not defined. Please make sure you have installed JDK and 'JAR.exe' is in the PATH.
+   exit 1
+fi
+
 rm -rf out
 rm -rf temp
 

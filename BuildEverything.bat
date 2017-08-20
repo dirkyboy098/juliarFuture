@@ -1,3 +1,29 @@
+@echo off
+java -v >nul 2>&1
+if errorlevel 9009 if not errorlevel 9010 (
+@echo on
+echo 'java' is not defined. Please make sure you have installed JDK w/ JRE and that 'java' is in the PATH.
+timeout 15
+EXIT /B 1
+)
+
+javac >nul 2>&1
+if errorlevel 9009 if not errorlevel 9010 (
+@echo on
+echo 'javac' is not defined. Please make sure you have installed JDK and that 'javac' is in the PATH.
+timeout 15
+EXIT /B 1
+)
+
+jar >nul 2>&1
+if errorlevel 9009 if not errorlevel 9010 (
+@echo on
+echo 'jar' is not defined. Please make sure you have installed JDK and 'JAR.exe' is in the PATH.
+timeout 15
+EXIT /B 1
+)
+@echo on
+
 wmic Path win32_process Where "CommandLine Like '%%JuliarCompiler.jar%%'" Call Terminate
 set CLASSPATH=jars\antlr-4.6-complete.jar;jars\nirerepl.jar;jars\asm-all-6.0_ALPHA.jar;jars\fastcgi.jar;jars\richtextfx-fat-0.7-M5.jar;out
 
