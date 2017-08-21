@@ -6,5 +6,5 @@ echo 'java' is not defined. Please make sure you have installed JDK w/ JRE and t
 timeout 15
 EXIT /B 1
 )
-set CLASSPATH=jars\antlr-4.6-complete.jar;
+set CLASSPATH=jars\antlr-4.7-complete.jar;
 java org.antlr.v4.Tool src\com\juliar\parser\Juliar.g4 -no-listener -package com.juliar.parser -visitor
