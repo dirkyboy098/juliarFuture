@@ -35,19 +35,19 @@ mkdir temp
 
 java org.antlr.v4.Tool src\com\juliar\parser\Juliar.g4 -no-listener -package com.juliar.parser -visitor
 javac -Xlint -d out -sourcepath src -g -encoding UTF-8 -source 8 -target 8 src\com\juliar\JuliarCompiler.java
+copy src\com\juliar\gui\juliar.fxml out\com\juliar\gui\juliar.fxml
+copy src\com\juliar\gui\packages.fxml out\com\juliar\gui\packages.fxml
+copy src\com\juliar\gui\juliar.css out\com\juliar\gui\juliar.css
+copy src\com\juliar\gui\juliarFutureIcon.png out\com\juliar\gui\juliarFutureIcon.png
+copy src\com\juliar\gui\whitelogo.png out\com\juliar\gui\whitelogo.png
+copy src\com\juliar\gui\Montserrat-Regular.ttf out\com\juliar\gui\Montserrat-Regular.ttf
+copy src\com\juliar\gui\Montserrat-Bold.ttf out\com\juliar\gui\Montserrat-Bold.ttf
 
 (echo Main-Class: com.juliar.JuliarCompiler)>temp\manifest.txt
 cd temp
 for /f %%f in ('dir /b ..\jars') do jar xf ..\jars\%%f
 cd ..
 xcopy /e /v out temp
-copy src\com\juliar\gui\juliar.fxml temp\com\juliar\gui\juliar.fxml
-copy src\com\juliar\gui\packages.fxml temp\com\juliar\gui\packages.fxml
-copy src\com\juliar\gui\juliar.css temp\com\juliar\gui\juliar.css
-copy src\com\juliar\gui\juliarFutureIcon.png temp\com\juliar\gui\juliarFutureIcon.png
-copy src\com\juliar\gui\whitelogo.png temp\com\juliar\gui\whitelogo.png
-copy src\com\juliar\gui\Montserrat-Regular.ttf temp\com\juliar\gui\Montserrat-Regular.ttf
-copy src\com\juliar\gui\Montserrat-Bold.ttf temp\com\juliar\gui\Montserrat-Bold.ttf
 cd temp
 jar cvfm JuliarCompiler.jar manifest.txt com org javax antlr
 cd ..
