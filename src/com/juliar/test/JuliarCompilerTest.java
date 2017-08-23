@@ -23,9 +23,9 @@ public class JuliarCompilerTest extends TestCase {
 
     public void testInterpreter() throws Exception{
         JuliarCompiler compiler = new JuliarCompiler();
-        compiler.isDebugMode = true;
+        compiler.isDebug = true;
         List<String> errorList = null;
-        errorList = compiler.compile("test.jrl", ".",  false,false);
+        errorList = compiler.compile("test.jrl", ".",  false);
         //errorList.addAll( compiler.compile("serialize.jrl", ".",  false,false));
 
         if (errorList.size() > 0 ){
@@ -46,7 +46,7 @@ public class JuliarCompilerTest extends TestCase {
         try {
             JuliarCompiler compiler = new JuliarCompiler();
             assertNotNull(compiler);
-            List<String> errorList = compiler.compile("test.jrl", ".",  false,false);
+            List<String> errorList = compiler.compile("test.jrl", ".",  false);
 
             for(String s : errorList){
                 out.println(s);

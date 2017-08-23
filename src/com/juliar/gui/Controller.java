@@ -4,8 +4,6 @@ import com.juliar.JuliarCompiler;
 import com.juliar.errors.Logger;
 import javafx.application.HostServices;
 import javafx.concurrent.Task;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -452,7 +450,7 @@ public class Controller {
             @Override
             public Void call() {
                 compilerRunning = true;
-                compiler.compile(is, "/", false, false);
+                compiler.compile(is, "/", false);
                 return null;
             }
         };

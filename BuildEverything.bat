@@ -49,7 +49,7 @@ for /f %%f in ('dir /b ..\jars') do jar xf ..\jars\%%f
 cd ..
 xcopy /e /v out temp
 cd temp
-jar cvfm JuliarCompiler.jar manifest.txt com org javax antlr
+jar cvfm JuliarCompiler.jar manifest.txt com org javax
 cd ..
 copy temp\JuliarCompiler.jar JuliarCompiler.jar
 

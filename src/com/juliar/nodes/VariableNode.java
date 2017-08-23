@@ -34,8 +34,7 @@ public class VariableNode extends NodeImpl {
 
 
     public FinalNode getFinalNode(){
-        FinalNode finalNode = (FinalNode)this.getInstructions().get(0);
-        return finalNode;
+        return (FinalNode) this.getInstructions().get(0);
     }
 
 }

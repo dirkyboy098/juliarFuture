@@ -1,15 +1,17 @@
 package com.juliar.codegenerator;
 
+import com.juliar.errors.Logger;
 import com.juliar.nodes.*;
+import com.juliar.pal.Primitives;
 import com.juliar.pal.PrimitivesMap;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.jar.Attributes;
@@ -24,17 +26,15 @@ import static org.objectweb.asm.Opcodes.*;
  * Created by donreamey on 10/22/16.
  */
 public class CodeGenerator {
-    private boolean debug;
-
-    public CodeGenerator() {
-        debug = true;
+    private boolean isDebug = true;
+    public CodeGenerator(boolean debug) {
+        isDebug = debug;
     }
 
     public void generate(InstructionInvocation invocation, String outputfile) throws IOException {
         List<Node> inst = invocation.getInstructionList();
         generate(inst,outputfile);
     }
-
 
     public void generate(List<Node> instructions, String outputfile) throws IOException {
         ClassWriter cw = new ClassWriter(0);
@@ -97,10 +97,6 @@ public class CodeGenerator {
         // gets the bytecode of the Example class, and loads it dynamically
         byte[] code = cw.toByteArray();
 
-        //FileOutputStream fos = new FileOutputStream(outputfile+".class");
-        //fos.write(code);
-        //fos.close();
-
         //Create JAR output
         FileOutputStream fout = new FileOutputStream(outputfile+".jar");
 
@@ -110,15 +106,18 @@ public class CodeGenerator {
 
         JarOutputStream jarOut = new JarOutputStream(fout, manifest);
 
-        jarOut.putNextEntry(new ZipEntry("com/juliar/pal/"));
-        jarOut.putNextEntry(new ZipEntry("com/juliar/pal/Primitives.class"));
-        jarOut.write(Files.readAllBytes(Paths.get("com/juliar/pal/Primitives.class")));
-        jarOut.closeEntry();
+        try {
+            jarOut.putNextEntry(new ZipEntry("com/juliar/pal/Primitives.class"));
+            InputStream primitiveStream = Primitives.class.getResourceAsStream("Primitives.class");
+            jarOut.write(getBytes(primitiveStream));
+            jarOut.closeEntry();
 
-        jarOut.putNextEntry(new ZipEntry(outputfile+".class"));
-        jarOut.write(code);
-        jarOut.closeEntry();
-
+            jarOut.putNextEntry(new ZipEntry(outputfile+".class"));
+            jarOut.write(code);
+            jarOut.closeEntry();
+        } catch(Exception e){
+            Logger.log(e);
+        }
         jarOut.close();
         fout.close();
 
@@ -153,10 +152,17 @@ public class CodeGenerator {
     }
 
     private MethodVisitor evaluateExpressions(List<Node> instructions, MethodVisitor mw, GeneratorAdapter ga, Integer stackSize ){
+        Logger.log("x");
         for(Node instruction : instructions) {
+            Logger.log("Instructions");
+            Logger.log(instruction.getNodeName().toString());
+            if( instruction instanceof FunctionDeclNode){
+                List<Node> t = instruction.getInstructions();
+                evaluateExpressions(t, mw, ga, stackSize);
+            }
             if ( instruction instanceof PrimitiveNode){
-
                 String function = ((PrimitiveNode) instruction).getPrimitiveName().toString();
+                Logger.log(function);
 
                 function = PrimitivesMap.getFunction(function);
                 mw.visitLdcInsn(((PrimitiveNode) instruction).getGetPrimitiveArgument().toString());
@@ -183,78 +189,48 @@ public class CodeGenerator {
                             false);
                 }
 
-                if ("printInt".equals(function)){
-                    function = "sys_print_int";
-                    //mw.visitLdcInsn( ((PrimitiveNode) instruction).getGetPrimitiveArgument().toString());
-                    //mw.visitIntInsn(ASTORE, 0);
+                if ("print".equals(function)){
+                    function = "sysPrint";
+                    mw.visitLdcInsn( ((PrimitiveNode) instruction).getGetPrimitiveArgument().toString());
+                    mw.visitIntInsn(ASTORE, 0);
+                    mw.visitIntInsn(ALOAD, 0);
                     mw.visitMethodInsn(
                             INVOKESTATIC,
                             "com/juliar/pal/Primitives",
                             function,
-                            "(I)V",
+                            "(Ljava/lang/String;)V",
                             false);
                 }
-                if ("printFloat".equals(function)){
-                    function = "sys_print_float";
-                    //mw.visitLdcInsn( ((PrimitiveNode) instruction).getGetPrimitiveArgument().toString());
-                    //mw.visitIntInsn(ASTORE, 0);
-                    mw.visitMethodInsn(
-                            INVOKESTATIC,
-                            "com/juliar/pal/Primitives",
-                            function,
-                            "(I)V",
-                            false);
-                }
-                if ("printDouble".equals(function)){
-                    function = "sys_print_double";
-                    //mw.visitLdcInsn( ((PrimitiveNode) instruction).getGetPrimitiveArgument().toString());
-                    //mw.visitIntInsn(ASTORE, 0);
-                    mw.visitMethodInsn(
-                            INVOKESTATIC,
-                            "com/juliar/pal/Primitives",
-                            function,
-                            "(I)V",
-                            false);
-                }
-                if ("printLong".equals(function)){
-                    function = "sys_print_long";
-                    //mw.visitLdcInsn( ((PrimitiveNode) instruction).getGetPrimitiveArgument().toString());
-                    //mw.visitIntInsn(ASTORE, 0);
-                    mw.visitMethodInsn(
-                            INVOKESTATIC,
-                            "com/juliar/pal/Primitives",
-                            function,
-                            "(I)V",
-                            false);
-                }
+
             }
 
 
             if (instruction instanceof CompliationUnitNode) {
+                //WWLogger.log(((CompliationUnitNode) instructions).getInstructions().toString());
+                /*Logger.og(t.toString());
+                 */
 
-                /*List<Node> t = ((CompliationUnitNode) instructions).statementNodes;
+                List<Node> t = instruction.getInstructions();
+                evaluateExpressions(t, mw, ga, stackSize);
 
-                for (Node n : t) {
+                /*for (List<Node> n : t) {
+                    Logger.log(n.getNodeName().toString());
+                    Logger.log("HERE");
                     evaluateExpressions(n, mw, ga, stackSize);
                 }*/
-
             }
 
             if (instruction instanceof StatementNode) {
-
-                /*List<Node> t = ((StatementNode) instructions).statements;
-
-                for (Node n : t) {
-                    evaluateExpressions(n, mw, ga, stackSize);
-                }*/
-
+                List<Node> t = instruction.getInstructions();
+                evaluateExpressions(t, mw, ga, stackSize);
             }
 
             if (instruction instanceof BinaryNode){
+                Logger.log("BinaryNode");
                 Map<IntegralType,Integer> op = CodeGeneratorMap.generateMap(((BinaryNode)instruction).operation().toString());
 
                 BinaryNode b = ((BinaryNode)instruction);
-                if (debug) {
+                if (isDebug) {
                     mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
                 }
 
@@ -288,12 +264,13 @@ public class CodeGenerator {
             }
 
             if (instruction instanceof AggregateNode) {
+                Logger.log("BinaryNode");
                 Map<IntegralType,Integer> op = CodeGeneratorMap.generateMap(((AggregateNode)instruction).operation().toString());
 
                 List<IntegralTypeNode> integralTypeNodes = ((AggregateNode)instruction).data();
                 int addCount = integralTypeNodes.size() - 1;
 
-                if (debug) {
+                if (isDebug) {
                     mw.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
                 }
 
@@ -342,7 +319,7 @@ public class CodeGenerator {
     }
 
     private void debugPrintLine(MethodVisitor mw, IntegralType addType) {
-        if (debug) {
+        if (isDebug) {
             switch (addType) {
                 case jdouble:
                     mw.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(D)V", false);
@@ -381,6 +358,17 @@ public class CodeGenerator {
                 default:
                     break;
             }
+        }
+    }
+
+    private static byte[] getBytes(InputStream is) throws IOException {
+        try (ByteArrayOutputStream os = new ByteArrayOutputStream();)
+        {
+            byte[] buffer = new byte[0xFFFF];
+            for (int len; (len = is.read(buffer)) != -1;)
+                os.write(buffer, 0, len);
+            os.flush();
+            return os.toByteArray();
         }
     }
 }

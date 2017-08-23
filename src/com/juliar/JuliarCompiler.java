@@ -19,18 +19,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.application.Application;
 
 public class JuliarCompiler {
-	public static boolean isDebugMode = false;
+	public static boolean isDebug = false;
+	public static boolean isRepl = false;
     private ErrorListener errors;
     private String inputFileName;
 
     public static void main(String[] args) {
-		fastCGI();
-    	if(System.console() == null) {
-			new Thread(() -> javafx.application.Application.launch(Gui.class)).start();
+		if(System.console() == null) {
+			Application.launch(Gui.class);
 			return;
 		}
+		fastCGI();
 		try {
 			String[] unparsedArgs = parseFlags(args);
 
@@ -44,11 +46,12 @@ public class JuliarCompiler {
 			if(unparsedArgs.length > 1){
 				outputPath = unparsedArgs[1];
 				compileFlag = true;
+				Logger.log("Compiling...");
 			}
 
-			Boolean replFlag = false;
+
 			JuliarCompiler compiler = new JuliarCompiler();
-			compiler.compile(fileName, outputPath, compileFlag, replFlag);
+			compiler.compile(fileName, outputPath, compileFlag);
 
 		} catch (Exception ex) {
 			Logger.log("Error " + ex.getMessage());
@@ -59,7 +62,7 @@ public class JuliarCompiler {
 		Logger.log("Juliar Compiler - Copyright (C) 2017");
 
 		if(args.length != 1 && args.length != 2){
-			Logger.log("Usage: java -jar JuliarCompiler.jar <source file> <output path> <fcgi port>");
+			Logger.log("Usage: java <-D [fcgi port]> -jar JuliarCompiler.jar <source file> <output path> ");
 			Logger.log("Path to Juliar source file");
 			Logger.log("Path to output directory if compiled.");
 			Logger.log("If output path is undefined, source file will be interpreted");
@@ -75,11 +78,14 @@ public class JuliarCompiler {
 			if(arg.startsWith("-")){
 				 switch(arg){
 					 case "-app":
-						 new Thread(() -> javafx.application.Application.launch(Gui.class)).start();
+						 Application.launch(Gui.class);
 						 break;
 					 case "-verbose":
-					 	isDebugMode = true;
+					 	isDebug = true;
 						Logger.log("verbose is on");
+					 	break;
+					 case "-repl":
+					 	isRepl = true;
 					 	break;
 					 default:
 					 	break;
@@ -93,32 +99,29 @@ public class JuliarCompiler {
 	}
 
 	private static void fastCGI() {
-		FCGIInterface fastCGIInterface = new FCGIInterface();
-		while (fastCGIInterface.FCGIaccept() >= 0) {
+		while ( new FCGIInterface().FCGIaccept() >= 0) {
 			String method = System.getProperty("REQUEST_METHOD");
 
 			if (method != null) {
 				String documentROOT = System.getProperty("DOCUMENT_ROOT");
 				String scriptNAME = System.getProperty("SCRIPT_NAME");
 				Logger.log("Content-type: text/html\r\n\r\n");
-				Logger.log("<html>");
 
 				if ("/".equals(scriptNAME) || "".equals(scriptNAME)) {
 					scriptNAME = "index.jrl";
 				}
 
 				JuliarCompiler compiler = new JuliarCompiler();
-				compiler.compile(documentROOT + scriptNAME, "", false, false);
-				Logger.log("</html>");
+				compiler.compile(documentROOT + scriptNAME, "", false);
 			}
 		}
 	}
 
-	public List<String> compile(String source, String outputPath, boolean compilerFlag, boolean isRepl) {
+	public List<String> compile(String source, String outputPath, boolean compilerFlag) {
         try {
         	inputFileName = source;
 			FileInputStream fileInputStream = new FileInputStream(source);
-			return compile(fileInputStream, outputPath, compilerFlag, isRepl);
+			return compile(fileInputStream, outputPath, compilerFlag);
         }
 		catch (Exception ex) {
 			Logger.log(ex.getMessage());
@@ -127,7 +130,7 @@ public class JuliarCompiler {
         return new ArrayList<>();
 	}
 
-	public List<String> compile(InputStream b, String outputfile, boolean compilerFlag, boolean isRepl) {
+	public List<String> compile(InputStream b, String outputfile, boolean compilerFlag) {
         try {
 			SymbolTable.clearSymbolTable();
 			JuliarParser parser = parse( b );
@@ -146,7 +149,7 @@ public class JuliarCompiler {
 				}
 
 			}
-			} catch (Exception ex) {
+		} catch (Exception ex) {
 			Logger.log(ex.getMessage());
 		}
 		
@@ -162,7 +165,7 @@ public class JuliarCompiler {
 		// then calls the code generator.
 
 		JuliarParser.CompileUnitContext context = parser.compileUnit();
-		if (isDebugMode) {
+		if (isDebug) {
             Logger.log(context.toStringTree(parser));
         }
 
@@ -180,13 +183,12 @@ public class JuliarCompiler {
 
 			return true;
 		}
-
 		if(compilerFlag){
-            com.juliar.codegenerator.CodeGenerator generator = new com.juliar.codegenerator.CodeGenerator();
+            com.juliar.codegenerator.CodeGenerator generator = new com.juliar.codegenerator.CodeGenerator(isDebug);
             generator.generate(visitor.instructions(),outputfile);
         }
 
-        if ( isDebugMode ) {
+        if ( isDebug ) {
 			ReadWriteBinaryFile readWriteBinaryFile = new ReadWriteBinaryFile();
 			readWriteBinaryFile.write(inputFileName, visitor.instructions() );
 			InstructionInvocation invocation = readWriteBinaryFile.read( inputFileName );
@@ -203,10 +205,11 @@ public class JuliarCompiler {
 
 	/*
 	Runs the REPL engine from the command line.
+	TODO: Does this work?
 	 */
 	private void executeCommandLineRepl(JuliarParser parser) {
 		JuliarParser.CompileUnitContext context = parser.compileUnit();
-		if (isDebugMode) {
+		if (isDebug) {
             Logger.log(context.toStringTree(parser));
         }
 		Visitor v = new Visitor((imports, linesToSkip) -> {
@@ -219,7 +222,7 @@ public class JuliarCompiler {
 
 
 	private JuliarParser parse(InputStream b) throws IOException {
-        JuliarParser parser = null;
+        JuliarParser parser;
 
         ANTLRInputStream s = new ANTLRInputStream(b);
 

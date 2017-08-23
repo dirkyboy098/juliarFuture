@@ -19,9 +19,9 @@ public class BooleanNode extends NodeImpl {
                 finalNodeRvalue =  (FinalNode) instructions.get(2).getInstructions().get(0);
             }
 
-            if ( rvalue instanceof FinalNode ){
+            /*if ( rvalue instanceof FinalNode ){
                 finalNodeRvalue = finalNodeRvalue;
-            }
+            }*/
 
         }
     }

@@ -72,5 +72,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="antlr-4.7-complete" level="project" />
+    <orderEntry type="library" name="asm-all-6.0_BETA" level="project" />
   </component>
 </module>
