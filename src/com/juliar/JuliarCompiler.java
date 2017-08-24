@@ -11,12 +11,13 @@ import com.juliar.parser.JuliarLexer;
 import com.juliar.parser.JuliarParser;
 import com.juliar.symboltable.SymbolTable;
 import com.juliar.vistor.Visitor;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.*;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.application.Application;
@@ -24,18 +25,25 @@ import javafx.application.Application;
 public class JuliarCompiler {
 	public static boolean isDebug = false;
 	public static boolean isRepl = false;
+	public static boolean isInline = false;
     private ErrorListener errors;
     private String inputFileName;
 
     public static void main(String[] args) {
-		if(System.console() == null) {
+		if(!isDebug && System.console() == null && args.length == 0) {
 			Application.launch(Gui.class);
 			return;
 		}
 		fastCGI();
 		try {
 			String[] unparsedArgs = parseFlags(args);
-
+			if(isInline){
+				String unparsedStr = String.join(" ", unparsedArgs);
+				JuliarCompiler compiler = new JuliarCompiler();
+				InputStream stream = new ByteArrayInputStream(unparsedStr.getBytes(StandardCharsets.UTF_8));
+				compiler.compile(stream, "", false);
+				return;
+			}
 			if (startupInstructions(unparsedArgs)) {
 				return;
 			}
@@ -75,21 +83,22 @@ public class JuliarCompiler {
 	private static String[] parseFlags(String[] args) {
 		ArrayList<String> unparsed = new ArrayList<>();
 		for(String arg: args) {
-			if(arg.startsWith("-")){
-				 switch(arg){
-					 case "-app":
-						 Application.launch(Gui.class);
-						 break;
-					 case "-verbose":
-					 	isDebug = true;
-						Logger.log("verbose is on");
-					 	break;
-					 case "-repl":
-					 	isRepl = true;
-					 	break;
-					 default:
-					 	break;
-				 }
+			if(arg.startsWith("-")) switch (arg) {
+				case "-app":
+					Application.launch(Gui.class);
+					break;
+				case "-verbose":
+					isDebug = true;
+					Logger.log("verbose is on");
+					break;
+				case "-repl":
+					isRepl = true;
+					break;
+				case "-inline":
+					isInline = true;
+					break;
+				default:
+					break;
 			}
 			else{
 				unparsed.add(arg);
@@ -223,8 +232,7 @@ public class JuliarCompiler {
 
 	private JuliarParser parse(InputStream b) throws IOException {
         JuliarParser parser;
-
-        ANTLRInputStream s = new ANTLRInputStream(b);
+        CharStream s = CharStreams.fromStream(b);
 
         JuliarLexer lexer = new JuliarLexer(s);
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);

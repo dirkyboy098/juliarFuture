@@ -14,6 +14,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.util.Optional;
 
@@ -25,8 +26,8 @@ public class Gui extends Application {
             HostServices hostServices = getHostServices();
             Scene scene = SceneCreator.create(stage,"juliar.fxml","Juliar.Future - *New File*", hostServices);
             keyComb(scene);
-            stage.setOnCloseRequest(event -> {
-                Optional confirmation = CloseConfirm.closeApp();
+            stage.setOnCloseRequest((WindowEvent event) -> {
+                Optional<ButtonType> confirmation = CloseConfirm.closeApp();
                 if (confirmation.isPresent() && confirmation.get() == ButtonType.OK){
                     Platform.exit();
                 }

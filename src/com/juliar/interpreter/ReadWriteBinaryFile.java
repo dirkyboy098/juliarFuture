@@ -10,16 +10,15 @@ import java.io.*;
  */
 public class ReadWriteBinaryFile {
 
-    public void write(String inputFile, InstructionInvocation invocation) {
+    public void write(String inputFile, InstructionInvocation invocation) throws IOException {
         String fileName = getLibiraryName(inputFile);
 
-        FileOutputStream ostream = null;
-        try {
-            ostream = new FileOutputStream(fileName);
-            ObjectOutputStream p = new ObjectOutputStream(ostream);
+        try (
+            OutputStream ostream = new FileOutputStream(fileName);
+            ObjectOutputStream p = new ObjectOutputStream(ostream)
+        ) {
             p.writeObject( invocation );
             p.flush();
-            ostream.close();
         } catch (IOException e) {
             Logger.log(e);
         }
@@ -30,18 +29,15 @@ public class ReadWriteBinaryFile {
         InstructionInvocation invocation = null;
         Object object = null;
 
-        try (FileInputStream istream = new FileInputStream( libName )) {
-            ObjectInputStream s = new ObjectInputStream(istream);
-
+        try (
+            FileInputStream istream = new FileInputStream( libName );
+            ObjectInputStream s = new ObjectInputStream(istream)
+        ) {
             object = s.readObject();
             if ( object instanceof InstructionInvocation ){
                 invocation = (InstructionInvocation) object;
             }
-
-            s.close();
-            istream.close();
-        }
-        catch (IOException|ClassNotFoundException e){
+        } catch (IOException|ClassNotFoundException e){
             Logger.log(e);
         }
         return invocation;
