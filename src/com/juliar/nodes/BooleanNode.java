@@ -3,6 +3,7 @@ package com.juliar.nodes;
 /**
  * Created by don on 4/1/17.
  */
+@SuppressWarnings("serial")
 public class BooleanNode extends NodeImpl {
     private static final long serialVersionUID = 321323215;
     private Node booleanOperatorNode = null;

@@ -4,6 +4,7 @@ package com.juliar.nodes;
 /**
  * Created by donreamey on 1/7/17.
  */
+@SuppressWarnings("serial")
 public class AssignmentNode extends NodeImpl implements IContextInfo {
     private VariableNode variableNode;
 

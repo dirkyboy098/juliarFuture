@@ -6,7 +6,7 @@ import java.util.List;
  * Created by donreamey on 10/25/16.
  */
 
-
+@SuppressWarnings("serial")
 public class AggregateNode extends NodeImpl {
 
     private Operation op;

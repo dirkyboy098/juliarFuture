@@ -6,6 +6,7 @@ import java.util.List;
 /**
  * Created by don on 5/18/17.
  */
+@SuppressWarnings("serial")
 public class UserDefinedTypeNode extends NodeImpl {
     private String typeName;
     private String keyWordName;

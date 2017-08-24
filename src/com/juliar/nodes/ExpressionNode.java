@@ -3,6 +3,7 @@ package com.juliar.nodes;
 /**
  * Created by donreamey on 3/28/17.
  */
+@SuppressWarnings("serial")
 public class ExpressionNode extends NodeImpl{
     @Override
     public NodeType getType() {

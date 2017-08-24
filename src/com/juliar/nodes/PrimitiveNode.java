@@ -3,6 +3,7 @@ package com.juliar.nodes;
 /**
  * Created by Don on 12/24/2016.
  */
+@SuppressWarnings("serial")
 public class PrimitiveNode extends NodeImpl {
     private String primitiveName;
     private IntegralTypeNode primitiveArgument;

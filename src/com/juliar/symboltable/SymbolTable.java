@@ -60,7 +60,7 @@ public class SymbolTable {
         node.levelNode = level;
 
         if (scopeHash.containsKey(level)) {
-            visitor.addError( IDENTIFIERTXT + level + EXISTTXT );
+            visitor.addError( IDENTIFIERTXT + " " + level + " " + EXISTTXT );
         } else {
             currentScope.push(level);
             scopeHash.put(level, node);
@@ -82,8 +82,8 @@ public class SymbolTable {
                                     .variableName))
                     .count() > 0) {
                 visitor
-                        .addError(IDENTIFIERTXT + ((VariableNode) child)
-                                .variableName + EXISTTXT);
+                        .addError(IDENTIFIERTXT + " " + ((VariableNode) child)
+                                .variableName + " " + EXISTTXT);
             }
         } else if (child instanceof UserDefinedTypeNode &&  node.children.stream()
                 .filter( f -> f instanceof UserDefinedTypeNode)

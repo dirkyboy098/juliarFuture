@@ -5,6 +5,7 @@ import static com.juliar.nodes.NodeType.UserDefinedNameType;
 /**
  * Created by dreamey on 6/27/17.
  */
+@SuppressWarnings("serial")
 public class UserDefinedTypeNameNode extends NodeImpl{
     @Override
     public NodeType getType() {

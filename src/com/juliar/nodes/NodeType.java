@@ -26,6 +26,7 @@ public enum NodeType {
     OperationType,
     PrimitiveType,
     ReturnValueType,
+    ResolutionType,
     RvalueType,
     StatementType,
     StringType,

@@ -10,8 +10,8 @@ import static com.juliar.nodes.IntegralType.*;
 /**
  * Created by Don on 1/13/2017.
  */
+@SuppressWarnings("serial")
 public abstract class NodeImpl implements Node , Serializable{
-    private static final long serialVersionUID = 321323214;
     protected transient List<Node> instructions = new ArrayList<>();
     protected String nodeName;
     private IntegralType integralType;

@@ -6,8 +6,8 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 /**
  * Created by donreamey on 10/28/16.
  */
+@SuppressWarnings("serial")
 public class FinalNode extends NodeImpl{
-    private static final long serialVersionUID = 321323216;
     private String dataString;
     private transient Object object;
 

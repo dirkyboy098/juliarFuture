@@ -462,56 +462,63 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
     @Override
     public Node visitVariable(JuliarParser.VariableContext ctx) {
-        String variableName = "";
+        Node iteratorNode;
 
-        if ( ctx.ID() != null ) {
-            variableName = ctx.ID().getText();
-        }
+        try {
+            String variableName = "";
 
-        VariableNode variableNode = new VariableNode(variableName);
-
-        if ( variableNode == null){
-            throw new RuntimeException( "unable to create a variable");
-        }
-
-        Object[] funcStackArray = funcContextStack.toArray();
-        int length = funcStackArray.length - 1;
-        int index = length;
-
-        for (; index >= 0; index--) {
-            if (funcStackArray[index] instanceof VariableDeclarationNode) {
-                // We are creating the variable and adding it to the symbol table.
-                // This will automatically throw an exception if creating a symbol with
-                // same name at same scope.
-                symbolTable.addChild(variableNode);
-                break;
+            if ( ctx.ID() != null ) {
+                variableName = ctx.ID().getText();
             }
 
-            if ( funcStackArray[index] instanceof UserDefinedTypeNode ) {
-                assert true : "should not hit this";
-                // TODO
-                // user defined variables will need to be looked up in the class / variable map.
-                break;
+            VariableNode variableNode = new VariableNode(variableName);
+
+            if (variableNode == null) {
+                throw new RuntimeException("unable to create a variable");
             }
 
-            if ( funcStackArray[index] instanceof UserDefinedTypeVariableDeclNode ){
-                UserDefinedTypeVariableDeclNode temp = (UserDefinedTypeVariableDeclNode)funcStackArray[index];
-                variableNode.setParent( temp );
-                if (!symbolTable.doesChildExistAtScope( variableNode )) {
+            Object[] funcStackArray = funcContextStack.toArray();
+            int length = funcStackArray.length - 1;
+            int index = length;
+
+            for (; index >= 0; index--) {
+                if (funcStackArray[index] instanceof VariableDeclarationNode) {
+                    // We are creating the variable and adding it to the symbol table.
+                    // This will automatically throw an exception if creating a symbol with
+                    // same name at same scope.
                     symbolTable.addChild(variableNode);
+                    break;
+                }
+
+                if (funcStackArray[index] instanceof UserDefinedTypeNode) {
+                    assert true : "should not hit this";
+                    // TODO
+                    // user defined variables will need to be looked up in the class / variable map.
+                    break;
+                }
+
+                if (funcStackArray[index] instanceof UserDefinedTypeVariableDeclNode) {
+                    UserDefinedTypeVariableDeclNode temp = (UserDefinedTypeVariableDeclNode) funcStackArray[index];
+                    variableNode.setParent(temp);
+                    if (!symbolTable.doesChildExistAtScope(variableNode)) {
+                        symbolTable.addChild(variableNode);
+                    }
+                }
+
+                if (funcStackArray[index] instanceof UserDefinedTypeVariableReference) {
+                    handleUserDefinedTypeVariableReference(variableName, funcStackArray[index]);
+                }
+
+                if (!symbolTable.doesChildExistAtScope(variableNode)) {
+                    addError("The variable [" + variableName + "] is not declared at the scope");
                 }
             }
 
-            if ( funcStackArray[index] instanceof UserDefinedTypeVariableReference ){
-                handleUserDefinedTypeVariableReference(variableName, funcStackArray[index]);
-            }
-
-            if( !symbolTable.doesChildExistAtScope( variableNode ) ){
-                addError( "The variable [" + variableName +"] is not declared at the scope" );
-            }
+            iteratorNode = iterateWrapper(ctx, this, variableNode);
         }
-
-        Node iteratorNode = iterateWrapper(ctx, this, variableNode);
+        catch( Exception ex) {
+            throw ex;
+        }
 
         return iteratorNode;
     }
@@ -598,27 +605,47 @@ public class Visitor extends JuliarBaseVisitor<Node>
     @Override
     public Node visitUserDefinedTypeKeyWord(JuliarParser.UserDefinedTypeKeyWordContext ctx) {
         KeywordNode keywordNode = new KeywordNode();
-        iterateWrapper( ctx, this ,keywordNode );
+        try {
+            iterateWrapper(ctx, this, keywordNode);
+        }
+        catch ( Exception ex) {
+            throw ex;
+        }
         return keywordNode;
     }
 
     @Override
     public Node visitUserDefinedTypeName(JuliarParser.UserDefinedTypeNameContext ctx) {
         UserDefinedTypeNameNode userDefinedTypeNameNode = new UserDefinedTypeNameNode();
-        iterateWrapper( ctx, this, userDefinedTypeNameNode);
+        try {
+            iterateWrapper( ctx, this, userDefinedTypeNameNode);
+        }
+        catch ( Exception ex){
+            throw ex;
+        }
+
         return userDefinedTypeNameNode;
     }
 
     @Override
     public Node visitUserDefinedTypeVariableDecl(JuliarParser.UserDefinedTypeVariableDeclContext ctx) {
         UserDefinedTypeVariableDeclNode node = new UserDefinedTypeVariableDeclNode();
-        iterateWrapper( ctx, this , node);
+        try {
+            iterateWrapper(ctx, this, node);
+        }
+        catch ( Exception ex){
+            throw ex;
+        }
         return node;
     }
 
     @Override
     public Node visitUserDefinedTypeResolutionOperator(JuliarParser.UserDefinedTypeResolutionOperatorContext ctx) {
-        return super.visitUserDefinedTypeResolutionOperator(ctx);
+
+        IterateOverContext it = new IterateOverContext();
+        ResolutionNode resolutionNode = new ResolutionNode();
+        iterateWrapper( ctx, this, resolutionNode );
+        return resolutionNode;
     }
 
     @Override

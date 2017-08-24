@@ -6,6 +6,7 @@ import java.util.List;
 /**
  * Created by donreamey on 10/21/16.
  */
+@SuppressWarnings("serial")
 public class StatementNode extends NodeImpl {
     @Override
     public NodeType getType() {

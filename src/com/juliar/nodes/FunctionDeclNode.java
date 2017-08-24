@@ -6,6 +6,7 @@ import java.util.Stack;
 /**
  * Created by Don on 1/12/2017.
  */
+@SuppressWarnings("serial")
 public class FunctionDeclNode extends NodeImpl implements IContextInfo {
     private String functionName;
 

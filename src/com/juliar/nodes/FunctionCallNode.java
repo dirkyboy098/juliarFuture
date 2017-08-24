@@ -4,6 +4,7 @@ import java.util.List;
 /**
  * Created by Don on 1/12/2017.
  */
+@SuppressWarnings("serial")
 public class FunctionCallNode extends NodeImpl {
     public String functionName(){
         List<Node> nodes = getInstructions();

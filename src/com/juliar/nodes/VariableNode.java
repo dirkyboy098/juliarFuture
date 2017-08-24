@@ -3,6 +3,7 @@ package com.juliar.nodes;
 /**
  * Created by Don on 1/15/2017.
  */
+@SuppressWarnings("serial")
 public class VariableNode extends NodeImpl {
     private static final long serialVersionUID = 321323217;
     private Node parent;
