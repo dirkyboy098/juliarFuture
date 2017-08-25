@@ -36,6 +36,7 @@ expression
     | primitives endLine
     | functionCall endLine
     | userDefinedTypeFunctionReference endLine
+    | userDefinedTypeVariableReference endLine
     | returnValue endLine
     ;
 

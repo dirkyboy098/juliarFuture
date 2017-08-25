@@ -1,18 +1,8 @@
-function main() = {
-   printLine("Hello World");
-}
-
-/*class node = {
+class node = {
     int data;
 }
 
 function main() = {
     node one;
-    int x = one::data;
-    int y = + 3 3;
-    if ( y == 6){
-        printLine(y);
-    }
-
+    one::data;
 }
-*/

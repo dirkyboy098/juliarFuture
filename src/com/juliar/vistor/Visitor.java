@@ -540,6 +540,8 @@ public class Visitor extends JuliarBaseVisitor<Node>
             }
         }
 
+        assert parent != null: "the parent node is null";
+
         String className = parent.getUserDefinedVariableTypeName();
 
         if ( declaredClasses.containsKey( className )){

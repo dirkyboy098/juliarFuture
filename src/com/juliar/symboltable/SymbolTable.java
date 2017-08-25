@@ -71,33 +71,49 @@ public class SymbolTable {
         currentScope.pop();
     }
 
-    public void addChild(Node child) {
+    private void addChildVariable(VariableNode child) {
         SymbolTableNode node = scopeHash.get(currentScope.peek());
+        int count = 0;
 
-        if (child instanceof VariableNode) {
-
-            if (node.children.stream()
-                    .filter(f -> f instanceof VariableNode && ((VariableNode) f)
-                            .variableName.equals(((VariableNode) child)
-                                    .variableName))
-                    .count() > 0) {
-                visitor
-                        .addError(IDENTIFIERTXT + " " + ((VariableNode) child)
-                                .variableName + " " + EXISTTXT);
+        for (Node childNode : node.children) {
+            if (child.variableName.equals(((VariableNode) childNode).variableName)) {
+                count++;
             }
-        } else if (child instanceof UserDefinedTypeNode &&  node.children.stream()
-                .filter( f -> f instanceof UserDefinedTypeNode)
-                .filter(f -> ((UserDefinedTypeNode) f)
-                        .getTypeName()
-                        .equals(((UserDefinedTypeNode) child)
-                                .getTypeName()))
-                .count() > 0){
-                visitor.addError(IDENTIFIERTXT + ((UserDefinedTypeNode) child).getTypeName() + EXISTTXT);
         }
 
-        node.children.add ( child );
+        if (count > 0) {
+            visitor.addError(IDENTIFIERTXT + " " + child.variableName + " " + EXISTTXT);
+            return;
+        }
+
+        scopeHash.get(currentScope.peek()).getChildren().add(child);
     }
 
+    private void addChildUserDefined(UserDefinedTypeNode child){
+        SymbolTableNode node = scopeHash.get(currentScope.peek());
+        int count = 0;
+
+        for (Node childNode : node.children) {
+            if (child.getTypeName().equals( ((UserDefinedTypeNode)childNode).getTypeName() )) {
+                count++;
+            }
+        }
+
+        if (count > 0) {
+            visitor.addError(IDENTIFIERTXT + " " + child.getTypeName() + " " + EXISTTXT);
+            return;
+        }
+
+        scopeHash.get(currentScope.peek()).getChildren().add(child);
+    }
+
+    public void addChild(Node child) {
+        if (child instanceof VariableNode) {
+            addChildVariable((VariableNode) child);
+        } else if (child instanceof UserDefinedTypeNode ){
+            addChildUserDefined( (UserDefinedTypeNode) child);
+        }
+    }
 
     public Node getNode(Node child){
         Node returnNode = null;
