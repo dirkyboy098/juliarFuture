@@ -39,14 +39,14 @@ rm filelist
 cd ../temp || exit
 (echo Main-Class: com.juliar.JuliarCompiler)>manifest.txt
 rm *.jar
+cp ../src/com/juliar/gui/juliar.fxml ../out/com/juliar/gui/juliar.fxml
+cp ../src/com/juliar/gui/packages.fxml ../out/com/juliar/gui/packages.fxml
+cp ../src/com/juliar/gui/juliar.css ../out/com/juliar/gui/juliar.css
+cp ../src/com/juliar/gui/juliarFutureIcon.png ../out/com/juliar/gui/juliarFutureIcon.png
+cp ../src/com/juliar/gui/whitelogo.png ../out/com/juliar/gui/whitelogo.png
+cp ../src/com/juliar/gui/Montserrat-Regular.ttf ../out/com/juliar/gui/Montserrat-Regular.ttf
+cp ../src/com/juliar/gui/Montserrat-Bold.ttf ../out/com/juliar/gui/Montserrat-Bold.ttf
 cp -r ../out/com .
-cp ../src/com/juliar/gui/juliar.fxml ../temp/com/juliar/gui/juliar.fxml
-cp ../src/com/juliar/gui/packages.fxml ../temp/com/juliar/gui/packages.fxml
-cp ../src/com/juliar/gui/juliar.css ../temp/com/juliar/gui/juliar.css
-cp ../src/com/juliar/gui/juliarFutureIcon.png ../temp/com/juliar/gui/juliarFutureIcon.png
-cp ../src/com/juliar/gui/whitelogo.png ../temp/com/juliar/gui/whitelogo.png
-cp ../src/com/juliar/gui/Montserrat-Regular.ttf ../temp/com/juliar/gui/Montserrat-Regular.ttf
-cp ../src/com/juliar/gui/Montserrat-Bold.ttf ../temp/com/juliar/gui/Montserrat-Bold.ttf
 jar cvfm JuliarCompiler.jar manifest.txt com org javax 
 mv JuliarCompiler.jar ../JuliarCompiler.jar
 cd ..

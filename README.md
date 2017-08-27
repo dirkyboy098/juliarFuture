@@ -1,22 +1,22 @@
 # juliar.Future
 [![jfanimated](https://cloud.githubusercontent.com/assets/11934545/22674649/0b2d5d68-ecaf-11e6-9141-40ac1aefaa16.gif)](https://www.juliar.org/)
 
-[![version](https://img.shields.io/badge/version-0.0.1-green.svg)](https://www.juliar.org/downloads.ju)
+[![version](https://img.shields.io/badge/version-0.0.1-green.svg)](https://juliar.org/downloads.php)
 [![Build Status](https://travis-ci.org/juliarLang/juliarFuture.svg?branch=master)](https://travis-ci.org/juliarLang/juliarFuture)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9a508bdddb8747bf9ed8e39bddfb10f2)](https://www.codacy.com/app/TheAndreiM/juliarFuture?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=juliarLang/juliarFuture&amp;utm_campaign=Badge_Grade)
 [![codebeat badge](https://codebeat.co/badges/4bdc346c-d5b6-41df-b491-9361caba6094)](https://codebeat.co/projects/github-com-juliarlang-juliarfuture-master)
 
-Juliar.Future is a programming language that is compiled directly into Java bytecode that can be made to run in any Java environment.
-The aim of Juliar is to combine functional languages such as lisp with imperative languages like Java,
-in order to optimize programming efficiency.
+Juliar.Future is a programming language that is compiled directly into Java bytecode and can run in any JRE.
+The aim of Juliar is to provide an easy to use compact system to create programs fast and run them on any system.
+No installation or configuration needed.
 
-### IDE is included! No additional software needed
+### IDE comes built-in!
 
 ![JuliarFuture](https://user-images.githubusercontent.com/11934545/29492056-748cb48a-853d-11e7-94b2-159a32582bc5.png)
 
 *If you are using Linux, we suggest that you use Oracle Java instead of OpenJava.
 
-For more information, please check out our official website at [https://www.juliar.org](http://www.juliar.org)
+For more information, please check out our official website at [https://juliar.org](http://juliar.org)
 
 ## Contribute
 
@@ -25,31 +25,45 @@ to find out how you can contribute to the project.
 
 
 ## Intro
-Juliar.Future is the latest iteration of Juliar Programming Language. The compiler is built on top of Java, so wherever Java can be run, the compiler works as it should.
-Download
-https://www.juliar.org/downloads.php
+Juliar.Future is the latest iteration of Juliar Programming Language. The compiler is built on top of Java, so wherever Java can be run, Juliar can run.
 
-The download should automatically begin.
+## Download
+The latest stable release can be found at:
+
+https://juliar.org/downloads.php
+
+## Install
+
+Download Juliar from 
+https://juliar.org/downloads.php
+
+After downloading the JAR file, you have 2 ways to launch it.
+If you are a beginner or preffer a Graphical Window, then you can just double click juliarCompiler.jar
+
+If you prefer a console/terminal, then open juliarCompiler.jar folder in terminal/console. 
 
 ## Modes
-JuliarCompiler.jar works in 4 modes. It can be compiled, interpreted, and ran through FastCGI web services, and ran through an editor.
+JuliarCompiler.jar works in 3 modes. It can be compiled, interpreted, ran as FastCGI web service.
 
 ## Editor Mode
-Instead of using terminal, you can run a built-in editor by double clicking on `JuliarFuture.jar` file. This provides a convenient and easy way to edit, build, interpret, and compile Juliar files. It is currently the recommended way for people starting with the programming language.
+Instead of using terminal, you can run a built-in editor by double clicking on `JuliarFuture.jar` file.
+ 
+This provides a convenient and easy way to edit, build, interpret, and compile Juliar files. 
+This method is recommended for people just starting with the programming language.
 
 ## Compile
 JuliarCompiler.jar works on all platforms that have Java installed. So it is system independent!
 run it in CommandPrompt/Console using the following command:
 
 `
-java -jar JuliarCompiler.jar something.jrl output
+java -jar JuliarCompiler.jar something.jrl outputJARname
 `
 
 Where something.jrl is Juliar script and output is output name.
 Because Juliar compiles directly into Java bytecode, Juliar programs can run anywhere Java is installed.
 
 ## Interpret
-JuliarCompiler.jar can also interpret code for those people that want to tweak and tinker with the code on the go.
+JuliarCompiler.jar can also interpret code for those people that want to tweak and tinker the code on the go.
 You can have Juliar interpret by leaving out the output argument
 
 `
@@ -58,8 +72,9 @@ java -jar JuliarCompiler.jar something.jrl
 This will interpret the code and output the results on the screen. You can pipe the results to a file by using '>' followed by file name.
 
 ## FastCGI
-JuliarCompiler.jar can also run as web service. This is a second form of interpreter. You can connect JuliarCompiler.jar
-to Apache, NGINX, Lighttpd, and many other services to process HTML files and output results to the user. JuliarCompiler.jar
+JuliarCompiler.jar can also run as web service. You can connect JuliarCompiler.jar
+to Apache, NGINX, Lighttpd, and many other services to process HTML files and output results to the user. 
+JuliarCompiler.jar
 makes it very easy to have a web server running by providing configurations for most popular web servers.
 To launch JuliarCompiler.jar in FastCGI mod:
 
@@ -69,10 +84,14 @@ java -jar -DFCGI_PORT=9000 JuliarCompiler.jar
 
 
 ## Why?
-You might be wondering, why should you use Juliar instead of Java? The reason is that Juliar is less imperative
-and more functional. It can however be used as Object Oriented programming language. Juliar aim is to provide
-the same features of any modern imperative language such as C++ and Java and put a twist by adding functional components.
-Juliar is easy, fast, and fun language to use.
+You might be wondering, why should you use Juliar instead of any other programming languages.
+The reason is portability, ease of use, and write once and run anywhere.
+
+Juliar.Future doesn't require you to install anything, so you can take it anywhere on your usb drive.
+
+Juliar.Future is simple to write, no need to know confusing syntax.
+
+Juliar.Future runs in Java. Anywhere Java can run, Juliar can run.
 
 ## Creating Juliar File
 Create a text file called "something.jrl". jrl is the extension juliar uses for its files! You can name it anything you want as long as it has an extension of .jrl.
@@ -106,12 +125,7 @@ Where x and y are variables. You can call custom functions the same way.
 
 ## Hoisting
 
-Juliar supports function hoisting. Unlike C/C++, functions can be declared in any order (even if they are declared after a functional call).
-
-## Dynamic or Static Casting
-
-Juliar supports both static and dynamic casting. It is, however, recommended that you static type variables (i.e. declare their type such as int, float, double, etc)
-and dynamic cast the function, so that you don't need to create a template.
+Juliar uses function hoisting. Unlike C/C++, functions can be declared in any order (even if they are declared after a functional call).
 
 ## Function Overloading
 
@@ -126,6 +140,19 @@ decide by using `var` instead.
 There are two function calls you should know in order to print in Juliar.
 They are `printLine` and `print`. The difference is that `printLine` adds
 a new line character, while `print` does not. Common uses `print(64);`, `print(2.3);`, `printLine("Brighter Future");`.
+
+## Creating Classes
+With Juliar, you don't need to use "new" to create an instance of a class.
+```
+class node = {
+    int data;
+}
+
+function main() = {
+    node one;
+    one::data;
+}
+```
 
 ## Writing/Opening Files
 
@@ -149,4 +176,17 @@ which is the equivalent of doing
 int x = 3 + 2 + 5 + 10;
 `
 
-This is useful in doing when you are having a huge file.
+
+## Installing from Source
+
+
+Download the latest version from https://www.github.com/juliarLang/juliarFuture
+
+or Clone in Desktop: 
+
+Once downloaded and unzipped, deppending on your system
+double click on DoEverything.bat if on Windows
+or DoEverything.sh if on Linux, Mac, or UNIX.
+
+If you are compiling on Windows, make sure your classpath
+is set correctly.
