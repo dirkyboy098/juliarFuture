@@ -5,4 +5,5 @@ class node = {
 function main() = {
     node one;
     one::data;
+    printLine("foo");
 }

@@ -25,6 +25,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
     private static int functionDeclCount = 0;
     private static int ifDeclCount = 0;
     private static int whileDeclCount = 0;
+    private static int classDeclCount = 0;
     private List<Node> instructionList = new ArrayList<>();
     private HashMap<String, Node> functionNodeMap = new HashMap<>();
     private Stack<Node> funcContextStack = new Stack<>();
@@ -76,6 +77,8 @@ public class Visitor extends JuliarBaseVisitor<Node>
                 case WhileExpressionType:
                     whileDeclCount--;
                     break;
+                case UserDefinedDeclarationType:
+                    classDeclCount--;
                 default:
                     return;
             }
@@ -503,10 +506,12 @@ public class Visitor extends JuliarBaseVisitor<Node>
                     if (!symbolTable.doesChildExistAtScope(variableNode)) {
                         symbolTable.addChild(variableNode);
                     }
+                    break;
                 }
 
                 if (funcStackArray[index] instanceof UserDefinedTypeVariableReference) {
                     handleUserDefinedTypeVariableReference(variableName, funcStackArray[index]);
+                    break;
                 }
 
                 if (!symbolTable.doesChildExistAtScope(variableNode)) {
@@ -552,7 +557,8 @@ public class Visitor extends JuliarBaseVisitor<Node>
             }
 
             VariableNode tempVariableNode = new VariableNode( variableName );
-            if ( !symbolTable.doesChildExistAtScope( tempVariableNode ) ){
+
+            if ( !symbolTable.doesChildExistInHash( parent, tempVariableNode) ){
                 symbolTable.addChild( tempVariableNode );
             }
         }
@@ -591,6 +597,8 @@ public class Visitor extends JuliarBaseVisitor<Node>
     public Node visitUserDefinedTypeDecl(JuliarParser.UserDefinedTypeDeclContext ctx) {
         UserDefinedTypeNode userDefinedTypeNode = new UserDefinedTypeNode();
 
+        symbolTable.addLevel( ctx.userDefinedTypeName().getText() );
+
         iterateWrapper( ctx, this, userDefinedTypeNode);
 
         if ( declaredClasses.containsKey( userDefinedTypeNode.getTypeName() ) ){
@@ -600,6 +608,8 @@ public class Visitor extends JuliarBaseVisitor<Node>
         declaredClasses.put(
                 userDefinedTypeNode.getTypeName(),
                 userDefinedTypeNode);
+
+        symbolTable.popScope();
 
         return userDefinedTypeNode;
     }

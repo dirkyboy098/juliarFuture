@@ -175,39 +175,39 @@ public class JuliarCompiler {
 
 		JuliarParser.CompileUnitContext context = parser.compileUnit();
 		if (isDebug) {
-            Logger.log(context.toStringTree(parser));
-        }
+			Logger.log(context.toStringTree(parser));
+		}
 
-		Visitor visitor = new Visitor((imports, linesToSkip) -> {}, true);
+		Visitor visitor = new Visitor((imports, linesToSkip) -> {
+		}, true);
 		visitor.visit(context);
 
-		if (!errors.errorList().isEmpty()|| !visitor.getErrorList().isEmpty()){
-			for (String error : errors.errorList()){
-				Logger.logerr( error );
+		if (!errors.errorList().isEmpty() || !visitor.getErrorList().isEmpty()) {
+			for (String error : errors.errorList()) {
+				Logger.logerr(error);
 			}
 
-			for (String error : visitor.getErrorList()){
-				Logger.logerr( error );
+			for (String error : visitor.getErrorList()) {
+				Logger.logerr(error);
 			}
 
 			return true;
 		}
-		if(compilerFlag){
-            com.juliar.codegenerator.CodeGenerator generator = new com.juliar.codegenerator.CodeGenerator(isDebug);
-            generator.generate(visitor.instructions(),outputfile);
-        }
+		if (compilerFlag) {
+			com.juliar.codegenerator.CodeGenerator generator = new com.juliar.codegenerator.CodeGenerator(isDebug);
+			generator.generate(visitor.instructions(), outputfile);
+		}
+		/*
+		ReadWriteBinaryFile readWriteBinaryFile = new ReadWriteBinaryFile();
+		readWriteBinaryFile.write(inputFileName, visitor.instructions());
 
-        if ( isDebug ) {
-			ReadWriteBinaryFile readWriteBinaryFile = new ReadWriteBinaryFile();
-			readWriteBinaryFile.write(inputFileName, visitor.instructions() );
-			InstructionInvocation invocation = readWriteBinaryFile.read( inputFileName );
-			if (invocation != null) {
-				new Interpreter( invocation );
-			}
-		}
-		else {
-			new Interpreter(visitor.instructions());
-		}
+		InstructionInvocation invocation = readWriteBinaryFile.read( inputFileName );
+		if (invocation != null) {
+			new Interpreter( invocation );
+		}*/
+
+		new Interpreter(visitor.instructions());
+
 
 		return false;
 	}

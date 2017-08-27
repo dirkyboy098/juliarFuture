@@ -2,6 +2,7 @@ package com.juliar.symboltable;
 
 import com.juliar.nodes.Node;
 import com.juliar.nodes.UserDefinedTypeNode;
+import com.juliar.nodes.UserDefinedTypeVariableDeclNode;
 import com.juliar.nodes.VariableNode;
 import com.juliar.vistor.Visitor;
 
@@ -159,6 +160,20 @@ public class SymbolTable {
         }
 
         return returnNode;
+    }
+
+    public boolean doesChildExistInHash(UserDefinedTypeVariableDeclNode parent, Node child) {
+        SymbolTableNode t = scopeHash.get( parent.getUserDefinedVariableTypeName() );
+
+        if (t != null ) {
+            for ( Node childNode : t.children) {
+                if ( ((VariableNode) childNode).variableName.equals (((VariableNode) child).variableName )) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     public boolean doesChildExistAtScope(Node child){
