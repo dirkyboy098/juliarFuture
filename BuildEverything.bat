@@ -25,7 +25,7 @@ EXIT /B 1
 @echo on
 
 wmic Path win32_process Where "CommandLine Like '%%JuliarCompiler.jar%%'" Call Terminate
-set CLASSPATH=jars\antlr-4.7-complete.jar;jars\nirerepl.jar;jars\asm-all-6.0_BETA.jar;jars\fastcgi.jar;jars\richtextfx-fat-0.7-M5.jar;out
+set CLASSPATH=jars\antlr-4.7-complete.jar;jars\asm-all-6.0_BETA.jar;jars\fastcgi.jar;jars\richtextfx-fat-0.7-M5.jar;out
 
 rmdir /s /q out
 rmdir /s /q temp
