@@ -79,6 +79,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
                     break;
                 case UserDefinedDeclarationType:
                     classDeclCount--;
+                    break;
                 default:
                     return;
             }
