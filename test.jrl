@@ -1,9 +1,21 @@
 class node = {
     int data;
+	function foo() = {
+		printLine("node::foo");
+	}
 }
 
 function main() = {
+   	printLine("before node is created");
     node one;
+	one::foo();
+	foo1();
+	printLine("preparing to reference node");
     one::data;
     printLine("foo");
+}
+
+
+function foo1() = {
+    printLine("foo1");
 }

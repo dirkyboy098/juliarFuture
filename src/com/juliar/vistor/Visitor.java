@@ -617,31 +617,22 @@ public class Visitor extends JuliarBaseVisitor<Node>
     @Override
     public Node visitUserDefinedTypeKeyWord(JuliarParser.UserDefinedTypeKeyWordContext ctx) {
         KeywordNode keywordNode = new KeywordNode();
-        try {
-            iterateWrapper(ctx, this, keywordNode);
-        }
-        catch ( Exception ex) {
-            throw ex;
-        }
-        return keywordNode;
+        return iterateWithTryCatch( ctx, keywordNode);
     }
 
     @Override
     public Node visitUserDefinedTypeName(JuliarParser.UserDefinedTypeNameContext ctx) {
         UserDefinedTypeNameNode userDefinedTypeNameNode = new UserDefinedTypeNameNode();
-        try {
-            iterateWrapper( ctx, this, userDefinedTypeNameNode);
-        }
-        catch ( Exception ex){
-            throw ex;
-        }
-
-        return userDefinedTypeNameNode;
+        return iterateWithTryCatch( ctx, userDefinedTypeNameNode );
     }
 
     @Override
-    public Node visitUserDefinedTypeVariableDecl(JuliarParser.UserDefinedTypeVariableDeclContext ctx) {
-        UserDefinedTypeVariableDeclNode node = new UserDefinedTypeVariableDeclNode();
+    public Node visitUserDefinedTypeFunctionReference(JuliarParser.UserDefinedTypeFunctionReferenceContext ctx) {
+        UserDefinedTypeFunctionReferenceNode node = new UserDefinedTypeFunctionReferenceNode();
+        return iterateWithTryCatch( ctx, node);
+    }
+
+    private <S extends ParserRuleContext, T extends NodeImpl> T iterateWithTryCatch(S ctx, T node){
         try {
             iterateWrapper(ctx, this, node);
         }
@@ -652,19 +643,21 @@ public class Visitor extends JuliarBaseVisitor<Node>
     }
 
     @Override
-    public Node visitUserDefinedTypeResolutionOperator(JuliarParser.UserDefinedTypeResolutionOperatorContext ctx) {
+    public Node visitUserDefinedTypeVariableDecl(JuliarParser.UserDefinedTypeVariableDeclContext ctx) {
+        UserDefinedTypeVariableDeclNode node = new UserDefinedTypeVariableDeclNode();
+        return iterateWithTryCatch( ctx, node);
+    }
 
-        IterateOverContext it = new IterateOverContext();
+    @Override
+    public Node visitUserDefinedTypeResolutionOperator(JuliarParser.UserDefinedTypeResolutionOperatorContext ctx) {
         ResolutionNode resolutionNode = new ResolutionNode();
-        iterateWrapper( ctx, this, resolutionNode );
-        return resolutionNode;
+        return iterateWithTryCatch( ctx, resolutionNode);
     }
 
     @Override
     public Node visitUserDefinedTypeVariableReference(JuliarParser.UserDefinedTypeVariableReferenceContext ctx) {
         UserDefinedTypeVariableReference node = new UserDefinedTypeVariableReference();
-        iterateWrapper( ctx, this , node);
-        return node;
+        return iterateWithTryCatch( ctx, node);
     }
 
 

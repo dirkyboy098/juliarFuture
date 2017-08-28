@@ -33,6 +33,7 @@ public enum NodeType {
     SummationType,
     UserDefinedNameType,
     UserDefinedDeclarationType,
+    UserDefinedFunctionReferenceType,
     UserDefinedVariableDeclarationType,
     UserDefinedVariableRefrenceType,
     VariableDeclarationType,
