@@ -2,9 +2,11 @@ package com.juliar.interpreter;
 
 import com.juliar.errors.Logger;
 import com.juliar.nodes.*;
+import com.sun.istack.internal.FinalArrayList;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.juliar.pal.Primitives.*;
@@ -13,9 +15,21 @@ import static com.juliar.pal.Primitives.*;
  * Created by donreamey on 3/28/17.
  */
 class EvaluatePrimitives {
+    private static List<String> primitiveFunctions = new ArrayList<String>(Arrays.asList("print" , "__getByteFromString" , "printLine", "availableMemory","sysExec", "fileOpen"));
     private EvaluatePrimitives(){
 
     }
+
+    public static boolean evalIfPrimitive( Node n , ActivationFrame activationFrame){
+        String functionName = ((FinalNode) n.getInstructions().get(0)).dataString();
+        if ( primitiveFunctions.contains( functionName )){
+            evalPrimitives(n, activationFrame);
+            return true;
+        }
+
+        return false;
+    }
+
     public static List<Node> evalPrimitives(Node n, ActivationFrame activationFrame) {
         String functionName = ((FinalNode) n.getInstructions().get(0)).dataString();
         FinalNode finalNode = new FinalNode();
@@ -131,13 +145,14 @@ class EvaluatePrimitives {
             finalNode = (FinalNode) argumentNode.getInstructions().get(0);
         }
 
-        assert finalNode != null : "EvaluatePrimitives.printLine - finalNode == null";
-
-        if (finalNode.dataString() != null) {
-            if ("printLine".equals(functionName)) {
-                sysPrintLine(finalNode.dataString());
-            } else if ("print".equals(functionName)) {
-                sysPrint(finalNode.dataString());
+        if ( argumentNode instanceof FinalNode ){
+            finalNode = (FinalNode)argumentNode;
+            if (finalNode.dataString() != null) {
+                if ("printLine".equals(functionName)) {
+                    sysPrintLine(finalNode.dataString());
+                } else if ("print".equals(functionName)) {
+                    sysPrint(finalNode.dataString());
+                }
             }
         }
     }

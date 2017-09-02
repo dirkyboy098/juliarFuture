@@ -403,6 +403,11 @@ public class Interpreter {
         FunctionCallNode functionCallNode = (FunctionCallNode)node;
         String functionToCall = functionCallNode.functionName();
 
+        boolean isPrimitive = EvaluatePrimitives.evalIfPrimitive( node, activationFrameStack.peek() );
+        if ( isPrimitive ){
+            return new ArrayList<>();
+        }
+
         // main should only be called from the compliationUnit
         if (functionCallNode.equals(  mainFunctionName )){
             return new ArrayList<>();

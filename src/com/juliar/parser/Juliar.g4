@@ -54,6 +54,7 @@ functionCall
     : funcName '()'
     | funcName (leftParen)(WS)*(rightParen)
     | funcName (leftParen) variable (',' variable)? (rightParen)
+    | funcName (leftParen)STRING(rightParen)
     ;
 
 functionDeclaration
@@ -87,9 +88,10 @@ booleanExpression
 
 
 primitives
-    : 'printLine' '(' types ')'
+/*    : 'printLine' '(' types ')'
     | 'printLine' '(' variable ')'
-    | 'fileOpen' '(' STRING ')'
+    |*/
+    : 'fileOpen' '(' STRING ')'
     | 'fileOpen' '(' variable ')'
     | 'sysExec' '(' STRING ')'
     | 'sysExec' '(' variable ')'

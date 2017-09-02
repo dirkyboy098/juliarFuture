@@ -1,21 +1,21 @@
 class node = {
     int data;
 	function foo() = {
-		printLine("This is the called in class node::foo");
+		printLine("called from inside node::foo");
 	}
 }
 
 function main() = {
-   	printLine("before node is created");
+   	printLine( "foo" );
     node one;
 	one::foo();
 	foo1();
-	printLine("preparing to reference node");
+	printLine();
     one::data;
-    printLine("foo");
+    printLine();
 }
 
 
 function foo1() = {
-    printLine("foo1");
+    printLine();
 }
