@@ -74,5 +74,6 @@
     </orderEntry>
     <orderEntry type="library" exported="" name="antlr-4.7-complete" level="project" />
     <orderEntry type="library" exported="" name="asm-all-6.0_BETA" level="project" />
+    <orderEntry type="library" exported="" name="nashorn" level="project" />
   </component>
 </module>

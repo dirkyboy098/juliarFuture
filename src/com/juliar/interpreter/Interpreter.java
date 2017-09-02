@@ -48,7 +48,9 @@ public class Interpreter {
             functionMap.put( NodeType.BooleanOperatorType        , (this::evalBooleanOperator));
             functionMap.put( NodeType.IfExprType                 , (this::evalIfStatement));
             functionMap.put( NodeType.WhileExpressionType        , (this::evalWhileExpression));
-            functionMap.put( NodeType.VariableDeclarationType   , (this::evalVariableDeclration));
+            functionMap.put( NodeType.VariableDeclarationType    , (this::evalVariableDeclration));
+
+            functionMap.put ( NodeType.UserDefinedFunctionReferenceType, ((n, activationFrameStack )-> evalUserDefinedFunctionCall(n)));
 
             //functionMap.put(NodeType.VariableDeclarationType, (n-> eval(n)));
             //functionMap.put(NodeType.ReturnValueType            , (n-> evalReassignment(n)      ));
@@ -390,6 +392,11 @@ public class Interpreter {
 
     private List<Node> evalBooleanOperator(Node node, ActivationFrame frame){
         return new ArrayList<>();
+    }
+
+    private List<Node> evalUserDefinedFunctionCall (Node n){
+        UserDefinedTypeFunctionReferenceNode userDefinedTypeFunctionReferenceNode = (UserDefinedTypeFunctionReferenceNode)n;
+        return evalFunctionCall( userDefinedTypeFunctionReferenceNode.getFuncCallNode() );
     }
 
     private List<Node> evalFunctionCall(Node node) {

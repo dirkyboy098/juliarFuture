@@ -630,7 +630,11 @@ public class Visitor extends JuliarBaseVisitor<Node>
     @Override
     public Node visitUserDefinedTypeFunctionReference(JuliarParser.UserDefinedTypeFunctionReferenceContext ctx) {
         UserDefinedTypeFunctionReferenceNode node = new UserDefinedTypeFunctionReferenceNode();
-        return iterateWithTryCatch( ctx, node);
+        funcContextStack.push ( node );
+        iterateWithTryCatch( ctx, node);
+        funcContextStack.pop();
+
+        return node;
     }
 
     private <S extends ParserRuleContext, T extends NodeImpl> T iterateWithTryCatch(S ctx, T node){
@@ -640,6 +644,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
         catch ( Exception ex){
             throw ex;
         }
+
         return node;
     }
 

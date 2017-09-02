@@ -8,6 +8,9 @@ import java.util.List;
 
 import static java.lang.System.out;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+
 /**
  * Created by donreamey on 10/25/16.
  */
@@ -72,5 +75,12 @@ public class JuliarCompilerTest extends TestCase {
             throw ex;
         }
         */
+    }
+
+    public void testScriptEngine() throws Exception {
+        ScriptEngineManager engineManager = new ScriptEngineManager();
+        ScriptEngine engine = engineManager.getEngineByName("nashorn");
+        engine.eval("function sum(a, b) { return a + b; }");
+        System.out.println(engine.eval("sum(1, 2);"));
     }
 }

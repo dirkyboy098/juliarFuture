@@ -1,7 +1,7 @@
 class node = {
     int data;
 	function foo() = {
-		printLine("node::foo");
+		printLine("This is the called in class node::foo");
 	}
 }
 
