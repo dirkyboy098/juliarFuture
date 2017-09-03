@@ -24,18 +24,15 @@ public class Interpreter {
 
             functionNodeMap = invocation.getFunctionNodeMap();
 
-            functionMap.put( NodeType.CompliationUnitType        , ((n, activationFrame ) -> evalCompilationUnit()  ));
 
             functionMap.put( NodeType.VariableReassignmentType   , ( EvaluateAssignments::evalReassignment ));
             functionMap.put( NodeType.AssignmentType             , ( EvaluateAssignments::evalAssignment ));
             functionMap.put( NodeType.PrimitiveType              , ( EvaluatePrimitives::evalPrimitives ));
-            functionMap.put( NodeType.BreakType                  , (this::evaluateBreak));
 
+            functionMap.put( NodeType.CompliationUnitType        , ((n, activationFrame ) -> evalCompilationUnit()  ));
             functionMap.put( NodeType.AddType                    , ((n, activationFrame )-> evalAdd()     ));
-            functionMap.put( NodeType.AggregateType              , (this::evaluateAggregate));
             functionMap.put( NodeType.CommandType                , ((n, activationFrame )-> evalCommand(n)      ));
             functionMap.put( NodeType.SummationType              , ((n, activationFrame )-> evalSummation()     ));
-
             functionMap.put( NodeType.FunctionaCallType          , ((n, activationFrame )-> evalFunctionCall(n)      ));
             functionMap.put( NodeType.FunctionDeclType           , ((n, activationFrame )-> evalFunctionDecl(n)      ));
             functionMap.put( NodeType.VariableType               , ((n, activationFrame )-> evalActivationFrame(n)   ));
@@ -43,6 +40,9 @@ public class Interpreter {
             functionMap.put( NodeType.StatementType              , ((n, activationFrame )-> evalStatement(n)         ));
             functionMap.put( NodeType.ExpressionType             , ((n, activationFrame )-> evalStatement(n)         ));
             functionMap.put( NodeType.FinalType                  , ((n, activationFrame )-> evalFinal()             ));
+
+            functionMap.put( NodeType.BreakType                  , (this::evaluateBreak));
+            functionMap.put( NodeType.AggregateType              , (this::evaluateAggregate));
             functionMap.put( NodeType.ReturnValueType            , (this::evalReturn));
             functionMap.put( NodeType.BooleanType                , (this::evalBooleanNode));
             functionMap.put( NodeType.BooleanOperatorType        , (this::evalBooleanOperator));

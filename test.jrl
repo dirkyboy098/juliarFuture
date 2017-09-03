@@ -2,7 +2,7 @@ class node = {
     int data;
 	function foo() = {
 		printLine("called from inside node::foo");
-		availableMemory();git
+		availableMemory();
 	}
 }
 
