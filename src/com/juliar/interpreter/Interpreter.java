@@ -7,7 +7,7 @@ import com.juliar.nodes.*;
 import java.util.*;
 
 /**
- * Created by donreamey on 1/8/17.
+ * Created by Don Reamey on 1/8/17.
  */
 public class Interpreter {
     private final static String mainFunctionName = "main";
