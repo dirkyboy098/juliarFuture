@@ -53,7 +53,7 @@ public class Interpreter {
 
             //functionMap.put(NodeType.VariableDeclarationType, (n-> eval(n)));
             //functionMap.put(NodeType.ReturnValueType            , (n-> evalReassignment(n)      ));
-            execute(inst);
+            execute( inst );
         }
         catch( Exception ex){
             Logger.log(ex);

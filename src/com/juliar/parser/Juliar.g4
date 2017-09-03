@@ -62,7 +62,6 @@ functionDeclaration
     | 'function' funcName leftParen variableDeclaration (',' variableDeclaration)? rightParen equalsign '{' (statement)* '}'
     ;
 
-
 funcName
     : ID
     ;
@@ -86,14 +85,10 @@ booleanExpression
     : ( BOOLEAN | variable | command ) (comparisonOperator) ( variable | primitiveTypes | command | userDefinedTypeVariableReference | userDefinedTypeFunctionReference )
     ;
 
-
 primitives
     : 'sysExec' '(' STRING ')'
     | 'sysExec' '(' variable ')'
     ;
-
-
-
 
 command
     : add
@@ -104,17 +99,6 @@ command
 	| modulo
     ;
 
-//
-// Class declaration start
-//
-/*
-class foo = {
-        int x;
-        int y;
-        function z() = {
-        }
-}
-*/
 userDefinedTypeDecl
     : userDefinedTypeKeyWord userDefinedTypeName equalsign '{' (statement)* (functionDeclaration)* '}'
     ;
@@ -126,9 +110,6 @@ userDefinedTypeKeyWord
 userDefinedTypeName
     : ID
     ;
-//
-// Class declaration end
-//
 
 variable
     : ID
@@ -282,7 +263,7 @@ whileExpression
     ;
 
 
-arrowsign    /*Not Sure yet...it may conflict with comparison. Possibly <- would be better? */
+arrowsign    /*git Not Sure yet...it may conflict with comparison. Possibly <- would be better? */
     :'<='
     ;
 

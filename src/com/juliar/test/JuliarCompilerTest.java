@@ -80,7 +80,8 @@ public class JuliarCompilerTest extends TestCase {
     public void testScriptEngine() throws Exception {
         ScriptEngineManager engineManager = new ScriptEngineManager();
         ScriptEngine engine = engineManager.getEngineByName("nashorn");
-        engine.eval("function sum(a, b) { return a + b; }");
-        System.out.println(engine.eval("sum(1, 2);"));
+        engine.eval("function sum(a, b) { a = b; a++; return b; }");
+        Object returnScriptValue = engine.eval("sum(1, 2);");
+        int i = 4;
     }
 }
