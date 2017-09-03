@@ -12,15 +12,6 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/jars/asm-all-6.0_ALPHA.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
           <root url="jar://$APPLICATION_HOME_DIR$/lib/junit-4.12.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -48,15 +39,6 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/jars/antlr-4.6-complete.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/jars/fastcgi.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -74,6 +56,5 @@
     </orderEntry>
     <orderEntry type="library" exported="" name="antlr-4.7-complete" level="project" />
     <orderEntry type="library" exported="" name="asm-all-6.0_BETA" level="project" />
-    <orderEntry type="library" exported="" name="nashorn" level="project" />
   </component>
 </module>
