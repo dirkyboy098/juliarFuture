@@ -24,7 +24,7 @@ public class Interpreter {
 
             functionNodeMap = invocation.getFunctionNodeMap();
 
-            functionMap.put( NodeType.CompliationUnitType        , ((n, activationFrame ) -> evalCompliationUnit()  ));
+            functionMap.put( NodeType.CompliationUnitType        , ((n, activationFrame ) -> evalCompilationUnit()  ));
 
             functionMap.put( NodeType.VariableReassignmentType   , ( EvaluateAssignments::evalReassignment ));
             functionMap.put( NodeType.AssignmentType             , ( EvaluateAssignments::evalAssignment ));
@@ -65,11 +65,11 @@ public class Interpreter {
 
     public List<Node> execute( List<Node> instructions) {
         for (Node Node : instructions) {
-            Evaluate evaluate = functionMap.get( Node.getType());
-            if (evaluate!= null){
-                List<Node>  ints = evaluate.evaluate( Node , activationFrameStack.empty() ? null :  activationFrameStack.peek());
-                if (ints != null && !ints.isEmpty()) {
-                    execute(ints);
+            Evaluate evaluate = functionMap.get( Node.getType() );
+            if ( evaluate != null ){
+                List<Node> instructionsToExecute = evaluate.evaluate( Node , activationFrameStack.empty() ? null :  activationFrameStack.peek());
+                if ( instructionsToExecute != null && !instructionsToExecute.isEmpty() ) {
+                    execute( instructionsToExecute) ;
                 }
             }
             else{
@@ -80,7 +80,7 @@ public class Interpreter {
         return new ArrayList<>();
     }
 
-    private List<Node> evalCompliationUnit() {
+    private List<Node> evalCompilationUnit() {
         for(Map.Entry<String, Node> entry : functionNodeMap.entrySet()) {
             if (entry.getKey().equals( mainFunctionName )) {
 

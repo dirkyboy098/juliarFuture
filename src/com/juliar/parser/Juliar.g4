@@ -88,16 +88,8 @@ booleanExpression
 
 
 primitives
-/*    : 'printLine' '(' types ')'
-    | 'printLine' '(' variable ')'
-    |*/
-    : 'fileOpen' '(' STRING ')'
-    | 'fileOpen' '(' variable ')'
-    | 'sysExec' '(' STRING ')'
+    : 'sysExec' '(' STRING ')'
     | 'sysExec' '(' variable ')'
-    | 'print' '(' variable ')'
-    | 'print' '(' (variable | types ) ')'
-    | 'availableMemory' '()'
     ;
 
 
