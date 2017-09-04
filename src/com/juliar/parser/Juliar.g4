@@ -38,6 +38,7 @@ expression
     | userDefinedTypeFunctionReference endLine
     | userDefinedTypeVariableReference endLine
     | returnValue endLine
+    | expressionSequence endLine
     ;
 
 assignmentExpression
@@ -122,7 +123,7 @@ variableDeclaration
 
 userDefinedTypeVariableDecl
     : userDefinedTypeName variable
-    | userDefinedTypeName ID equalsign (newKeyWord userDefinedTypeName)
+    | userDefinedTypeName ID equalsign (New userDefinedTypeName)
     ;
 
 
@@ -165,6 +166,9 @@ multiplication
     | 'multiply'
     ;
 
+breakKeyWord
+    : Break
+    ;
 	
 divide
     : division types (types)*
@@ -225,6 +229,32 @@ lessthanorequalto: '<=' ;
 greaterthanorequalto: '>=' ;
 threeway: '<=>';
 
+Break      : 'break';
+Do         : 'do';
+Instanceof : 'instanceof';
+Typeof     : 'typeof';
+Case       : 'case';
+Else       : 'else';
+New        : 'new';
+Var        : 'var';
+Catch      : 'catch';
+Finally    : 'finally';
+Return     : 'return';
+Void       : 'void';
+Continue   : 'continue';
+For        : 'for';
+Switch     : 'switch';
+While      : 'while';
+Debugger   : 'debugger';
+Function   : 'function';
+This       : 'this';
+With       : 'with';
+Default    : 'default';
+If         : 'if';
+Throw      : 'throw';
+Delete     : 'delete';
+In         : 'in';
+Try        : 'try';
 
 keywords
     : 'int'
@@ -237,29 +267,13 @@ keywords
     | 'class'
     ;
 
-newKeyWord
-    : 'new'
-    ;
-
-breakKeyWord
-    : 'break'
-    ;
-
-ifKeyWord
-    : 'if'
-    ;
-
 ifExpr
-    : ifKeyWord '(' booleanExpression ')' '{' ( statement )* '}'
+    : If '(' booleanExpression ')' '{' ( statement )* '}'
     ;
 
-
-whileKeyWord
-    : 'while'
-    ;
 
 whileExpression
-    : whileKeyWord '(' booleanExpression ')' '{' ( statement)* '}'
+    : While '(' booleanExpression ')' '{' ( statement)* '}'
     ;
 
 
@@ -270,6 +284,73 @@ arrowsign    /*Not Sure yet...it may conflict with comparison. Possibly <- would
 userDefinedTypeResolutionOperator
     : '::'
     ;
+
+expressionSequence
+ : singleExpression ( ',' singleExpression )*
+ ;
+
+ identifierName :
+     ID
+     ;
+
+
+singleExpression
+ /*
+ : Function Identifier? '(' formalParameterList? ')' '{' functionBody '}' # FunctionExpression
+ | singleExpression arguments                                             # ArgumentsExpression
+ | New singleExpression arguments?                                        # NewExpression
+ : singleExpression {!this.here(Visitor.LineTerminator)}? '++'   # PostIncrementExpression
+ | singleExpression {!this.here(Visitor.LineTerminator)}? '--'   # PostDecreaseExpression
+ */
+ : Delete singleExpression                                                # DeleteExpression
+ | Void singleExpression                                                  # VoidExpression
+ | Typeof singleExpression                                                # TypeofExpression
+ | singleExpression '[' expressionSequence ']'                            # MemberIndexExpression
+ | singleExpression '.' identifierName                                    # MemberDotExpression
+ | '++' singleExpression                                                  # PreIncrementExpression
+ | '--' singleExpression                                                  # PreDecreaseExpression
+ | '+' singleExpression                                                   # UnaryPlusExpression
+ | '-' singleExpression                                                   # UnaryMinusExpression
+ | '~' singleExpression                                                   # BitNotExpression
+ | '!' singleExpression                                                   # NotExpression
+ | singleExpression ( '*' | '/' | '%' ) singleExpression                  # MultiplicativeExpression
+ | singleExpression ( '+' | '-' ) singleExpression                        # AdditiveExpression
+ | singleExpression ( '<<' | '>>' | '>>>' ) singleExpression              # BitShiftExpression
+ | singleExpression ( '<' | '>' | '<=' | '>=' ) singleExpression          # RelationalExpression
+ | singleExpression Instanceof singleExpression                           # InstanceofExpression
+ | singleExpression In singleExpression                                   # InExpression
+ | singleExpression ( '==' | '!=' | '===' | '!==' ) singleExpression      # EqualityExpression
+ | singleExpression '&' singleExpression                                  # BitAndExpression
+ | singleExpression '^' singleExpression                                  # BitXOrExpression
+ | singleExpression '|' singleExpression                                  # BitOrExpression
+ | singleExpression '&&' singleExpression                                 # LogicalAndExpression
+ | singleExpression '||' singleExpression                                 # LogicalOrExpression
+ | singleExpression '?' singleExpression ':' singleExpression             # TernaryExpression
+ | singleExpression '=' expressionSequence                                # AssignmentExpressionEx
+ | singleExpression assignmentOperator expressionSequence                 # AssignmentOperatorExpression
+ | This                                                                   # ThisExpression
+ | Identifier                                                             # IdentifierExpression
+ /*
+ | literal                                                                # LiteralExpression
+ | arrayLiteral                                                           # ArrayLiteralExpression
+ | objectLiteral                                                          # ObjectLiteralExpression
+ */
+ | '(' expressionSequence ')'                                             # ParenthesizedExpression
+ ;
+
+assignmentOperator
+ : '*='
+ | '/='
+ | '%='
+ | '+='
+ | '-='
+ | '<<='
+ | '>>='
+ | '>>>='
+ | '&='
+ | '^='
+ | '|='
+ ;
 
 /*
  * Lexer Rules

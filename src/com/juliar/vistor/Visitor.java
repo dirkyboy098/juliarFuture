@@ -36,6 +36,8 @@ public class Visitor extends JuliarBaseVisitor<Node>
     private HashMap<String, UserDefinedTypeNode> declaredClasses = new HashMap<>();
     private StringBuilder importBuffer = new StringBuilder();
 
+    public static String LineTerminator = ";";
+
     public InstructionInvocation instructions(){
         return new InstructionInvocation(instructionList, functionNodeMap);
     }
