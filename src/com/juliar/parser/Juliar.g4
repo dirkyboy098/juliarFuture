@@ -263,7 +263,7 @@ whileExpression
     ;
 
 
-arrowsign    /*git Not Sure yet...it may conflict with comparison. Possibly <- would be better? */
+arrowsign    /*Not Sure yet...it may conflict with comparison. Possibly <- would be better? */
     :'<='
     ;
 
