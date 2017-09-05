@@ -651,6 +651,16 @@ public class Visitor extends JuliarBaseVisitor<Node>
     }
 
     @Override
+    public Node visitDeleteExpression(JuliarParser.DeleteExpressionContext ctx) {
+        return super.visitDeleteExpression(ctx);
+    }
+
+    @Override
+    public Node visitLogicalOrExpression(JuliarParser.LogicalOrExpressionContext ctx) {
+        return super.visitLogicalOrExpression(ctx);
+    }
+
+    @Override
     public Node visitUserDefinedTypeVariableDecl(JuliarParser.UserDefinedTypeVariableDeclContext ctx) {
         UserDefinedTypeVariableDeclNode node = new UserDefinedTypeVariableDeclNode();
         return iterateWithTryCatch( ctx, node);

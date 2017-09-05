@@ -7,12 +7,19 @@ class node = {
 }
 
 function main() = {
-    delete this;
-   	printLine( "foo" );
-    node one;
-	one::foo();
-	foo1();
-	printLine( "" );
+
+    printLine("before do while");
+
+    do {
+        delete 3;
+   	    printLine( "foo" );
+        node one;
+	    one::foo();
+	    foo1();
+	}
+	while (true)
+
+	printLine( "after do while" );
     one::data;
     printLine( "" );
 }

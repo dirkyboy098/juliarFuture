@@ -33,6 +33,7 @@ expression
     | breakKeyWord endLine
     | ifExpr
     | whileExpression
+    | doWhile
     | primitives endLine
     | functionCall endLine
     | userDefinedTypeFunctionReference endLine
@@ -276,10 +277,10 @@ whileExpression
     : While '(' booleanExpression ')' '{' ( statement)* '}'
     ;
 
-
-arrowsign    /*Not Sure yet...it may conflict with comparison. Possibly <- would be better? */
-    :'<='
+doWhile
+    : Do '{' (statement)* '}' While '(' singleExpression ')'
     ;
+
 
 userDefinedTypeResolutionOperator
     : '::'
@@ -293,6 +294,9 @@ expressionSequence
      ID
      ;
 
+  identifier :
+    ID
+    ;
 
 singleExpression
  /*
@@ -329,9 +333,9 @@ singleExpression
  | singleExpression '=' expressionSequence                                # AssignmentExpressionEx
  | singleExpression assignmentOperator expressionSequence                 # AssignmentOperatorExpression
  | This                                                                   # ThisExpression
- | Identifier                                                             # IdentifierExpression
- /*
+ | identifier                                                             # IdentifierExpression
  | literal                                                                # LiteralExpression
+/*
  | arrayLiteral                                                           # ArrayLiteralExpression
  | objectLiteral                                                          # ObjectLiteralExpression
  */
@@ -352,9 +356,51 @@ assignmentOperator
  | '|='
  ;
 
+ literal
+ : ( BOOLEAN | NULL )
+ | DecimalLiteral
+ ;
+
+/*
+ literal
+  : ( NullLiteral
+    | BooleanLiteral
+    | StringLiteral
+    | RegularExpressionLiteral
+    )
+  | numericLiteral
+  ;
+
+ numericLiteral
+  : DecimalLiteral
+  | HexIntegerLiteral
+  | OctalIntegerLiteral
+  ;
+
+
+
+
+
+/// 7.8.3 Numeric Literals
+HexIntegerLiteral
+ : '0' [xX] HexDigit+
+ ;
+
+OctalIntegerLiteral
+ : {!this.strictMode}? '0' OctalDigit+
+ ;
+ */
+
 /*
  * Lexer Rules
  */
+
+/// 7.8.3 Numeric Literals
+DecimalLiteral
+ : DecimalIntegerLiteral '.' DecimalDigit* ExponentPart?
+ | '.' DecimalDigit+ ExponentPart?
+ | DecimalIntegerLiteral ExponentPart?
+ ;
 
 NULL
     :'null'
@@ -405,3 +451,73 @@ COMMENT
 LINE_COMMENT
     : '//' .*? '\n' -> channel(HIDDEN)
     ;
+
+StringLiteral
+ : '"' DoubleStringCharacter* '"'
+ | '\'' SingleStringCharacter* '\''
+ ;
+
+
+ fragment DoubleStringCharacter
+  : ~["\\\r\n]
+  | '\\' EscapeSequence
+  | LineContinuation
+  ;
+ fragment SingleStringCharacter
+  : ~['\\\r\n]
+  | '\\' EscapeSequence
+  | LineContinuation
+  ;
+ fragment EscapeSequence
+  : CharacterEscapeSequence
+  | '0' // no digit ahead! TODO
+  | HexEscapeSequence
+  | UnicodeEscapeSequence
+  ;
+ fragment CharacterEscapeSequence
+  : SingleEscapeCharacter
+  | NonEscapeCharacter
+  ;
+ fragment HexEscapeSequence
+  : 'x' HexDigit HexDigit
+  ;
+ fragment UnicodeEscapeSequence
+  : 'u' HexDigit HexDigit HexDigit HexDigit
+  ;
+ fragment SingleEscapeCharacter
+  : ['"\\bfnrtv]
+  ;
+
+  fragment LineContinuation
+   : '\\' LineTerminatorSequence
+   ;
+
+fragment LineTerminatorSequence
+ : '\r\n'
+ | LineTerminator
+ ;
+
+ LineTerminator
+  : [\r\n\u2028\u2029] -> channel(HIDDEN)
+  ;
+
+  fragment NonEscapeCharacter
+   : ~['"\\bfnrtv0-9xu\r\n]
+   ;
+
+fragment DecimalDigit
+ : [0-9]
+ ;
+fragment HexDigit
+ : [0-9a-fA-F]
+ ;
+fragment OctalDigit
+ : [0-7]
+ ;
+fragment DecimalIntegerLiteral
+ : '0'
+ | [1-9] DecimalDigit*
+ ;
+fragment ExponentPart
+ : [eE] [+-]? DecimalDigit+
+ ;
