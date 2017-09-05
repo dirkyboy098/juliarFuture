@@ -36,8 +36,6 @@ public class Visitor extends JuliarBaseVisitor<Node>
     private HashMap<String, UserDefinedTypeNode> declaredClasses = new HashMap<>();
     private StringBuilder importBuffer = new StringBuilder();
 
-    public static String LineTerminator = ";";
-
     public InstructionInvocation instructions(){
         return new InstructionInvocation(instructionList, functionNodeMap);
     }
@@ -180,29 +178,31 @@ public class Visitor extends JuliarBaseVisitor<Node>
         return node;
     }
 
+    private Node handleBooleanOperatorNode( ParserRuleContext ctx){
+        BooleanOperatorNode booleanOperatorNode = new BooleanOperatorNode();
+        iterateWithTryCatch( ctx, booleanOperatorNode);
+        return booleanOperatorNode;
+    }
+
     @Override
     public Node visitLessthan(JuliarParser.LessthanContext ctx){
-        //if_icmplt
-        return null;
+        return handleBooleanOperatorNode( ctx );
     }
     @Override
 
     public Node visitGreaterthan(JuliarParser.GreaterthanContext ctx){
-        //if_icmpgt
-        return null;
+        return handleBooleanOperatorNode( ctx );
     }
     @Override
 
     public Node visitLessthanorequalto(JuliarParser.LessthanorequaltoContext ctx){
-
-        //if_icmple
-        return null;
+        return handleBooleanOperatorNode( ctx );
     }
+
     @Override
 
     public Node visitGreaterthanorequalto(JuliarParser.GreaterthanorequaltoContext ctx){
-        //if_icmpge
-        return null;
+        return handleBooleanOperatorNode( ctx );
     }
 
     @Override
@@ -388,7 +388,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
     public Node visitRelationalExpression(JuliarParser.RelationalExpressionContext ctx) {
         // TODO implement relational expression
         // TODO Implement relation node
-        IfExprNode n = new IfExprNode();
+        RelationalNode n = new RelationalNode();
         iterateWithTryCatch( ctx , n);
         return n;
     }

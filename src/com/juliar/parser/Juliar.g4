@@ -320,7 +320,7 @@ singleExpression
  | singleExpression ( '*' | '/' | '%' ) singleExpression                  # MultiplicativeExpression
  | singleExpression ( '+' | '-' ) singleExpression                        # AdditiveExpression
  | singleExpression ( '<<' | '>>' | '>>>' ) singleExpression              # BitShiftExpression
- | singleExpression ( '<' | '>' | '<=' | '>=' ) singleExpression          # RelationalExpression
+ | singleExpression ( lessthan | greaterthan | lessthanorequalto | greaterthanorequalto ) singleExpression          # RelationalExpression
  | singleExpression Instanceof singleExpression                           # InstanceofExpression
  | singleExpression In singleExpression                                   # InExpression
  | singleExpression ( '==' | '!=' | '===' | '!==' ) singleExpression      # EqualityExpression
@@ -333,8 +333,9 @@ singleExpression
  | singleExpression '=' expressionSequence                                # AssignmentExpressionEx
  | singleExpression assignmentOperator expressionSequence                 # AssignmentOperatorExpression
  | This                                                                   # ThisExpression
- | identifier                                                             # IdentifierExpression
  | literal                                                                # LiteralExpression
+ | variable                                                               # VariableExpression
+ | functionCall                                                           # FunctionCallExpression
 /*
  | arrayLiteral                                                           # ArrayLiteralExpression
  | objectLiteral                                                          # ObjectLiteralExpression
