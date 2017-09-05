@@ -63,7 +63,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
             //symbolTable.dumpSymbolTable();
         }
         catch(Exception ex){
-            Logger.log(ex);
+            Logger.log( ex.getMessage() );
         }
         return node;
     }
@@ -385,6 +385,15 @@ public class Visitor extends JuliarBaseVisitor<Node>
     }
 
     @Override
+    public Node visitRelationalExpression(JuliarParser.RelationalExpressionContext ctx) {
+        // TODO implement relational expression
+        // TODO Implement relation node
+        IfExprNode n = new IfExprNode();
+        iterateWithTryCatch( ctx , n);
+        return n;
+    }
+
+    @Override
     public Node visitNumericTypes(JuliarParser.NumericTypesContext ctx) {
         return super.visitNumericTypes(ctx);
     }
@@ -548,7 +557,9 @@ public class Visitor extends JuliarBaseVisitor<Node>
             }
         }
 
-        assert parent != null: "the parent node is null";
+        if ( parent == null ) {
+            throw new RuntimeException( String.format( "The user defined variable %s does not have an accessible parent" , variableName ) );
+        }
 
         String className = parent.getUserDefinedVariableTypeName();
 

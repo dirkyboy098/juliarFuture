@@ -11,7 +11,7 @@ function main() = {
     printLine("before do while");
     int x;
 
-    do {
+    if ( x < 3 ) {
         delete 3;
    	    printLine( "foo" );
         node one;
@@ -19,11 +19,11 @@ function main() = {
 	    foo1();
 	    ++x;
 	}
-	while (x < 3)
 
 	printLine( "after do while" );
-    one::data;
-    printLine( "" );
+	node one;
+    one::foo();
+    printLine( "after second foo() call" );
 }
 
 

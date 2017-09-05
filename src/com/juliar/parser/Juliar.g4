@@ -33,7 +33,7 @@ expression
     | breakKeyWord endLine
     | ifExpr
     | whileExpression
-    | doWhile
+    | doWhileExpr
     | primitives endLine
     | functionCall endLine
     | userDefinedTypeFunctionReference endLine
@@ -269,16 +269,16 @@ keywords
     ;
 
 ifExpr
-    : If '(' booleanExpression ')' '{' ( statement )* '}'
+    : If '(' singleExpression ')' '{' ( statement )* '}'
     ;
 
 
 whileExpression
-    : While '(' booleanExpression ')' '{' ( statement)* '}'
+    : While '(' singleExpression ')' '{' ( statement )* '}'
     ;
 
-doWhile
-    : Do '{' (statement)* '}' While '(' singleExpression ')'
+doWhileExpr
+    : Do '{' ( statement )* '}' While '(' singleExpression ')'
     ;
 
 
