@@ -200,9 +200,13 @@ public class Visitor extends JuliarBaseVisitor<Node>
     }
 
     @Override
-
     public Node visitGreaterthanorequalto(JuliarParser.GreaterthanorequaltoContext ctx){
         return handleBooleanOperatorNode( ctx );
+    }
+
+    @Override
+    public Node visitBooleanAndOperator(JuliarParser.BooleanAndOperatorContext ctx) {
+        return super.visitBooleanAndOperator(ctx);
     }
 
     @Override

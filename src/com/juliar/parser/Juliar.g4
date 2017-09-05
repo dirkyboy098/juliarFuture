@@ -221,6 +221,7 @@ comparisonOperator
     | lessthanorequalto
     | greaterthanorequalto
     | threeway
+    | booleanAndOperator
     ;
 
 equalequal: '==';
@@ -229,6 +230,7 @@ greaterthan: '>';
 lessthanorequalto: '<=' ;
 greaterthanorequalto: '>=' ;
 threeway: '<=>';
+booleanAndOperator: '&&';
 
 Break      : 'break';
 Do         : 'do';
@@ -320,17 +322,22 @@ singleExpression
  | singleExpression ( '*' | '/' | '%' ) singleExpression                  # MultiplicativeExpression
  | singleExpression ( '+' | '-' ) singleExpression                        # AdditiveExpression
  | singleExpression ( '<<' | '>>' | '>>>' ) singleExpression              # BitShiftExpression
- | singleExpression ( lessthan | greaterthan | lessthanorequalto | greaterthanorequalto ) singleExpression          # RelationalExpression
+ | singleExpression
+    ( lessthan |
+      greaterthan |
+      lessthanorequalto |
+      greaterthanorequalto
+    ) singleExpression                                                    # RelationalExpression
  | singleExpression Instanceof singleExpression                           # InstanceofExpression
  | singleExpression In singleExpression                                   # InExpression
  | singleExpression ( '==' | '!=' | '===' | '!==' ) singleExpression      # EqualityExpression
  | singleExpression '&' singleExpression                                  # BitAndExpression
  | singleExpression '^' singleExpression                                  # BitXOrExpression
  | singleExpression '|' singleExpression                                  # BitOrExpression
- | singleExpression '&&' singleExpression                                 # LogicalAndExpression
+ | singleExpression booleanAndOperator singleExpression                   # LogicalAndExpression
  | singleExpression '||' singleExpression                                 # LogicalOrExpression
  | singleExpression '?' singleExpression ':' singleExpression             # TernaryExpression
- | singleExpression '=' expressionSequence                                # AssignmentExpressionEx
+ | singleExpression assignmentOperator expressionSequence                 # AssignmentExpressionEx
  | singleExpression assignmentOperator expressionSequence                 # AssignmentOperatorExpression
  | This                                                                   # ThisExpression
  | literal                                                                # LiteralExpression
