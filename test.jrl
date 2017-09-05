@@ -9,6 +9,7 @@ class node = {
 function main() = {
 
     printLine("before do while");
+    int x;
 
     do {
         delete 3;
@@ -16,8 +17,9 @@ function main() = {
         node one;
 	    one::foo();
 	    foo1();
+	    ++x;
 	}
-	while (true)
+	while (x < 3)
 
 	printLine( "after do while" );
     one::data;
