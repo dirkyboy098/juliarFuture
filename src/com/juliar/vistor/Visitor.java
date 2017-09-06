@@ -395,11 +395,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
     @Override
     public Node visitRelationalExpression(JuliarParser.RelationalExpressionContext ctx) {
-        // TODO implement relational expression
-        // TODO Implement relation node
-        RelationalNode n = new RelationalNode();
-        iterateWithTryCatch( ctx , n);
-        return n;
+        return iterateWithTryCatch( ctx , new RelationalNode());
     }
 
     @Override

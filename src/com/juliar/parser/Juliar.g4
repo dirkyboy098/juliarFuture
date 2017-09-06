@@ -222,15 +222,35 @@ comparisonOperator
     | greaterthanorequalto
     | threeway
     | booleanAndOperator
+    | booleanOrOperator
+    | notOperator
+    | bitWiseOperators
     ;
 
-equalequal: '==';
-lessthan: '<';
-greaterthan: '>';
-lessthanorequalto: '<=' ;
+bitWiseOperators
+    : bitAnd
+    | bitOr
+    | bitXor
+    | bitNot
+    | bitLeftShift
+    | bitRigthShift
+    ;
+
+equalequal          : '==' ;
+lessthan            : '<'  ;
+greaterthan         : '>'  ;
+lessthanorequalto   : '<=' ;
 greaterthanorequalto: '>=' ;
-threeway: '<=>';
-booleanAndOperator: '&&';
+threeway            : '<=>';
+booleanAndOperator  : '&&' ;
+booleanOrOperator   : '||' ;
+notOperator         : '!'  ;
+bitAnd              : '&'  ;
+bitOr               : '|'  ;
+bitXor              : '^'  ;
+bitNot              : '~'  ;
+bitLeftShift        : '<<' ;
+bitRigthShift       : '>>' ;
 
 Break      : 'break';
 Do         : 'do';
@@ -318,10 +338,10 @@ singleExpression
  | '+' singleExpression                                                   # UnaryPlusExpression
  | '-' singleExpression                                                   # UnaryMinusExpression
  | '~' singleExpression                                                   # BitNotExpression
- | '!' singleExpression                                                   # NotExpression
+ | notOperator singleExpression                                           # NotExpression
  | singleExpression ( '*' | '/' | '%' ) singleExpression                  # MultiplicativeExpression
  | singleExpression ( '+' | '-' ) singleExpression                        # AdditiveExpression
- | singleExpression ( '<<' | '>>' | '>>>' ) singleExpression              # BitShiftExpression
+ | singleExpression ( bitLeftShift | bitRigthShift ) singleExpression     # BitShiftExpression
  | singleExpression
     ( lessthan |
       greaterthan |
@@ -331,13 +351,12 @@ singleExpression
  | singleExpression Instanceof singleExpression                           # InstanceofExpression
  | singleExpression In singleExpression                                   # InExpression
  | singleExpression ( '==' | '!=' | '===' | '!==' ) singleExpression      # EqualityExpression
- | singleExpression '&' singleExpression                                  # BitAndExpression
- | singleExpression '^' singleExpression                                  # BitXOrExpression
- | singleExpression '|' singleExpression                                  # BitOrExpression
+ | singleExpression bitAnd singleExpression                               # BitAndExpression
+ | singleExpression bitNot singleExpression                               # BitXOrExpression
+ | singleExpression bitOr singleExpression                                # BitOrExpression
  | singleExpression booleanAndOperator singleExpression                   # LogicalAndExpression
- | singleExpression '||' singleExpression                                 # LogicalOrExpression
+ | singleExpression booleanOrOperator singleExpression                    # LogicalOrExpression
  | singleExpression '?' singleExpression ':' singleExpression             # TernaryExpression
- | singleExpression assignmentOperator expressionSequence                 # AssignmentExpressionEx
  | singleExpression assignmentOperator expressionSequence                 # AssignmentOperatorExpression
  | This                                                                   # ThisExpression
  | literal                                                                # LiteralExpression
