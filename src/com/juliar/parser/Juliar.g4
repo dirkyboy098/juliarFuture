@@ -220,10 +220,7 @@ comparisonOperator
     | greaterthan
     | lessthanorequalto
     | greaterthanorequalto
-    ;
-
-logicalBooleanOperators
-    : booleanAndOperator
+    | booleanAndOperator
     | booleanOrOperator
     | notOperator
     ;
@@ -339,7 +336,6 @@ singleExpression
  | singleExpression ( '+' | '-' ) singleExpression                        # AdditiveExpression
  | singleExpression comparisonOperator singleExpression                   # EqualityExpression
  | singleExpression bitWiseOperators singleExpression                     # BitAndExpression
- | singleExpression logicalBooleanOperators singleExpression              # LogicalAndExpression
  | singleExpression ( bitLeftShift | bitRigthShift ) singleExpression     # BitShiftExpression
  | singleExpression Instanceof singleExpression                           # InstanceofExpression
  | singleExpression In singleExpression                                   # InExpression

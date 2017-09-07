@@ -185,6 +185,11 @@ public class Visitor extends JuliarBaseVisitor<Node>
     }
 
     @Override
+    public Node visitEqualityExpression(JuliarParser.EqualityExpressionContext ctx) {
+        return handleBooleanOperatorNode( ctx );
+    }
+
+    @Override
     public Node visitLessthan(JuliarParser.LessthanContext ctx){
         return handleBooleanOperatorNode( ctx );
     }
@@ -372,10 +377,12 @@ public class Visitor extends JuliarBaseVisitor<Node>
         return node;
     }
 
+    /*
     @Override
     public Node visitLogicalAndExpression(JuliarParser.LogicalAndExpressionContext ctx) {
         return handleBooleanOperatorNode( ctx );
     }
+    */
 
     @Override
     public Node visitIfExpr(JuliarParser.IfExprContext ctx) {
@@ -388,11 +395,13 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
         return node;
     }
+    /*
 
     @Override
     public Node visitLogicalBooleanOperators(JuliarParser.LogicalBooleanOperatorsContext ctx) {
         return handleBooleanOperatorNode( ctx );
     }
+    */
 
     @Override
     public Node visitComparisonOperator(JuliarParser.ComparisonOperatorContext ctx) {
