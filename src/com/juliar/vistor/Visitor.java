@@ -377,6 +377,11 @@ public class Visitor extends JuliarBaseVisitor<Node>
     }
 
     @Override
+    public Node visitLogicalAndExpression(JuliarParser.LogicalAndExpressionContext ctx) {
+        return handleBooleanOperatorNode( ctx );
+    }
+
+    @Override
     public Node visitIfExpr(JuliarParser.IfExprContext ctx) {
         IfExprNode node = new IfExprNode();
         symbolTable.addLevel( "if" + "_" + ifDeclCount++ );
@@ -415,14 +420,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
         return new EqualSignNode();
     }
 
-    @Override
-    public Node visitComparisonOperator(JuliarParser.ComparisonOperatorContext ctx) {
-        BooleanOperatorNode booleanOperatorNode = new BooleanOperatorNode();
-        new IterateOverContext(ctx, this, booleanOperatorNode);
-        return booleanOperatorNode;
-    }
-
-    @Override
+       @Override
     public Node visitExpression(JuliarParser.ExpressionContext ctx) {
         ExpressionNode node = new ExpressionNode();
         new IterateOverContext(ctx, this , node);

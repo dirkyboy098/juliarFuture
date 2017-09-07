@@ -11,7 +11,7 @@ function main() = {
     printLine("before do while");
     int x;
 
-    if ( x < foo1() && !foo1() ) {
+    if ( !foo1() ) {
         delete 3;
    	    printLine( "foo" );
         node one;

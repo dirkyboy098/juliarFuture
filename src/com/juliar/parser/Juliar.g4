@@ -220,11 +220,12 @@ comparisonOperator
     | greaterthan
     | lessthanorequalto
     | greaterthanorequalto
-    | threeway
-    | booleanAndOperator
+    ;
+
+logicalBooleanOperators
+    : booleanAndOperator
     | booleanOrOperator
     | notOperator
-    | bitWiseOperators
     ;
 
 bitWiseOperators
@@ -350,12 +351,11 @@ singleExpression
     ) singleExpression                                                    # RelationalExpression
  | singleExpression Instanceof singleExpression                           # InstanceofExpression
  | singleExpression In singleExpression                                   # InExpression
- | singleExpression ( '==' | '!=' | '===' | '!==' ) singleExpression      # EqualityExpression
+ | singleExpression comparisonOperator singleExpression               # EqualityExpression
  | singleExpression bitAnd singleExpression                               # BitAndExpression
  | singleExpression bitNot singleExpression                               # BitXOrExpression
  | singleExpression bitOr singleExpression                                # BitOrExpression
- | singleExpression booleanAndOperator singleExpression                   # LogicalAndExpression
- | singleExpression booleanOrOperator singleExpression                    # LogicalOrExpression
+ | singleExpression logicalBooleanOperators singleExpression              # LogicalAndExpression
  | singleExpression '?' singleExpression ':' singleExpression             # TernaryExpression
  | singleExpression assignmentOperator expressionSequence                 # AssignmentOperatorExpression
  | This                                                                   # ThisExpression
