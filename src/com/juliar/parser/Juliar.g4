@@ -242,7 +242,6 @@ lessthan            : '<'  ;
 greaterthan         : '>'  ;
 lessthanorequalto   : '<=' ;
 greaterthanorequalto: '>=' ;
-threeway            : '<=>';
 booleanAndOperator  : '&&' ;
 booleanOrOperator   : '||' ;
 notOperator         : '!'  ;
@@ -292,16 +291,16 @@ keywords
     ;
 
 ifExpr
-    : If '(' singleExpression ')' '{' ( statement )* '}'
+    : If '(' ( singleExpression )+ ')' '{' ( statement )* '}'
     ;
 
 
 whileExpression
-    : While '(' singleExpression ')' '{' ( statement )* '}'
+    : While '(' ( singleExpression )+ ')' '{' ( statement )* '}'
     ;
 
 doWhileExpr
-    : Do '{' ( statement )* '}' While '(' singleExpression ')'
+    : Do '{' ( statement )* '}' While '(' ( singleExpression )+ ')'
     ;
 
 
@@ -316,10 +315,6 @@ expressionSequence
  identifierName :
      ID
      ;
-
-  identifier :
-    ID
-    ;
 
 singleExpression
  /*
@@ -342,32 +337,36 @@ singleExpression
  | notOperator singleExpression                                           # NotExpression
  | singleExpression ( '*' | '/' | '%' ) singleExpression                  # MultiplicativeExpression
  | singleExpression ( '+' | '-' ) singleExpression                        # AdditiveExpression
+ | singleExpression comparisonOperator singleExpression                   # EqualityExpression
+ | singleExpression bitWiseOperators singleExpression                     # BitAndExpression
+ | singleExpression logicalBooleanOperators singleExpression              # LogicalAndExpression
  | singleExpression ( bitLeftShift | bitRigthShift ) singleExpression     # BitShiftExpression
- | singleExpression
-    ( lessthan |
-      greaterthan |
-      lessthanorequalto |
-      greaterthanorequalto
-    ) singleExpression                                                    # RelationalExpression
  | singleExpression Instanceof singleExpression                           # InstanceofExpression
  | singleExpression In singleExpression                                   # InExpression
- | singleExpression comparisonOperator singleExpression               # EqualityExpression
- | singleExpression bitAnd singleExpression                               # BitAndExpression
- | singleExpression bitNot singleExpression                               # BitXOrExpression
- | singleExpression bitOr singleExpression                                # BitOrExpression
- | singleExpression logicalBooleanOperators singleExpression              # LogicalAndExpression
  | singleExpression '?' singleExpression ':' singleExpression             # TernaryExpression
  | singleExpression assignmentOperator expressionSequence                 # AssignmentOperatorExpression
  | This                                                                   # ThisExpression
  | literal                                                                # LiteralExpression
  | variable                                                               # VariableExpression
  | functionCall                                                           # FunctionCallExpression
+ | '(' expressionSequence ')'                                             # ParenthesizedExpression
+ ;
+/*
+
+*/
+/*
+ | singleExpression
+    ( lessthan |
+      greaterthan |
+      lessthanorequalto |
+      greaterthanorequalto
+    ) singleExpression                                                    # RelationalExpression
+*/
 /*
  | arrayLiteral                                                           # ArrayLiteralExpression
  | objectLiteral                                                          # ObjectLiteralExpression
  */
- | '(' expressionSequence ')'                                             # ParenthesizedExpression
- ;
+
 
 assignmentOperator
  : '*='

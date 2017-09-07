@@ -209,10 +209,6 @@ public class Visitor extends JuliarBaseVisitor<Node>
         return super.visitBooleanAndOperator(ctx);
     }
 
-    @Override
-    public Node visitThreeway(JuliarParser.ThreewayContext ctx){
-        return null;
-    }
 
     @Override
     public Node visitModulo(JuliarParser.ModuloContext ctx) {
@@ -394,13 +390,19 @@ public class Visitor extends JuliarBaseVisitor<Node>
     }
 
     @Override
-    public Node visitNotExpression(JuliarParser.NotExpressionContext ctx) {
+    public Node visitLogicalBooleanOperators(JuliarParser.LogicalBooleanOperatorsContext ctx) {
         return handleBooleanOperatorNode( ctx );
     }
 
     @Override
-    public Node visitRelationalExpression(JuliarParser.RelationalExpressionContext ctx) {
-        return iterateWithTryCatch( ctx , new RelationalNode());
+    public Node visitComparisonOperator(JuliarParser.ComparisonOperatorContext ctx) {
+        return handleBooleanOperatorNode( ctx );
+    }
+
+
+    @Override
+    public Node visitNotOperator(JuliarParser.NotOperatorContext ctx) {
+        return handleBooleanOperatorNode( ctx );
     }
 
     @Override
@@ -669,10 +671,12 @@ public class Visitor extends JuliarBaseVisitor<Node>
         return super.visitDeleteExpression(ctx);
     }
 
+/*
     @Override
     public Node visitLogicalOrExpression(JuliarParser.LogicalOrExpressionContext ctx) {
         return super.visitLogicalOrExpression(ctx);
     }
+*/
 
     @Override
     public Node visitUserDefinedTypeVariableDecl(JuliarParser.UserDefinedTypeVariableDeclContext ctx) {
