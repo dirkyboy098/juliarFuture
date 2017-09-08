@@ -171,14 +171,14 @@ public class Visitor extends JuliarBaseVisitor<Node>
         return node;
     }
 
-    /*
+
     @Override
     public Node visitEqualequal(JuliarParser.EqualequalContext ctx){
         EqualEqualSignNode node = new EqualEqualSignNode();
-        //new IterateOverContext(ctx, this, node);
+        new IterateOverContext(ctx, this, node);
         return node;
     }
-    */
+
 
     private Node handleBooleanOperatorNode( ParserRuleContext ctx){
         BooleanOperatorNode booleanOperatorNode = new BooleanOperatorNode();
@@ -186,10 +186,13 @@ public class Visitor extends JuliarBaseVisitor<Node>
         return booleanOperatorNode;
     }
 
+    /*
     @Override
     public Node visitEqualityExpression(JuliarParser.EqualityExpressionContext ctx) {
+        new IterateOverContext(ctx , this , node );
         return new EqualEqualSignNode();
     }
+    */
 
     @Override
     public Node visitLessthan(JuliarParser.LessthanContext ctx){
