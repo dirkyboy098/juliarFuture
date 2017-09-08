@@ -38,7 +38,7 @@
             <TreeView fx:id="folderTree" />
         </StackPane>
         <VBox HBox.hgrow="ALWAYS">
-            <TabPane fx:id="tabPane" maxWidth="Infinity" prefHeight="549.0" tabClosingPolicy="SELECTED_TAB" HBox.hgrow="ALWAYS" />
+            <TabPane fx:id="tabPane" maxWidth="Infinity" prefHeight="549.0" HBox.hgrow="ALWAYS" />
             <AnchorPane prefHeight="306.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0">
                 <TabPane fx:id="tabPaneOut" maxWidth="Infinity" maxHeight="Infinity" prefHeight="250.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <Tab text="Output">

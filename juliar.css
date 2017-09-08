@@ -204,7 +204,7 @@
 .dialog-pane .header-panel {
     -fx-background-color: #353d4f;
 }
-.dialog-pane:header .header-panel .label {
+.dialog-pane .header-panel .label {
     -fx-text-fill: white;
     -fx-font-size: 24px;
 }
@@ -246,8 +246,7 @@
     -fx-text-fill: white;
     -fx-background-color: #737f97;
 }
-.tree-cell:expanded,
-.tree-cell:sub-tree-item {
+.tree-cell:expanded{
     -fx-background-color: #232733;
 }
 .tree-cell > .tree-disclosure-node > .arrow {

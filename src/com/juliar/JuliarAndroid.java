@@ -15,22 +15,18 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
 
 public class JuliarAndroid {
     private static ErrorListener errors;
     public static void main(String[] args) {
-        JuliarAndroid compiler = new JuliarAndroid();
         try {
-            compiler.compile(args[0], "",false);
-            //System.out.println(args[0]);
+            compile(args[0]);
         } catch(Exception e) {
-            e.printStackTrace();
+            Logger.log("Something went wrong");
         }
     }
 
-    public List<String> compile(String s, String outputfile, boolean compilerFlag) {
+    private static void compile(String s) {
         InputStream b = new ByteArrayInputStream(s.getBytes(StandardCharsets.UTF_8));
         try {
             SymbolTable.clearSymbolTable();
@@ -42,29 +38,25 @@ public class JuliarAndroid {
             // call parse statement.
             // This will parse a single line to validate the syntax
 
-            if (excuteCompiler(outputfile, compilerFlag, parser)) {
-                return errors.errorList();
+            if (excuteCompiler(parser)) {
+                errors.errorList();
             }
-
 
         } catch (Exception ex) {
             Logger.log(ex.getMessage());
         }
-
-        return new ArrayList<>();
     }
 
     /*
     Will execute the compiler or the interpreter.
      */
-    private boolean excuteCompiler(String outputfile, boolean compilerFlag, JuliarParser parser) throws IOException {
+    private static boolean excuteCompiler(JuliarParser parser) throws IOException {
         // Calls the parse CompileUnit method
         // to parse a complete program
         // then calls the code generator.
 
         JuliarParser.CompileUnitContext context = parser.compileUnit();
-        Visitor visitor = new Visitor((imports, linesToSkip) -> {
-        }, true);
+        Visitor visitor = new Visitor((imports, linesToSkip) -> {}, true);
         visitor.visit(context);
 
         if (!errors.errorList().isEmpty() || !visitor.getErrorList().isEmpty()) {
@@ -84,16 +76,13 @@ public class JuliarAndroid {
 
 
 
-    private JuliarParser parse(InputStream b) throws IOException {
+    private static JuliarParser parse(InputStream b) throws IOException {
         JuliarParser parser;
         CharStream s = CharStreams.fromStream(b);
-
         JuliarLexer lexer = new JuliarLexer(s);
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
         parser = new JuliarParser(tokenStream);
-
         parser.removeErrorListeners();
-
         return parser;
     }
 }

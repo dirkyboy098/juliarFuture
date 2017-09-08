@@ -148,7 +148,7 @@ public class Controller {
         });
     }
 
-    public void folderRoot(TreeItem<String> myRootItem){
+    private void folderRoot(TreeItem<String> myRootItem){
         folderTree.setRoot(myRootItem);
         folderTree.setOnMouseClicked((MouseEvent click) -> {
             if (click.getButton() == MouseButton.PRIMARY && click.getClickCount() == 2) {
@@ -230,7 +230,8 @@ public class Controller {
     private void closetab(){
         int myid = jrlID;
         if(jrltabs.get(myid).isEdited()){
-            if (CloseConfirm.close().get() == ButtonType.OK){
+            Optional<ButtonType> closed = CloseConfirm.close();
+            if (closed.isPresent() && closed.get() == ButtonType.OK){
                 tabPane.getTabs().remove(jrltabs.get(myid).getJrlTab());
                 jrltabs.remove(myid);
             }
@@ -311,7 +312,7 @@ public class Controller {
         File choice = dc.showDialog(null);
         if(! choice.isDirectory()) {
             new GuiAlert(new Exception("The file is Invalid"),"Could not open directory.");
-        } else if(choice != null) {
+        } else {
             rootFolder = choice.getPath();
             rootFolder = rootFolder.substring(0,rootFolder.lastIndexOf(File.separator));
             folderTree.setRoot(getNodesForDirectory(choice));
@@ -325,7 +326,7 @@ public class Controller {
                 if (f.isDirectory()) { //Then we call the function recursively
                     root.getChildren().add(getNodesForDirectory(f));
                 } else {
-                    root.getChildren().add(new TreeItem<String>(f.getName()));
+                    root.getChildren().add(new TreeItem<>(f.getName()));
                 }
             }
         }
@@ -356,7 +357,8 @@ public class Controller {
         tab.setOnCloseRequest(e -> {
             int myid = jrlID;
             if(jrltabs.get(myid).isEdited()){
-                if (CloseConfirm.close().get() == ButtonType.OK){
+                Optional<ButtonType> closed = CloseConfirm.close();
+                if (closed.isPresent() && closed.get() == ButtonType.OK){
                     tabPane.getTabs().remove(jrltabs.get(myid).getJrlTab());
                     jrltabs.remove(myid);
                 }

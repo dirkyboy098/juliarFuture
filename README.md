@@ -1,10 +1,10 @@
 # juliar.Future
-[![jfanimated](https://cloud.githubusercontent.com/assets/11934545/22674649/0b2d5d68-ecaf-11e6-9141-40ac1aefaa16.gif)](https://www.juliar.org/)
+[![juliarFutureLogo](https://cloud.githubusercontent.com/assets/11934545/22674649/0b2d5d68-ecaf-11e6-9141-40ac1aefaa16.gif)](https://juliar.org/)
 
-[![version](https://img.shields.io/badge/version-0.0.1-green.svg)](https://juliar.org/downloads.php)
+[![Version](https://img.shields.io/badge/version-0.0.1-green.svg)](https://juliar.org/downloads.php)
 [![Build Status](https://travis-ci.org/juliarLang/juliarFuture.svg?branch=master)](https://travis-ci.org/juliarLang/juliarFuture)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9a508bdddb8747bf9ed8e39bddfb10f2)](https://www.codacy.com/app/TheAndreiM/juliarFuture?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=juliarLang/juliarFuture&amp;utm_campaign=Badge_Grade)
-[![codebeat badge](https://codebeat.co/badges/4bdc346c-d5b6-41df-b491-9361caba6094)](https://codebeat.co/projects/github-com-juliarlang-juliarfuture-master)
+[![CodeBeat badge](https://codebeat.co/badges/4bdc346c-d5b6-41df-b491-9361caba6094)](https://codebeat.co/projects/github-com-juliarlang-juliarfuture-master)
 
 Juliar.Future is a programming language that is compiled directly into Java bytecode and can run in any JRE.
 The aim of Juliar is to provide an easy to use compact system to create programs fast and run them on any system.
