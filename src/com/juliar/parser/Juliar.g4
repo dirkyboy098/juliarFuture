@@ -334,7 +334,7 @@ singleExpression
  | notOperator singleExpression                                           # NotExpression
  | singleExpression ( '*' | '/' | '%' ) singleExpression                  # MultiplicativeExpression
  | singleExpression ( '+' | '-' ) singleExpression                        # AdditiveExpression
- | singleExpression comparisonOperator singleExpression                   # EqualityExpression
+ | singleExpression equalequal singleExpression                           # EqualityExpression
  | singleExpression bitWiseOperators singleExpression                     # BitAndExpression
  | singleExpression ( bitLeftShift | bitRigthShift ) singleExpression     # BitShiftExpression
  | singleExpression Instanceof singleExpression                           # InstanceofExpression
