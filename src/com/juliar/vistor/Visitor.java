@@ -28,8 +28,8 @@ public class Visitor extends JuliarBaseVisitor<Node>
     private static int classDeclCount = 0;
     private List<Node> instructionList = new ArrayList<>();
     private HashMap<String, Node> functionNodeMap = new HashMap<>();
-    private Deque<Node> funcContextStack = new LinkedList<>();
-    private Deque<String> callStack = new LinkedList<>();
+    private Stack<Node> funcContextStack = new Stack<>();
+    private Stack<String> callStack = new Stack<>();
     private SymbolTable symbolTable = SymbolTable.createSymbolTable( this );
     private ImportsInterface importsInterfaceCallback;
     private List<String> errorList = new ArrayList<>();
