@@ -2,8 +2,6 @@ package com.juliar.interpreter;
 
 import com.juliar.errors.Logger;
 import com.juliar.nodes.*;
-import com.sun.istack.internal.FinalArrayList;
-
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +13,7 @@ import static com.juliar.pal.Primitives.*;
  * Created by donreamey on 3/28/17.
  */
 class EvaluatePrimitives {
-    private static List<String> primitiveFunctions = new ArrayList<String>(Arrays.asList("print" , "__getByteFromString" , "printLine", "availableMemory","sysExec", "fileOpen"));
+    private static List<String> primitiveFunctions = new ArrayList<>(Arrays.asList("print", "__getByteFromString", "printLine", "availableMemory", "sysExec", "fileOpen"));
     private EvaluatePrimitives(){
 
     }
