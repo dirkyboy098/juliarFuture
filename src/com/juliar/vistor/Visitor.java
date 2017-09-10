@@ -172,126 +172,15 @@ public class Visitor extends JuliarBaseVisitor<Node>
     }
 
 
-    @Override
-    public Node visitEqualequal(JuliarParser.EqualequalContext ctx){
-        EqualEqualSignNode node = new EqualEqualSignNode();
-        new IterateOverContext(ctx, this, node);
-        return node;
-    }
-
-
     private Node handleBooleanOperatorNode( ParserRuleContext ctx){
         BooleanOperatorNode booleanOperatorNode = new BooleanOperatorNode();
         iterateWithTryCatch( ctx, booleanOperatorNode);
         return booleanOperatorNode;
     }
 
-    /*
     @Override
     public Node visitEqualityExpression(JuliarParser.EqualityExpressionContext ctx) {
-        new IterateOverContext(ctx , this , node );
-        return new EqualEqualSignNode();
-    }
-    */
-
-    @Override
-    public Node visitLessthan(JuliarParser.LessthanContext ctx){
-        return handleBooleanOperatorNode( ctx );
-    }
-    @Override
-
-    public Node visitGreaterthan(JuliarParser.GreaterthanContext ctx){
-        return handleBooleanOperatorNode( ctx );
-    }
-    @Override
-
-    public Node visitLessthanorequalto(JuliarParser.LessthanorequaltoContext ctx){
-        return handleBooleanOperatorNode( ctx );
-    }
-
-    @Override
-    public Node visitGreaterthanorequalto(JuliarParser.GreaterthanorequaltoContext ctx){
-        return handleBooleanOperatorNode( ctx );
-    }
-
-    @Override
-    public Node visitBooleanAndOperator(JuliarParser.BooleanAndOperatorContext ctx) {
-        return super.visitBooleanAndOperator(ctx);
-    }
-
-
-    @Override
-    public Node visitModulo(JuliarParser.ModuloContext ctx) {
-
-        String text = ctx.moduli().getText();
-        if ("modulo".equals(text) || "%".equals(text)){
-            if (ctx.types().size() == 2) {
-                BinaryNode node = new BinaryNode();
-                try {
-                    instructionList.add(node.makeNode(
-                            Operation.modulo,
-                            ctx.types(0).accept(this),
-                            ctx.types(1).accept(this)));
-                }catch( Exception ex){
-                    Logger.log(ex.getMessage(),ex);
-                }
-            }
-
-            if (ctx.types().size() > 2){
-                List<IntegralTypeNode> data = new ArrayList<>();
-
-                for ( int i = 0; i< ctx.types().size(); i++) {
-                    data.add((IntegralTypeNode) ctx.types(i).accept(this));
-                }
-                AggregateNode aggregateNode = new AggregateNode(Operation.modulo, data);
-
-                instructionList.add( aggregateNode );
-            }
-        }
-
-        return null;
-    }
-
-    @Override
-    public Node visitDivide(JuliarParser.DivideContext ctx) {
-
-        String text = ctx.division().getText();
-        if ("divide".equals(text) || "/".equals(text)){
-            if (ctx.types().size() == 2) {
-                BinaryNode node = new BinaryNode();
-                try {
-                    if (!funcContextStack.empty()) {
-                        FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
-                        functionDeclNode.addInst(node.makeNode(
-                                Operation.divide,
-                                ctx.types(0).accept(this),
-                                ctx.types(1).accept(this)));
-                    }
-                }catch( Exception ex){
-                    Logger.log(ex.getMessage(),ex);
-                }
-            }
-
-            if (ctx.types().size() > 2){
-                List<IntegralTypeNode> data = new ArrayList<>();
-
-                for ( int i = 0; i< ctx.types().size(); i++) {
-                    data.add((IntegralTypeNode) ctx.types(i).accept(this));
-                }
-                AggregateNode aggregateNode = new AggregateNode(Operation.divide, data);
-
-                FunctionDeclNode functionDeclNode = (FunctionDeclNode) funcContextStack.peek();
-                functionDeclNode.addInst( aggregateNode );
-            }
-        }
-
-        return null;
-    }
-
-    @Override
-    public Node visitMultiply(JuliarParser.MultiplyContext ctx) {
-        MulitiplyNode node = new MulitiplyNode();
-        iterateWrapper( ctx, this, node);
+        Node node = handleBooleanOperatorNode( ctx );
         return node;
     }
 
@@ -329,6 +218,28 @@ public class Visitor extends JuliarBaseVisitor<Node>
     @Override
     public Node visitBreakKeyWord(JuliarParser.BreakKeyWordContext ctx) {
         return iterateWrapper( ctx, this, new BreakExprNode());
+    }
+
+    /*
+    @Override
+    public Node visitAssignmentOperatorExpression(JuliarParser.AssignmentOperatorExpressionContext ctx) {
+        return super.visitAssignmentOperatorExpression(ctx);
+    }
+    */
+
+    @Override
+    public Node visitVariableDeclarationExpression(JuliarParser.VariableDeclarationExpressionContext ctx) {
+        return super.visitVariableDeclarationExpression(ctx);
+    }
+
+    @Override
+    public Node visitVariableExpression(JuliarParser.VariableExpressionContext ctx) {
+        return super.visitVariableExpression(ctx);
+    }
+
+    @Override
+    public Node visitAssignmentOperator(JuliarParser.AssignmentOperatorContext ctx) {
+        return super.visitAssignmentOperator(ctx);
     }
 
     @Override
@@ -408,10 +319,12 @@ public class Visitor extends JuliarBaseVisitor<Node>
     }
     */
 
+    /*
     @Override
     public Node visitComparisonOperator(JuliarParser.ComparisonOperatorContext ctx) {
         return handleBooleanOperatorNode( ctx );
     }
+    */
 
 
     @Override

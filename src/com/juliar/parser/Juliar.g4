@@ -14,7 +14,7 @@ classifications
     ;
 
 statement
-    : (expression)
+    : ( expression )
 	;
 
 endLine
@@ -26,11 +26,12 @@ semiColon
     ;
 
 expression
-    : variableDeclaration endLine
-    | assignmentExpression endLine
-    | reassignmentExpression endLine
-    | booleanExpression endLine
-    | breakKeyWord endLine
+    : singleExpression endLine
+//    | variableDeclaration endLine
+//    | assignmentExpression endLine
+//    | reassignmentExpression endLine
+//    | booleanExpression endLine
+//    | breakKeyWord endLine
     | ifExpr
     | whileExpression
     | doWhileExpr
@@ -39,18 +40,7 @@ expression
     | userDefinedTypeFunctionReference endLine
     | userDefinedTypeVariableReference endLine
     | returnValue endLine
-    | expressionSequence endLine
     ;
-
-assignmentExpression
-    : variableDeclaration equalsign ( command | variable | functionCall | primitiveTypes | booleanExpression | userDefinedTypeVariableReference | userDefinedTypeVariableReference)
-    | userDefinedTypeVariableReference equalsign ( variable | primitiveTypes)
-	;
-
-reassignmentExpression
-    : variable equalsign ( variable | functionCall | primitiveTypes | command |  userDefinedTypeVariableReference | userDefinedTypeFunctionReference )
-    ;
-
 
 functionCall
     : funcName '()'
@@ -334,19 +324,30 @@ singleExpression
  | notOperator singleExpression                                           # NotExpression
  | singleExpression ( '*' | '/' | '%' ) singleExpression                  # MultiplicativeExpression
  | singleExpression ( '+' | '-' ) singleExpression                        # AdditiveExpression
- | singleExpression equalequal singleExpression                           # EqualityExpression
+ | singleExpression comparisonOperator singleExpression                   # EqualityExpression
  | singleExpression bitWiseOperators singleExpression                     # BitAndExpression
  | singleExpression ( bitLeftShift | bitRigthShift ) singleExpression     # BitShiftExpression
  | singleExpression Instanceof singleExpression                           # InstanceofExpression
  | singleExpression In singleExpression                                   # InExpression
  | singleExpression '?' singleExpression ':' singleExpression             # TernaryExpression
- | singleExpression assignmentOperator expressionSequence                 # AssignmentOperatorExpression
+ | (keywords)? variable ( assignmentOperator singleExpression)*           # VariableDeclarationExpression
+ // | variable assignmentOperator singleExpression                           # AssignmentOperatorExpression
  | This                                                                   # ThisExpression
  | literal                                                                # LiteralExpression
  | variable                                                               # VariableExpression
  | functionCall                                                           # FunctionCallExpression
  | '(' expressionSequence ')'                                             # ParenthesizedExpression
  ;
+
+
+ assignmentExpression
+     : variableDeclaration equalsign ( command | variable | functionCall | primitiveTypes | booleanExpression | userDefinedTypeVariableReference | userDefinedTypeVariableReference)
+     | userDefinedTypeVariableReference equalsign ( variable | primitiveTypes)
+ 	;
+
+ reassignmentExpression
+     : variable equalsign ( variable | functionCall | primitiveTypes | command |  userDefinedTypeVariableReference | userDefinedTypeFunctionReference )
+     ;
 /*
 
 */
@@ -365,7 +366,8 @@ singleExpression
 
 
 assignmentOperator
- : '*='
+ : '='
+ | '*='
  | '/='
  | '%='
  | '+='
@@ -381,6 +383,9 @@ assignmentOperator
  literal
  : ( BOOLEAN | NULL )
  | DecimalLiteral
+ | INT
+ | STRING
+ | StringLiteral
  ;
 
 /*
