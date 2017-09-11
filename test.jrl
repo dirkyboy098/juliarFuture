@@ -1,32 +1,5 @@
-class node = {
-    int data;
-	function foo() = {
-		printLine("called from inside node::foo");
-		availableMemory();
-	}
-}
-
 function main() = {
-
-    printLine("before do while");
     int x;
-
-    if ( x==3 ) {
-        delete 3;
-   	    printLine( "foo" );
-        node one;
-	    one::foo();
-	    foo1();
-	    ++x;
-	}
-
-	printLine( "after do while" );
-	node one;
-    one::foo();
-    printLine( "after second foo() call" );
-}
-
-
-function foo1() = {
-    printLine( "" );
+    int y = 3;
+    y = 6;
 }

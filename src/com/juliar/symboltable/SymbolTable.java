@@ -28,8 +28,7 @@ import java.util.*;
  *    - foo2
  */
 public class SymbolTable {
-    private static final String IDENTIFIERTXT = "identifier";
-    private static final String EXISTTXT = " already exist";
+    private static final String IDENTIFIERTXT = "Identifier %s already exist";
     private HashMap< String, SymbolTableNode> scopeHash = new HashMap<>();
     private static SymbolTable symbolTable;
     private static Deque<String> currentScope = new ArrayDeque<>();
@@ -61,7 +60,7 @@ public class SymbolTable {
         node.levelNode = level;
 
         if (scopeHash.containsKey(level)) {
-            visitor.addError( IDENTIFIERTXT + " " + level + " " + EXISTTXT );
+            visitor.addError( String.format( IDENTIFIERTXT , level ));
         } else {
             currentScope.push(level);
             scopeHash.put(level, node);
@@ -83,7 +82,7 @@ public class SymbolTable {
         }
 
         if (count > 0) {
-            visitor.addError(IDENTIFIERTXT + " " + child.variableName + " " + EXISTTXT);
+            visitor.addError( String.format( IDENTIFIERTXT , child.variableName ) );
             return;
         }
 
@@ -101,7 +100,7 @@ public class SymbolTable {
         }
 
         if (count > 0) {
-            visitor.addError(IDENTIFIERTXT + " " + child.getTypeName() + " " + EXISTTXT);
+            visitor.addError( String.format( IDENTIFIERTXT , child.getTypeName() ));
             return;
         }
 

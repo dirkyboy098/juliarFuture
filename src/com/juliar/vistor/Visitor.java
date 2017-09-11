@@ -229,17 +229,13 @@ public class Visitor extends JuliarBaseVisitor<Node>
 
     @Override
     public Node visitVariableDeclarationExpression(JuliarParser.VariableDeclarationExpressionContext ctx) {
-        return super.visitVariableDeclarationExpression(ctx);
+        VariableDeclarationNode node = new VariableDeclarationNode();
+        return iterateWrapper( ctx, this , node);
     }
 
     @Override
     public Node visitVariableExpression(JuliarParser.VariableExpressionContext ctx) {
         return super.visitVariableExpression(ctx);
-    }
-
-    @Override
-    public Node visitAssignmentOperator(JuliarParser.AssignmentOperatorContext ctx) {
-        return super.visitAssignmentOperator(ctx);
     }
 
     @Override
