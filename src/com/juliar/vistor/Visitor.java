@@ -220,12 +220,15 @@ public class Visitor extends JuliarBaseVisitor<Node>
         return iterateWrapper( ctx, this, new BreakExprNode());
     }
 
-    /*
     @Override
-    public Node visitAssignmentOperatorExpression(JuliarParser.AssignmentOperatorExpressionContext ctx) {
-        return super.visitAssignmentOperatorExpression(ctx);
+    public Node visitAssignmentOperator(JuliarParser.AssignmentOperatorContext ctx) {
+        return iterateWrapper( ctx, this, new EqualSignNode() );
     }
-    */
+
+    @Override
+    public Node visitLiteral(JuliarParser.LiteralContext ctx) {
+        return iterateWrapper( ctx, this, new LiteralNode() );
+    }
 
     @Override
     public Node visitVariableDeclarationExpression(JuliarParser.VariableDeclarationExpressionContext ctx) {

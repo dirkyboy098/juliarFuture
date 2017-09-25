@@ -23,6 +23,7 @@ public enum NodeType {
     IntegralTypeType,
     KeywordType,
     LineNodeType,
+    LiteralType,
     OperationType,
     PrimitiveType,
     RelationalType,
