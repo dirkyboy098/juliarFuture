@@ -1,17 +1,19 @@
 language: java
 sudo: true
 jdk:
-  - oraclejdk8
-
+- oraclejdk8
 os:
-  - linux
-
+- linux
 before_script:
- - chmod +x BuildEverything.sh
-
-
+- chmod +x BuildEverything.sh
 script:
-  - ./BuildEverything.sh
-
+- "./BuildEverything.sh"
 notifications:
   slack: juliarlang:z7GTm7XhwjuvwIb9oYKvFdWN
+deploy:
+  provider: releases
+  api_key:
+    secure: fSxR02Yw0Yxxi0Px5R2sFAdjvuG6fBBE+InHfo6HIL6nS8SrPwlr9A/XREWX09PIs0/4JJZZTRU7vdz4y19F9moYH2KgodtIUp8Hedseu4f0vSfvhNZ06P+L77g1iBcTsIrlOjbKkcUJHPrc7LbzwddheAUhY4nV5Setps2614f9euwT4Uffi6rqEq3a0bWtKXeu+b1iK6GSctV6of4FkgYVpoYa1an9OF7S0qfFsdqwd1RXd+Ksg4aEYdjXJxNWyRxvSl5N6LbKf25CJt2bEJrRVEmsynxnisrm3X64svV1NrnBx9zEGOj5CQank/4n7FAn987GD9aPJIL/jpR/8GKMN1UHBJUuhjL2sv01uYmH1bsyGjzGRfwR2EHk9uhLnflnsgP0VI8zY6brU/m2gvY0NyFaw66Ti6bhw8nNouT+iOt3MSc6orV1LeE5ZSZgyCDznfyippbqfBiU6ga7tnAiM3ZSMMTJlC4JTyQEdgzJ/ggloJKzxZFrVgkwprg4VUbNwQ3EQxRZ8je1H3AtvvP25YQIlxPzoXDD+7EYi0nU3WlQ7Z6Cd85hnVIRAPZzuQ3CE0vjmCw/Hwb3FcrKb4Ir5Pq1ODEQQ3K1jbu4zkiSBdIylMvxZ/ITftKdUMkIaXOGrKz3aBC886ZNFEzfpLab/bI0KPz/sK1+ZoeOlLw=
+  file: JuliarFuture.jar
+  on:
+    repo: juliarLang/juliarFuture

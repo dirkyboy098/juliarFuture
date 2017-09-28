@@ -1,10 +1,13 @@
 # juliar.Future
 [![juliarFutureLogo](https://cloud.githubusercontent.com/assets/11934545/22674649/0b2d5d68-ecaf-11e6-9141-40ac1aefaa16.gif)](https://juliar.org/)
 
-[![Version](https://img.shields.io/badge/version-0.0.1-green.svg)](https://juliar.org/downloads.php)
-[![Build Status](https://travis-ci.org/juliarLang/juliarFuture.svg?branch=master)](https://travis-ci.org/juliarLang/juliarFuture)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9a508bdddb8747bf9ed8e39bddfb10f2)](https://www.codacy.com/app/TheAndreiM/juliarFuture?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=juliarLang/juliarFuture&amp;utm_campaign=Badge_Grade)
 [![CodeBeat badge](https://codebeat.co/badges/4bdc346c-d5b6-41df-b491-9361caba6094)](https://codebeat.co/projects/github-com-juliarlang-juliarfuture-master)
+[![Code Climate](https://codeclimate.com/github/juliarLang/juliarFuture/badges/gpa.svg)](https://codeclimate.com/github/juliarLang/juliarFuture)
+[![Build Status](https://travis-ci.org/juliarLang/juliarFuture.svg?branch=master)](https://travis-ci.org/juliarLang/juliarFuture)
+
+[![Issue Count](https://codeclimate.com/github/juliarLang/juliarFuture/badges/issue_count.svg)](https://codeclimate.com/github/juliarLang/juliarFuture)
+[![Waffle.io - Issues in progress](https://badge.waffle.io/juliarLang/juliarFuture.svg?label=in%20progress&title=In%20Progress)](http://waffle.io/juliarLang/juliarFuture)
 
 Juliar.Future is a programming language that is compiled directly into Java bytecode and can run in any JRE.
 The aim of Juliar is to provide an easy to use compact system to create programs fast and run them on any system.
@@ -12,7 +15,9 @@ No installation or configuration needed.
 
 ### IDE comes built-in!
 
-![JuliarFuture](https://user-images.githubusercontent.com/11934545/29492056-748cb48a-853d-11e7-94b2-159a32582bc5.png)
+[![JuliarFuture](https://user-images.githubusercontent.com/11934545/30971082-02c7e218-a435-11e7-817a-a4a0e77b13b9.png)](https://juliar.org/downloads.php)
+
+
 
 *If you are using Linux, we suggest that you use Oracle Java instead of OpenJava.
 

@@ -4,7 +4,7 @@
 .menu-bar {
     -fx-font-family: "Montserrat";
     -fx-background-color: #232733;
-    -fx-padding: 0em 0em 0em 0em;
+    -fx-padding: 0 0 0 0;
 }
 .menu:hover {
     -fx-background-color: #737f97;
@@ -54,7 +54,7 @@
     -fx-pref-width: 200px;
     -fx-pref-height: 40px;
     -fx-background-radius: 0;
-    -fx-border-width: 5px 0px 0px 0px;
+    -fx-border-width: 5px 0 0 0;
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
     -fx-background-insets: 0 0 0 0, 0;
@@ -106,12 +106,12 @@
 #areaErrorText {
     -fx-text-fill: #737f97;
     -fx-effect: dropshadow( gaussian, rgba(0, 0, 0, 0.5), 0, 0, 1, 0);
-    -fx-border-width: 0px 0px 0px 0px;
+    -fx-border-width: 0 0 0 0;
     -fx-border-color: #262a38;
 }
 #tabPaneOut .tab-header-area .tab-header-background {
     -fx-background-color: #353d4f;
-    -fx-border-width: 3px 0px 0px 0px;
+    -fx-border-width: 3px 0 0 0;
     -fx-border-color: #262a38;
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
