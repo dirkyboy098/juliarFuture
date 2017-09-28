@@ -122,6 +122,7 @@ class EvaluatePrimitives {
         }
     }
 
+    //TODO clean up how arguments are handled
     private static void printLine(ActivationFrame activationFrame, String functionName, Node argumentNode) {
         FinalNode finalNode = null;
 
@@ -134,13 +135,24 @@ class EvaluatePrimitives {
                 finalNode = (FinalNode) primitiveNode.getInstructions().get(0);
             }
 
-            if (variable instanceof IntegralTypeNode) finalNode = (FinalNode) ((IntegralTypeNode) variable).getInstructions().get(0);
-            if (variable instanceof BooleanNode) finalNode = (FinalNode) ((BooleanNode) variable).getInstructions().get(0);
-            if (variable instanceof FinalNode) finalNode = (FinalNode) variable;
+            if (variable instanceof IntegralTypeNode) {
+                finalNode = (FinalNode) ((IntegralTypeNode) variable).getInstructions().get(0);
+            } else if (variable instanceof BooleanNode) {
+                finalNode = (FinalNode) ((BooleanNode) variable).getInstructions().get(0);
+            } else if (variable instanceof FinalNode) {
+                finalNode = (FinalNode) variable;
+            }
         }
 
         if (argumentNode instanceof IntegralTypeNode) {
             finalNode = (FinalNode) argumentNode.getInstructions().get(0);
+        }
+
+        if ( argumentNode instanceof VariableNode ){
+            if ( activationFrame.variableSet.containsKey( ((VariableNode)argumentNode).variableName )) {
+                 Node  n = activationFrame.variableSet.get ( ((VariableNode)argumentNode).variableName  );
+
+            }
         }
 
         if ( argumentNode instanceof FinalNode ){

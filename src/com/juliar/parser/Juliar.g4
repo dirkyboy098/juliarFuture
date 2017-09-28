@@ -330,8 +330,8 @@ singleExpression
  | singleExpression Instanceof singleExpression                           # InstanceofExpression
  | singleExpression In singleExpression                                   # InExpression
  | singleExpression '?' singleExpression ':' singleExpression             # TernaryExpression
- | (keywords)? variable ( assignmentOperator singleExpression)*           # VariableDeclarationExpression
- // | variable assignmentOperator singleExpression                           # AssignmentOperatorExpression
+ | (keywords) variable ( assignmentOperator singleExpression)*            # VariableDeclarationExpression
+ | variable assignmentOperator singleExpression                           # AssignmentOperatorExpression
  | This                                                                   # ThisExpression
  | literal                                                                # LiteralExpression
  | variable                                                               # VariableExpression

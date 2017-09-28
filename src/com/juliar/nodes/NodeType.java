@@ -21,6 +21,7 @@ public enum NodeType {
     FunctionDeclType,
     IfExprType,
     IntegralTypeType,
+    Nul,
     KeywordType,
     LineNodeType,
     LiteralType,

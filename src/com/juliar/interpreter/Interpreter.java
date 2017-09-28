@@ -360,6 +360,14 @@ public class Interpreter {
     }
 
     private List<Node> evalVariableDeclration(Node node, ActivationFrame frame){
+        if ( node.getInstructions().size() == 2) {
+            VariableNode variableNode = (VariableNode)node.getInstructions().get( 1 );
+            frame.variableSet.put ( variableNode.variableName, variableNode );
+
+        } else if ( node.getInstructions().size() > 2 ){
+            EvaluateAssignments.evalVariableDeclWithAssignment( node, frame);
+        }
+
         return new ArrayList<>();
     }
 

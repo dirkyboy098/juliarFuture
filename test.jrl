@@ -1,4 +1,8 @@
 function main() = {
-    // int x;
-    int y = 3;
+    int x;
+
+    int y = 4;
+    x = y;
+
+    printLine( x );
 }

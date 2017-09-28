@@ -280,7 +280,7 @@ public class Visitor extends JuliarBaseVisitor<Node>
     }
 
     @Override
-    public Node visitReassignmentExpression(JuliarParser.ReassignmentExpressionContext ctx) {
+    public Node visitAssignmentOperatorExpression(JuliarParser.AssignmentOperatorExpressionContext ctx) {
         VariableReassignmentNode node = new VariableReassignmentNode();
 
         //TODO see if the node is in tye Symboltable and if it can be accessed. The original node with the type.

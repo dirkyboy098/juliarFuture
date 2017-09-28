@@ -5,6 +5,8 @@ package com.juliar.nodes;
  */
 @SuppressWarnings("serial")
 public class VariableDeclarationNode extends NodeImpl {
+    private static int ASSIGNMENT_SIZE = 4;
+    private static int OPERATOR_SLOT = 3;
     public String type;
 
     @Override
@@ -34,6 +36,35 @@ public class VariableDeclarationNode extends NodeImpl {
     public UserDefinedTypeNode getUserDefinedNode(){
         assert !this.getInstructions().isEmpty();
         return ( UserDefinedTypeNode )this.getInstructions().get(0);
+    }
+
+    public boolean isDeclarationWithAssignment(){
+        return this.getInstructions().size() >= ASSIGNMENT_SIZE;
+    }
+
+    public KeywordNode getKeyWordNode(){
+        return (KeywordNode) this.getInstructions().get ( 0 );
+    }
+
+    public boolean isOperatorEqualSign(){
+        if ( this.getInstructions().size() >= OPERATOR_SLOT ){
+            return this.getInstructions().get ( OPERATOR_SLOT - 1 ) instanceof EqualSignNode;
+        }
+
+        return false;
+    }
+
+    public Node getRightValue(){
+        if ( this.getInstructions().size() == ASSIGNMENT_SIZE ){
+            return this.getInstructions().get ( OPERATOR_SLOT );
+        }
+
+        return new NodeImpl() {
+            @Override
+            public NodeType getType() {
+                return NodeType.Nul;
+            }
+        };
     }
 
     public VariableNode getVariableNode(){

@@ -10,7 +10,7 @@ import static com.juliar.nodes.IntegralType.*;
 /**
  * Created by donreamey on 3/28/17.
  */
-public class EvaluateAssignments {
+public class EvaluateAssignments<T> {
     private EvaluateAssignments() {}
 
     private static Interpreter interpreterCallback = null;
@@ -107,6 +107,41 @@ public class EvaluateAssignments {
         activationFrame.returnNode = null;
     }
 
+    public static List<Node> evalVariableDeclWithAssignment( Node n, ActivationFrame activationFrame){
+        VariableDeclarationNode variableDeclarationNode = (VariableDeclarationNode)n;
+        List<Node> instructions = variableDeclarationNode.getInstructions();
+        KeywordNode keywordNode = variableDeclarationNode.getKeyWordNode();
+        Node rightHandSide = null;
+        if ( variableDeclarationNode.isDeclarationWithAssignment() ) {
+            if ( !variableDeclarationNode.isOperatorEqualSign() ) {
+                throw new RuntimeException( "Invalid operator for expression" );
+            }
+
+            rightHandSide = variableDeclarationNode.getRightValue();
+
+            if ( rightHandSide instanceof LiteralNode) {
+                LiteralNode literalNode = (LiteralNode)rightHandSide;
+                EvaluateAssignments<LiteralNode> literalNodeEvaluateAssignments = new EvaluateAssignments<>();
+                if (literalNodeEvaluateAssignments.canLiteralBeAssigned( keywordNode, literalNode)){
+                    if ( instructions.get( 1 ) instanceof VariableNode ) {
+                        VariableNode variableNode = (VariableNode)instructions.get( 1 );
+                        if (activationFrame.variableSet.containsKey( variableNode.variableName)) {
+                            throw new RuntimeException( "Variable already declared" );
+                        } else {
+                            activationFrame.variableSet.put ( variableNode.variableName, rightHandSide );
+                        }
+                    }
+                }
+
+            }
+
+        }
+
+
+        return new ArrayList<>();
+
+    }
+
     public static List<Node> evalAssignment(Node n, ActivationFrame activationFrame) {
         AssignmentNode assignmentNode = (AssignmentNode)n;
         List<Node> instructions = assignmentNode.getInstructions();
@@ -149,6 +184,30 @@ public class EvaluateAssignments {
 
             activationFrame.variableSet.put( variableNode.variableName, activationFrame.returnNode);
         }
+    }
+
+    public <T extends NodeImpl> boolean canLiteralBeAssigned(KeywordNode keyword, T t){
+        if ( keyword.getInstructions().get (0) instanceof FinalNode){
+            FinalNode finalNode = (FinalNode)keyword.getInstructions().get (0);
+            String dataType = finalNode.dataString();
+
+            String rvalueDataString = (( FinalNode )t.getInstructions().get ( 0 )).dataString();
+
+            switch( finalNode.getIntegralType() ){
+                case jinteger: {
+                    try {
+                        Integer.parseInt(rvalueDataString);
+                    }
+                    catch( NumberFormatException nfe){
+                        throw new RuntimeException( "invalid r-Value" );
+                    }
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
 
