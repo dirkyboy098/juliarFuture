@@ -17,5 +17,4 @@ deploy:
   file: JuliarFuture.jar
   skip_cleanup: true
   on:
-    tags: true
     repo: juliarLang/juliarFuture
