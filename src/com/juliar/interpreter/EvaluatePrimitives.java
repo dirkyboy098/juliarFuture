@@ -14,13 +14,14 @@ import static com.juliar.pal.Primitives.*;
  */
 class EvaluatePrimitives {
     private static List<String> primitiveFunctions = new ArrayList<>(Arrays.asList("print", "__getByteFromString", "printLine", "availableMemory", "sysExec", "fileOpen"));
-    private EvaluatePrimitives(){
+
+    private EvaluatePrimitives() {
 
     }
 
-    public static boolean evalIfPrimitive( Node n , ActivationFrame activationFrame){
+    public static boolean evalIfPrimitive(Node n, ActivationFrame activationFrame) {
         String functionName = ((FinalNode) n.getInstructions().get(0)).dataString();
-        if ( primitiveFunctions.contains( functionName )){
+        if (primitiveFunctions.contains(functionName)) {
             evalPrimitives(n, activationFrame);
             return true;
         }
@@ -37,7 +38,7 @@ class EvaluatePrimitives {
                 printLine(activationFrame, functionName, n.getInstructions().get(2));
                 break;
             case "__getByteFromString":
-                getByteFromString(activationFrame, n.getInstructions().get(1) , n.getInstructions().get(2) );
+                getByteFromString(activationFrame, n.getInstructions().get(1), n.getInstructions().get(2));
                 break;
             case "printLine":
                 printLine(activationFrame, functionName, n.getInstructions().get(2));
@@ -61,7 +62,7 @@ class EvaluatePrimitives {
                 activationFrame.returnNode = finalNode;
                 break;
             default:
-                Logger.log( "function "+functionName+" does not exist");
+                Logger.log("function " + functionName + " does not exist");
                 break;
         }
 
@@ -91,29 +92,29 @@ class EvaluatePrimitives {
 
     private static void getByteFromString(ActivationFrame activationFrame, Node argumentNode, Node index) {
         String variableName = ((VariableNode) argumentNode).variableName;
-        Object variable = activationFrame.variableSet.get( variableName );
+        Object variable = activationFrame.variableSet.get(variableName);
 
         if (variable instanceof FinalNode) {
             char[] array = sysGetByteFromString(((FinalNode) variable).dataString());
 
             FinalNode finalNode = new FinalNode();
 
-            String argTwoVariableName = ((VariableNode)index).variableName;
-            Object argTwo = activationFrame.variableSet.get( argTwoVariableName );
+            String argTwoVariableName = ((VariableNode) index).variableName;
+            Object argTwo = activationFrame.variableSet.get(argTwoVariableName);
 
             FinalNode argumentTwo = null;
 
             if (argTwo instanceof PrimitiveNode) {
-                argumentTwo = (FinalNode) activationFrame.variableSet.get( argTwoVariableName ).getInstructions().get(0);
+                argumentTwo = (FinalNode) activationFrame.variableSet.get(argTwoVariableName).getInstructions().get(0);
             } else if (argTwo instanceof FinalNode) {
-                argumentTwo = (FinalNode) activationFrame.variableSet.get( argTwoVariableName );
+                argumentTwo = (FinalNode) activationFrame.variableSet.get(argTwoVariableName);
             }
 
             assert (argumentTwo != null ? argumentTwo.dataString() : null) != null;
             int parsedIndex = Integer.parseInt(argumentTwo.dataString());
 
             if (parsedIndex > array.length) {
-                throw new RuntimeException("\r\nJuliar runtime exception - Index out of bounds accessing variable - '"+ variableName +"'");
+                throw new RuntimeException("\r\nJuliar runtime exception - Index out of bounds accessing variable - '" + variableName + "'");
             }
             if (parsedIndex < array.length) {
                 finalNode.setDataString(array[parsedIndex]);
@@ -126,46 +127,42 @@ class EvaluatePrimitives {
     private static void printLine(ActivationFrame activationFrame, String functionName, Node argumentNode) {
         FinalNode finalNode = null;
 
-        if (argumentNode instanceof VariableNode) {
-            VariableNode variableName = (VariableNode) argumentNode;
-            Object variable = activationFrame.variableSet.get(variableName.variableName);
-
-            if (variable != null && variable instanceof PrimitiveNode) {
-                PrimitiveNode primitiveNode = (PrimitiveNode) variable;
-                finalNode = (FinalNode) primitiveNode.getInstructions().get(0);
-            }
-
-            if (variable instanceof IntegralTypeNode) {
-                finalNode = (FinalNode) ((IntegralTypeNode) variable).getInstructions().get(0);
-            } else if (variable instanceof BooleanNode) {
-                finalNode = (FinalNode) ((BooleanNode) variable).getInstructions().get(0);
-            } else if (variable instanceof FinalNode) {
-                finalNode = (FinalNode) variable;
-            }
-        }
-
-        if (argumentNode instanceof IntegralTypeNode) {
-            finalNode = (FinalNode) argumentNode.getInstructions().get(0);
-        }
-
-        if ( argumentNode instanceof VariableNode ){
-            if ( activationFrame.variableSet.containsKey( ((VariableNode)argumentNode).variableName )) {
-                 Node  n = activationFrame.variableSet.get ( ((VariableNode)argumentNode).variableName  );
-
-            }
-        }
-
-        if ( argumentNode instanceof FinalNode ){
-            finalNode = (FinalNode)argumentNode;
-            if (finalNode.dataString() != null) {
-                if ("printLine".equals(functionName)) {
-                    sysPrintLine(finalNode.dataString());
-                } else if ("print".equals(functionName)) {
-                    sysPrint(finalNode.dataString());
+        switch (argumentNode.getType()) {
+            case LiteralType:
+                finalNode = (FinalNode) argumentNode.getInstructions().get(0);
+                break;
+            case VariableType:
+                String variableName = ((VariableNode)argumentNode).variableName;
+                Node tempVariableNode = activationFrame.variableSet.get( variableName );
+                if ( tempVariableNode instanceof VariableNode) {
+                    String name = (( VariableNode )tempVariableNode).variableName;
+                    if (activationFrame.variableSet.containsKey( name )) {
+                        finalNode = (FinalNode) activationFrame.variableSet.get( name ).getInstructions().get(0);
+                    }
                 }
-            }
+                else {
+                    printLine( activationFrame, functionName, tempVariableNode);
+                    return;
+                }
+                break;
+            case FinalType:
+                finalNode = ( FinalNode )argumentNode;
+                break;
+
+        }
+
+        String stringToPrint = finalNode.dataString();
+
+        if (functionName.equals("printLine")) {
+            sysPrintLine(stringToPrint);
+            return;
+        }
+        if (functionName.equals("print")) {
+            sysPrint(stringToPrint);
+            return;
         }
     }
+
 }
 
 

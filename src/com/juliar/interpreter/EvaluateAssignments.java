@@ -25,30 +25,23 @@ public class EvaluateAssignments<T> {
         if ( n != null){
             VariableReassignmentNode node = (VariableReassignmentNode)n;
 
-            VariableNode variableNode = (VariableNode)node.getInstructions().get(0);
-            Node rValue = node.getInstructions().get(2);
+            VariableNode lValueVariableNode = (VariableNode)node.getInstructions().get(0);
+            String variableName = lValueVariableNode.variableName;
 
-            String variableName = variableNode.variableName;
-            Node rValueType = node.getInstructions().get(2).getInstructions().get(0);
+            Node rvalueVariableNode = node.getInstructions().get(2);
 
-            if (activationFrame.variableSet.containsKey( variableName ) && rValueType instanceof  FinalNode) {
-                Node variableFromFrame = activationFrame.variableSet.get( variableName );
-                IntegralType integralType = variableFromFrame.getIntegralType();
+            NodeType nodeType = rvalueVariableNode.getType();
 
-                if (integralType != variableNode.getIntegralType()){
-                    throw new IllegalArgumentException("Cannot assign "+ variableNode.getIntegralType().toString() +" to "+integralType.toString());
-                }
-
-                activationFrame.variableSet.remove( variableName );
-                FinalNode variableNameTerminalNode = (FinalNode) node.getInstructions().get(2).getInstructions().get(0);
-                variableNameTerminalNode.setVariableTypeByIntegralType( integralType );
-                activationFrame.variableSet.put(variableName, variableNameTerminalNode );
-            }
-            else if (rValue instanceof CommandNode){
-                List<Node> instructions = new ArrayList<>();
-                instructions.add( rValueType );
-                interpreterCallback.execute( instructions );
-                activationFrame.variableSet.put (variableName, activationFrame.returnNode);
+            activationFrame.variableSet.remove( variableName );
+            switch ( nodeType){
+                case LiteralType:
+                    LiteralNode literalNode = (LiteralNode)rvalueVariableNode;
+                    activationFrame.variableSet.put ( variableName, literalNode);
+                    break;
+                case VariableType:
+                    VariableNode variableNode = (VariableNode) rvalueVariableNode;
+                    activationFrame.variableSet.put ( variableName, variableNode );
+                    break;
             }
         }
 

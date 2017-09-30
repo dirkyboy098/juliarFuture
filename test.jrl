@@ -1,8 +1,15 @@
 function main() = {
     int x;
 
+    x = 100;
+    printLine ("x = 100");
+    printLine( x );
+
     int y = 4;
+    printLine ("y = 4");
+    printLine ( y );
     x = y;
+    printLine("x = y");
 
     printLine( x );
 }
