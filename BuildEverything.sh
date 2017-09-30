@@ -47,9 +47,9 @@ cp ../src/com/juliar/gui/whitelogo.png ../out/com/juliar/gui/whitelogo.png
 cp ../src/com/juliar/gui/Montserrat-Regular.ttf ../out/com/juliar/gui/Montserrat-Regular.ttf
 cp ../src/com/juliar/gui/Montserrat-Bold.ttf ../out/com/juliar/gui/Montserrat-Bold.ttf
 cp -r ../out/com .
-jar cvfm JuliarCompiler.jar manifest.txt com org javax 
-mv JuliarCompiler.jar ../JuliarCompiler.jar
+jar cvfm JuliarFuture.jar manifest.txt com org javax
+mv JuliarFuture.jar ../JuliarFuture.jar
 cd ..
 rm -rf temp
-chmod 777 JuliarCompiler.jar
-java -jar JuliarCompiler.jar test.jrl
+chmod 777 JuliarFuture.jar
+java -jar JuliarFuture.jar test.jrl

@@ -49,11 +49,11 @@ for /f %%f in ('dir /b ..\jars') do jar xf ..\jars\%%f
 cd ..
 xcopy /e /v out temp
 cd temp
-jar cvfm JuliarCompiler.jar manifest.txt com org javax
+jar cvfm JuliarFuture.jar manifest.txt com org javax
 cd ..
-copy temp\JuliarCompiler.jar JuliarCompiler.jar
+copy temp\JuliarFuture.jar JuliarFuture.jar
 
 rd temp /s/q
 
 set CLASSPATH=
-java -jar JuliarCompiler.jar test.jrl
+java -jar JuliarFuture.jar test.jrl
