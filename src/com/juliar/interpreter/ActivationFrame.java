@@ -38,17 +38,4 @@ public class ActivationFrame {
 
         return returnNode;
     }
-
-    public void onPushRecurse(){
-        if ( returnNode != null && returnNode.getInstructions().size() > 0){
-            parameterStack.push( returnNode );
-        }
-    }
-
-    public void onPopRecurse(){
-        if (parameterStack.empty()){
-            return;
-        }
-        returnNode = parameterStack.pop();
-    }
 }

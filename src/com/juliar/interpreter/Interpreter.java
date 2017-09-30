@@ -116,7 +116,7 @@ public class Interpreter {
     }
 
     private List<Node> evaluateBreak(Node node, ActivationFrame frame){
-        frame.pushReturnNode( node )
+        frame.pushReturnNode( node );
         return new ArrayList<>();
     }
 
@@ -145,10 +145,10 @@ public class Interpreter {
             Node rValue = node.getInstructions().get( 1 );
             if (caller != null) {
                 if (rValue instanceof VariableNode && frame.variableSet.containsKey( ((VariableNode) rValue).variableName )) {
-                    caller.returnNode = frame.variableSet.get( ((VariableNode) rValue).variableName);
+                    caller.pushReturnNode( frame.variableSet.get( ((VariableNode) rValue).variableName ));
                 }
                 if (rValue instanceof IntegralTypeNode ) {
-                    caller.returnNode = rValue;
+                    caller.pushReturnNode( rValue );
                 }
 
                 activationFrameStack.push(caller);
@@ -175,8 +175,8 @@ public class Interpreter {
         evalBooleanNode(booleanNode, frame);
 
         Node boolEvalResult = null;
-        if (frame.returnNode != null) {
-            boolEvalResult = frame.returnNode;
+        if (frame.peekReturnNode() != null) {
+            boolEvalResult = frame.popNode();
 
             FinalNode finalNode = (FinalNode) boolEvalResult.getInstructions().get(0);
             Boolean executeTrue = Boolean.parseBoolean(finalNode.dataString());
@@ -196,20 +196,20 @@ public class Interpreter {
 
                         execute(currentExpressionInWhileBody);
 
-                        if (frame.returnNode instanceof BreakExprNode){
+                        if (frame.peekReturnNode() instanceof BreakExprNode){
                             breakStatement = true;
                             break;
                         }
                     }
 
                     if (breakStatement) {
-                        frame.returnNode = null;
+                        frame.pushReturnNode( null );
                         break;
                     }
 
                     // re-evaluate the loop condtion
                     evalBooleanNode(booleanNode, frame);
-                    boolEvalResult = frame.returnNode;
+                    boolEvalResult = frame.popNode();
                     finalNode = (FinalNode) boolEvalResult.getInstructions().get(0);
 
                     //assert finalNode.dataString().equalsIgnoreCase( "true ") || finalNode.dataString().equalsIgnoreCase( "false" ) : "A boolean value was not returned";
@@ -258,20 +258,20 @@ public class Interpreter {
                 }
             }
         } else if ( booleanNode != null && !booleanNode.getInstructions().isEmpty()){
-            Node currentValue = frame.returnNode;
-            frame.returnNode = null;
+            Node currentValue = frame.popNode();
+            frame.pushReturnNode( null );
             Boolean booleanResult = false;
             evalBooleanNode( booleanNode, frame);
 
-            if ( frame.returnNode != null && frame.returnNode instanceof BooleanNode ){
-                Node booleanEvalReturnNode = frame.returnNode;
+            if ( frame.peekReturnNode() != null && frame.peekReturnNode() instanceof BooleanNode ){
+                Node booleanEvalReturnNode = frame.popNode();
                 FinalNode result = getFinalNodeFromAnyNode( booleanEvalReturnNode );
                 booleanResult =  Boolean.parseBoolean( result.dataString() );
             }
 
             // TODO - FINISH THIS
-            if ( booleanResult && frame.returnNode != null  ) {
-                Node returnNode = frame.returnNode;
+            if ( booleanResult && frame.peekReturnNode() != null  ) {
+                Node returnNode = frame.popNode();
                 if ( returnNode instanceof BreakExprNode){
                     List<Node> returnList = new ArrayList<>();
                     returnList.add( returnNode );
@@ -279,7 +279,7 @@ public class Interpreter {
                 }
             }
 
-            frame.returnNode = currentValue;
+            frame.pushReturnNode( currentValue );
         }
 
         return new ArrayList<>();
@@ -314,7 +314,7 @@ public class Interpreter {
                 if (lvalue instanceof FinalNode) {
                     BooleanNode booleanNode = new BooleanNode();
                     booleanNode.addInst(lvalue);
-                    frame.returnNode = booleanNode;
+                    frame.pushReturnNode( booleanNode );
                     return new ArrayList<>();
                 }
 
@@ -348,7 +348,7 @@ public class Interpreter {
                 BooleanNode booleanNode = new BooleanNode();
                 booleanNode.addInst(finalNode);
 
-                frame.returnNode = booleanNode;
+                frame.pushReturnNode( booleanNode );
                 return new ArrayList<>();
             }
         }
@@ -527,7 +527,7 @@ public class Interpreter {
 
         FinalNode returnNode = new FinalNode();
         returnNode.setDataString(sum);
-        frame.returnNode = returnNode;
+        frame.pushReturnNode( returnNode );
 
         return new ArrayList<>();
     }

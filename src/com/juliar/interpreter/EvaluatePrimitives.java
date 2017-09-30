@@ -153,9 +153,7 @@ class EvaluatePrimitives {
                     }
                 }
                 else {
-                    activationFrame.onPushRecurse();
                     printLine( activationFrame, functionName, tempVariableNode);
-                    activationFrame.onPopRecurse();
                     return;
                 }
                 break;
