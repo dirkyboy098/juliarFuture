@@ -3,9 +3,11 @@ package com.juliar.interpreter;
 import com.juliar.errors.Logger;
 import com.juliar.nodes.*;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import static com.juliar.pal.Primitives.*;
 
@@ -123,9 +125,14 @@ class EvaluatePrimitives {
         }
     }
 
-    //TODO clean up how arguments are handled
     private static void printLine(ActivationFrame activationFrame, String functionName, Node argumentNode) {
         FinalNode finalNode = null;
+
+        if ( argumentNode == null ){
+            if ( activationFrame.returnNode != null ){
+                argumentNode = activationFrame.returnNode;
+            }
+        }
 
         switch (argumentNode.getType()) {
             case LiteralType:
@@ -141,14 +148,20 @@ class EvaluatePrimitives {
                     }
                 }
                 else {
+                    activationFrame.onPushRecurse();
                     printLine( activationFrame, functionName, tempVariableNode);
+                    activationFrame.onPopRecurse();
                     return;
                 }
                 break;
             case FinalType:
                 finalNode = ( FinalNode )argumentNode;
                 break;
+        }
 
+        if ( finalNode == null ){
+            dumpFrameVariables( activationFrame );
+            assert finalNode != null : "the final node cannot be null";
         }
 
         String stringToPrint = finalNode.dataString();
@@ -160,6 +173,13 @@ class EvaluatePrimitives {
         if (functionName.equals("print")) {
             sysPrint(stringToPrint);
             return;
+        }
+    }
+
+    private static void dumpFrameVariables( ActivationFrame frame){
+        Set<String> keys = frame.variableSet.keySet();
+        for(String s : keys){
+            System.out.println( String.format("key %s = value %s", s , frame.variableSet.get(s).toString()));
         }
     }
 

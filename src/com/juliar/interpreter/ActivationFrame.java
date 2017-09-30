@@ -14,4 +14,17 @@ public class ActivationFrame {
     public Stack<Node> parameterStack = new Stack<>();
     public Stack<Node> operandStack = new Stack<>();
     public Node returnNode;
+
+    public void onPushRecurse(){
+        if ( returnNode != null && returnNode.getInstructions().size() > 0){
+            parameterStack.push( returnNode );
+        }
+    }
+
+    public void onPopRecurse(){
+        if (parameterStack.empty()){
+            return;
+        }
+        returnNode = parameterStack.pop();
+    }
 }

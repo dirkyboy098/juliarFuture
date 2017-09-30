@@ -1,6 +1,7 @@
 function main() = {
     int x;
-
+    int z = availableMemory();
+    printLine( z );
     x = 100;
     printLine ("x = 100");
     printLine( x );

@@ -365,7 +365,7 @@ public class Interpreter {
             frame.variableSet.put ( variableNode.variableName, variableNode );
 
         } else if ( node.getInstructions().size() > 2 ){
-            EvaluateAssignments.evalVariableDeclWithAssignment( node, frame);
+            return EvaluateAssignments.evalVariableDeclWithAssignment( node, frame);
         }
 
         return new ArrayList<>();

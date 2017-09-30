@@ -112,22 +112,29 @@ public class EvaluateAssignments<T> {
 
             rightHandSide = variableDeclarationNode.getRightValue();
 
-            if ( rightHandSide instanceof LiteralNode) {
-                LiteralNode literalNode = (LiteralNode)rightHandSide;
-                EvaluateAssignments<LiteralNode> literalNodeEvaluateAssignments = new EvaluateAssignments<>();
-                if (literalNodeEvaluateAssignments.canLiteralBeAssigned( keywordNode, literalNode)){
-                    if ( instructions.get( 1 ) instanceof VariableNode ) {
-                        VariableNode variableNode = (VariableNode)instructions.get( 1 );
-                        if (activationFrame.variableSet.containsKey( variableNode.variableName)) {
-                            throw new RuntimeException( "Variable already declared" );
-                        } else {
-                            activationFrame.variableSet.put ( variableNode.variableName, rightHandSide );
+            switch ( rightHandSide.getType() ) {
+                case LineNodeType:
+                    if (rightHandSide instanceof LiteralNode) {
+                        LiteralNode literalNode = (LiteralNode) rightHandSide;
+                        EvaluateAssignments<LiteralNode> literalNodeEvaluateAssignments = new EvaluateAssignments<>();
+                        if (literalNodeEvaluateAssignments.canLiteralBeAssigned(keywordNode, literalNode)) {
+                            if (instructions.get(1) instanceof VariableNode) {
+                                VariableNode variableNode = (VariableNode) instructions.get(1);
+                                if (activationFrame.variableSet.containsKey(variableNode.variableName)) {
+                                    throw new RuntimeException("Variable already declared");
+                                } else {
+                                    activationFrame.variableSet.put(variableNode.variableName, rightHandSide);
+                                }
+                            }
                         }
+
                     }
-                }
-
+                    break;
+                case FunctionaCallType:
+                    List<Node> functionCall = new ArrayList<>();
+                    functionCall.add(rightHandSide);
+                    return functionCall;
             }
-
         }
 
 
