@@ -116,7 +116,7 @@ public class Interpreter {
     }
 
     private List<Node> evaluateBreak(Node node, ActivationFrame frame){
-        frame.returnNode = node;
+        frame.pushReturnNode( node )
         return new ArrayList<>();
     }
 

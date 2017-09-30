@@ -49,19 +49,22 @@ class EvaluatePrimitives {
                 String data = fileOpen(n.getInstructions().get(2));
                 finalNode.setDataString(data);
                 finalNode.setVariableTypeByIntegralType(IntegralType.jstring);
-                activationFrame.returnNode = finalNode;
+                activationFrame.pushReturnNode( finalNode );
+                //activationFrame.returnNode = finalNode;
                 break;
             case "sysExec":
                 String ex = sysExec(n.getInstructions().get(2));
                 finalNode.setDataString(ex);
                 finalNode.setVariableTypeByIntegralType(IntegralType.jstring);
-                activationFrame.returnNode = finalNode;
+                activationFrame.pushReturnNode( finalNode );
+                //activationFrame.returnNode = finalNode;
                 break;
             case "availableMemory":
                 long value = availableMemory();
                 finalNode.setDataString(value);
                 finalNode.setVariableTypeByIntegralType(IntegralType.jlong);
-                activationFrame.returnNode = finalNode;
+                activationFrame.pushReturnNode( finalNode );
+                //activationFrame.returnNode = finalNode;
                 break;
             default:
                 Logger.log("function " + functionName + " does not exist");
@@ -120,7 +123,8 @@ class EvaluatePrimitives {
             }
             if (parsedIndex < array.length) {
                 finalNode.setDataString(array[parsedIndex]);
-                activationFrame.returnNode = finalNode;
+                activationFrame.pushReturnNode( finalNode );
+                //activationFrame.returnNode = finalNode;
             }
         }
     }
@@ -129,8 +133,9 @@ class EvaluatePrimitives {
         FinalNode finalNode = null;
 
         if ( argumentNode == null ){
-            if ( activationFrame.returnNode != null ){
-                argumentNode = activationFrame.returnNode;
+            if ( activationFrame.peekReturnNode() != null ){
+                //argumentNode = activationFrame.returnNode;
+                argumentNode = activationFrame.popNode();
             }
         }
 

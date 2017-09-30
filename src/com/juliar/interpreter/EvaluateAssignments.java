@@ -96,8 +96,8 @@ public class EvaluateAssignments<T> {
             activationFrame.variableSet.remove(variableName);
         }
 
-        activationFrame.variableSet.put( variableName, activationFrame.returnNode );
-        activationFrame.returnNode = null;
+        activationFrame.variableSet.put( variableName, activationFrame.peekReturnNode());
+        //activationFrame.returnNode = null;
     }
 
     public static List<Node> evalVariableDeclWithAssignment( Node n, ActivationFrame activationFrame){
@@ -176,13 +176,13 @@ public class EvaluateAssignments<T> {
     }
 
     private static void assignReturnValueToVariable(ActivationFrame activationFrame, VariableDeclarationNode variableToAssignTo) {
-        if (activationFrame.returnNode != null){
+        if (activationFrame.peekReturnNode() != null){
             VariableNode variableNode = (VariableNode)variableToAssignTo.getInstructions().get(1);
             if (activationFrame.variableSet.containsKey( variableNode.variableName )){
                 activationFrame.variableSet.remove( variableNode.variableName);
             }
 
-            activationFrame.variableSet.put( variableNode.variableName, activationFrame.returnNode);
+            activationFrame.variableSet.put( variableNode.variableName, activationFrame.popNode());
         }
     }
 
