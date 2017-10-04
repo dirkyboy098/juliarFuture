@@ -233,7 +233,14 @@ public class Visitor extends JuliarBaseVisitor<Node>
     @Override
     public Node visitVariableDeclarationExpression(JuliarParser.VariableDeclarationExpressionContext ctx) {
         VariableDeclarationNode node = new VariableDeclarationNode();
-        return iterateWrapper( ctx, this , node);
+        iterateWrapper( ctx, this , node);
+
+        if ( node.getInstructions().size() == 0 || node.getInstructions().size() == 2 ){
+            // variable has been declared but will be set to null by default.
+            node.addInst( new FinalNode( ));
+        }
+
+        return node;
     }
 
     @Override

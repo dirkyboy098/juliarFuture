@@ -146,6 +146,11 @@ class EvaluatePrimitives {
             case VariableType:
                 String variableName = ((VariableNode)argumentNode).variableName;
                 Node tempVariableNode = activationFrame.variableSet.get( variableName );
+                if ( tempVariableNode == null ){
+                    // a variable has been declared and not initazlized
+                    finalNode = new FinalNode();
+                    break;
+                }
                 if ( tempVariableNode instanceof VariableNode) {
                     String name = (( VariableNode )tempVariableNode).variableName;
                     if (activationFrame.variableSet.containsKey( name )) {
