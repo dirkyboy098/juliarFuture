@@ -4,6 +4,7 @@ import com.juliar.nodes.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static com.juliar.nodes.IntegralType.*;
 
@@ -100,7 +101,7 @@ public class EvaluateAssignments<T> {
         //activationFrame.returnNode = null;
     }
 
-    public static List<Node> evalVariableDeclWithAssignment( Node n, ActivationFrame activationFrame){
+    public static List<Node> evalVariableDeclWithAssignment( Node n, ActivationFrame activationFrame, String mainName, Map<String, Node> functionNodeMap){
         VariableDeclarationNode variableDeclarationNode = (VariableDeclarationNode)n;
         List<Node> instructions = variableDeclarationNode.getInstructions();
         KeywordNode keywordNode = variableDeclarationNode.getKeyWordNode();
@@ -113,7 +114,7 @@ public class EvaluateAssignments<T> {
             rightHandSide = variableDeclarationNode.getRightValue();
 
             switch ( rightHandSide.getType() ) {
-                case LineNodeType:
+                case LiteralType:
                     if (rightHandSide instanceof LiteralNode) {
                         LiteralNode literalNode = (LiteralNode) rightHandSide;
                         EvaluateAssignments<LiteralNode> literalNodeEvaluateAssignments = new EvaluateAssignments<>();
@@ -133,7 +134,16 @@ public class EvaluateAssignments<T> {
                 case FunctionaCallType:
                     List<Node> functionCall = new ArrayList<>();
                     functionCall.add(rightHandSide);
-                    return functionCall;
+                    EvaluateFunctionsCalls.evalFunctionCall( rightHandSide, activationFrame, mainName, functionNodeMap );
+                    if ( activationFrame.parameterStack.size() > 0 ){
+                        VariableNode variableNode = (VariableNode) instructions.get(1);
+                        if (activationFrame.variableSet.containsKey(variableNode.variableName)) {
+                            throw new RuntimeException("Variable already declared");
+                        } else {
+                            activationFrame.variableSet.put(variableNode.variableName, activationFrame.parameterStack.pop());
+                        }
+                    }
+
             }
         }
 

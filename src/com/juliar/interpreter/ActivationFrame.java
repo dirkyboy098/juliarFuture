@@ -16,26 +16,22 @@ public class ActivationFrame {
     private Node returnNode;
 
     public void pushReturnNode( Node node){
-        if ( returnNode != null){
-            parameterStack.push( returnNode );
-        }
-
-        returnNode = node;
+      parameterStack.push( node );
     }
 
     public Node peekReturnNode(){
-        if ( !parameterStack.empty() ){
-            return parameterStack.peek();
+        if ( parameterStack.empty() ){
+            assert true : "return node stack is empty";
         }
 
-        return returnNode;
+        return parameterStack.peek();
     }
 
     public Node popNode() {
-        if (!parameterStack.empty()) {
-            return parameterStack.pop();
+        if (parameterStack.empty()) {
+            assert true : "return node stack is empty";
         }
 
-        return returnNode;
+        return parameterStack.pop();
     }
 }
