@@ -365,7 +365,13 @@ public class Interpreter {
             frame.variableSet.put ( variableNode.variableName, variableNode );
 
         } else if ( node.getInstructions().size() > 2 ){
-            return EvaluateAssignments.evalVariableDeclWithAssignment( node, frame, mainFunctionName , functionNodeMap);
+
+            // Synthesize virtual frame stack
+            Stack<ActivationFrame> stack = new Stack<>();
+            stack.push( frame );
+            List<Node> returnValue = EvaluateAssignments.evalVariableDeclWithAssignment( node, stack, mainFunctionName , functionNodeMap);
+            // activationFrameStack.pop();
+            return returnValue;
         }
 
         return new ArrayList<>();
@@ -404,7 +410,7 @@ public class Interpreter {
     }
 
     private List<Node> evalFunctionCall(Node node) {
-        return EvaluateFunctionsCalls.evalFunctionCall( node, activationFrameStack.peek() , mainFunctionName , functionNodeMap);
+        return EvaluateFunctionsCalls.evalFunctionCall( node, activationFrameStack , mainFunctionName , functionNodeMap);
     }
 
 

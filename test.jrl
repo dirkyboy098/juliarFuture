@@ -1,4 +1,5 @@
 function main() = {
+    foo();
     int x;
 
     int z = availableMemory();
@@ -16,4 +17,11 @@ function main() = {
     x = y;
     print("assign  value of y to x = ");
     printLine( x );
+}
+
+
+function foo() = {
+    printLine("called foo");
+    int x = 3;
+    return x;
 }

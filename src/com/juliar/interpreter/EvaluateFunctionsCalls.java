@@ -5,6 +5,7 @@ import com.juliar.nodes.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 public class EvaluateFunctionsCalls {
 
@@ -14,12 +15,12 @@ public class EvaluateFunctionsCalls {
         return new ArrayList<>();
     }
 
-    public static List<Node> evalFunctionCall(Node node , ActivationFrame activationFrame, String mainFunctionName, Map<String, Node> functionNodeMap) {
+    public static List<Node> evalFunctionCall(Node node , Stack<ActivationFrame> activationFrame, String mainFunctionName, Map<String, Node> functionNodeMap) {
         FunctionCallNode functionCallNode = (FunctionCallNode)node;
         String functionToCall = functionCallNode.functionName();
 
         //ActivationFrame evalFrame = activationFrameStack.pop();
-        boolean isPrimitive = EvaluatePrimitives.evalIfPrimitive( node, activationFrame );
+        boolean isPrimitive = EvaluatePrimitives.evalIfPrimitive( node, activationFrame.peek() );
         //activationFrameStack.push( evalFrame );
         if ( isPrimitive ){
             return new ArrayList<>();
@@ -60,14 +61,15 @@ public class EvaluateFunctionsCalls {
             for (int i = 0; i < sourceVariables.size(); i++){
                 VariableNode variableNode = (VariableNode)targetVariables.get(0).getInstructions().get(1);
                 if (variableNode.integralTypeNode == sourceVariables.get(i).integralTypeNode) {
-                    frame.variableSet.put(variableNode.variableName, activationFrame.variableSet.get(sourceVariables.get(i).variableName));
+                    frame.variableSet.put(variableNode.variableName, activationFrame.peek().variableSet.get(sourceVariables.get(i).variableName));
                 }
                 else {
                     throw new RuntimeException( "data types are not the same");
                 }
             }
 
-
+            activationFrame.push( frame );
+            return functionDeclNode.getInstructions();
 
             //activationFrame.push(frame);
             //execute(functionDeclNode.getInstructions());
@@ -85,10 +87,8 @@ public class EvaluateFunctionsCalls {
                 }
             }
 
-            return EvaluatePrimitives.evalPrimitives(primitiveNode, activationFrame);
+            return EvaluatePrimitives.evalPrimitives(primitiveNode, activationFrame.peek());
         }
-
-        return new ArrayList<>();
     }
 
 }
