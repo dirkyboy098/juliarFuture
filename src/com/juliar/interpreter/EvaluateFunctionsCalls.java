@@ -69,7 +69,10 @@ public class EvaluateFunctionsCalls {
             }
 
             activationFrame.push( frame );
-            return functionDeclNode.getInstructions();
+
+
+
+            return getFunctionStatements( functionDeclNode.getInstructions() );
 
             //activationFrame.push(frame);
             //execute(functionDeclNode.getInstructions());
@@ -89,6 +92,17 @@ public class EvaluateFunctionsCalls {
 
             return EvaluatePrimitives.evalPrimitives(primitiveNode, activationFrame.peek());
         }
+    }
+
+    private static List<Node> getFunctionStatements( List<Node> nodes){
+        List<Node> statements = new ArrayList<>();
+        for (Node n : nodes) {
+            if (n instanceof StatementNode){
+                statements.add( n );
+            }
+        }
+
+        return statements;
     }
 
 }

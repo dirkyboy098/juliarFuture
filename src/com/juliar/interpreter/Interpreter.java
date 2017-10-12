@@ -366,15 +366,32 @@ public class Interpreter {
 
         } else if ( node.getInstructions().size() > 2 ){
 
-            // Synthesize virtual frame stack
             Stack<ActivationFrame> stack = new Stack<>();
-            stack.push( frame );
+            Boolean containsFunction = doesExpressionContainFunctionCall( node );
+            if ( containsFunction ) {
+                // Synthesize virtual frame stack
+                stack.push(frame);
+            }
+
             List<Node> returnValue = EvaluateAssignments.evalVariableDeclWithAssignment( node, stack, mainFunctionName , functionNodeMap);
-            // activationFrameStack.pop();
+
+            if ( containsFunction ) {
+                activationFrameStack.push(stack.pop());
+            }
             return returnValue;
         }
 
         return new ArrayList<>();
+    }
+
+    private Boolean doesExpressionContainFunctionCall (Node n){
+        for (Node expr : n.getInstructions()) {
+            if ( expr instanceof FunctionCallNode){
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private FinalNode getFinalNodeFromAnyNode(Node node){

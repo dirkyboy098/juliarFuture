@@ -1,6 +1,8 @@
 function main() = {
-    foo();
-    int x;
+
+    int x = foo();
+/*
+    printLine ( x );
 
     int z = availableMemory();
     print( "memory size = ");
@@ -17,11 +19,11 @@ function main() = {
     x = y;
     print("assign  value of y to x = ");
     printLine( x );
+*/
 }
 
 
 function foo() = {
-    printLine("called foo");
     int x = 3;
     return x;
 }

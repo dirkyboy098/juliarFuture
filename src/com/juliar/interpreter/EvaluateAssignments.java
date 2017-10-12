@@ -104,6 +104,7 @@ public class EvaluateAssignments<T> {
 
     public static List<Node> evalVariableDeclWithAssignment(Node n, Stack<ActivationFrame> activationFrame, String mainName, Map<String, Node> functionNodeMap){
         VariableDeclarationNode variableDeclarationNode = (VariableDeclarationNode)n;
+        List<Node> instructionsToReturnAndExecute = new ArrayList<>();
         List<Node> instructions = variableDeclarationNode.getInstructions();
         KeywordNode keywordNode = variableDeclarationNode.getKeyWordNode();
         Node rightHandSide = null;
@@ -133,9 +134,7 @@ public class EvaluateAssignments<T> {
                     }
                     break;
                 case FunctionaCallType:
-                    List<Node> functionCall = new ArrayList<>();
-                    functionCall.add(rightHandSide);
-                    EvaluateFunctionsCalls.evalFunctionCall( rightHandSide, activationFrame, mainName, functionNodeMap );
+                    instructionsToReturnAndExecute = EvaluateFunctionsCalls.evalFunctionCall( rightHandSide, activationFrame, mainName, functionNodeMap );
                     if ( activationFrame.peek().parameterStack.size() > 0 ){
                         VariableNode variableNode = (VariableNode) instructions.get(1);
                         if (activationFrame.peek().variableSet.containsKey(variableNode.variableName)) {
@@ -148,8 +147,7 @@ public class EvaluateAssignments<T> {
             }
         }
 
-
-        return new ArrayList<>();
+        return instructionsToReturnAndExecute;
 
     }
 
