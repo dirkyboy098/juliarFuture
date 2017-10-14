@@ -1,9 +1,11 @@
 # juliar.Future
 [![juliarFutureLogo](https://cloud.githubusercontent.com/assets/11934545/22674649/0b2d5d68-ecaf-11e6-9141-40ac1aefaa16.gif)](https://juliar.org/)
 
+
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9a508bdddb8747bf9ed8e39bddfb10f2)](https://www.codacy.com/app/TheAndreiM/juliarFuture?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=juliarLang/juliarFuture&amp;utm_campaign=Badge_Grade)
 [![CodeBeat badge](https://codebeat.co/badges/4bdc346c-d5b6-41df-b491-9361caba6094)](https://codebeat.co/projects/github-com-juliarlang-juliarfuture-master)
 [![Code Climate](https://codeclimate.com/github/juliarLang/juliarFuture/badges/gpa.svg)](https://codeclimate.com/github/juliarLang/juliarFuture)
+
 [![Build Status](https://travis-ci.org/juliarLang/juliarFuture.svg?branch=master)](https://travis-ci.org/juliarLang/juliarFuture)
 [![Waffle.io - Issues in progress](https://badge.waffle.io/juliarLang/juliarFuture.svg?label=in%20progress&title=In%20Progress)](http://waffle.io/juliarLang/juliarFuture)
 
@@ -13,7 +15,7 @@ No installation or configuration needed.
 
 ### A simple to use language with a beautiful IDE built-in!
 
-[![JuliarFuture](https://user-images.githubusercontent.com/11934545/30971082-02c7e218-a435-11e7-817a-a4a0e77b13b9.png)](https://juliar.org/downloads.php)
+[![JuliarFuture](https://user-images.githubusercontent.com/11934545/31571598-f6ae103e-b063-11e7-898d-1acda52f3b25.png)](https://juliar.org/downloads.php)
 
 
 *If you are using Linux, we suggest that you use Oracle Java instead of OpenJava.
