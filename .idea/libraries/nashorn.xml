@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="nashorn">
-    <CLASSES>
-      <root url="jar://D:/Java/jdk1.8.0_25/jre/lib/ext/nashorn.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

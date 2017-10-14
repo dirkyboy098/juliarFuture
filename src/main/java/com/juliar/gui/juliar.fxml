@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Polygon?>
+<?import java.lang.*?>
+<VBox xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" prefHeight="600.0" prefWidth="1000.0" fx:controller="com.juliar.gui.Controller">
+    <AnchorPane>
+        <MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <Menu text="File">
+                <MenuItem onAction="#onNew" text="New" />
+                <MenuItem onAction="#onLoad" text="Load" />
+                <MenuItem onAction="#onLoadFolder" text="Open Folder" />
+                <MenuItem onAction="#onSave" text="Save" />
+                <MenuItem onAction="#onSaveAs" text="Save As..." />
+                <MenuItem onAction="#onExit" text="Exit" />
+            </Menu>
+            <Menu text="Edit">
+                <MenuItem onAction="#onUndo" text="Undo" />
+                <MenuItem onAction="#onRedo" text="Redo" />
+                <MenuItem onAction="#onRefresh" text="Refresh Style" />
+                <MenuItem onAction="#onMoveTo" text="Move To" />
+            </Menu>
+            <Menu text="View" />
+            <Menu text="Run">
+                <MenuItem onAction="#onRunInterpreter" text="Run Interpreter" />
+                <MenuItem onAction="#onRunFCGI" text="Run FastCGI" />
+            </Menu>
+            <Menu text="Help">
+                <MenuItem onAction="#onAbout" text="About" />
+                <MenuItem onAction="#onPackageManager" text="Package Manager" />
+                <MenuItem onAction="#onWhatsNew" text="What's New" />
+                <MenuItem onAction="#onException" text="Debug: Error" />
+            </Menu>
+        </MenuBar>
+    </AnchorPane>
+    <HBox>
+        <StackPane VBox.vgrow="ALWAYS" prefWidth="200.0">
+            <TreeView fx:id="folderTree" />
+        </StackPane>
+        <VBox HBox.hgrow="ALWAYS">
+            <TabPane fx:id="tabPane" maxWidth="Infinity" prefHeight="549.0" HBox.hgrow="ALWAYS" />
+            <AnchorPane prefHeight="306.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0">
+                <TabPane fx:id="tabPaneOut" maxWidth="Infinity" maxHeight="Infinity" prefHeight="250.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <Tab text="Output">
+                        <TextArea fx:id="areaOutText" editable="false" layoutX="45.0" layoutY="-55.0" />
+                    </Tab>
+                    <Tab text="Errors">
+                        <TextArea fx:id="areaErrorText" editable="false" layoutX="45.0" layoutY="-55.0" />
+                    </Tab>
+                </TabPane>
+                <Button fx:id="runBtn" onAction="#onRunInterpreter" layoutX="659.0" layoutY="-35" AnchorPane.rightAnchor="50.0" prefHeight="75.0" prefWidth="75.0">
+                    <graphic>
+                        <Polygon fill="#ffffff">
+                            <points>
+                                <Double fx:value="0.0" />
+                                <Double fx:value="0.0" />
+                                <Double fx:value="0.0" />
+                                <Double fx:value="21.0" />
+                                <Double fx:value="15.0" />
+                                <Double fx:value="10.5" />
+                            </points>
+                        </Polygon>
+                    </graphic>
+                    <tooltip>
+                        <Tooltip text="Ctrl+Enter" />
+                    </tooltip>
+                </Button>
+            </AnchorPane>
+        </VBox>
+    </HBox>
+</VBox>
