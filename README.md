@@ -5,8 +5,6 @@
 [![CodeBeat badge](https://codebeat.co/badges/4bdc346c-d5b6-41df-b491-9361caba6094)](https://codebeat.co/projects/github-com-juliarlang-juliarfuture-master)
 [![Code Climate](https://codeclimate.com/github/juliarLang/juliarFuture/badges/gpa.svg)](https://codeclimate.com/github/juliarLang/juliarFuture)
 [![Build Status](https://travis-ci.org/juliarLang/juliarFuture.svg?branch=master)](https://travis-ci.org/juliarLang/juliarFuture)
-
-[![Issue Count](https://codeclimate.com/github/juliarLang/juliarFuture/badges/issue_count.svg)](https://codeclimate.com/github/juliarLang/juliarFuture)
 [![Waffle.io - Issues in progress](https://badge.waffle.io/juliarLang/juliarFuture.svg?label=in%20progress&title=In%20Progress)](http://waffle.io/juliarLang/juliarFuture)
 
 Juliar.Future is a programming language that is compiled directly into Java bytecode and can run in any JRE.
