@@ -1,6 +1,3 @@
 build/
 .gradle/
-.idea/sonarlint
-.idea/dictionaries/
-.idea/inspectionProfiles/
-.idea/*.xml
+.idea/

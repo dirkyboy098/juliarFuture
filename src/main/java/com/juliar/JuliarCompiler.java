@@ -12,7 +12,6 @@ import com.juliar.parser.JuliarParser;
 import com.juliar.symboltable.SymbolTable;
 import com.juliar.vistor.Visitor;
 import org.antlr.v4.runtime.*;
-import com.bugsnag.Bugsnag;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
@@ -31,8 +30,6 @@ public class JuliarCompiler {
     private String inputFileName;
 
     public static void main(String[] args) {
-		new Bugsnag("c7e03c1e69143ad2fb1f3ea13ed8fda0");
-
 		if(!isDebug && System.console() == null && args.length == 0) {
 			Application.launch(Gui.class);
 			return;

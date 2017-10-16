@@ -21,7 +21,6 @@ dependencies {
 	compile fileTree(dir: 'jars', include: '*.jar')
 	compile 'org.ow2.asm:asm-all:6.0_BETA'
 	compile 'org.fxmisc.richtext:richtextfx:0.7-M5'
-	compile 'com.bugsnag:bugsnag:3.+'
 	testCompile 'junit:junit:4.11'
 }
 
