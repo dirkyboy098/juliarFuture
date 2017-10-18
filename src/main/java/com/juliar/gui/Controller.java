@@ -189,7 +189,7 @@ public class Controller {
     public void initialize() {
         File jarPath=new File(Gui.class.getProtectionDomain().getCodeSource().getLocation().getPath());
         String propertiesPath=jarPath.getParentFile().getAbsolutePath();
-        String fullPath = propertiesPath.replace("\\", "/") +"/test.jrl";
+        String fullPath = propertiesPath.replace("\\", "/") +"/../../../examples/test.jrl";
         File f = new File(fullPath);
         if (f.exists()) {
             JRLTab jrlTab = new JRLTab();
@@ -208,8 +208,14 @@ public class Controller {
             onNew();
         }
         keyCombinations();
-        TreeItem<String> myRootItem = new TreeItem<>("Go to File -> Folder Open");
-        folderRoot(myRootItem);
+        //TreeItem<String> myRootItem = new TreeItem<>("Go to File -> Folder Open");
+        //folderRoot(myRootItem);
+
+        new Thread(() -> {
+            folderRoot(new TreeItem<>("Go to File -> Folder Open"));
+            folderTree.setRoot(getNodesForDirectory(new File(fullPath + "/../")));
+        }).start();
+
 
         tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
             if(jrltabs.size() > 1) {
@@ -308,14 +314,16 @@ public class Controller {
     @FXML
     public void onLoadFolder(){
         DirectoryChooser dc = new DirectoryChooser();
-        dc.setInitialDirectory(new File(getProperty("user.home")));
+        dc.setInitialDirectory(new File("./"));
         File choice = dc.showDialog(null);
         if(! choice.isDirectory()) {
             new GuiAlert(new Exception("The file is Invalid"),"Could not open directory.");
         } else {
             rootFolder = choice.getPath();
             rootFolder = rootFolder.substring(0,rootFolder.lastIndexOf(File.separator));
-            folderTree.setRoot(getNodesForDirectory(choice));
+            new Thread(() -> {
+                folderTree.setRoot(getNodesForDirectory(choice));
+            }).start();
         }
     }
 
