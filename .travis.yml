@@ -1,7 +1,5 @@
 language: java
 sudo: required
-before_install:
- - chmod +x gradlew
 jdk:
 - oraclejdk8
 os:
