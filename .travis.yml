@@ -6,7 +6,6 @@ os:
 - linux
 script:
 - ./gradlew build
-- ./gradlew Android
 
 notifications:
   slack: juliarlang:z7GTm7XhwjuvwIb9oYKvFdWN
