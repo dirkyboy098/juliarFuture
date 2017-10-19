@@ -15,7 +15,7 @@ No installation or configuration needed.
 
 ### A simple to use language with a beautiful IDE built-in!
 
-[![JuliarFuture](https://user-images.githubusercontent.com/11934545/31571598-f6ae103e-b063-11e7-898d-1acda52f3b25.png)](https://juliar.org/downloads.php)
+[![JuliarFuture](https://juliar.org/docs/juliarDocs-master/resources/ide.png)](https://juliar.org/downloads)
 
 
 *If you are using Linux, we suggest that you use Oracle Java instead of OpenJava.
@@ -31,4 +31,4 @@ to find out how you can contribute to the project.
 
 ## Documentation
 
-Visit https://juliar.org/documentation.php to get started and see some examples!
+Visit https://juliar.org/documentation to get started and see some examples!

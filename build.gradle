@@ -1,7 +1,10 @@
 apply plugin: 'application'
+apply plugin: 'maven'
 apply plugin: 'antlr'
 
 mainClassName = 'com.juliar.JuliarCompiler'
+
+group = 'com.github.juliarLang'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -9,19 +12,19 @@ targetCompatibility = 1.8
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 repositories {
-	mavenCentral()
-	jcenter()
-	flatDir {
-		dir 'jars'
-	}
+    mavenCentral()
+    jcenter()
+    flatDir {
+        dir 'jars'
+    }
 }
 
 dependencies {
-	antlr 'org.antlr:antlr4:4.7'
-	compile fileTree(dir: 'jars', include: '*.jar')
-	compile 'org.ow2.asm:asm-all:6.0_BETA'
-	compile 'org.fxmisc.richtext:richtextfx:0.7-M5'
-	testCompile 'junit:junit:4.11'
+    antlr 'org.antlr:antlr4:4.7'
+    compile fileTree(dir: 'jars', include: '*.jar')
+    compile 'org.ow2.asm:asm-all:6.0_BETA'
+    compile 'org.fxmisc.richtext:richtextfx:0.7-M5'
+    testCompile 'junit:junit:4.11'
 }
 
 
@@ -30,41 +33,57 @@ generateGrammarSource {
 }
 
 jar {
-	manifest {
+    manifest {
         attributes 'Main-Class': 'com.juliar.JuliarCompiler'
     }
-	from (configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) }) {
-		exclude 'LICENSE'
-		exclude 'module-info.class'
-		exclude 'META-INF/**'
-		exclude 'com/ibm/**'
-	}
-	exclude('com/juliar/JuliarAndroid.class')
+    from (configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) }) {
+        exclude 'LICENSE'
+        exclude 'module-info.class'
+        exclude 'META-INF/**'
+        exclude 'com/ibm/**'
+    }
+    exclude('com/juliar/JuliarAndroid.class')
 }
 
 
-task Android(type: Jar) {
-	dependsOn build
-	baseName 'JuliarAndroidLib'
-	manifest {
+task libJar(type: Jar, dependsOn: classes) {
+    baseName 'juliar'
+    classifier = 'lib'
+    manifest {
         attributes 'Main-Class': 'com.juliar.JuliarAndroid'
     }
-	from(sourceSets.main.output) {  
+    from(sourceSets.main.output) {
         include "**"
-    }  
-	from (configurations.runtime.resolve().collect { it.isDirectory() ? it : zipTree(it) }) {
-		exclude 'LICENSE'
-		exclude 'module-info.class'
-		exclude 'META-INF/**'
-		exclude 'com/ibm/**'
-	}
-	exclude('com/juliar/JuliarCompiler.class')
+    }
+    from (configurations.runtime.resolve().collect { it.isDirectory() ? it : zipTree(it) }) {
+        exclude 'LICENSE'
+        exclude 'module-info.class'
+        exclude 'META-INF/**'
+        exclude 'com/ibm/**'
+        exclude 'com/juliar/gui/**'
+    }
+    exclude('com/juliar/JuliarCompiler.class')
+    exclude('com/juliar/gui/**')
+}
+
+artifacts {
+    archives libJar
 }
 
 test {
-	include 'com/juliar/test/**'
-	testLogging {
-		// Show that tests are run in the command-line output
-		events 'started', 'passed'
-	}
+    include 'com/juliar/test/**'
+    testLogging {
+        // Show that tests are run in the command-line output
+        events 'started', 'passed'
+    }
+}
+
+// this step is necessary when installing both jars in the local maven repository
+install {
+    repositories.mavenInstaller {
+        addFilter('lib') { artifact, file -> artifact.name.endsWith('r') }
+        addFilter('juliarFuture') { artifact, file -> artifact.name.endsWith('Future') }
+        pom('lib').version = '0.1'
+        pom('juliarFuture').version = '0.1'
+    }
 }
