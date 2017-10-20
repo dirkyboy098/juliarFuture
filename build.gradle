@@ -60,10 +60,13 @@ task libJar(type: Jar, dependsOn: classes) {
         exclude 'module-info.class'
         exclude 'META-INF/**'
         exclude 'com/ibm/**'
-        exclude 'com/juliar/gui/**'
     }
     exclude('com/juliar/JuliarCompiler.class')
     exclude('com/juliar/gui/**')
+    exclude('com/nire4j/**')
+    exclude('com/fastcgi/**')
+    exclude('org/reactfx/**')
+    exclude('org/fxmisc/**')
 }
 
 artifacts {

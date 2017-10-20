@@ -26,7 +26,7 @@ For more information, please check out our official website at [https://juliar.o
 
 Juliar is built with gradle and follows the standard gradle styling. The project is organized and is very easy to use.
 Check out [Contributing.md](https://github.com/juliarLang/juliarDocs/blob/master/Contributing.md) in our Documentation Repository.
-Or visit https://juliar.org/documentation.php?topic=Contributing
+Or visit https://juliar.org/documentation/Contributing
 to find out how you can contribute to the project.
 
 ## Documentation
