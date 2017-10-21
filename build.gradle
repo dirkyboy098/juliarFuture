@@ -69,6 +69,7 @@ task libJar(type: Jar, dependsOn: classes) {
     exclude('com/fastcgi/**')
     exclude('org/reactfx/**')
     exclude('org/fxmisc/**')
+    exclude('org/glassfish/json/messages.properties')
 }
 
 artifacts {
