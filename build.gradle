@@ -47,7 +47,7 @@ jar {
 
 
 task libJar(type: Jar, dependsOn: classes) {
-    baseName 'juliar'
+    baseName 'jlib'
     //classifier = 'lib'
     manifest {
         attributes 'Main-Class': 'com.juliar.JuliarAndroid'
@@ -86,7 +86,12 @@ test {
 // this step is necessary when installing both jars in the local maven repository
 install {
     repositories.mavenInstaller {
-        addFilter('juliar') { artifact, file -> artifact.name.endsWith('r') }
+        addFilter('juliar') { artifact, file -> artifact.name.endsWith('b') }
+        pom('juliar').whenConfigured {
+            p -> p.dependencies = p.dependencies.findAll {
+                dep -> dep.artifactId != "junit" && dep.artifactId != "richtextfx" && dep.artifactId != "asm-all"
+            }
+        }
         addFilter('juliarFuture') { artifact, file -> artifact.name.endsWith('e') }
         pom('juliar').version = '0.1'
         pom('juliarFuture').version = '0.1'

@@ -26,7 +26,7 @@ public class JuliarAndroid {
         }
     }
 
-    private static void compile(String s) {
+    public static void compile(String s) {
         InputStream b = new ByteArrayInputStream(s.getBytes(StandardCharsets.UTF_8));
         try {
             SymbolTable.clearSymbolTable();
