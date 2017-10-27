@@ -24,6 +24,13 @@ public class Logger {
 
     public static void log(Exception e){
         out.println(e.getMessage());
+        StackTraceElement[] stackTraceElement = e.getStackTrace();
+
+        for (StackTraceElement s : stackTraceElement) {
+            String l = "File :["+ s.getFileName() + "], Class name: [" + s.getClassName() + "], Line number:["+ s.getLineNumber()+"]";
+            out.println( l );
+        }
+
     }
 
 

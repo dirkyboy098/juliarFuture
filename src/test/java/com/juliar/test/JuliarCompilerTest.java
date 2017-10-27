@@ -28,7 +28,7 @@ public class JuliarCompilerTest extends TestCase {
         JuliarCompiler compiler = new JuliarCompiler();
         compiler.isDebug = true;
         List<String> errorList = null;
-        errorList = compiler.compile("test.jrl", ".",  false);
+        errorList = compiler.compile("examples/test.jrl", ".",  false);
         //errorList.addAll( compiler.compile("serialize.jrl", ".",  false,false));
 
         if (errorList.size() > 0 ){

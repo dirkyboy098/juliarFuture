@@ -64,9 +64,15 @@ public class Interpreter {
         for ( Node Node : instructions ) {
             Evaluate evaluate = functionMap.get( Node.getType() );
             if ( evaluate != null ){
-                List<Node> instructionsToExecute = evaluate.evaluate( Node , activationFrameStack.empty() ? null : activationFrameStack.peek() );
-                if ( instructionsToExecute != null && !instructionsToExecute.isEmpty() ) {
-                    execute( instructionsToExecute) ;
+                if ( activationFrameStack.empty() ){
+                    RuntimeException runtimeException = new RuntimeException("activation frame is empty");
+                    throw runtimeException;
+                }
+                else {
+                    List<Node> instructionsToExecute = evaluate.evaluate(Node, activationFrameStack.peek());
+                    if (instructionsToExecute != null && !instructionsToExecute.isEmpty()) {
+                        execute(instructionsToExecute);
+                    }
                 }
             }
             else{
