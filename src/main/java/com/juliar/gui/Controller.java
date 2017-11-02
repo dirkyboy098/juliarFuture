@@ -187,6 +187,8 @@ public class Controller {
 
     @FXML
     public void initialize() {
+        DragResizerXY.makeResizable(folderTree);
+        
         File jarPath=new File(Gui.class.getProtectionDomain().getCodeSource().getLocation().getPath());
         String propertiesPath=jarPath.getParentFile().getAbsolutePath();
         String fullPath = propertiesPath.replace("\\", "/") +"/../../../examples/test.jrl";
