@@ -21,6 +21,7 @@ public class Interpreter {
         try {
             EvaluateAssignments.create( this );
             List<Node> inst = invocation.getInstructionList();
+            activationFrameStack.push( new ActivationFrame("compliationUnit"));
 
             functionNodeMap = invocation.getFunctionNodeMap();
 
@@ -60,24 +61,24 @@ public class Interpreter {
         }
     }
 
+    private Boolean start = false;
+
     public List<Node> execute( List<Node> instructions ) {
-        for ( Node Node : instructions ) {
-            Evaluate evaluate = functionMap.get( Node.getType() );
-            if ( evaluate != null ){
-                if ( activationFrameStack.empty() ){
-                    RuntimeException runtimeException = new RuntimeException("activation frame is empty");
-                    throw runtimeException;
-                }
-                else {
+        try {
+            for (Node Node : instructions) {
+                Evaluate evaluate = functionMap.get(Node.getType());
+                if (evaluate != null) {
                     List<Node> instructionsToExecute = evaluate.evaluate(Node, activationFrameStack.peek());
                     if (instructionsToExecute != null && !instructionsToExecute.isEmpty()) {
                         execute(instructionsToExecute);
                     }
+                } else {
+                    evalNull();
                 }
             }
-            else{
-                evalNull();
-            }
+        }
+        catch( Exception ex){
+            Logger.log( ex );
         }
 
         return new ArrayList<>();
@@ -89,9 +90,12 @@ public class Interpreter {
 
                 ActivationFrame frame = new ActivationFrame();
                 frame.frameName = mainFunctionName;
+                Logger.log ("push " + frame.frameName);
                 activationFrameStack.push( frame );
                 execute( entry.getValue().getInstructions() );
+                Logger.log ("pop " + frame.frameName);
                 activationFrameStack.pop();
+
 
                 break;
             }

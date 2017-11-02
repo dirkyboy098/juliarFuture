@@ -15,6 +15,13 @@ public class ActivationFrame {
     public Stack<Node> operandStack = new Stack<>();
     private Node returnNode;
 
+    public ActivationFrame(){
+    }
+
+    public ActivationFrame( String frameName){
+        this.frameName = frameName;
+    }
+
     public void pushReturnNode( Node node){
       parameterStack.push( node );
     }
