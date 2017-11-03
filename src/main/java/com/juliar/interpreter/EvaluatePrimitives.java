@@ -21,17 +21,17 @@ class EvaluatePrimitives {
 
     }
 
-    public static boolean evalIfPrimitive(Node n, ActivationFrame activationFrame) {
+    public static boolean evalIfPrimitive(Node n, ActivationFrame activationFrame, Interpreter calback) {
         String functionName = ((FinalNode) n.getInstructions().get(0)).dataString();
         if (primitiveFunctions.contains(functionName)) {
-            evalPrimitives(n, activationFrame);
+            evalPrimitives(n, activationFrame, calback);
             return true;
         }
 
         return false;
     }
 
-    public static List<Node> evalPrimitives(Node n, ActivationFrame activationFrame) {
+    public static List<Node> evalPrimitives(Node n, ActivationFrame activationFrame, Interpreter calback) {
         String functionName = ((FinalNode) n.getInstructions().get(0)).dataString();
         FinalNode finalNode = new FinalNode();
 

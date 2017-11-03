@@ -23,7 +23,7 @@ public class EvaluateAssignments<T> {
         }
     }
 
-    public static List<Node> evalReassignment( Node n, ActivationFrame activationFrame) {
+    public static List<Node> evalReassignment( Node n, ActivationFrame activationFrame, Interpreter calback) {
         if ( n != null){
             VariableReassignmentNode node = (VariableReassignmentNode)n;
 
@@ -134,7 +134,7 @@ public class EvaluateAssignments<T> {
                     }
                     break;
                 case FunctionaCallType:
-                    instructionsToReturnAndExecute = EvaluateFunctionsCalls.evalFunctionCall( rightHandSide, activationFrameStack, mainName, functionNodeMap );
+                    instructionsToReturnAndExecute = EvaluateFunctionsCalls.evalFunctionCall( rightHandSide, activationFrameStack, mainName, functionNodeMap, interpreterCallback);
                     if ( activationFrameStack.peek().parameterStack.size() > 0 ){
                         VariableNode variableNode = (VariableNode) instructions.get(1);
                         if (activationFrameStack.peek().variableSet.containsKey(variableNode.variableName)) {
@@ -151,7 +151,7 @@ public class EvaluateAssignments<T> {
 
     }
 
-    public static List<Node> evalAssignment(Node n, ActivationFrame activationFrame) {
+    public static List<Node> evalAssignment(Node n, ActivationFrame activationFrame, Interpreter calback) {
         AssignmentNode assignmentNode = (AssignmentNode)n;
         List<Node> instructions = assignmentNode.getInstructions();
 

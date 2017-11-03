@@ -29,21 +29,20 @@ public class Interpreter {
             functionMap.put( NodeType.AssignmentType             , ( EvaluateAssignments::evalAssignment    ));
             functionMap.put( NodeType.PrimitiveType              , ( EvaluatePrimitives::evalPrimitives     ));
 
-            functionMap.put( NodeType.CompliationUnitType        , ((n, activationFrame )-> evalCompilationUnit()    ));
-            functionMap.put( NodeType.AddType                    , ((n, activationFrame )-> evalAdd()                ));
-            functionMap.put( NodeType.CommandType                , ((n, activationFrame )-> evalCommand(n)           ));
-            functionMap.put( NodeType.SummationType              , ((n, activationFrame )-> evalSummation()          ));
-            functionMap.put( NodeType.FunctionaCallType          , ((n, activationFrame )-> evalFunctionCall(n)      ));
-            functionMap.put( NodeType.FunctionDeclType           , ((n, activationFrame )-> evalFunctionDecl(n)      ));
-            functionMap.put( NodeType.VariableType               , ((n, activationFrame )-> evalActivationFrame(n)   ));
-            functionMap.put( NodeType.BinaryType                 , ((n, activationFrame )-> evalBinaryNode(n)        ));
-            functionMap.put( NodeType.StatementType              , ((n, activationFrame )-> evalStatement(n)         ));
-            functionMap.put( NodeType.ExpressionType             , ((n, activationFrame )-> evalStatement(n)         ));
-            functionMap.put( NodeType.FinalType                  , ((n, activationFrame )-> evalFinal()              ));
+            functionMap.put( NodeType.CompliationUnitType        , ((n, activationFrame, callback )-> evalCompilationUnit()    ));
+            functionMap.put( NodeType.AddType                    , ((n, activationFrame, callback  )-> evalAdd()                ));
+            functionMap.put( NodeType.CommandType                , ((n, activationFrame, callback  )-> evalCommand(n)           ));
+            functionMap.put( NodeType.SummationType              , ((n, activationFrame, callback  )-> evalSummation()          ));
+            functionMap.put( NodeType.FunctionaCallType          , ((n, activationFrame, callback  )-> evalFunctionCall(n)      ));
+            functionMap.put( NodeType.FunctionDeclType           , ((n, activationFrame, callback  )-> evalFunctionDecl(n)      ));
+            functionMap.put( NodeType.VariableType               , ((n, activationFrame, callback  )-> evalActivationFrame(n)   ));
+            functionMap.put( NodeType.BinaryType                 , ((n, activationFrame, callback  )-> evalBinaryNode(n)        ));
+            functionMap.put( NodeType.StatementType              , ((n, activationFrame, callback  )-> evalStatement(n)         ));
+            functionMap.put( NodeType.ExpressionType             , ((n, activationFrame, callback  )-> evalStatement(n)         ));
+            functionMap.put( NodeType.FinalType                  , ((n, activationFrame, callback  )-> evalFinal()              ));
 
-            functionMap.put( NodeType.UserDefinedFunctionReferenceType , (( n, activationFrameStack )-> evalUserDefinedFunctionCall(n) ));
+            functionMap.put( NodeType.UserDefinedFunctionReferenceType , (( n, activationFrameStack, callback  )-> evalUserDefinedFunctionCall(n) ));
 
-            functionMap.put( NodeType.BreakType                  , ( this::evaluateBreak            ));
             functionMap.put( NodeType.AggregateType              , ( this::evaluateAggregate        ));
             functionMap.put( NodeType.ReturnValueType            , ( this::evalReturn               ));
             functionMap.put( NodeType.BooleanType                , ( this::evalBooleanNode          ));
@@ -68,7 +67,7 @@ public class Interpreter {
             for (Node Node : instructions) {
                 Evaluate evaluate = functionMap.get(Node.getType());
                 if (evaluate != null) {
-                    List<Node> instructionsToExecute = evaluate.evaluate(Node, activationFrameStack.peek());
+                    List<Node> instructionsToExecute = evaluate.evaluate(Node, activationFrameStack.peek(), this);
                     if (instructionsToExecute != null && !instructionsToExecute.isEmpty()) {
                         execute(instructionsToExecute);
                     }
@@ -141,7 +140,7 @@ public class Interpreter {
         return new ArrayList<>();
     }
 
-    private List<Node> evalReturn(Node oldnode, ActivationFrame frame) {
+    private List<Node> evalReturn(Node oldnode, ActivationFrame frame, Interpreter callback) {
         ReturnValueNode node = (ReturnValueNode)oldnode;
         if ( node.getType() == NodeType.ReturnValueType && node.getInstructions().get(0) instanceof FinalNode) {
 
@@ -173,14 +172,14 @@ public class Interpreter {
         return new ArrayList<>();
     }
 
-    private List<Node> evalWhileExpression(Node node, ActivationFrame frame) {
+    private List<Node> evalWhileExpression(Node node, ActivationFrame frame, Interpreter callback) {
         List<Node> instructionList = node.getInstructions();
         int size = instructionList.size();
 
         List<Node> trueExpressions = new ArrayList<>();
         BooleanNode booleanNode = getBooleanExpressionNode(instructionList, size, trueExpressions);
 
-        evalBooleanNode(booleanNode, frame);
+        evalBooleanNode(booleanNode, frame, callback);
 
         Node boolEvalResult = null;
         if (frame.peekReturnNode() != null) {
@@ -216,7 +215,7 @@ public class Interpreter {
                     }
 
                     // re-evaluate the loop condtion
-                    evalBooleanNode(booleanNode, frame);
+                    evalBooleanNode(booleanNode, frame, callback);
                     boolEvalResult = frame.popNode();
                     finalNode = (FinalNode) boolEvalResult.getInstructions().get(0);
 
@@ -249,7 +248,7 @@ public class Interpreter {
         return booleanNode;
     }
 
-    private List<Node> evalIfStatement(Node node, ActivationFrame frame){
+    private List<Node> evalIfStatement(Node node, ActivationFrame frame,Interpreter callback){
         List<Node> instructionList = node.getInstructions();
         int size = instructionList.size();
 
@@ -269,7 +268,7 @@ public class Interpreter {
             Node currentValue = frame.popNode();
             frame.pushReturnNode( null );
             Boolean booleanResult = false;
-            evalBooleanNode( booleanNode, frame);
+            evalBooleanNode( booleanNode, frame, callback);
 
             if ( frame.peekReturnNode() != null && frame.peekReturnNode() instanceof BooleanNode ){
                 Node booleanEvalReturnNode = frame.popNode();
@@ -297,7 +296,7 @@ public class Interpreter {
         return new ArrayList<>();
     }
 
-    private List<Node> evalBooleanNode(Node node, ActivationFrame frame){
+    private List<Node> evalBooleanNode(Node node, ActivationFrame frame, Interpreter callback){
         Node variableType  = node.getInstructions().get(0);
 
         try {
@@ -367,33 +366,17 @@ public class Interpreter {
         return new ArrayList<>();
     }
 
-    private List<Node> evalVariableDeclration(Node node, ActivationFrame frame){
-        if ( node.getInstructions().size() == 2) {
-            VariableNode variableNode = (VariableNode)node.getInstructions().get( 1 );
-            frame.variableSet.put ( variableNode.variableName, variableNode );
+    private List<Node> evalVariableDeclration(Node node, ActivationFrame frame, Interpreter callback) {
+        if (node.getInstructions().size() == 2) {
+            VariableNode variableNode = (VariableNode) node.getInstructions().get(1);
+            frame.variableSet.put(variableNode.variableName, variableNode);
 
-        } else if ( node.getInstructions().size() > 2 ) {
+        } else if (node.getInstructions().size() > 2) {
 
-            ActivationFrameStack stack = new ActivationFrameStack();
-            Boolean containsFunction = doesExpressionContainFunctionCall(node);
-//            if ( containsFunction ) {
-            // Synthesize virtual frame stack
-            ActivationFrame synthFrame = new ActivationFrame();
-            synthFrame.frameName = "synthesized_" + frame.frameName;
-            stack.push(synthFrame);
-        //}
-
-            // TODO why does this get called twice.
-            List<Node> returnValue = EvaluateAssignments.evalVariableDeclWithAssignment( node, stack, mainFunctionName , functionNodeMap);
-            if (returnValue.size() > 0){
-                execute( returnValue );
+            List<Node> returnValue = EvaluateAssignments.evalVariableDeclWithAssignment(node, activationFrameStack, mainFunctionName, functionNodeMap);
+            if (returnValue.size() > 0) {
+                execute(returnValue);
             }
-
-            while ( stack.size() > 0 ) {
-                stack.pop();
-            }
-
-            return returnValue;
         }
 
         return new ArrayList<>();
@@ -433,16 +416,16 @@ public class Interpreter {
         return false;
     }
 
-    private List<Node> evalBooleanOperator(Node node, ActivationFrame frame){
+    private List<Node> evalBooleanOperator(Node node, ActivationFrame frame,Interpreter callback){
         return new ArrayList<>();
     }
 
     private List<Node> evalUserDefinedFunctionCall (Node n){
-        return EvaluateFunctionsCalls.evalUserDefinedFunctionCall( n );
+        return EvaluateFunctionsCalls.evalUserDefinedFunctionCall( n , this);
     }
 
     private List<Node> evalFunctionCall(Node node) {
-        return EvaluateFunctionsCalls.evalFunctionCall( node, activationFrameStack , mainFunctionName , functionNodeMap);
+        return EvaluateFunctionsCalls.evalFunctionCall( node, activationFrameStack , mainFunctionName , functionNodeMap, this);
     }
 
 
@@ -468,7 +451,7 @@ public class Interpreter {
         return new ArrayList<>();
     }
 
-    private List<Node> evaluateAggregate(Node node, ActivationFrame frame) {
+    private List<Node> evaluateAggregate(Node node, ActivationFrame frame, Interpreter callback) {
         SummationType summationType = (SummationType) node.getInstructions().get(0);
         List<Node> list = node.getInstructions();
 
@@ -591,7 +574,9 @@ public class Interpreter {
         int operation(int a, int b);
     }
 
+    /*
     interface Evaluate {
         List<Node> evaluate(Node node, ActivationFrame frame);
     }
+    */
 }

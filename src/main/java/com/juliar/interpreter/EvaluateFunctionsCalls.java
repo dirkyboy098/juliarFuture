@@ -9,18 +9,18 @@ import java.util.Stack;
 
 public class EvaluateFunctionsCalls {
 
-    public static List<Node> evalUserDefinedFunctionCall (Node n){
+    public static List<Node> evalUserDefinedFunctionCall (Node n, Interpreter callback){
         UserDefinedTypeFunctionReferenceNode userDefinedTypeFunctionReferenceNode = (UserDefinedTypeFunctionReferenceNode)n;
         //return evalFunctionCall( userDefinedTypeFunctionReferenceNode.getFuncCallNode() );
         return new ArrayList<>();
     }
 
-    public static List<Node> evalFunctionCall(Node node , ActivationFrameStack activationFrame, String mainFunctionName, Map<String, Node> functionNodeMap) {
+    public static List<Node> evalFunctionCall(Node node , ActivationFrameStack activationFrame, String mainFunctionName, Map<String, Node> functionNodeMap, Interpreter callback) {
         FunctionCallNode functionCallNode = (FunctionCallNode)node;
         String functionToCall = functionCallNode.functionName();
 
         //ActivationFrame evalFrame = activationFrameStack.pop();
-        boolean isPrimitive = EvaluatePrimitives.evalIfPrimitive( node, activationFrame.peek() );
+        boolean isPrimitive = EvaluatePrimitives.evalIfPrimitive( node, activationFrame.peek() , callback);
         //activationFrameStack.push( evalFrame );
         if ( isPrimitive ){
             return new ArrayList<>();
@@ -71,12 +71,15 @@ public class EvaluateFunctionsCalls {
             activationFrame.push( frame );
 
 
-
-            return getFunctionStatements( functionDeclNode.getInstructions() );
+            List<Node> statements = getFunctionStatements( functionDeclNode.getInstructions() );
+            callback.execute( statements );
+            activationFrame.pop();
 
             //activationFrame.push(frame);
             //execute(functionDeclNode.getInstructions());
-            //activationFrame.pop();
+
+            return new ArrayList<Node>();
+
         }
         else {
             FinalNode primitiveArg = new FinalNode();
@@ -90,7 +93,7 @@ public class EvaluateFunctionsCalls {
                 }
             }
 
-            return EvaluatePrimitives.evalPrimitives(primitiveNode, activationFrame.peek());
+            return EvaluatePrimitives.evalPrimitives(primitiveNode, activationFrame.peek(), callback);
         }
     }
 
