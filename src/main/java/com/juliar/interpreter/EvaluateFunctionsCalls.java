@@ -15,7 +15,7 @@ public class EvaluateFunctionsCalls {
         return new ArrayList<>();
     }
 
-    public static List<Node> evalFunctionCall(Node node , Stack<ActivationFrame> activationFrame, String mainFunctionName, Map<String, Node> functionNodeMap) {
+    public static List<Node> evalFunctionCall(Node node , ActivationFrameStack activationFrame, String mainFunctionName, Map<String, Node> functionNodeMap) {
         FunctionCallNode functionCallNode = (FunctionCallNode)node;
         String functionToCall = functionCallNode.functionName();
 

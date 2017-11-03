@@ -102,7 +102,7 @@ public class EvaluateAssignments<T> {
         //activationFrame.returnNode = null;
     }
 
-    public static List<Node> evalVariableDeclWithAssignment(Node n, Stack<ActivationFrame> activationFrame, String mainName, Map<String, Node> functionNodeMap){
+    public static List<Node> evalVariableDeclWithAssignment(Node n, ActivationFrameStack activationFrameStack, String mainName, Map<String, Node> functionNodeMap){
         VariableDeclarationNode variableDeclarationNode = (VariableDeclarationNode)n;
         List<Node> instructionsToReturnAndExecute = new ArrayList<>();
         List<Node> instructions = variableDeclarationNode.getInstructions();
@@ -123,10 +123,10 @@ public class EvaluateAssignments<T> {
                         if (literalNodeEvaluateAssignments.canLiteralBeAssigned(keywordNode, literalNode)) {
                             if (instructions.get(1) instanceof VariableNode) {
                                 VariableNode variableNode = (VariableNode) instructions.get(1);
-                                if (activationFrame.peek().variableSet.containsKey(variableNode.variableName)) {
+                                if (activationFrameStack.peek().variableSet.containsKey(variableNode.variableName)) {
                                     throw new RuntimeException("Variable already declared");
                                 } else {
-                                    activationFrame.peek().variableSet.put(variableNode.variableName, rightHandSide);
+                                    activationFrameStack.peek().variableSet.put(variableNode.variableName, rightHandSide);
                                 }
                             }
                         }
@@ -134,13 +134,13 @@ public class EvaluateAssignments<T> {
                     }
                     break;
                 case FunctionaCallType:
-                    instructionsToReturnAndExecute = EvaluateFunctionsCalls.evalFunctionCall( rightHandSide, activationFrame, mainName, functionNodeMap );
-                    if ( activationFrame.peek().parameterStack.size() > 0 ){
+                    instructionsToReturnAndExecute = EvaluateFunctionsCalls.evalFunctionCall( rightHandSide, activationFrameStack, mainName, functionNodeMap );
+                    if ( activationFrameStack.peek().parameterStack.size() > 0 ){
                         VariableNode variableNode = (VariableNode) instructions.get(1);
-                        if (activationFrame.peek().variableSet.containsKey(variableNode.variableName)) {
+                        if (activationFrameStack.peek().variableSet.containsKey(variableNode.variableName)) {
                             throw new RuntimeException("Variable already declared");
                         } else {
-                            activationFrame.peek().variableSet.put(variableNode.variableName, activationFrame.peek().parameterStack.pop());
+                            activationFrameStack.peek().variableSet.put(variableNode.variableName, activationFrameStack.peek().parameterStack.pop());
                         }
                     }
 

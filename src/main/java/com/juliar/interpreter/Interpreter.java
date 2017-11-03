@@ -11,7 +11,7 @@ import java.util.*;
  */
 public class Interpreter {
     private final static String mainFunctionName = "main";
-    private static Stack<ActivationFrame> activationFrameStack = new Stack<>();
+    private static ActivationFrameStack activationFrameStack = new ActivationFrameStack();
     private Stack<Node> returnValueStack = new Stack<>();
     private Map<String, Node> functionNodeMap;
     private Map<NodeType, Evaluate> functionMap = new HashMap<>();
@@ -90,10 +90,8 @@ public class Interpreter {
 
                 ActivationFrame frame = new ActivationFrame();
                 frame.frameName = mainFunctionName;
-                Logger.log ("push " + frame.frameName);
                 activationFrameStack.push( frame );
                 execute( entry.getValue().getInstructions() );
-                Logger.log ("pop " + frame.frameName);
                 activationFrameStack.pop();
 
 
@@ -374,20 +372,27 @@ public class Interpreter {
             VariableNode variableNode = (VariableNode)node.getInstructions().get( 1 );
             frame.variableSet.put ( variableNode.variableName, variableNode );
 
-        } else if ( node.getInstructions().size() > 2 ){
+        } else if ( node.getInstructions().size() > 2 ) {
 
-            Stack<ActivationFrame> stack = new Stack<>();
-            Boolean containsFunction = doesExpressionContainFunctionCall( node );
-            if ( containsFunction ) {
-                // Synthesize virtual frame stack
-                stack.push(frame);
-            }
+            ActivationFrameStack stack = new ActivationFrameStack();
+            Boolean containsFunction = doesExpressionContainFunctionCall(node);
+//            if ( containsFunction ) {
+            // Synthesize virtual frame stack
+            ActivationFrame synthFrame = new ActivationFrame();
+            synthFrame.frameName = "synthesized_" + frame.frameName;
+            stack.push(synthFrame);
+        //}
 
+            // TODO why does this get called twice.
             List<Node> returnValue = EvaluateAssignments.evalVariableDeclWithAssignment( node, stack, mainFunctionName , functionNodeMap);
-
-            if ( containsFunction ) {
-                activationFrameStack.push(stack.pop());
+            if (returnValue.size() > 0){
+                execute( returnValue );
             }
+
+            while ( stack.size() > 0 ) {
+                stack.pop();
+            }
+
             return returnValue;
         }
 
