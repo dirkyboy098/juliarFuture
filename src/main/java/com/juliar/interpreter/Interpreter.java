@@ -146,6 +146,8 @@ public class Interpreter {
 
             assert ((FinalNode) node.getInstructions().get(0)).dataString().equals( "return" ) : "Node does not have a return statement";
 
+
+
             ActivationFrame currentFrame = activationFrameStack.pop();
             ActivationFrame caller = activationFrameStack.peek() != null ? activationFrameStack.pop() : null;
 

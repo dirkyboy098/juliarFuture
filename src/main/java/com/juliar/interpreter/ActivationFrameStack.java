@@ -1,7 +1,11 @@
 package com.juliar.interpreter;
 
 import com.juliar.errors.Logger;
+import com.juliar.nodes.IntegralTypeNode;
+import com.juliar.nodes.Node;
+import com.juliar.nodes.VariableNode;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class ActivationFrameStack {
@@ -33,5 +37,36 @@ public class ActivationFrameStack {
         }
 
         return 0;
+    }
+
+    public Stack<Node> setupReturnStack( Node rValue ){
+
+        int size = activationFrameStack.size();
+
+        ActivationFrame currentFrame = activationFrameStack.get(size);
+        ActivationFrame caller = activationFrameStack.get( size - 1 );
+
+        if (caller != null) {
+            if (rValue instanceof VariableNode && currentFrame.variableSet.containsKey( ((VariableNode) rValue).variableName )) {
+                caller.pushReturnNode( currentFrame.variableSet.get( ((VariableNode) rValue).variableName ));
+            }
+            if (rValue instanceof IntegralTypeNode) {
+                caller.pushReturnNode( rValue );
+            }
+
+            activationFrameStack.push(caller);
+            activationFrameStack.push(currentFrame);
+
+        }
+
+        /*
+
+        if (frame.variableSet.containsKey(node.typeName())) {
+            Node variableNode = frame.variableSet.get(node.typeName());
+            returnValueStack.push( variableNode );
+        }
+        */
+
+        return new Stack<>();
     }
 }
