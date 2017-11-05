@@ -141,37 +141,7 @@ public class Interpreter {
     }
 
     private List<Node> evalReturn(Node oldnode, ActivationFrame frame, Interpreter callback) {
-        ReturnValueNode node = (ReturnValueNode)oldnode;
-        if ( node.getType() == NodeType.ReturnValueType && node.getInstructions().get(0) instanceof FinalNode) {
-
-            assert ((FinalNode) node.getInstructions().get(0)).dataString().equals( "return" ) : "Node does not have a return statement";
-
-
-
-            ActivationFrame currentFrame = activationFrameStack.pop();
-            ActivationFrame caller = activationFrameStack.peek() != null ? activationFrameStack.pop() : null;
-
-            Node rValue = node.getInstructions().get( 1 );
-            if (caller != null) {
-                if (rValue instanceof VariableNode && frame.variableSet.containsKey( ((VariableNode) rValue).variableName )) {
-                    caller.pushReturnNode( frame.variableSet.get( ((VariableNode) rValue).variableName ));
-                }
-                if (rValue instanceof IntegralTypeNode ) {
-                    caller.pushReturnNode( rValue );
-                }
-
-                activationFrameStack.push(caller);
-                activationFrameStack.push(currentFrame);
-
-                return new ArrayList<>();
-            }
-
-            if (frame.variableSet.containsKey(node.typeName())) {
-                Node variableNode = frame.variableSet.get(node.typeName());
-                returnValueStack.push( variableNode );
-            }
-        }
-        return new ArrayList<>();
+        return activationFrameStack.setupReturnValueOnStackFrame( oldnode );
     }
 
     private List<Node> evalWhileExpression(Node node, ActivationFrame frame, Interpreter callback) {

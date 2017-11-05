@@ -12,17 +12,12 @@ public class ActivationFrameStack {
     private Stack<ActivationFrame> activationFrameStack = new Stack<>();
 
     public void push( ActivationFrame frame){
-        Logger.log ("push [" + frame.frameName + "]");
-        /*
-        if ( activationFrameStack.stream().filter( p -> p.frameName.equals( "main" ) ).count() == 1) {
-            throw new RuntimeException( "possible recursion on main method" );
-        }*/
-
+        //Logger.log ("push [" + frame.frameName + "]");
         activationFrameStack.push( frame );
     }
 
     public ActivationFrame pop(){
-        Logger.log ("pop [" + activationFrameStack.peek().frameName +"]");
+        //Logger.log ("pop [" + activationFrameStack.peek().frameName +"]");
         return activationFrameStack.pop();
     }
 
@@ -39,9 +34,9 @@ public class ActivationFrameStack {
         return 0;
     }
 
-    public Stack<Node> setupReturnStack( Node rValue ){
+    public Stack<Node> setupReturnValueOnStackFrame( Node rValue ){
 
-        int size = activationFrameStack.size();
+        int size = activationFrameStack.size() - 1;
 
         ActivationFrame currentFrame = activationFrameStack.get(size);
         ActivationFrame caller = activationFrameStack.get( size - 1 );
