@@ -1,0 +1,27 @@
+function main() = {
+    int x = foo();
+    printLine ( x );
+
+    int z = availableMemory();
+    print( "memory size = ");
+    printLine( z );
+
+    x = 100;
+    print("x = ");
+    printLine( x );
+
+    int y = 4;
+    print("y = ");
+    printLine ( y );
+
+    x = y;
+    print("assign  value of y to x = ");
+    printLine( x );
+}
+
+
+function foo() = {
+    int x = 3;
+    printLine(x);
+    return x;
+}
